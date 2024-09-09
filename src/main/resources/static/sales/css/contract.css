@@ -1,0 +1,321 @@
+*{
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.order-wrap {
+    border: 0px solid red;
+    width: 1080px; height: 800px;
+}
+.text-wrap {
+    border: 0px solid pink;
+    height: 80px;
+}
+.order-title {
+    display: inline-block;
+    border: 0px solid green;
+    width: 27%;
+    position: relative; margin-left: 10px;
+}
+.order-title p {
+    font-size: 13px;
+    border: 0px solid green;
+    margin-bottom: 5px;
+}
+
+.order-title p:nth-of-type(1) {
+    font-size: 40px;
+}
+.order-filter {
+    display: inline-block;
+    border: 0px solid red;
+    position: relative;
+    width: 71.5%; bottom: 5px; right: 15px;
+}
+.order-filter button {
+    width: 70px; margin-right: -10px;
+    background-color: #B3D5E0;
+    border-radius: 5px;
+    position: relative;
+    left: -25px;
+}
+.order-filter input {
+    width: 150px; height: 25px;
+    border-radius: 5px;
+    border: 1px solid #e3e3e3;
+}
+.order-filter input, .order-filter select {
+    position: relative; left: 300px;
+    /* margin-left: 10px; */
+}
+
+table {
+    width: 100%;
+    border: 0px solid red;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #000;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+tr {
+    font-size: 15px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+.pagination {
+    border: 0px solid green;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.pagination a {
+    outline: none;
+}
+
+.page-numbers {
+    position: relative;
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.page-numbers li {
+    margin: 0 5px;
+}
+
+.page-numbers li a {
+    padding: 5px 10px;
+    /* border: 1px solid #000; */
+    text-decoration: none;
+    color: #000;
+
+}
+
+.page-numbers li a.active {
+    background-color: #000;
+    color: #fff;
+}
+
+.buttons {
+    position: relative;
+    border: 0px solid red;
+    height: 40px;
+}
+
+.buttons button:nth-of-type(2) {
+    position: relative;
+    margin-left: 805px;
+}
+
+button {
+    display: inline-block;
+    width: 12%;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    background-color: #114477;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+    color: #B3D5E0;
+}
+
+/* �앹뾽 �섏젙(�곸꽭蹂닿린) */
+.popup-modify {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* tr td */
+.popup-list > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.popup-list td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.popup-list table tbody .product-price {
+    position: relative;
+    left: 33px;
+}
+
+.new-input {
+    position: relative;
+    left: 33px;
+}
+
+.popup-list > table, .popup-list td {
+    border: none; /* �뚮몢由� �쒓굅 */
+}
+
+.popup-list table p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/*  */
+
+.popup-modify:hover {
+    cursor: pointer;
+}
+
+.popup-modify .popup-content {
+    background-color: white;
+    margin: 13% auto;
+    width: 900px; height: 460px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.popup-modify .popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    background-color: #495864;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.popup-modify .popup-list {
+    padding: 30px;
+    height: 340px;
+}
+
+.popup-modify .popup-list p, input {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+}
+.popup-modify .popup-list p {
+    left: -30px;
+    margin-top: 8px;
+}
+.popup-modify .popup-list input {
+    border: 1px solid #e3e3e3;
+    border-radius: 5px; height: 25px; left: -5px;
+    width: 260px;
+}
+
+.popup-modify .popup-list div:nth-of-type(1) input,
+.popup-modify .popup-list div:nth-of-type(7) input {
+    left: 2px;
+}
+
+.popup-modify .popup-list div:nth-of-type(8) input {
+    left: -12px;
+}
+.popup-modify .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.popup-modify .popup-button button {
+    width: 100px;
+    top: 30px;
+}
+
+.popup-modify .popup-button button:nth-of-type(1) {
+    position: relative;
+    right: 122px;
+}
+
+.popup-modify .popup-button button:nth-of-type(2),
+.popup-modify .popup-button button:nth-of-type(3) {
+    position: relative;
+    left: 111px;
+}
+
+/* �앹뾽 �깅줉�섍린 */
+.popup-regist {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.popup-regist .popup-content {
+    background-color: white;
+    margin: 13% auto;
+    width: 600px; height: 390px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.popup-regist .popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    background-color: #495864;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.popup-regist .popup-list {
+    padding: 30px;
+    height: 270px;
+}
+
+.popup-regist .popup-list p, input {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+}
+.popup-regist .popup-list p {
+    left: -30px;
+    margin-top: 8px;
+}
+.popup-regist .popup-list input {
+    border: 1px solid #e3e3e3;
+    border-radius: 5px; height: 25px; left: -5px;
+    width: 260px;
+}
+.popup-regist .popup-list div:nth-of-type(1) input {
+    left: 2px;
+}
+
+.popup-regist .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.popup-regist .popup-button button {
+    width: 100px;
+    top: 30px;
+}
+
+.popup-regist .popup-button button:nth-of-type(1) {
+    position: relative;
+    right: 122px;
+}
+
+.popup-regist .popup-button button:nth-of-type(2),
+.popup-regist .popup-button button:nth-of-type(3) {
+    position: relative;
+    left: 111px;
+}
