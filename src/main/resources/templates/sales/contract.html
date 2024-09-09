@@ -116,8 +116,8 @@
         <tbody>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">1</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">1</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -128,8 +128,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">2</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">2</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -140,8 +140,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">3</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">3</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -152,8 +152,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">4</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">4</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -163,8 +163,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">5</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">5</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -174,8 +174,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">6</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">6</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -185,8 +185,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">7</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">7</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -196,8 +196,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">8</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">8</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -207,8 +207,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">9</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">9</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -218,8 +218,8 @@
         </tr>
         <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)">10</td>
-            <td onclick="handleClick(this.innerHTML)">ONESHOT 성남점</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">10</td>
+            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
             <td>2024/09/01</td>
             <td>2024/12/31</td>
             <td>밀크티베이스</td>
@@ -287,7 +287,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="contract-status">
                         <p>계약상태</p>
                         <select>
                             <option>선택하세요.</option>
@@ -313,43 +313,46 @@
 
 
 <!-- 팝업(등록하기) -->
-<div id="popup-regist" class="popup-regist">
-    <div class="popup-content">
-        <h2>계약 등록하기</h2>
-        <div class="popup-list">
-            <div>
-                <p>고객사명</p>
-                <input type="text">
+<form name="registForm" action="registForm" method="post">
+    <div id="popup-regist" class="popup-regist">
+        <div class="popup-content">
+            <h2>계약 등록하기</h2>
+            <div class="popup-list">
+                <div>
+                    <p>고객사명</p>
+                    <input type="text">
+                </div>
+                <div>
+                    <p>계약시작일</p>
+                    <input type="date">
+                </div>
+                <div>
+                    <p>계약종료일</p>
+                    <input type="date">
+                </div>
+                <div>
+                    <p>상품품목명</p>
+                    <input type="text">
+                </div>
+                <div>
+                    <p>책정거래가</p>
+                    <input type="text">
+                </div>
+                <div>
+                    <p>계약담당자</p>
+                    <input type="text">
+                </div>
             </div>
-            <div>
-                <p>계약시작일</p>
-                <input type="date">
+            <div class="popup-button">
+                <button>계약서 첨부</button>
+                <button>수정</button>
+                <button class="close-btn3">닫기</button>
             </div>
-            <div>
-                <p>계약종료일</p>
-                <input type="date">
-            </div>
-            <div>
-                <p>상품품목명</p>
-                <input type="text">
-            </div>
-            <div>
-                <p>책정거래가</p>
-                <input type="text">
-            </div>
-            <div>
-                <p>계약담당자</p>
-                <input type="text">
-            </div>
-        </div>
-        <div class="popup-button">
-            <button>계약서 첨부</button>
-            <button>수정</button>
-            <button class="close-btn3">닫기</button>
-        </div>
 
+        </div>
     </div>
-</div>
+</form>
+
 </body>
 
 <script>
