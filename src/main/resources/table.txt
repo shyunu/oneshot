@@ -1,0 +1,221 @@
+create table product (
+	product_no	integer		not null,
+	category_no	integer		not null,
+	supplier_no	integer		not null,
+	product_name	varchar(20)		null,
+	product_content	varchar(50)		null,
+	safety_quantity	integer		null,
+	product_price	integer		null,
+	product_img	varchar(30)		null,
+	product_remarks	varchar(20)		null
+);
+
+create table category (
+	category_no	integer		not null,
+	category_name	varchar(20)		null
+);
+
+create table order_header (
+	order_header_no	integer		not null,
+	contract_sdate	date		not null,
+	client_no	integer		null,
+	order_status	varchar(10)		null,
+	delivery_status	varchar(10)		null,
+	delivery	date		null,
+	order_employee	varchar(20)		null
+);
+
+create table client (
+	client_no	integer		not null,
+	client_name	varchar(20)		null,
+	client_business_no	varchar(20)		null,
+	client_address	varchar(30)		null,
+	manager_name	varchar(20)		null,
+	manager_phone	varchar(20)		null,
+	manager_email	varchar(30)		null,
+	client_file	varchar(30)		null
+);
+
+create table order_item (
+	product_item_no	integer		not null,
+	order_header_no	integer		not null,
+	product_no	integer		null,
+	product_quantity	integer		null
+);
+
+create table authority (
+	department_no	integer		not null,
+	rank_no	integer		not null,
+	authority	varchar(10)		null
+);
+
+create table salary (
+	salary_no	integer		not null,
+	employee_no	integer		not null,
+	salary	integer		null,
+	salary_date	date		null
+);
+
+create table attendance (
+	attendance_no	integer		not null,
+	employee_no	integer		not null,
+	annual_leave_date	date		null,
+	sign_on	varchar(5)		null,
+	attendance_code	varchar(20)		null
+);
+
+create table employee (
+	employee_no	integer		not null,
+	department_no	integer		not null,
+	rank_no	integer		not null,
+	employee_name	varchar(20)		null,
+	employee_birth	date		null,
+	employee_phone	varchar(20)		null,
+	emergency_phone	varchar(20)		null,
+	employee_address	varchar(20)		null,
+	account_number	varchar(20)		null,
+	employee_hiredate	date		null,
+	employee_status	varchar(2)		null,
+	employee_email	varchar(20)		null,
+	employee_photo_path	varchar(30)		null
+);
+
+create table department (
+	department_no	integer		not null,
+	department_name	varchar(10)		null
+);
+
+create table purchase_list (
+	purchase_list_no	integer		not null,
+	product_no	integer		not null,
+	purchase_price	integer		null,
+	purchase_quantity	integer		null,
+	purchase_date	date		null,
+	purchase_status	varchar(10)		null
+);
+
+create table contract_price (
+	product_no	integer		not null,
+	employee_no	integer		not null,
+	client_no	integer		not null,
+	contract_sdate	date		not null,
+	contract_edate	date		null,
+	contract_price	integer		null
+);
+
+create table supplier (
+	supplier_no	integer		not null,
+	supplier_name	varchar(20)		null,
+	supplier_business_no	varchar(20)		null,
+	supplier_address	varchar(30)		null,
+	manager_name	varchar(20)		null,
+	manager_phone	varchar(20)		null,
+	manager_email	varchar(30)		null,
+	supplier_file	varchar(30)		null
+);
+
+create table id_pw (
+	id	varchar(30)		not null,
+	pw	varchar(30)		null,
+	employee_no	integer		not null
+);
+
+create table rank (
+	rank_no	integer		not null,
+	rank_name	varchar(20)		null
+);
+
+alter table product add constraint pk_product primary key (
+	product_no
+);
+
+alter table category add constraint pk_category primary key (
+	category_no
+);
+
+alter table order_header add constraint pk_order_header primary key (
+	order_header_no
+);
+
+alter table client add constraint pk_client primary key (
+	client_no
+);
+
+alter table order_item add constraint pk_order_item primary key (
+	product_item_no
+);
+
+alter table authority add constraint pk_authority primary key (
+	department_no,
+	rank_no
+);
+
+alter table salary add constraint pk_salary primary key (
+	salary_no,
+	employee_no
+);
+
+alter table attendance add constraint pk_attendance primary key (
+	attendance_no,
+	employee_no
+);
+
+alter table employee add constraint pk_employee primary key (
+	employee_no
+);
+
+alter table department add constraint pk_department primary key (
+	department_no
+);
+
+alter table purchase_list add constraint pk_purchase_list primary key (
+	purchase_list_no
+);
+
+alter table supplier add constraint pk_supplier primary key (
+	supplier_no
+);
+
+alter table id_pw add constraint pk_id_pw primary key (
+	id,
+	employee_no
+);
+
+alter table rank add constraint pk_rank primary key (
+	rank_no
+);
+
+alter table authority add constraint fk_department_to_authority_1 foreign key (
+	department_no
+)
+references department (
+	department_no
+);
+
+alter table authority add constraint fk_rank_to_authority_1 foreign key (
+	rank_no
+)
+references rank (
+	rank_no
+);
+
+alter table salary add constraint fk_employee_to_salary_1 foreign key (
+	employee_no
+)
+references employee (
+	employee_no
+);
+
+alter table attendance add constraint fk_employee_to_attendance_1 foreign key (
+	employee_no
+)
+references employee (
+	employee_no
+);
+
+alter table id_pw add constraint fk_employee_to_id_pw_1 foreign key (
+	employee_no
+)
+references employee (
+	employee_no
+);

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="/inventory/css/product.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>상품조회</h2>
+
+      <form style="text-align: right">
+        <div class="input-group" style="display: inline-table; width: 30%">
+          <input type="text" class="form-control" placeholder="Search" />
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>-</th>
+            <th>상품번호</th>
+            <th>카테고리</th>
+            <th>상품명</th>
+            <th>판매정가</th>
+            <th>구매단가</th>
+            <th>이미지</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="vo : ${list}">
+            <td><input type="checkbox" /></td>
+            <td th:text="${vo.productNo}"></td>
+            <td th:text="${vo.categoryName}"></td>
+            <td th:text="${vo.productName}"></td>
+            <td th:text="${vo.productPrice}"></td>
+            <td>10,500</td>
+            <td><img th:src="@{${'D:/file_repo/' + vo.productImg}}" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="text-align: center">
+        <ul class="pagination">
+          <li><a href="#">이전</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">다음</a></li>
+        </ul>
+      </div>
+
+      <div style="text-align: right">
+        <button type="button" class="btn btn-primary" onclick="openPopup()">상품등록</button>
+        <button type="button" class="btn btn-info">상품수정</button>
+        <button type="button" class="btn btn-default">상품구매</button>
+      </div>
+    </div>
+
+    <div class="popup">
+      <div class="popup-header">
+        <h3>상품등록</h3>
+      </div>
+      <div class="popup-main">
+        <form action="registerProduct" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="supplierNo" id="supplierNo" />
+          <table class="table table-bordered">
+            <tr>
+              <td><p>공급업체명</p></td>
+              <td><select id="supplierList" class="form-control" onchange="changeSupplier(event)"></select></td>
+              <td><p>사업자등록번호</p></td>
+              <td><input type="text" name="supplierBusinessNo" id="supplierBusinessNo" class="form-control" disabled /></td>
+            </tr>
+            <tr>
+              <td><p>담당자명</p></td>
+              <td><input type="text" name="managerName" id="managerName" class="form-control" disabled /></td>
+              <td><p>담당자연락처</p></td>
+              <td><input type="text" name="managerPhone" id="managerPhone" class="form-control" disabled /></td>
+            </tr>
+            <tr>
+              <td><p>카테고리</p></td>
+              <td><select id="categoryList" name="categoryNo" class="form-control"></select></td>
+            </tr>
+            <tr>
+              <td><p>상품명</p></td>
+              <td><input type="text" name="productName" id="productName" class="form-control" /></td>
+              <td>상품정가</td>
+              <td><input type="text" name="productPrice" id="productPrice" class="form-control" /></td>
+            </tr>
+            <tr>
+              <td><p>상품이미지</p></td>
+              <td><input type="file" name="productImg" id="productImg" /></td>
+              <td><p>안전재고수량</p></td>
+              <td><input type="text" name="safetyQuantity" id="safetyQuantity" class="form-control" /></td>
+            </tr>
+            <tr>
+              <td>상품설명</td>
+              <td colspan="3"><textarea name="productContent" rows="4" id="productContent" class="form-control"></textarea></td>
+            </tr>
+            <tr>
+              <td>비고</td>
+              <td colspan="3"><input type="text" name="productRemarks" id="productRemarks" class="form-control" /></td>
+            </tr>
+          </table>
+          <div style="text-align: center">
+            <button type="submit" class="btn btn-primary">등록</button>
+            <button type="reset" class="btn btn-info">초기화</button>
+            <button type="button" class="btn btn-default" onclick="closePopup()">닫기</button>
+          </div>
+        </form>
+        <div id="autocomplete-list" class="autocomplete-items"></div>
+      </div>
+    </div>
+    <script>
+      var popup = document.querySelector(".popup");
+      function openPopup() {
+        $.ajax({
+          url: "suppliers",
+          type: "get",
+          dataType: "json",
+          success: function(data) {
+            var html = "<option>- 공급업체명 -</option>";
+            $.each(data, function(index, obj) {
+              html += "<option value=" + obj.supplierNo + ">" + obj.supplierName + "</option>";
+            });
+            $("#supplierList").html(html);
+          },
+          error: function() {
+            alert("error");
+          }
+        });
+
+        $.ajax({
+          url: "categories",
+          type: "get",
+          dataType: "json",
+          success: function(data) {
+            var html = "<option value=0>- 카테고리 -</option>";
+            $.each(data, function(index, obj) {
+              html += "<option value=" + obj.categoryNo + ">" + obj.categoryName + "</option>";
+            });
+            $("#categoryList").html(html);
+          },
+          error: function() {
+            alert("error");
+          }
+        });
+        popup.style.display = "block";
+      }
+
+      function closePopup() {
+        popup.style.display = "none";
+      }
+
+      var products = [];
+      function changeSupplier(event) {
+        $.ajax({
+          url: "supplier",
+          type: "get",
+          data: {supplierNo : event.target.value},
+          dataType: "json",
+          success: function(data) {
+            $("#supplierNo").val(data.supplierNo);
+            $("#supplierBusinessNo").val(data.supplierBusinessNo);
+            $("#managerName").val(data.managerName);
+            $("#managerPhone").val(data.managerPhone);
+            $("#categoryList").val("0").prop("selected", true);
+            $("#productName").val("");
+            $("#productPrice").val("");
+            $("#productImg").val("");
+            $("#safetyQuantity").val("");
+            $("#productContent").val("");
+            $("#productRemarks").val("");
+          },
+          error: function() {
+            $("#supplierNo").val("");
+            $("#supplierBusinessNo").val("");
+            $("#managerName").val("");
+            $("#managerPhone").val("");
+            $("#categoryList").val("0").prop("selected", true);
+            $("#productName").val("");
+            $("#productPrice").val("");
+            $("#productImg").val("");
+            $("#safetyQuantity").val("");
+            $("#productContent").val("");
+            $("#productRemarks").val("");
+          }
+        });
+
+        $.ajax({
+          url: "product",
+          type: "get",
+          data: {"supplierNo" : event.target.value},
+          dataType: "json",
+          success: function(data) {
+            $.each(data, function(index, obj) {
+              products.push(obj.productName);
+            });
+          },
+          error: function() {
+            alert("error");
+          }
+        });
+      }
+
+      document.getElementById("productName").addEventListener("input", function() {
+        const input = this.value;
+        const autocompleteList = document.getElementById("autocomplete-list");
+        autocompleteList.innerHTML = "";
+
+        if(!input) return;
+
+        const filteredProducts = products.filter((product) =>
+          product.includes(input)
+        );
+
+        filteredProducts.forEach((product) => {
+          const div = document.createElement("div");
+          div.textContent = product;
+          div.addEventListener("click", function () {
+            document.getElementById("productName").value = this.textContent;
+            autocompleteList.innerHTML = "";
+          });
+          autocompleteList.appendChild(div);
+        });
+      });
+    </script>
+  </body>
+</html>
