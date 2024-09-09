@@ -49,6 +49,8 @@ dependencies {
 	//쿼리DSL
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	implementation 'joda-time:joda-time:2.11.0'
 }
 
 tasks.named('test') {
