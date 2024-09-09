@@ -117,16 +117,19 @@ th {
     position: relative;
     border: 0px solid red;
     height: 40px;
+    right: 10px;
 }
 
 .buttons button:nth-of-type(2) {
     position: relative;
-    margin-left: 805px;
+}
+
+.buttons button:nth-of-type(3) {
+    position: relative;
 }
 
 button {
     display: inline-block;
-    width: 12%;
     padding: 5px 10px;
     margin-left: 10px;
     border: 1px solid #e3e3e3;
@@ -165,7 +168,7 @@ button:hover {
 
 .popup-list table tbody .product-price {
     position: relative;
-    left: 33px;
+    left: 23px;
 }
 
 .new-input {
@@ -274,9 +277,10 @@ button:hover {
 .popup-regist .popup-content {
     background-color: white;
     margin: 13% auto;
-    width: 600px; height: 390px;
+    width: 900px;
     border-radius: 10px;
     text-align: center;
+    box-shadow : 0px 8px 16px #e3e3e3;
 }
 
 .popup-regist .popup-content h2 {
@@ -289,7 +293,6 @@ button:hover {
 
 .popup-regist .popup-list {
     padding: 30px;
-    height: 270px;
 }
 
 .popup-regist .popup-list p, input {
@@ -316,13 +319,19 @@ button:hover {
     cursor: pointer;
 }
 
+.popup-regist .popup-button button {
+    width: 100px;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
 .popup-regist .popup-button button:nth-of-type(1) {
     position: relative;
-    right: 111px;
+    right: 250px;
 }
 
 .popup-regist .popup-button button:nth-of-type(2),
 .popup-regist .popup-button button:nth-of-type(3) {
     position: relative;
-    left: 111px;
+    left: 250px;
 }
