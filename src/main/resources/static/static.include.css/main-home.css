@@ -1,0 +1,76 @@
+*{
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.home-wrap {
+    border: 0px solid red;
+    width: 1080px; height: 500px; margin-top: 50px;
+}
+
+.calendar-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.calendar-container th, .calendar-container td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.calendar-container th {
+    background-color: #B3D5E0;
+    width: 90px; height: 50px;
+}
+.calendar-container td {
+    background-color: #fff;
+    height: 70px;
+}
+.red {
+    color: red;
+}
+.black {
+    color: black;
+}
+
+.calendar-container {
+    display: inline-block;
+    position: relative;
+    bottom: 184px;
+}
+.calendar-controls {
+    margin: 30px 0px 20px 240px;
+}
+.calendar-controls button {
+    border-style: none;
+    background-color: #fff;
+}
+
+/* 오른쪽 노티스 */
+.notice-wrap {
+    display: inline-block;
+    border: 0px solid green;
+    width: 420px; margin-left: 15px;
+}
+.notice1 {
+    margin-top: 20px;
+}
+.notice1 table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.notice1 p {
+    font-size: 20px;
+    letter-spacing: 5px;
+}
+.notice1 th, .notice1 td {
+    padding: 2px;
+    text-align: center;
+    height: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.notice1 th {
+    background-color: #B3D5E0;
+}
