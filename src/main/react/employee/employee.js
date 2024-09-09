@@ -5,7 +5,7 @@ import './employee.css'
 
 function Employee(){
     return (
-        <main className="wrapper" style={{ overflow: 'auto' }}>
+        <main className="wrapper">
             <div className="wrapper-title">
                 <span>인사카드</span>
                 <button className="btn">Search</button>
