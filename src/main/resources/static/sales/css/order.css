@@ -117,16 +117,19 @@ th {
     position: relative;
     border: 0px solid red;
     height: 40px;
+    right: 10px;
 }
 
 .buttons button:nth-of-type(2) {
     position: relative;
-    margin-left: 805px;
+}
+
+.buttons button:nth-of-type(3) {
+    position: relative;
 }
 
 button {
     display: inline-block;
-    width: 12%;
     padding: 5px 10px;
     margin-left: 10px;
     border: 1px solid #e3e3e3;
@@ -141,7 +144,7 @@ button:hover {
     color: #B3D5E0;
 }
 
-/* �앹뾽(�섏젙+議고쉶) */
+/* �앹뾽 �섏젙(�곸꽭蹂닿린) */
 .popup-modify {
     display: none;
     position: fixed;
@@ -149,15 +152,52 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
+
+}
+
+/* tr td */
+.popup-list > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.popup-list td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.popup-list table tbody .product-price {
+    position: relative;
+    left: 23px;
+}
+
+.new-input {
+    position: relative;
+    left: 33px;
+}
+
+.popup-list > table, .popup-list td {
+    border: none; /* �뚮몢由� �쒓굅 */
+}
+
+.popup-list table p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/*  */
+
+.popup-modify:hover {
+    cursor: pointer;
 }
 
 .popup-modify .popup-content {
     background-color: white;
     margin: 13% auto;
-    /* padding: 20px; */
-    width: 600px; height: 482px;
+    width: 900px;
     border-radius: 10px;
     text-align: center;
+    box-shadow : 0px 8px 16px #e3e3e3;
 }
 
 .popup-modify .popup-content h2 {
@@ -170,7 +210,6 @@ button:hover {
 
 .popup-modify .popup-list {
     padding: 30px;
-    height: 340px;
 }
 
 .popup-modify .popup-list p, input {
@@ -182,35 +221,41 @@ button:hover {
     left: -30px;
     margin-top: 8px;
 }
+
+.popup-modify .contract-status {
+    position: relative;
+    right: 86px;
+}
+
+.popup-regist .contract-status {
+    position: relative;
+    right: 86px;
+}
+
+.popup-modify .delivery-status {
+    position: relative;
+    right: 86px;
+}
+
+.popup-regist .delivery-status {
+    position: relative;
+    right: 86px;
+}
+
 .popup-modify .popup-list input {
     border: 1px solid #e3e3e3;
     border-radius: 5px; height: 25px; left: -5px;
     width: 260px;
 }
 
-.popup-modify .popup-list div:nth-of-type(2) input,
-.popup-modify .popup-list div:nth-of-type(7) input,
+.popup-modify .popup-list div:nth-of-type(1) input,
+.popup-modify .popup-list div:nth-of-type(7) input {
+    left: 2px;
+}
+
 .popup-modify .popup-list div:nth-of-type(8) input {
-    left: 8px;
+    left: -12px;
 }
-
-.popup-modify .popup-list div:nth-of-type(3) input {
-    left: -1px;
-}
-
-.popup-modify .popup-list div:nth-of-type(4) input {
-    left: 6px;
-}
-
-.popup-modify .popup-list div:nth-of-type(5) input,
-.popup-modify .popup-list div:nth-of-type(6) input {
-    left: 1px;
-}
-
-.popup-modify .popup-list div:nth-of-type(9) input {
-    left: 15px;
-}
-
 .popup-modify .close-btn {
     float: right;
     font-size: 20px;
@@ -219,21 +264,22 @@ button:hover {
 
 .popup-modify .popup-button button {
     width: 100px;
-    top: 50px;
+    height: 100%;
+    margin-bottom: 20px;
 }
 
 .popup-modify .popup-button button:nth-of-type(1) {
     position: relative;
-    right: 122px;
+    right: 260px;
 }
 
 .popup-modify .popup-button button:nth-of-type(2),
 .popup-modify .popup-button button:nth-of-type(3) {
     position: relative;
-    left: 111px;
+    left: 260px;
 }
 
-/* �앹뾽(�깅줉) */
+/* �앹뾽 �깅줉�섍린 */
 .popup-regist {
     display: none;
     position: fixed;
@@ -246,9 +292,10 @@ button:hover {
 .popup-regist .popup-content {
     background-color: white;
     margin: 13% auto;
-    width: 600px; height: 372px;
+    width: 900px;
     border-radius: 10px;
     text-align: center;
+    box-shadow : 0px 8px 16px #e3e3e3;
 }
 
 .popup-regist .popup-content h2 {
@@ -261,7 +308,6 @@ button:hover {
 
 .popup-regist .popup-list {
     padding: 30px;
-    height: 270px;
 }
 
 .popup-regist .popup-list p, input {
@@ -278,19 +324,8 @@ button:hover {
     border-radius: 5px; height: 25px; left: -5px;
     width: 260px;
 }
-
-.popup-regist .popup-list div:nth-of-type(2) input {
-    left: 8px;
-}
-
-.popup-regist .popup-list div:nth-of-type(4) input {
-    left: 5px;
-}
-
-.popup-regist .popup-list div:nth-of-type(3) input,
-.popup-regist .popup-list div:nth-of-type(5) input,
-.popup-regist .popup-list div:nth-of-type(6) input {
-    left: 0px;
+.popup-regist .popup-list div:nth-of-type(1) input {
+    left: 2px;
 }
 
 .popup-regist .close-btn {
@@ -301,16 +336,21 @@ button:hover {
 
 .popup-regist .popup-button button {
     width: 100px;
-    top: 10px;
+    height: 100%;
+    margin-bottom: 20px;
+}
+.button-regist {
+    position: relative;
+    left: 760px;
 }
 
 .popup-regist .popup-button button:nth-of-type(1) {
     position: relative;
-    right: 122px;
+    right: 250px;
 }
 
 .popup-regist .popup-button button:nth-of-type(2),
 .popup-regist .popup-button button:nth-of-type(3) {
     position: relative;
-    left: 111px;
+    left: 250px;
 }

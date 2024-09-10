@@ -149,121 +149,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">1</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <!-- <td>8,000원</td> -->
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">2</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <!-- <td>8,000원</td> -->
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">3</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <!-- <td>8,000원</td> -->
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">4</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">5</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">6</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">7</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">8</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">9</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">10</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>2024/09/01</td>
-            <td>2024/12/31</td>
-            <td>밀크티베이스</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>D-7</td>
-        </tr>
-
-
+            <tr th:each="vo : ${list}">
+                <td><input type="checkbox" class="checkbox"></td>
+                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}"></td>
+                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}">ONESHOT 성남점</td>
+                <td th:text="${vo.contractSdate}">2024/09/01</td>
+                <td th:text="${vo.contractEdate}">2024/12/31</td>
+                <td th:text="${}">밀크티베이스</td>
+                <td th:text="${}">홍길동</td>
+                <td th:text="${}">승인완료</td>
+                <td th:text="${}">D-7</td>
+            </tr>
         </tbody>
     </table>
     <div class="buttons">
