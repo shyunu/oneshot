@@ -75,51 +75,6 @@ public class ProductController {
         inventoryService.registerProduct(vo);
         return "redirect:/inventory/productList";
     }
-
-    @GetMapping("/supplierList")
-    public String supplier(Model model) {
-        List<SupplierVO> list = inventoryService.getAllSuppliers();
-        model.addAttribute("list", list);
-        return "inventory/supplier";
-    }
-
-    @PostMapping("/registerSupplier")
-    public ResponseEntity<SupplierVO> registerSupplier(
-            @RequestParam("supplierName") String supplierName,
-            @RequestParam("supplierAddress") String supplierAddress,
-            @RequestParam("supplierBusinessNo") String supplierBusinessNo,
-            @RequestParam("managerName") String managerName,
-            @RequestParam("managerPhone") String managerPhone,
-            @RequestParam("managerEmail") String managerEmail,
-            @RequestParam("supplierFile") MultipartFile supplierFile) {
-        String filename = null;
-        try {
-            filename = System.currentTimeMillis() + "_" + supplierFile.getOriginalFilename();
-            String directoryPath = System.getProperty("user.dir") + "/file_repo/";
-            File dir = new File(directoryPath);
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String filePath = directoryPath + filename;
-            supplierFile.transferTo(new File(filePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
-        SupplierVO supplier = SupplierVO.builder()
-                .supplierName(supplierName)
-                .supplierAddress(supplierAddress)
-                .supplierBusinessNo(supplierBusinessNo)
-                .managerName(managerName)
-                .managerPhone(managerPhone)
-                .managerEmail(managerEmail)
-                .supplierFile(filename)
-                .build();
-
-        SupplierVO savedSupplier = inventoryService.registerSupplier(supplier);
-        return ResponseEntity.ok(savedSupplier);
-    }
 }
+
+

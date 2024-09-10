@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         <tr th:each="supplier : ${list}" >
-            <td><input type="checkbox" name="supplier" th:value="${supplier.supplierNo}"></td>
+            <td><input type="checkbox"></td>
             <td th:text="${supplier.supplierNo}"></td>
             <td th:text="${supplier.supplierName}"></td>
             <td th:text="${supplier.supplierAddress}"></td>
@@ -37,7 +37,7 @@
             <td th:text="${supplier.managerPhone}"></td>
             <td th:text="${supplier.managerEmail}"></td>
             <td>
-                <a th:if="${supplier.supplierFile != null and !supplier.supplierFile.isEmpty()}" th:href="@{${supplier.supplierFile}}" target="_blank">파일보기</a>
+                <a th:if="${supplier.supplierFile != null}" th:href="@{${supplier.supplierFile}}" target="_blank">조회</a>
             </td>
         </tr>
         </tbody>
@@ -54,7 +54,8 @@
         <div class="popup_header" id="popupHeader">
             <span>공급업체 등록</span>
         </div>
-        <form id="registForm" class="regist_content" method="post" enctype="multipart/form-data" th:action="@{/inventory/registForm}">            <div class="modal_left">
+        <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
+            <div class="modal_left">
                 <label for="supplierNo">공급업체번호:</label>
                 <input type="text" id="supplierNo" name="supplierNo" required disabled><br><br>
 
@@ -121,7 +122,7 @@
 
         if (mode === 'register') {
             header.innerHTML = '<span>공급업체 등록</span>';
-            document.getElementById("registForm").reset(); // 폼 초기화
+            document.getElementById("registerSupplier").reset(); // 폼 초기화
         } else if (mode === 'update') {
             header.innerHTML = '<span>공급업체 수정</span>';
         }
@@ -131,7 +132,7 @@
     // 모달 닫기 + 내용 초기화
     function closeModal() {
         document.getElementById("modal").style.display = "none"; // 모달 닫기
-        document.getElementById("registForm").reset(); // 폼 내용 초기화
+        document.getElementById("registerSupplier").reset(); // 폼 내용 초기화
     }
 
     // 전화번호 유효성 검사
@@ -141,35 +142,40 @@
     }
 
     // 등록시 유효성 검사
-    function saveSupplier() {
-        const managerPhone = document.getElementById("managerPhone").value;
-        if (!isValidPhoneNumber(managerPhone)) {
-            alert('전화번호 형식이 올바르지 않습니다. 예시: 010-1234-5678');
+    function saveSupplier(event) {
+        event.preventDefault(); // 폼 제출을 막지 않도록 주석 처리합니다.
+
+        if (!validateForm()) {
             return;
         }
 
-        const formData = new FormData(document.getElementById("registForm"));
+        const managerPhone = document.getElementById("managerPhone").value;
+        if (!isValidPhoneNumber(managerPhone)) {
+            alert('전화번호 형식이 올바르지 않습니다.');
+            return;
+        }
 
-        fetch('/inventory/registerSupplier', {
+        const formData = new FormData(document.getElementById("registerSupplier"));
+
+        fetch('/inventory/registSupplier', {
             method: 'POST',
             body: formData
         })
-        .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => {
-                alert('등록에 실패했습니다: ' + text);
-                throw new Error('Server error: ' + text);
-            });
-        }
-        return response.json();
+            .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    alert('등록에 실패했습니다: ' + text);
+                });
+            }
+            return response.text();
         })
-        .then(supplier => {
-        alert('등록이 완료되었습니다.');
-        closeModal();
-        window.location.reload();
+            .then(() => {
+            alert('등록이 완료되었습니다.');
+            closeModal();
+            window.location.reload();
         })
-        .catch(error => {
-        alert('등록 중 에러가 발생했습니다: ' + error.message);
+            .catch(error => {
+            alert('등록 중 에러가 발생했습니다: ' + error.message);
         });
     }
 
@@ -263,7 +269,6 @@
         }
         return true;
     }
-
 </script>
 
 </body>
