@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +20,8 @@ public class InventoryServiceImpl implements InventoryService {
     ProductRepository productRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    private SupplierMapper supplierMapper;
 
     public List<SupplierVO> getAllSuppliers() {
         List<SupplierVO> list = supplierRepository.findAll();
@@ -64,4 +65,10 @@ public class InventoryServiceImpl implements InventoryService {
                    .collect(Collectors.toList());
         return list;
     }
+
+    @Override
+    public SupplierVO registerSupplier(SupplierVO supplier) {
+        return supplierRepository.save(supplier);
+    }
+
 }

@@ -5,7 +5,6 @@ import com.project.oneshot.entity.ProductVO;
 import com.project.oneshot.entity.SupplierVO;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public interface InventoryService {
 
@@ -20,4 +19,7 @@ public interface InventoryService {
     List<ProductVO> getProductDetails(Long supplierNo);
 
     List<ProductVO> getAllProducts();
+
+    SupplierVO registerSupplier(SupplierVO supplier);
+
 }

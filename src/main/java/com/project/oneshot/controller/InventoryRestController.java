@@ -43,4 +43,5 @@ public class InventoryRestController {
         List<ProductVO> list = inventoryService.getProductDetails(supplierNo);
         return list;
     }
+
 }

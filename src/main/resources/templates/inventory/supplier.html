@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/inventory/css/supplier.css">
+</head>
+<body>
+<div id="supplier_wrapped">
+    <h1>공급업체내역</h1>
+    <button type="button" class="search">검색</button>
+    <table>
+        <thead class="title">
+        <tr>
+            <th></th>
+            <th>공급업체번호</th>
+            <th>공급업체명</th>
+            <th>공급업체주소</th>
+            <th>공급업체 사업자등록번호</th>
+            <th>담당자명</th>
+            <th>담당자 연락처</th>
+            <th>담당자 이메일</th>
+            <th>첨부파일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="supplier : ${list}" >
+            <td><input type="checkbox" name="supplier" th:value="${supplier.supplierNo}"></td>
+            <td th:text="${supplier.supplierNo}"></td>
+            <td th:text="${supplier.supplierName}"></td>
+            <td th:text="${supplier.supplierAddress}"></td>
+            <td th:text="${supplier.supplierBusinessNo}"></td>
+            <td th:text="${supplier.managerName}"></td>
+            <td th:text="${supplier.managerPhone}"></td>
+            <td th:text="${supplier.managerEmail}"></td>
+            <td>
+                <a th:if="${supplier.supplierFile != null and !supplier.supplierFile.isEmpty()}" th:href="@{${supplier.supplierFile}}" target="_blank">파일보기</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <button type="button" class="register" onclick="checkRegister()">업체등록</button>
+        <button type="button" class="update" onclick="openUpdate()">수정</button>
+    </div>
+</div>
+
+<div class="modalPopup" id="modal">
+    <div class="modal_content">
+        <div class="popup_header" id="popupHeader">
+            <span>공급업체 등록</span>
+        </div>
+        <form id="registForm" class="regist_content" method="post" enctype="multipart/form-data" th:action="@{/inventory/registForm}">            <div class="modal_left">
+                <label for="supplierNo">공급업체번호:</label>
+                <input type="text" id="supplierNo" name="supplierNo" required disabled><br><br>
+
+                <label for="supplierName">공급업체명:</label>
+                <input type="text" id="supplierName" name="supplierName" required><br><br>
+
+                <label for="supplierAddress">공급업체주소:</label>
+                <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
+
+                <label for="supplierBusinessNo">공급업체 사업자등록번호:</label>
+                <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="000-00-0000" required><br><br>
+            </div>
+
+            <div class="modal_right">
+                <label for="managerName">담당자명:</label>
+                <input type="text" id="managerName" name="managerName" required><br><br>
+
+                <label for="managerPhone">담당자 연락처:</label>
+                <input type="text" id="managerPhone" name="managerPhone" required><br><br>
+
+                <label for="managerEmail">담당자 이메일:</label>
+                <input type="email" id="managerEmail" name="managerEmail" required><br><br>
+
+                <label for="supplierFile">첨부파일:</label>
+                <input type="file" id="supplierFile" name="supplierFile" required><br><br>
+            </div>
+
+            <div class="footer_button">
+                <button type="submit" class="save" onclick="saveSupplier()">등록</button>
+                <button type="button" class="close" onclick="closeModal()">닫기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+
+<script>
+    // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
+    function checkRegister() {
+        const checkedSupplier = document.querySelector('input[name="supplier"]:checked');
+        if (checkedSupplier) {
+            alert('선택을 해제해주세요');
+        } else {
+            openModal('register');
+        }
+    }
+
+    // 수정 버튼 클릭 시 체크박스 선택 여부 확인하고 모달 열기
+    function openUpdate() {
+        const checkedSuppliers = document.querySelectorAll('input[name="supplier"]:checked');
+        if (checkedSuppliers.length > 0) {
+            // 공급업체 정보 로딩 및 모달 설정
+            populateModal(checkedSuppliers[0].value);
+            openModal('update'); // 체크된 항목이 있으면
+        } else {
+            alert('수정할 항목을 선택하세요.'); // 체크된 항목이 없으면
+        }
+    }
+
+    // 모달 열기
+    function openModal(mode) {
+        const modal = document.getElementById("modal");
+        const header = document.getElementById("popupHeader");
+
+        if (mode === 'register') {
+            header.innerHTML = '<span>공급업체 등록</span>';
+            document.getElementById("registForm").reset(); // 폼 초기화
+        } else if (mode === 'update') {
+            header.innerHTML = '<span>공급업체 수정</span>';
+        }
+        modal.style.display = "flex"; // 모달 열기
+    }
+
+    // 모달 닫기 + 내용 초기화
+    function closeModal() {
+        document.getElementById("modal").style.display = "none"; // 모달 닫기
+        document.getElementById("registForm").reset(); // 폼 내용 초기화
+    }
+
+    // 전화번호 유효성 검사
+    function isValidPhoneNumber(phone) {
+        const phonePattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+        return phonePattern.test(phone);
+    }
+
+    // 등록시 유효성 검사
+    function saveSupplier() {
+        const managerPhone = document.getElementById("managerPhone").value;
+        if (!isValidPhoneNumber(managerPhone)) {
+            alert('전화번호 형식이 올바르지 않습니다. 예시: 010-1234-5678');
+            return;
+        }
+
+        const formData = new FormData(document.getElementById("registForm"));
+
+        fetch('/inventory/registerSupplier', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                alert('등록에 실패했습니다: ' + text);
+                throw new Error('Server error: ' + text);
+            });
+        }
+        return response.json();
+        })
+        .then(supplier => {
+        alert('등록이 완료되었습니다.');
+        closeModal();
+        window.location.reload();
+        })
+        .catch(error => {
+        alert('등록 중 에러가 발생했습니다: ' + error.message);
+        });
+    }
+
+    // 새로운 공급자를 테이블에 추가
+    function addSupplierToTable(supplier) {
+        const tbody = document.querySelector('tbody'); // 테이블 바디 선택
+        const row = document.createElement('tr'); // 새로운 행 생성
+        row.innerHTML = `
+            <td><input type="checkbox" name="supplier" value="${supplier.supplierNo}"></td>
+            <td>${supplier.supplierNo}</td>
+            <td>${supplier.supplierName}</td>
+            <td>${supplier.supplierAddress}</td>
+            <td>${supplier.supplierBusinessNo}</td>
+            <td>${supplier.managerName}</td>
+            <td>${supplier.managerPhone}</td>
+            <td>${supplier.managerEmail}</td>
+            <td><a href="${supplier.supplierFile}" target="_blank" th:text="${supplier.supplierFileName}">조회</a></td>
+        `;
+        tbody.appendChild(row); // 테이블에 새로운 행 추가
+    }
+
+    // 클릭 시 모달 닫기
+    window.onclick = function(event) {
+        if (event.target === document.getElementById('modal')) {
+            closeModal();
+        }
+    };
+
+    // 드래그가 시작되었는지 여부를 추적하는 변수
+    let isDragging = false;
+    // 드래그 시작 지점과 팝업의 초기 위치를 저장하는 변수
+    let startX, startY, initialX, initialY;
+
+    // 팝업과 헤더 요소 선택
+    const draggablePopup = document.getElementById("modal");
+    const popupHeader = document.getElementById("popupHeader");
+
+    // 헤더의 마우스 다운 이벤트 리스너
+    popupHeader.addEventListener("mousedown", function (event) {
+        // 입력 필드 등에서의 마우스 클릭을 막지 않도록 조정
+        if (event.target.closest('input, textarea, select')) {
+            return;
+        }
+
+        isDragging = true;   // 드래그 상태를 true로 설정
+        startX = event.clientX;   // 마우스 클릭 시 X 좌표 저장
+        startY = event.clientY;   // 마우스 클릭 시 Y 좌표 저장
+        const rect = draggablePopup.getBoundingClientRect();   // 팝업창의 현재 위치를 가져옴
+        initialX = rect.left;   // 팝업의 초기 X 좌표 저장
+        initialY = rect.top;   // 팝업의 초기 Y 좌표 저장
+        // 텍스트 선택 방지
+        event.preventDefault();
+    });
+
+    // 문서의 마우스 무브 이벤트 리스너
+    document.addEventListener("mousemove", function (event) {
+        // 마우스가 움직일 때 드래그가 활성화되어 있으면 팝업창의 위치를 업데이트
+        if (isDragging) {
+            const currentX = event.clientX;   // 현재 마우스의 X 좌표
+            const currentY = event.clientY;   // 현재 마우스의 Y 좌표
+            const dx = currentX - startX;   // 시작 X 좌표와 현재 X 좌표의 차이
+            const dy = currentY - startY;   // 시작 Y 좌표와 현재 Y 좌표의 차이
+            // 팝업창의 새로운 위치를 설정
+            draggablePopup.style.left = `${initialX + dx}px`;
+            draggablePopup.style.top = `${initialY + dy}px`;
+        }
+    });
+
+    // 문서의 마우스 업 이벤트 리스너
+    document.addEventListener("mouseup", function () {
+        // 마우스 버튼을 떼었을 때 드래그를 종료
+        isDragging = false; // 드래그 상태를 false로 설정
+    });
+
+    function validateForm() {
+        // 파일이 첨부되었는지 확인
+        const supplierFile = document.getElementById("supplierFile").files.length;
+        if (supplierFile === 0) {
+            alert("파일을 반드시 첨부해야 합니다.");
+            return false;
+        }
+
+        // 폼의 모든 필드가 입력되었는지 확인
+        const requiredFields = ["supplierName", "supplierAddress", "supplierBusinessNo", "managerName", "managerPhone", "managerEmail"];
+        for (const fieldId of requiredFields) {
+            const field = document.getElementById(fieldId);
+            if (field.value.trim() === "") {
+                alert(`${fieldId} 필드는 반드시 입력해야 합니다.`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+</script>
+
+</body>
+</html>
