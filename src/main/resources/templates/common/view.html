@@ -7,10 +7,9 @@
     <title>인사관리</title>
     <link rel="stylesheet" type="text/css" href="/humanResource/css/view.css" />
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="../../static/common/css/index.css" />
-=======
->>>>>>> 1aeeee2cc5eb37977584609c1162a8c2cabbc540
+
+    <link rel="stylesheet" href="../../static/humanResource/css/index.css" />
+
 </head>
 
 <body>
@@ -57,12 +56,12 @@
                 로그아웃
             </div>
         </aside>
-        <div id="root" class="content"></div>
+        <div class="root content"></div>
         <!--메인 내용-->
 
     </div>
     <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
-=======
+
 <div class="flex wrap">
     <!--사이드바-->
     <aside class="flex" style="overflow: hidden;">
@@ -87,11 +86,10 @@
             로그아웃
         </div>
     </aside>
-    <div id="root" class="content"></div>
+    <div class="root content"></div>
     <!--메인 내용-->
 </div>
 <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
->>>>>>> 1aeeee2cc5eb37977584609c1162a8c2cabbc540
 </body>
 
 </html>
