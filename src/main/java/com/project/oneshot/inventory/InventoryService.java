@@ -19,8 +19,6 @@ public interface InventoryService {
 
     List<ProductVO> getProductDetails(Long supplierNo);
 
-    List<ProductVO> getAllProducts();
-
     SupplierVO registerSupplier(SupplierVO supplier);
 
     Page<ProductVO> getAllProducts(int page, int size);
