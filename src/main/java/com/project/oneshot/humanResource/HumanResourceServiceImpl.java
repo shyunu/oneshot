@@ -26,8 +26,12 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public int departmentInsert(DepartmentVO vo) {
         System.out.println(vo.getDepartmentName());
-        int result = humanResourceMapper.departmentInsert(vo);
-
-        return result;
+        int duplicateCount= humanResourceMapper.checkDuplicateDepartment(vo);
+        if(duplicateCount>0){
+            return 2;
+        }else{
+            int result = humanResourceMapper.departmentInsert(vo);
+            return result;
+        }
     }
 }
