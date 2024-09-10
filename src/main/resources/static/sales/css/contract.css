@@ -313,6 +313,11 @@ button:hover {
     left: 2px;
 }
 
+.button-regist {
+    position: relative;
+    left: 760px;
+}
+
 .popup-regist .close-btn {
     float: right;
     font-size: 20px;

@@ -53,8 +53,8 @@
         // regist
         document.getElementById('add-item-btn-regist').addEventListener('click', function() {
             // 입력된 상품 품목명과 책정 거래가 가져오기
-            const productNameInput = document.querySelector('input[name="regist-product-name"]');
-            const priceInput = document.querySelector('input[name="regist-price"]');
+            const productNameInput = document.querySelector('input[name="productNo"]');
+            const priceInput = document.querySelector('input[name="contractPrice"]');
             const productNameValue = productNameInput.value;
             const priceValue = priceInput.value;
 
@@ -176,7 +176,6 @@
             <li><a href="#">5</a></li>
             <li><a href="#">></a></li>
         </ul>
-
     </div>
 </div>
 
@@ -238,7 +237,7 @@
             <div class="popup-button">
                 <button>계약서 첨부</button>
                 <button>수정</button>
-                <button class="close-btn2">닫기</button>
+                <button type="button" class="close-btn2">닫기</button>
             </div>
         </div>
     </div>
@@ -281,7 +280,7 @@
                         </td>
                         <td class="product-price">
                             <p>책정거래가</p>
-                            <input type="number" name="contractPric">
+                            <input type="number" name="contractPrice">
                             <button type="button" id="add-item-btn-regist">+</button>
                         </td>
                     </tr>
