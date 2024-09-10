@@ -46,21 +46,21 @@
             <td th:text="${vo.categoryName}"></td>
             <td th:text="${vo.productName}"></td>
             <td th:text="${vo.productPrice}"></td>
-            <td>10,500</td>
-            <td></td>
+            <td>계산 추가</td>
+            <td><img th:src="@{/inventory/display/{productImg}(productImg=${vo.productImg})}" /></td> <!-- 코드 분석 -->
           </tr>
         </tbody>
       </table>
 
       <div style="text-align: center">
-        <ul class="pagination">
-          <li><a href="#">이전</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">다음</a></li>
+        <ul class="pagination" style="display: inline-block">
+          <li><a th:href="@{/inventory/productList(page=${currentPage - 1}, size=${size})}" th:if="${currentPage > 0}">이전</a></li>
+        </ul>
+        <ul th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="pagination" style="display: inline-block">
+          <li><a th:href="@{/inventory/productList(page=${i}, size=${size})}" th:text="${i + 1}"></a></li>
+        </ul>
+        <ul class="pagination" style="display: inline-block">
+          <li><a th:href="@{/inventory/productList(page=${currentPage + 1}, size=${size})}" th:if="${currentPage < totalPages - 1}">다음</a></li>
         </ul>
       </div>
 
@@ -97,7 +97,12 @@
             </tr>
             <tr>
               <td><p>상품명</p></td>
-              <td><input type="text" name="productName" id="productName" class="form-control" /></td>
+              <td>
+                <div class="autocomplete">
+                  <input type="text" name="productName" id="productName" class="form-control" />
+                  <div id="autocomplete-list" class="autocomplete-items"></div>
+                </div>
+              </td>
               <td>상품정가</td>
               <td><input type="text" name="productPrice" id="productPrice" class="form-control" /></td>
             </tr>
@@ -122,7 +127,6 @@
             <button type="button" class="btn btn-default" onclick="closePopup()">닫기</button>
           </div>
         </form>
-        <div id="autocomplete-list" class="autocomplete-items"></div>
       </div>
     </div>
     <script>
@@ -210,6 +214,7 @@
             $.each(data, function(index, obj) {
               products.push(obj.productName);
             });
+            console.log(products);
           },
           error: function() {
             alert("error");
