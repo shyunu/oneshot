@@ -17,33 +17,33 @@ import java.nio.file.Files;
 import java.util.List;
 
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/product")
 public class ProductRestController {
 
     @Autowired
-    ProductService inventoryService;
+    ProductService productService;
 
     @GetMapping("suppliers")
     public List<SupplierVO> getAllSuppliers() {
-        List<SupplierVO> list = inventoryService.getAllSuppliers();
+        List<SupplierVO> list = productService.getAllSuppliers();
         return list;
     }
 
     @GetMapping("supplier")
     public SupplierVO getSupplierDetails(@RequestParam("supplierNo") Long supplierNo) {
-        SupplierVO vo = inventoryService.getSupplierDetails(supplierNo);
+        SupplierVO vo = productService.getSupplierDetails(supplierNo);
         return vo;
     }
 
     @GetMapping("categories")
     public List<CategoryVO> getAllCategories() {
-        List<CategoryVO> list = inventoryService.getAllCategories();
+        List<CategoryVO> list = productService.getAllCategories();
         return list;
     }
 
     @GetMapping("product")
     public List<ProductVO> getProductDetails(@RequestParam("supplierNo") Long supplierNo) {
-        List<ProductVO> list = inventoryService.getProductDetails(supplierNo);
+        List<ProductVO> list = productService.getProductDetails(supplierNo);
         System.out.println("list = " + list);
         return list;
     }
