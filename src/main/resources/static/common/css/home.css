@@ -6,7 +6,11 @@
 
 .home-wrap {
     border: 0px solid red;
-    width: 1080px; height: 500px; margin-top: 50px;
+    width: 1080px; height: 500px;
+    margin: 0 auto;
+    position: relative;
+    bottom: 900px;
+    margin-right: 320px;
 }
 
 .calendar-container table {
