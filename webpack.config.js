@@ -42,7 +42,8 @@ module.exports = {
                         },
                     },
                 ],
-            }, {
+            },
+            { //이거 없으면 axios 오류
                 test: /\.m?js/,
                 resolve: {
                     fullySpecified: false

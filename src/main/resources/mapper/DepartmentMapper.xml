@@ -5,12 +5,17 @@
 
 <mapper namespace="com.project.oneshot.hr.department.DepartmentMapper">
 
-    <insert id="departmentInsert" parameterType="DepartmentVO">
-        insert into department (department_name) values (#{departmentName})
+    <insert id="insertDepartment" parameterType="DepartmentVO">
+        insert into department (department_no, department_name) values (#{departmentNo}, #{departmentName})
     </insert>
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)
         FROM department
         WHERE department_name = #{departmentName}
     </select>
+
+    <select id="selectDepartment" parameterType="DepartmentVO" resultType="DepartmentVO">
+        select * from department
+    </select>
+
 </mapper>
