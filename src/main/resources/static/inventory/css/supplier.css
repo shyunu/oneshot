@@ -6,18 +6,19 @@
 body {
     border: 0px solid red;
 }
-#supllier_wrapped {
+#supllier_wrap {
     width : 1080px;
     height: 800px;
 
 }
-.supplier-wrap {
+.supplier_wrapped {
     border: 0px solid red;
-    width: 1080px; height: 800px;
+    width: 70%; height: 30%;
     margin: 0 auto;
     position: relative;
     bottom: 900px;
-    margin-right: 280px;
+    margin-left: 200px;
+    margin-top: 150px;
 }
 .search {
     width : 60px;
