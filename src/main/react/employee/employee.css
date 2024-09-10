@@ -1,4 +1,31 @@
+/*
 .btn {
+    height: 40px;
+    width: 80px;
+    background-color: #023E7D;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+}
+*/
+.searchBtn {
+    height: 40px;
+    width: 80px;
+    background-color: #023E7D;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+}
+.deleteBtn {
+    height: 40px;
+    width: 80px;
+    background-color: #023E7D;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+    margin-right: 5px;
+}
+.submitBtn {
     height: 40px;
     width: 80px;
     background-color: #023E7D;
