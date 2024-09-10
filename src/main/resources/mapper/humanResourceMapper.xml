@@ -12,7 +12,9 @@
     <insert id="departmentInsert" parameterType="DepartmentVO">
         insert into department (department_name) values (#{departmentName})
     </insert>
-    <select id="checkDuplicateDepartment" parameterType="DepartmentVO">
-        select
+    <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
+        SELECT COUNT(*)
+        FROM department
+        WHERE department_name = #{departmentName}
     </select>
 </mapper>
