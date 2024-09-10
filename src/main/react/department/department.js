@@ -6,12 +6,37 @@ import './department.css';
 import './popup.css';
 
 function Department() {
+    //모달창
     const [modalOpen, setModalOpen] = useState(false);
+    //입력값
     const [formValues, setFormValues] = useState({
-        departmentNo: 0,
+        departmentNo: '',
         departmentName: '',
         age: '',
     });
+    //부서목록
+    const [departments, setDepartments] = useState([]);
+
+    //부서목록get
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get("http://localhost:8181/hrm/getDepartment");
+                setDepartments(response.data);
+            } catch (err) {
+                console.error('Error fetching departments:', err);
+            }
+        })();
+    }, []);
+    //부서목록get
+    const fetchDepartments = async () => {
+        try {
+            const response = await axios.get("http://localhost:8181/hrm/getDepartment");
+            setDepartments(response.data);
+        } catch (err) {
+            console.error('Error fetching departments:', err);
+        }
+    };
     const [errors, setErrors] = useState({
         departmentNo: false,
         departmentName: false,
@@ -63,7 +88,10 @@ function Department() {
                 }
             );
             setSubmitted(false); // 제출 성공 시, 오류 상태 초기화
+            setModalOpen(false);
             alert("서버에 보내고 서버가 다시 보낸 데이터\n" + JSON.stringify(response.data));
+            const data = await fetchDepartments();
+
         } catch (err) {
             if (err.response && err.response.data) {
                 // 서버에서 반환한 JSON 형태의 유효성 검사 오류 메시지 처리
@@ -101,66 +129,18 @@ function Department() {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check1" />
-                            <label htmlFor="check1"></label>
-                        </td>
-                        <td>0001</td>
-                        <td>회계팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check2" />
-                            <label htmlFor="check2"></label>
-                        </td>
-                        <td>0002</td>
-                        <td>인사팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check3" />
-                            <label htmlFor="check3"></label>
-                        </td>
-                        <td>0003</td>
-                        <td>개발팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check4" />
-                            <label htmlFor="check4"></label>
-                        </td>
-                        <td>0004</td>
-                        <td>경영지원팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check5" />
-                            <label htmlFor="check5"></label>
-                        </td>
-                        <td>0005</td>
-                        <td>서비스팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="check6" />
-                            <label htmlFor="check6"></label>
-                        </td>
-                        <td>0006</td>
-                        <td>영업팀</td>
-                        <td>인사관리</td>
-                        <td>YES</td>
-                    </tr>
+                    {departments.map(department => (
+                        <tr key={department.departmentNo}>
+                            <td>
+                                <input type="checkbox" id={`check${department.departmentNo}`} />
+                                <label htmlFor={`check${department.departmentNo}`}></label>
+                            </td>
+                            <td>{department.departmentNo}</td>
+                            <td>{department.departmentName}</td>
+                            <td>인사관리</td>
+                            <td>YES</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </article>
