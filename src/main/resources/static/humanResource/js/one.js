@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 은행 선택 버튼 클릭 시 은행 선택 팝업 열기
     selectBankBtn.addEventListener("click", function () {
-        bankSelectPopup.style.display = "flex"; // 은행 선택 팝업 열기
+        bankSelectPopup.style.display = "flex";
         bankSelectPopup.style.top = "50%";
         bankSelectPopup.style.left = "50%";
-        bankSelectPopup.style.transform = "translate(-50%, -50%)"; // 팝업 중앙 정렬
+        bankSelectPopup.style.transform = "translate(-50%, -50%)";
     });
 
     // 은행 선택 팝업 닫기
@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateBankInput(nameButton) {
         const bankName = nameButton.textContent;
-        accountBankInput.value = bankName; // 선택한 은행 이름만 입력 필드에 반영
-        bankSelectPopup.style.display = "none"; // 은행 선택 팝업 닫기
+        accountBankInput.value = bankName;
+        bankSelectPopup.style.display = "none";
     }
 
     // 드래그 기능 추가
@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentY = event.clientY;
             const dx = currentX - startX;
             const dy = currentY - startY;
-            draggablePopup.style.left = `${initialX + dx}px`;
-            draggablePopup.style.top = `${initialY + dy}px`;
+            draggablePopup.style.left = ${initialX + dx}px;
+            draggablePopup.style.top = ${initialY + dy}px;
         }
     });
 
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                profileImg.src = e.target.result; // 이미지 src를 변경하여 미리보기 반영
+                profileImg.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -101,11 +101,9 @@ document.addEventListener("DOMContentLoaded", function () {
     searchAddressBtn.addEventListener("click", function () {
         new daum.Postcode({
             oncomplete: function (data) {
-                // 주소 선택 완료 시 해당 주소를 입력란에 삽입
-                let fullAddress = data.address; // 기본 주소
-                let extraAddress = ''; // 참고 항목 (지번, 건물명 등)
+                let fullAddress = data.address;
+                let extraAddress = '';
 
-                // 참고 항목 추가
                 if (data.addressType === 'R') {
                     if (data.bname !== '') extraAddress += data.bname;
                     if (data.buildingName !== '') {
@@ -114,12 +112,79 @@ document.addEventListener("DOMContentLoaded", function () {
                     fullAddress += (extraAddress !== '' ? ' (' + extraAddress + ')' : '');
                 }
 
-                // 주소 입력 필드에 주소 반영
                 addressInput.value = fullAddress;
             }
         }).open();
     });
 
-    // 페이지 로드 시 은행 선택 팝업이 열리지 않도록 초기화
+    // 페이지 로드 시 사원 목록을 불러옵니다.
+    async function fetchEmployeeList() {
+        try {
+            const response = await fetch('/api/employees');
+            const employees = await response.json();
+            renderEmployeeList(employees);
+        } catch (error) {
+            console.error('Failed to fetch employees:', error);
+        }
+    }
+
+    function renderEmployeeList(employees) {
+        const employeeTableBody = document.querySelector('#employeeTable tbody');
+        employeeTableBody.innerHTML = '';
+
+        employees.forEach(employee => {
+            const row = document.createElement('tr');
+            row.innerHTML =
+                <td><a href="#" class="employee-link" data-employee-id="${employee.employee_id}">${employee.employee_id}</a></td>
+                <td><a href="#" class="employee-link" data-employee-id="${employee.employee_id}">${employee.name}</a></td>
+                <td>${employee.department}</td>
+            ;
+            employeeTableBody.appendChild(row);
+        });
+
+        // 사원 링크 클릭 시 팝업 열기
+        document.querySelectorAll('.employee-link').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const employeeId = this.dataset.employeeId;
+                openEmployeePopup(employeeId);
+            });
+        });
+    }
+
+    async function openEmployeePopup(employeeId) {
+        // 사원 상세정보를 가져오는 API 호출 (예시 URL)
+        try {
+            const response = await fetch(/api/employees/${employeeId});
+            const employee = await response.json();
+            // 팝업에 정보를 채우고 표시합니다.
+            fillPopupWithEmployeeData(employee);
+            contractPopup.style.display = 'block';
+        } catch (error) {
+            console.error('Failed to fetch employee details:', error);
+        }
+    }
+
+    function fillPopupWithEmployeeData(employee) {
+        document.getElementById('employeeName').value = employee.name;
+        document.getElementById('employeeNo').value = employee.employee_id;
+        document.getElementById('department').value = employee.department;
+        document.getElementById('employeeRank').value = employee.rank;
+        document.getElementById('employeeHiredate').value = employee.hire_date;
+        document.getElementById('employeePhone').value = employee.phone;
+        document.getElementById('emergencyPhone').value = employee.emergency_phone;
+        document.getElementById('employeeBirth').value = employee.birth_date;
+        document.getElementById('employeeEmail').value = employee.email;
+        document.getElementById('accountBank').value = employee.bank_name;
+        document.getElementById('accountNumber').value = employee.account_number;
+        document.getElementById('accountHolder').value = employee.account_holder;
+        document.getElementById('employeeAddress').value = employee.address;
+        document.getElementById('employeeAddress1').value = employee.address_detail;
+    }
+
+    // 페이지 로드 시 사원 목록을 불러옵니다.
+    fetchEmployeeList();
+
+    // 은행 선택 팝업이 열리지 않도록 초기화
     bankSelectPopup.style.display = "none";
 });

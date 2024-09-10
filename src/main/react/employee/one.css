@@ -1,6 +1,6 @@
 /* 기존 팝업 스타일 유지 */
 .popup {
-    display: none; /* 처음에는 숨기기 */
+    /* display: none; */ /* 처음에는 숨기기 */
     position: fixed;
     top: 0;
     left: 0;
@@ -19,6 +19,8 @@
     position: absolute; /* 드래그 가능하도록 absolute 설정 */
     width: 600px;
     height: 750px;
+    left: 35%;
+    top: 5%;
 }
 
 /* 팝업 헤더 스타일 */
@@ -57,6 +59,7 @@
 .btn.modify {
     background-color: #6a737f;
     color: white;
+    font-size: 12px;
 }
 
 .btn.modify:hover {
@@ -66,6 +69,8 @@
 .btn.close {
     background-color: #e74c3c;
     color: white;
+    font-size: 12px;
+    margin-right: 20px;
 }
 
 .btn.close:hover {
@@ -104,7 +109,7 @@
 }
 
 .file-input-container label.btn.attach-file {
-    padding: 5px 5px;
+    padding: 7px 7px;
     font-size: 10px;
     background-color: #6a737f;
     color: white;
@@ -120,6 +125,8 @@
 
 /* 은행 선택 팝업 스타일 */
 #bankSelectPopup .popup-content {
+    margin-left: 100px;
+    margin-top: 80px;
     width: 400px;
     max-height: 600px; /* 최대 높이 설정 */
     padding: 0; /* 패딩 초기화 */
@@ -224,9 +231,10 @@
 
 /* 은행 선택 버튼 스타일 조정 */
 #selectBankBtn {
+    padding: 7px 7px;
+    font-size: 10px;
     background-color: #6a737f;
     color: white;
-    padding: 7px 7px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -244,9 +252,10 @@
 
 /* 주소 검색 버튼 스타일 */
 #searchAddressBtn {
-    background-color: #6a737f; /* 은행 선택 버튼과 동일한 배경색 */
+    padding: 7px 7px;
+    font-size: 10px;
+    background-color: #6a737f;
     color: white;
-    padding: 7px 7px; /* 은행 선택 버튼과 동일한 패딩 */
     border: none;
     border-radius: 5px;
     cursor: pointer;
