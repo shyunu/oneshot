@@ -1,8 +1,11 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.entity.CategoryVO;
 import com.project.oneshot.entity.ProductVO;
+import com.project.oneshot.entity.SupplierVO;
 import com.project.oneshot.inventory.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +25,12 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     @GetMapping("/productList")
-    public String product(Model model) {
-        List<ProductVO> list = inventoryService.getAllProducts();
-        model.addAttribute("list", list);
+    public String product(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
+        Page<ProductVO> list = inventoryService.getAllProducts(page, size);
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("size", size);
         return "inventory/product";
     }
 
@@ -52,17 +58,22 @@ public class InventoryController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ProductVO vo = new ProductVO();
-        vo.setCategoryNo(categoryNo);
-        vo.setSupplierNo(supplierNo);
-        vo.setProductName(productName);
-        vo.setProductContent(productContent);
-        vo.setSafetyQuantity(safetyQuantity);
-        vo.setProductPrice(productPrice);
-        vo.setProductImg(filename);
-        vo.setProductRemarks(productRemarks);
+
+        CategoryVO categoryVO = inventoryService.getCategoryById(categoryNo);
+        SupplierVO supplierVO = inventoryService.getSupplierDetails(supplierNo);
+
+        ProductVO vo = ProductVO.builder()
+                .categoryVO(categoryVO)
+                .supplierVO(supplierVO)
+                .productName(productName)
+                .productContent(productContent)
+                .safetyQuantity(safetyQuantity)
+                .productPrice(productPrice)
+                .productImg(filename)
+                .productRemarks(productRemarks)
+                .build();
 
         inventoryService.registerProduct(vo);
-        return "redirect:/inventory/product";
+        return "redirect:/inventory/productList";
     }
 }

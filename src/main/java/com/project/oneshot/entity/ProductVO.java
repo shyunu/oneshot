@@ -20,11 +20,13 @@ public class ProductVO {
     private Long productNo;
 
     @ManyToOne
-    @JoinColumn(name = "categoryNo", insertable = false, updatable = false)
+    @JoinColumn(name = "categoryNo")
     private CategoryVO categoryVO;
 
-    private Long categoryNo;
-    private Long supplierNo;
+    @ManyToOne
+    @JoinColumn(name = "supplierNo")
+    private SupplierVO supplierVO;
+
     private String productName;
     private String productContent;
     private Long safetyQuantity;
@@ -34,10 +36,18 @@ public class ProductVO {
 
     @Transient
     private String categoryName;
-
     public String getCategoryName() {
         if (categoryVO != null) {
             return categoryVO.getCategoryName();
+        }
+        return null;
+    }
+
+    @Transient
+    private String supplierName;
+    public String getSupplierName() {
+        if (supplierVO != null) {
+            return supplierVO.getSupplierName();
         }
         return null;
     }

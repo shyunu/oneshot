@@ -3,6 +3,7 @@ package com.project.oneshot.inventory;
 import com.project.oneshot.entity.CategoryVO;
 import com.project.oneshot.entity.ProductVO;
 import com.project.oneshot.entity.SupplierVO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,5 +20,7 @@ public interface InventoryService {
 
     List<ProductVO> getProductDetails(Long supplierNo);
 
-    List<ProductVO> getAllProducts();
+    Page<ProductVO> getAllProducts(int page, int size);
+
+    CategoryVO getCategoryById(Long categoryNo);
 }

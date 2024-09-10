@@ -4,6 +4,10 @@ import com.project.oneshot.entity.CategoryVO;
 import com.project.oneshot.entity.ProductVO;
 import com.project.oneshot.entity.SupplierVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -57,11 +61,13 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<ProductVO> getAllProducts() {
-        List<ProductVO> list = productRepository.findProductVOs();
-        list = list.stream()
-                   .sorted(Comparator.comparing(ProductVO::getProductNo).reversed())
-                   .collect(Collectors.toList());
-        return list;
+    public Page<ProductVO> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("productNo").descending());
+        return productRepository.findProductVOs(pageable);
+    }
+
+    @Override
+    public CategoryVO getCategoryById(Long categoryNo) {
+        return categoryRepository.findById(categoryNo).orElse(null);
     }
 }
