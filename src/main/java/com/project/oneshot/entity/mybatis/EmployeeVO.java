@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class EmployeeVO {
+
     private int employeeNo;           // 사원번호
     private int departmentNo;         // 부서번호
     private int rankNo;               // 직급번호
