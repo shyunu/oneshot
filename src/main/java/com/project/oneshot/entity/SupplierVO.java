@@ -19,10 +19,11 @@ public class SupplierVO {
     @SequenceGenerator(name = "supplier_seq", sequenceName = "supplier_seq", allocationSize = 1)
     private Long supplierNo;
     private String supplierName;
-    private String supplierBusinessNo;
     private String supplierAddress;
+    private String supplierBusinessNo;
     private String managerName;
     private String managerPhone;
     private String managerEmail;
     private String supplierFile;
 }
+

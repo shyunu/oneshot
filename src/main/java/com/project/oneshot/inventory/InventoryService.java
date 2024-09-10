@@ -6,7 +6,6 @@ import com.project.oneshot.entity.SupplierVO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public interface InventoryService {
 
@@ -19,6 +18,10 @@ public interface InventoryService {
     List<CategoryVO> getAllCategories();
 
     List<ProductVO> getProductDetails(Long supplierNo);
+
+    List<ProductVO> getAllProducts();
+
+    SupplierVO registerSupplier(SupplierVO supplier);
 
     Page<ProductVO> getAllProducts(int page, int size);
 
