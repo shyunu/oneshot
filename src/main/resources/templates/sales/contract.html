@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/sales/css/contract.css">
+</head>
+<script>
+    window.onload = function() {
+        // 드래그 기능을 추가할 팝업창 요소 선택
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
+
+        // 드래그 가능하게 만들기
+        makeDraggable(popupModify);
+        makeDraggable(popupRegist);
+
+        // modify
+        document.getElementById('add-item-btn').addEventListener('click', function() {
+            // 입력된 상품 품목명과 책정 거래가 가져오기
+            const productNameInput = document.querySelector('input[name="product-name"]');
+            const priceInput = document.querySelector('input[name="price"]');
+            const productNameValue = productNameInput.value;
+            const priceValue = priceInput.value;
+
+            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
+                // 새로운 <tr> 생성
+                const newRow = document.createElement('tr');
+
+                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
+                newRow.innerHTML = `
+                    <td class="new-input">
+                        <input type="text" value="${productNameValue}" readonly>
+                    </td>
+                    <td class="new-input">
+                        <input type="text" value="${priceValue}" readonly>
+                    </td>
+                `;
+
+                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
+                const currentRow = priceInput.closest('tr');
+                currentRow.insertAdjacentElement('afterend', newRow);
+
+                // 기존 입력 필드를 비운다
+                productNameInput.value = '';
+                priceInput.value = '';
+            } else {
+                alert('상품 품목명 및 책정 거래가를 입력하세요.');
+            }
+        });
+
+        // regist
+        document.getElementById('add-item-btn-regist').addEventListener('click', function() {
+            // 입력된 상품 품목명과 책정 거래가 가져오기
+            const productNameInput = document.querySelector('input[name="regist-product-name"]');
+            const priceInput = document.querySelector('input[name="regist-price"]');
+            const productNameValue = productNameInput.value;
+            const priceValue = priceInput.value;
+
+            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
+                // 새로운 <tr> 생성
+                const newRow = document.createElement('tr');
+
+                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
+                newRow.innerHTML = `
+                    <td class="new-input">
+                        <input type="text" value="${productNameValue}" readonly>
+                    </td>
+                    <td class="new-input">
+                        <input type="text" value="${priceValue}" readonly>
+                    </td>
+                `;
+
+                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
+                const currentRow = priceInput.closest('tr');
+                currentRow.insertAdjacentElement('afterend', newRow);
+
+                // 기존 입력 필드를 비운다
+                productNameInput.value = '';
+                priceInput.value = '';
+            } else {
+                alert('상품 품목명 및 책정 거래가를 입력하세요.');
+            }
+        });
+
+    };
+
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        const header = element.querySelector('.popup-content');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+</script>
+
+<body>
+<div class="order-wrap">
+    <div class="text-wrap">
+        <div class="order-title">
+            <p>계약가격내역</p>
+            <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+        </div>
+        <div class="order-filter">
+            <button>전체</button>
+            <button>승인대기</button>
+            <button>승인완료</button>
+            <input type="text" placeholder="검색어를 입력하세요.">
+            <select>
+                <option>선택하세요</option>
+                <option>빠른등록일자순</option>
+                <option>오래된등록일자순</option>
+                <option>높은거래가격순</option>
+                <option>낮은거래가격순</option>
+            </select>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll"></th>
+            <th>no</th>
+            <th>고객사명</th>
+            <th>계약시작일</th>
+            <th>계약종료일</th>
+            <th>상품품목명</th>
+            <!-- <th>책정거래가</th> -->
+            <th>계약담당자</th>
+            <th>계약상태</th>
+            <th>계약만료예정</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vo : ${list}">
+                <td><input type="checkbox" class="checkbox"></td>
+                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}"></td>
+                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}">ONESHOT 성남점</td>
+                <td th:text="${vo.contractSdate}">2024/09/01</td>
+                <td th:text="${vo.contractEdate}">2024/12/31</td>
+                <td th:text="${}">밀크티베이스</td>
+                <td th:text="${}">홍길동</td>
+                <td th:text="${}">승인완료</td>
+                <td th:text="${}">D-7</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="buttons">
+        <button>Excel로 내보내기</button><button>계약서 저장</button>
+        <button class="button-regist" onclick="handleClick2(this.innerHTML)">신규거래 등록</button>
+    </div>
+    <div class="pagination">
+        <ul class="page-numbers">
+            <li><a href="#"><</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">></a></li>
+        </ul>
+
+    </div>
+</div>
+
+<form name="modifyForm" action="modifyForm" method="post">
+    <div id="popup-modify" class="popup-modify">
+        <div class="popup-content">
+            <h2>계약 상세보기</h2>
+            <div class="popup-list">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <p>고객사명</p>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약시작일</p>
+                            <input type="date">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>계약담당자</p>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약종료일</p>
+                            <input type="date">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>상품품목명</p>
+                            <input type="text" name="product-name">
+                        </td>
+                        <td class="product-price">
+                            <p>책정거래가</p>
+                            <input type="text" name="price">
+                            <button type="button" id="add-item-btn">+</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="contract-status">
+                            <p>계약상태</p>
+                            <select>
+                                <option>선택하세요.</option>
+                                <option>승인</option>
+                                <option>반려</option>
+                            </select>
+                        </td>
+                        <td>
+                            <p>계약만료예정</p>
+                            <input type="text">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="popup-button">
+                <button>계약서 첨부</button>
+                <button>수정</button>
+                <button class="close-btn2">닫기</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<!-- 팝업(등록하기) -->
+<form name="registForm" action="registForm" method="post">
+    <div id="popup-regist" class="popup-regist">
+        <div class="popup-content">
+            <h2>계약 등록하기</h2>
+            <div class="popup-list">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <p>고객사명(번호)</p>
+                            <input type="number" name="clientNo" >
+                        </td>
+                        <td>
+                            <p>계약시작일</p>
+                            <input type="date" name="contractSdate" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>계약담당자</p>
+                            <input type="number" name="employeeNo" >
+                        </td>
+                        <td>
+                            <p>계약종료일</p>
+                            <input type="date" name="contractEdate" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>상품품목명</p>
+                            <input type="number" name="productNo" >
+                        </td>
+                        <td class="product-price">
+                            <p>책정거래가</p>
+                            <input type="number" name="contractPric">
+                            <button type="button" id="add-item-btn-regist">+</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="popup-button">
+                <button>계약서 첨부</button>
+                <button type="submit">등록</button>
+                <button type="button" class="close-btn3">닫기</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+
+
+    // 전체 선택 체크박스
+    const selectAllCheckbox = document.getElementById('selectAll');
+
+    // 각 체크박스들
+    const checkboxes = document.querySelectorAll('.checkbox');
+
+    // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
+    selectAllCheckbox.addEventListener('change', function() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+
+
+    // 팝업창 열기 및 닫기 기능
+    const popupModify = document.getElementById('popup-modify');
+    const popupRegist = document.getElementById('popup-regist');
+    const closeBtn = document.querySelectorAll('.close-btn');
+    const closeBtn2 = document.querySelector('.close-btn2');
+    const closeBtn3 = document.querySelector('.close-btn3');
+    const forPopup = document.querySelectorAll('.for-popup');
+
+    // 팝업창 열기
+    function handleClick(tdValue) { //수정페이지
+        popupModify.style.display = 'block';
+    }
+
+    function handleClick2(tdValue) { //수정페이지
+        popupRegist.style.display = 'block';
+    }
+
+
+    // 팝업창 닫기
+    function closePopupModify() {
+        popupModify.style.display = 'none';
+    }
+    function closePopupRegist() {
+        popupRegist.style.display = 'none';
+    }
+
+    // 닫기 버튼 클릭 시 팝업창 닫기
+    closeBtn2.addEventListener('click', closePopupModify); //--- 닫기 버튼
+    closeBtn3.addEventListener('click', closePopupRegist); //--- 닫기 버튼
+
+
+    // 등록팝업창 열기
+    const registBtn = document.getElementById('button-regist');
+    registBtn.addEventListener('click', openPopup);
+
+</script>
+</html>
