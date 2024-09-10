@@ -31,6 +31,7 @@ module.exports = {
                 use: [ 'style-loader', 'css-loader' ]
             },
             {
+
                 test: /\.(png|jpg|jpeg|gif|svg)$/, // 이미지 파일에 대한 규칙
                 use: [
                     {
@@ -41,6 +42,11 @@ module.exports = {
                         },
                     },
                 ],
+            }, {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false
+                }
             }
         ]
     },

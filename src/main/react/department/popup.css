@@ -1,0 +1,94 @@
+/* 기존 팝업 스타일 유지 */
+.popup {
+    /* display: none; */ /* 처음에는 숨기기 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 메인 팝업 내용 스타일 */
+.popup-content {
+    top: 25%;
+    left: 32%;
+    background-color: #f3f3f3;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute; /* 드래그 가능하도록 absolute 설정 */
+    width: 600px;
+}
+
+/* 팝업 헤더 스타일 */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5c6f7f;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+/* 팝업 닫기 버튼 스타일 */
+.popup-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+    padding: 10px;
+    bottom: 10px;
+    right: 15px;
+}
+
+.popup-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-btn.modify {
+    background-color: #6a737f;
+    color: white;
+}
+
+.popup-btn.modify:hover {
+    background-color: #586672;
+}
+
+.popup-btn.close {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup-btn.close:hover {
+    background-color: #c0392b;
+}
+
+/* 기존 form 스타일 유지 */
+.contract-form {
+    padding: 15px;
+}
+
+.formBox2 {
+    margin-top: 120px;
+}
+
+.contract-form label {
+    margin-bottom: 5px;
+    padding-right: 20px;
+}
+
+.contract-form input[type="text"] {
+    width: 90%; /* 각 인풋 필드의 너비 */
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
