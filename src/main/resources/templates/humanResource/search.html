@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="search.css">
+    <title>팝업창</title>
+</head>
+<body>
+    <!-- 메인 팝업창 -->
+    <div class="popup" id="contractPopup">
+        <div class="popup-content" id="draggablePopup">
+            <div class="popup-header" id="popupHeader">
+                <span>사원 검색</span>
+            </div>
+            <form class="contract-form">
+                <div class="form-row">
+                    <div>
+                        <label for="employeeName">이름</label>
+                        <input type="text" id="employeeName" placeholder="선우수현">
+                    </div>
+                    <div>
+                        <label for="employeeNo">사원번호</label>
+                        <input type="text" id="employeeNo" placeholder="074">
+                    </div>
+                    <div>
+                        <label for="department">부서</label>
+                        <input type="text" id="department" placeholder="개발팀">
+                    </div>
+                    <div>
+                        <label for="employeeRank">직급</label>
+                        <input type="text" id="employeeRank" placeholder="대리">
+                    </div>
+                    <div>
+                        <label for="employeeHiredate">입사일</label>
+                        <input type="date" id="employeeHiredate">
+                    </div>
+                    <div class="popup-buttons">
+                        <button type="button" class="btn popSearch">검색</button>
+                        <button type="button" class="btn close" id="closePopupButton">닫기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="search.js"></script>
+</body>
+</html>

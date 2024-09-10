@@ -1,0 +1,139 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html, body{
+    font-family: 'NanumBarunGothic';
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    font-size: 20px;
+}
+.flex{ /* flex넣을려면 이걸로 */
+    display: flex;
+}
+
+/* 기본 스타일 제거*/
+ul {  
+    list-style-type: none; 
+    padding-left: 0;
+}
+button{
+    border: none;
+    outline: none;
+    background-color: inherit ;
+    cursor: pointer;
+}
+
+.btn {
+    /* height: 40px;
+    width: 80px; */
+    background-color: #023E7D;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+}
+
+
+/* 헤더 */
+header{
+    border-bottom: 1px solid #aaaaaa;
+    height: 100px;
+}
+header .menu{
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    list-style-type : none;
+    font-family: 'NanumBarunGothicBold'; /* 볼드체 */
+    font-size: 30px;
+}
+header .user-name{
+    padding-left: 10px;
+}
+.search{
+    display: block;
+    width: 200px;
+    height: 40px;
+    padding: 0 5px 0 32px;
+    border: 2px solid #d1d1d1;        
+    border-radius: 10px;
+    font-size: 18px;   
+    box-sizing: border-box;
+    margin: auto auto;
+}
+.btn-srch{
+    position: relative;
+    top: 1px;
+    left: -192px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+/* 헤더를 제외한 화면 전체 */
+.wrap{
+    height: 100%;
+    width: auto;
+    overflow: hidden;
+    
+}
+
+
+
+
+/* 사이드바 */
+aside{
+    width: 250px;
+    height: 100%;
+    flex-direction: column;
+    border-right: 1px solid #aaaaaa;
+}
+aside .wrapper-side-menu{
+    flex: 1;
+    width: 100%;
+    flex-direction: column;
+}
+aside .wrapper-side-menu .user-content{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+aside .wrapper-side-menu .user-content .user-photo{
+    width: 100px; 
+    height: 100px; 
+    margin: 20px 20px;
+}
+aside .wrapper-side-menu .user-content .user-name{
+    padding-bottom: 10px;
+}
+
+aside .wrapper-side-menu .side-menu{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.2em;
+}
+
+aside .wrapper-side-menu .side-menu li::marker  {
+    content: "•"; /* 유니코드 불릿 문자 사용 */
+    font-size: 15px; /* 불릿 크기 조정 */
+    position: absolute;
+    top: 20px;
+}
+aside .wrapper-side-menu .side-menu li a {
+    padding-right: 40px;
+}
+aside .wrapper-side-menu .logout{
+}
+
+
+#root{
+    overflow: auto;
+}
