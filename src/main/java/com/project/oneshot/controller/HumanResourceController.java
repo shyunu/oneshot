@@ -12,6 +12,6 @@ public class HumanResourceController {
     @GetMapping("/{pageName}.do")
     public String humanResource(@PathVariable String pageName) {
         System.out.println("뷰이름:" + pageName);
-        return "humanResource/view";
+        return "hr/view";
     }
 }

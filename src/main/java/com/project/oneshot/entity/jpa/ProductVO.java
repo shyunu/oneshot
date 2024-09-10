@@ -1,4 +1,4 @@
-package com.project.oneshot.vo.jpa;
+package com.project.oneshot.entity.jpa;
 
 import lombok.*;
 

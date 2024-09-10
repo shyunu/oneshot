@@ -1,6 +1,7 @@
 package com.project.oneshot.inventory.supplier;
 
-import com.project.oneshot.vo.jpa.SupplierVO;
+
+import com.project.oneshot.entity.jpa.SupplierVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.project.oneshot.sales;
 
-import com.project.oneshot.vo.mybatis.ContractVO;
 
+import com.project.oneshot.entity.mybatis.ContractVO;
 
 public interface SalesService {
     public int contractRegist(ContractVO vo); //계약등록

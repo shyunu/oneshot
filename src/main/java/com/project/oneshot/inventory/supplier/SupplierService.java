@@ -1,6 +1,7 @@
 package com.project.oneshot.inventory.supplier;
 
-import com.project.oneshot.vo.jpa.SupplierVO;
+
+import com.project.oneshot.entity.jpa.SupplierVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

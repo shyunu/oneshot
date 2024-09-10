@@ -1,6 +1,9 @@
-package com.project.oneshot.vo.mybatis;
+package com.project.oneshot.entity.mybatis;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 

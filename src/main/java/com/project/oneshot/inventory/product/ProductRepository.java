@@ -1,6 +1,7 @@
 package com.project.oneshot.inventory.product;
 
-import com.project.oneshot.vo.jpa.ProductVO;
+
+import com.project.oneshot.entity.jpa.ProductVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

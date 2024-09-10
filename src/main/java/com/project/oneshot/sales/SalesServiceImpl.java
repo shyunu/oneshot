@@ -1,6 +1,6 @@
 package com.project.oneshot.sales;
 
-import com.project.oneshot.vo.mybatis.ContractVO;
+import com.project.oneshot.entity.mybatis.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
