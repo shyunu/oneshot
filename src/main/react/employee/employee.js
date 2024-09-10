@@ -266,4 +266,6 @@ function Employee() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Employee />);
+root.render(
+<Employee />
+);
