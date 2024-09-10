@@ -10,10 +10,8 @@ public interface EmployeeMapper {
     // 모든 사원 조회
     List<EmployeeVO> getAllEmployees();
 
-    // 사원 생성 및 업데이트
+    // 사원 생성
     void insertOrUpdateEmployee(EmployeeVO employeeVo);
 
-    // 사원 삭제
-    void deleteEmployee(Long id);
 
 }

@@ -6,31 +6,13 @@
 <mapper namespace="com.project.oneshot.hr.employee.EmployeeMapper">
 
     <!-- 사원 리스트 -->
-    <select id="getAllEmployees" resultType="EmployeeVO">
-        SELECT * FROM employee
+    <select id="getAllEmployees" resultType="com.project.oneshot.entity.mybatis.EmployeeVO">
+
     </select>
 
-    <!-- 사원 생성 -->
+    <!-- 사원 생성 및 업데이트 -->
     <insert id="insertOrUpdateEmployee">
-        INSERT INTO employee (id, join_date, name, department, position, phone, emergency_contact, email, account_number, bank, address, address_detail)
-        VALUES (#{id}, #{joinDate}, #{name}, #{department}, #{position}, #{phone}, #{emergencyContact}, #{email}, #{accountNumber}, #{bank}, #{address}, #{addressDetail})
-        ON CONFLICT (id) DO UPDATE SET
-        join_date = #{joinDate},
-        name = #{name},
-        department = #{department},
-        position = #{position},
-        phone = #{phone},
-        emergency_contact = #{emergencyContact},
-        email = #{email},
-        account_number = #{accountNumber},
-        bank = #{bank},
-        address = #{address},
-        address_detail = #{addressDetail}
-    </insert>
 
-    <!-- 사원 삭제 -->
-    <delete id="deleteEmployee">
-        DELETE FROM employee WHERE id = #{id}
-    </delete>
+    </insert>
 
 </mapper>
