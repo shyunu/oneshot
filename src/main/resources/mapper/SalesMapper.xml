@@ -6,7 +6,7 @@
 <mapper namespace="com.project.oneshot.sales.SalesMapper">
 
     <!-- 계약 등록 기능 -->
-    <insert id="contractRegist" parameterType="com.project.oneshot.entity.ContractVO">
+    <insert id="contractRegist" parameterType="ContractVO">
         INSERT INTO CONTRACT_PRICE(PRODUCT_NO
                             ,EMPLOYEE_NO
                             ,CLIENT_NO

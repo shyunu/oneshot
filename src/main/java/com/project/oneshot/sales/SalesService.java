@@ -1,7 +1,6 @@
 package com.project.oneshot.sales;
 
-import com.project.oneshot.entity.ContractVO;
-import org.springframework.stereotype.Service;
+import com.project.oneshot.vo.mybatis.ContractVO;
 
 
 public interface SalesService {
