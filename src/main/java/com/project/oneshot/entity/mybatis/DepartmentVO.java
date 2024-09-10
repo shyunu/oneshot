@@ -1,14 +1,20 @@
-package com.project.oneshot.vo.mybatis;
-
+package com.project.oneshot.entity.mybatis;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class DepartmentVO {
-    private int departmentNo;
+
+    @NotNull(message = "부서번호는 필수입니다.")
+    private Integer departmentNo;
+
+    @NotBlank(message = "부서명은 필수입니다.")
     private String departmentName;
 }

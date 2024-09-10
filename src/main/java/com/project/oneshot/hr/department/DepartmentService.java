@@ -1,12 +1,9 @@
 package com.project.oneshot.hr.department;
 
 
-import com.project.oneshot.vo.mybatis.DepartmentVO;
-import com.project.oneshot.vo.mybatis.EmployeeVO;
+import com.project.oneshot.entity.mybatis.DepartmentVO;
 
 public interface DepartmentService {
-
-    public int employeeInsert(EmployeeVO vo);
     public int departmentInsert(DepartmentVO vo);//등록
 
 

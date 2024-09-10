@@ -6,6 +6,10 @@
     color: #fff;
     font-size: 17px;
 }
+.input-error {
+    border: 1px solid red;
+    background-color: #fdd;
+}
 
 /* 메인메뉴 */
 .wrapper{

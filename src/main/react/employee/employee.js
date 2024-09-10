@@ -4,6 +4,7 @@ import './employee.css';
 import './one.css';
 import './delete.css';
 import Draggable from 'react-draggable';
+import axios from 'axios';
 
 function Employee() {
     const [showPopup, setShowPopup] = useState(false);
@@ -24,16 +25,32 @@ function Employee() {
         address: '',
         addressDetail: ''
     });
+    const [bankList, setBankList] = useState([]);
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
         setNewEmployee(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', newEmployee);
-        setShowPopup(false);
+        try {
+            await axios.post('/api/employees', newEmployee);
+            alert('사원이 등록되었습니다.');
+            setShowPopup(false);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('사원 등록에 실패했습니다.');
+        }
+    };
+
+    const fetchBankList = async () => {
+        try {
+            const response = await axios.get('/api/banks'); // 은행 목록 API 호출
+            setBankList(response.data);
+        } catch (error) {
+            console.error('Error fetching bank list:', error);
+        }
     };
 
     const handleBankSelect = (bankCode, bankName) => {
@@ -101,12 +118,12 @@ function Employee() {
                 <div>페이징 넣을곳</div>
             </div>
 
-            {showPopup &&
+            {showPopup && (
                 <div className="popup" id="contractPopup">
                     <Draggable bounds="body">
                         <div className="popup-content" id="draggablePopup">
                             <div className="popup-header" id="popupHeader">
-                                <span>사원 상세정보</span>
+                                <span>사원 등록</span>
                             </div>
                             <form className="contract-form" onSubmit={handleFormSubmit}>
                                 <div className="formBox1">
@@ -121,19 +138,19 @@ function Employee() {
                                     </div>
                                     <div>
                                         <label htmlFor="employeeName">이름</label>
-                                        <input type="text" id="employeeName" name="name" placeholder="선우수현" value={newEmployee.name} onChange={handleFormChange} />
+                                        <input type="text" id="employeeName" name="name" value={newEmployee.name} onChange={handleFormChange} required />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeNo">사원번호</label>
-                                        <input type="text" id="employeeNo" name="id" placeholder="074" value={newEmployee.id} onChange={handleFormChange} />
+                                        <input type="text" id="employeeNo" name="id" value={newEmployee.id} onChange={handleFormChange} required />
                                     </div>
                                     <div>
                                         <label htmlFor="department">부서</label>
-                                        <input type="text" id="department" name="department" placeholder="개발팀" value={newEmployee.department} onChange={handleFormChange} />
+                                        <input type="text" id="department" name="department" value={newEmployee.department} onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeRank">직급</label>
-                                        <input type="text" id="employeeRank" name="position" placeholder="대리" value={newEmployee.position} onChange={handleFormChange} />
+                                        <input type="text" id="employeeRank" name="position" value={newEmployee.position} onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeHiredate">입사일</label>
@@ -141,28 +158,28 @@ function Employee() {
                                     </div>
                                     <div>
                                         <label htmlFor="employeePhone">전화번호</label>
-                                        <input type="text" id="employeePhone" name="phone" placeholder="010-5484-4454" value={newEmployee.phone} onChange={handleFormChange} />
+                                        <input type="text" id="employeePhone" name="phone" value={newEmployee.phone} onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="emergencyPhone">비상연락망</label>
-                                        <input type="text" id="emergencyPhone" name="emergencyContact" placeholder="02-784-1141" value={newEmployee.emergencyContact} onChange={handleFormChange} />
+                                        <input type="text" id="emergencyPhone" name="emergencyContact" value={newEmployee.emergencyContact} onChange={handleFormChange} />
                                     </div>
                                 </div>
                                 <div className="formBox2">
                                     <div>
                                         <label htmlFor="employeeBirth">생년월일</label>
-                                        <input type="text" id="employeeBirth" name="birthDate" placeholder="1947-4-1" />
+                                        <input type="date" id="employeeBirth" name="birthDate" onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeEmail">이메일</label>
-                                        <input type="text" id="employeeEmail" name="email" placeholder="skatngus7@naver.com" value={newEmployee.email} onChange={handleFormChange} />
+                                        <input type="email" id="employeeEmail" name="email" value={newEmployee.email} onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
-                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={() => setShowBankPopup(true)}>은행선택</button>
+                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={fetchBankList}>은행선택</button>
                                         <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.bank} readOnly />
-                                        <input type="text" id="accountNumber" name="accountNumber" placeholder="817745184522" value={newEmployee.accountNumber} onChange={handleFormChange} />
-                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="선우수현" />
+                                        <input type="text" id="accountNumber" name="accountNumber" placeholder="계좌번호" value={newEmployee.accountNumber} onChange={handleFormChange} />
+                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="예금주" />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeAddress">주소</label>
@@ -179,7 +196,7 @@ function Employee() {
                         </div>
                     </Draggable>
                 </div>
-            }
+            )}
 
             {showBankPopup && (
                 <div id="bankSelectPopup" className="popup">
@@ -189,15 +206,12 @@ function Employee() {
                             <button className="btn close" onClick={() => setShowBankPopup(false)}>닫기</button>
                         </div>
                         <div className="bank-options">
-                            <div className="bank-item" onClick={() => handleBankSelect('001', '한국은행')}>
-                                <button className="bank-code-option">001</button>
-                                <button className="bank-name-option">한국은행</button>
-                            </div>
-                            <div className="bank-item" onClick={() => handleBankSelect('002', '국민은행')}>
-                                <button className="bank-code-option">002</button>
-                                <button className="bank-name-option">국민은행</button>
-                            </div>
-                            {/* 추가 은행 항목들 */}
+                            {bankList.map(bank => (
+                                <div key={bank.code} className="bank-item" onClick={() => handleBankSelect(bank.code, bank.name)}>
+                                    <button className="bank-code-option">{bank.code}</button>
+                                    <button className="bank-name-option">{bank.name}</button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -220,19 +234,7 @@ function Employee() {
                                     </tr>
                                 </thead>
                                 <tbody id="employeeDataTable">
-                                    <tr>
-                                        <td>김철수</td>
-                                        <td>001</td>
-                                        <td>개발팀</td>
-                                        <td>대리</td>
-                                    </tr>
-                                    <tr>
-                                        <td>박영희</td>
-                                        <td>002</td>
-                                        <td>인사과</td>
-                                        <td>과장</td>
-                                    </tr>
-                                    {/* 추가 직원 데이터 */}
+                                    {/* 삭제할 직원 데이터 */}
                                 </tbody>
                             </table>
                         </div>
@@ -266,6 +268,4 @@ function Employee() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-<Employee />
-);
+root.render(<Employee />);

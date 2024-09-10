@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/hrm")
-public class DepartmentController {
+public class HumanResourceController {
     @GetMapping("/{pageName}.do")
     public String humanResource(@PathVariable String pageName) {
         System.out.println("뷰이름:" + pageName);

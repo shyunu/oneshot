@@ -5,10 +5,6 @@
 
 <mapper namespace="com.project.oneshot.hr.department.DepartmentMapper">
 
-    <insert id="employeeInsert" parameterType="EmployeeVO">
-        insert into department (department_name) values (#{departmentName})
-    </insert>
-
     <insert id="departmentInsert" parameterType="DepartmentVO">
         insert into department (department_name) values (#{departmentName})
     </insert>

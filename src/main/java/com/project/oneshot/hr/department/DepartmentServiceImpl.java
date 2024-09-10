@@ -1,8 +1,9 @@
 package com.project.oneshot.hr.department;
 
 
-import com.project.oneshot.vo.mybatis.DepartmentVO;
-import com.project.oneshot.vo.mybatis.EmployeeVO;
+
+
+import com.project.oneshot.entity.mybatis.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +13,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentMapper humanResourceMapper;
 
-
-    @Override
-    public int employeeInsert(EmployeeVO vo) {
-
-        //1st - 상품 인서트
-        int result = humanResourceMapper.employeeInsert(vo);
-
-
-        return result;
-    }
 
     @Override
     public int departmentInsert(DepartmentVO vo) {

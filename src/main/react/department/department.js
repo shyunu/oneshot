@@ -7,16 +7,49 @@ import './popup.css';
 
 function Department() {
     const [modalOpen, setModalOpen] = useState(false);
-    const [ departmentName, setDepartmentName ] = useState('');
+    const [formValues, setFormValues] = useState({
+        departmentNo: 0,
+        departmentName: '',
+        age: '',
+    });
+    const [errors, setErrors] = useState({
+        departmentNo: false,
+        departmentName: false,
+    });
+    const [submitted, setSubmitted] = useState(false); //제출상태
+    const validateForm = () => {
+        let isValid = true;
+        const newErrors = {
+            departmentNo: !formValues.departmentNo.trim(),
+            departmentName: !formValues.departmentName.trim(),
+        };
 
+        setErrors(newErrors);
+        return (!Object.values(newErrors.departmentNo).includes(true))||(!Object.values(newErrors.departmentName).includes(true));
+    };
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [id]: value,
+        }));
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [id]: false,
+        }));
+    };
     const formSubmit = async (e) => {
         e.preventDefault();
+        setSubmitted(true); // 폼 제출 시 submitted 상태를 true로 설정
 
-        console.log("보내기");
-        console.log(departmentName);
+        if (!validateForm()) {
+            return; // 유효성 검사를 통과하지 못하면 폼 제출을 중단
+        }
 
         const DepartmentVO = {
-            departmentName: departmentName
+            departmentNo: formValues.departmentNo,
+            departmentName: formValues.departmentName
         };
 
         try {
@@ -29,16 +62,22 @@ function Department() {
                     }
                 }
             );
+            setSubmitted(false); // 제출 성공 시, 오류 상태 초기화
             alert("서버에 보내고 서버가 다시 보낸 데이터\n" + JSON.stringify(response.data));
         } catch (err) {
-            console.log(err);
+            if (err.response && err.response.data) {
+                // 서버에서 반환한 JSON 형태의 유효성 검사 오류 메시지 처리
+                const errorMessages = err.response.data;
+                const newErrors = {
+                    departmentNo: errorMessages.departmentNo || false,
+                    departmentName: errorMessages.departmentName || false,
+                };
+                setErrors(newErrors);
+            }
         }
     };
 
-    const nameChange = (e) => {
-        setDepartmentName(e.target.value);
-        console.log("값변함");
-    }
+
     return (
         <main className="wrapper">
             <div className="wrapper-title">
@@ -145,11 +184,11 @@ function Department() {
                             <form className="contract-form"  onSubmit={formSubmit}>
                                 <div>
                                     <label htmlFor="departmentNo">부서번호</label>
-                                    <input type="text" id="departmentNo" placeholder="부서번호"/>
+                                    <input type="text" id="departmentNo" value={formValues.departmentNo} onChange={handleChange} placeholder="부서번호" className={submitted && errors.departmentNo ? 'input-error' : ''} />
                                 </div>
                                 <div>
                                     <label htmlFor="departmentName">부서명</label>
-                                    <input type="text" id="departmentName" value={departmentName} onChange={nameChange} placeholder="부서명"/>
+                                    <input type="text" id="departmentName" value={formValues.departmentName} onChange={handleChange} placeholder="부서명" className={submitted && errors.departmentName ? 'input-error' : ''}/>
                                 </div>
                                 <label htmlFor="department">사용가능메뉴</label>
                                 <div className="flex">

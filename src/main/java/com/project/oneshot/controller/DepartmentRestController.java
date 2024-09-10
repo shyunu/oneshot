@@ -1,7 +1,6 @@
 package com.project.oneshot.controller;
 
-
-import com.project.oneshot.vo.mybatis.DepartmentVO;
+import com.project.oneshot.entity.mybatis.DepartmentVO;
 import com.project.oneshot.hr.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
