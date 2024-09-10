@@ -150,17 +150,17 @@
         </tr>
         </thead>
         <tbody>
-            <tr th:each="vo : ${list}">
-                <td><input type="checkbox" class="checkbox"></td>
-                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}"></td>
-                <td onclick="handleClick(this.innerHTML)" id="detail" th:text="${}">ONESHOT 성남점</td>
-                <td th:text="${vo.contractSdate}">2024/09/01</td>
-                <td th:text="${vo.contractEdate}">2024/12/31</td>
-                <td th:text="${}">밀크티베이스</td>
-                <td th:text="${}">홍길동</td>
-                <td th:text="${}">승인완료</td>
-                <td th:text="${}">D-7</td>
-            </tr>
+        <tr th:each="vo : ${list}">
+            <td><input type="checkbox" class="checkbox"></td>
+            <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)" id="detail"></td>
+            <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${vo.productName}"></td>
+            <td th:text="${vo.managerName}"></td>
+            <td th:text="${vo.contractPriceStatus}"></td>
+            <td th:text="${vo.contractDday}"></td>
+        </tr>
         </tbody>
     </table>
     <div class="buttons">
