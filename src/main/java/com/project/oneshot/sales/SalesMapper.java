@@ -1,6 +1,6 @@
 package com.project.oneshot.sales;
 
-import com.project.oneshot.entity.ContractVO;
+import com.project.oneshot.vo.mybatis.ContractVO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
