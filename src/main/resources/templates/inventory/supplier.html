@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="/inventory/css/supplier.css">
 </head>
 <body>
-<div id="supplier_wrapped">
+<div th:replace="common/thymeleafView :: headerFragment"></div>
+<div class="supplier-wrap" style="float: right">
+    <div id="supplier_wrapped">
     <h1>공급업체내역</h1>
     <button type="button" class="search">검색</button>
     <table>
@@ -47,7 +49,7 @@
     </div>
 </div>
 
-<div class="modalPopup" id="modal">
+    <div class="modalPopup" id="modal">
     <div class="modal_content">
         <div class="popup_header" id="popupHeader">
             <span>공급업체 등록</span>
@@ -86,7 +88,6 @@
             </div>
         </form>
     </div>
-</div>
 </div>
 
 
