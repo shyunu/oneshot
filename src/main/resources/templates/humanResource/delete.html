@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="delete.css">
+    <title>삭제 여부 확인</title>
+</head>
+<body>
+    <!-- 첫 번째 팝업: 삭제 여부 확인 -->
+    <div class="popup" id="popupDeleteConfirmation">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span>삭제 여부 확인</span>
+            </div>
+            <div class="popup-body">
+                <table class="employee-table">
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>사원번호</th>
+                            <th>부서명</th>
+                            <th>직급</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeDataTable">
+                        <!-- 예시 데이터 (동적 생성 시 삭제) -->
+                        <tr>
+                            <td>김철수</td>
+                            <td>001</td>
+                            <td>개발팀</td>
+                            <td>대리</td>
+                        </tr>
+                        <tr>
+                            <td>박영희</td>
+                            <td>002</td>
+                            <td>인사과</td>
+                            <td>과장</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="popup-buttons">
+                <button type="button" class="btn-next" id="buttonNext">다음</button>
+                <button type="button" class="btn-close" id="buttonClosePopup">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 두 번째 팝업: 삭제 경고 -->
+    <div class="popup" id="popupFinalWarning" style="display: none;">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span>삭제 확인</span>
+            </div>
+            <div class="popup-body">
+                <p>선택한 정보를 정말로 삭제하시겠습니까?</p>
+            </div>
+            <div class="popup-buttons">
+                <button type="button" class="btn-delete" id="buttonDelete">삭제</button>
+                <button type="button" class="btn-back" id="buttonBack">뒤로</button>
+                <button type="button" class="btn-close" id="buttonFinalClose">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="delete.js"></script>
+</body>
+</html>
