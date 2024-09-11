@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/sales/css/order.css">
+    <link rel="stylesheet" href="/common/css/thymeleafView.css">
 </head>
 <script>
     window.onload = function() {
@@ -113,358 +114,313 @@
 </script>
 
 <body>
-<div th:replace="common/thymeleafView :: headerFragment"></div>
-<div class="order-wrap" style="float: right">
-    <div class="text-wrap">
-        <div class="order-title">
-            <p>판매내역</p>
-            <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+    <header>
+        <div class="left">
+            <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
         </div>
-        <div class="order-filter">
-            <button>전체</button>
-            <button>승인대기</button>
-            <button>승인완료</button>
-            <input type="text" placeholder="검색어를 입력하세요.">
-            <select>
-                <option>선택하세요</option>
-                <option>빠른등록일자순</option>
-                <option>오래된등록일자순</option>
-                <option>높은거래가격순</option>
-                <option>낮은거래가격순</option>
-            </select>
+        <div class="right">
+            <img src="../../common//img/userCircle.png" alt="userCircle"/>
+            <div>
+                <p>신지윤</p>
+                <p>개발1팀 / 사원</p>
+                <p>cha@oneshot.com</p>
+            </div>
+            <div class="logout">
+                <img src="../../common//img/logout.svg" alt="logoutImg"/>
+            </div>
         </div>
-    </div>
-    <table>
-        <thead>
-        <tr>
-            <th><input type="checkbox" id="selectAll"></th>
-            <th>no</th>
-            <th>판매등록일자</th>
-            <th>고객사명</th>
-            <th>상품 품목명</th>
-            <th>총 거래가</th>
-            <th>계약담당자</th>
-            <th>판매담당자</th>
-            <th>계약상태</th>
-            <th>배송상태</th>
-            <th>배송일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">1</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">2</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">3</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">4</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">5</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">6</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">7</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">8</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">9</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class="checkbox"></td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">10</td>
-            <td onclick="handleClick(this.innerHTML)" id="detail">ONESHOT 성남점</td>
-            <td>ONESHOT 성남점</td>
-            <td>컵홀더 외 2건</td>
-            <td>37,000원</td>
-            <td>홍길동</td>
-            <td>홍길동</td>
-            <td>승인완료</td>
-            <td>배송완료</td>
-            <td>2024/09/03</td>
-        </tr>
+    </header>
 
 
-        </tbody>
-    </table>
-    <div class="buttons">
-        <button>Excel로 내보내기</button><button>계약서 저장</button>
-        <button class="button-regist" onclick="handleClick2(this.innerHTML)">신규판매 등록</button>
-    </div>
-    <div class="pagination">
-        <ul class="page-numbers">
-            <li><a href="#"><</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">></a></li>
-        </ul>
+    <div class="wrap">
+        <aside class="aside left2">
+            <div class="category">
+                <div class="title">홈</div>
+                <div class="submenu">
+                    <a href="#">서브메뉴1</a>
+                    <a href="#">서브메뉴2</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">인사관리</div>
+                <div class="submenu">
+                    <a href="#">사원관리</a>
+                    <a href="#">부서관리</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">재고관리</div>
+                <div class="submenu">
+                    <a href="#">재고내역관리</a>
+                    <a href="#">구매내역관리</a>
+                    <a href="#">공급업체관리</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">영업관리</div>
+                <div class="submenu">
+                    <a href="#">거래가격관리</a>
+                    <a href="#">판매내역관리</a>
+                </div>
+            </div>
+        </aside>
 
-    </div>
-</div>
+        <div class="content">
+            <div>
 
-<div id="popup-modify" class="popup-modify">
-    <div class="popup-content">
-        <h2>판매내역 상세보기</h2>
-        <div class="popup-list">
-            <table>
-                <tbody>
-                <tr>
-                    <td>
-                        <p>판매등록일자</p>
-                        <input type="date">
-                    </td>
-                    <td>
-                        <p>고객사명</p>
-                        <input type="text">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>상품품목명</p>
-                        <input type="text" name="product-name">
-                    </td>
-                    <td class="product-price">
-                        <p>책정거래가</p>
-                        <input type="text" name="price">
-                        <button type="button" id="add-item-btn">+</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>계약담당자</p>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <p>판매담당자</p>
-                        <input type="text">
-                    </td>
-                </tr>
+                <div class="order-wrap">
+                    <div class="text-wrap">
+                        <div class="order-title">
+                            <p>판매내역</p>
+                            <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+                        </div>
+                        <div class="order-filter">
+                            <button>전체</button>
+                            <button>승인대기</button>
+                            <button>승인완료</button>
+                            <input type="text" placeholder="검색어를 입력하세요.">
+                            <select>
+                                <option>선택하세요</option>
+                                <option>빠른등록일자순</option>
+                                <option>오래된등록일자순</option>
+                                <option>높은거래가격순</option>
+                                <option>낮은거래가격순</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>no</th>
+                            <th>판매등록일자</th>
+                            <th>고객사명</th>
+                            <th>상품 품목명</th>
+                            <th>총 거래가</th>
+                            <th>계약담당자</th>
+                            <th>판매담당자</th>
+                            <th>계약상태</th>
+                            <th>배송상태</th>
+                            <th>배송일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td onclick="handleClick(this.innerHTML)" class="detail">1</td>
+                            <td onclick="handleClick(this.innerHTML)" class="detail">ONESHOT 성남점</td>
+                            <td>ONESHOT 성남점</td>
+                            <td>컵홀더 외 2건</td>
+                            <td>37,000원</td>
+                            <td>홍길동</td>
+                            <td>홍길동</td>
+                            <td>승인완료</td>
+                            <td>배송완료</td>
+                            <td>2024/09/03</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button>Excel로 내보내기</button><button>계약서 저장</button>
+                        <button class="button-regist" onclick="handleClick2(this.innerHTML)">신규판매 등록</button>
+                    </div>
+                    <div class="pagination">
+                        <ul class="page-numbers">
+                            <li><a href="#"><</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">></a></li>
+                        </ul>
 
-                <tr>
-                    <td class="delivery-status">
-                        <p>배송상태</p>
-                        <select>
-                            <option>선택하세요.</option>
-                            <option>배송대기</option>
-                            <option>배송중</option>
-                            <option>배송완료</option>
-                        </select>
-                    </td>
-                    <td>
-                        <p>배송일</p>
-                        <input type="date" name="end-date">
-                    </td>
+                    </div>
+                </div>
 
-                </tr>
-                <tr>
-                    <td class="contract-status">
-                        <p>계약상태</p>
-                        <select>
-                            <option>선택하세요.</option>
-                            <option>승인</option>
-                            <option>반려</option>
-                        </select>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="popup-button">
-            <button>계약서 첨부</button>
-            <button>수정</button>
-            <button class="close-btn2">닫기</button>
-        </div>
-    </div>
-</div>
+                <div id="popup-modify" class="popup-modify">
+                    <div class="popup-content">
+                        <h2>판매내역 상세보기</h2>
+                        <div class="popup-list">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <p>판매등록일자</p>
+                                        <input type="date">
+                                    </td>
+                                    <td>
+                                        <p>고객사명</p>
+                                        <input type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>상품품목명</p>
+                                        <input type="text" name="product-name">
+                                    </td>
+                                    <td class="product-price">
+                                        <p>책정거래가</p>
+                                        <input type="text" name="price">
+                                        <button type="button" id="add-item-btn">+</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>계약담당자</p>
+                                        <input type="text">
+                                    </td>
+                                    <td>
+                                        <p>판매담당자</p>
+                                        <input type="text">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="delivery-status">
+                                        <p>배송상태</p>
+                                        <select>
+                                            <option>선택하세요.</option>
+                                            <option>배송대기</option>
+                                            <option>배송중</option>
+                                            <option>배송완료</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <p>배송일</p>
+                                        <input type="date" name="end-date">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="contract-status">
+                                        <p>계약상태</p>
+                                        <select>
+                                            <option>선택하세요.</option>
+                                            <option>승인</option>
+                                            <option>반려</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="popup-button">
+                            <button>계약서 첨부</button>
+                            <button>수정</button>
+                            <button class="close-btn2">닫기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="popup-regist" class="popup-regist">
+                    <div class="popup-content">
+                        <h2>판매 등록하기</h2>
+                        <div class="popup-list">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <p>판매등록일자</p>
+                                        <input type="date" name="company-name">
+                                    </td>
+                                    <td>
+                                        <p>고객사명</p>
+                                        <input type="text" name="contract-manager">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>계약시작일</p>
+                                        <input type="date" name="start-date">
+                                    </td>
+                                    <td>
+                                        <p>계약종료일</p>
+                                        <input type="date" name="end-date">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>상품품목명</p>
+                                        <input type="text" name="regist-product-name">
+                                    </td>
+                                    <td class="product-price">
+                                        <p>책정거래가</p>
+                                        <input type="text" name="regist-price">
+                                        <button type="button" id="add-item-btn-regist">+</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>계약담당자</p>
+                                        <input type="text">
+                                    </td>
+                                    <td>
+                                        <p>판매담당자</p>
+                                        <input type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="delivery-status">
+                                        <p>배송상태</p>
+                                        <select>
+                                            <option>선택하세요.</option>
+                                            <option>배송대기</option>
+                                            <option>배송중</option>
+                                            <option>배송완료</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <p>배송일</p>
+                                        <input type="date" name="end-date">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="contract-status">
+                                        <p>계약상태</p>
+                                        <select>
+                                            <option>선택하세요.</option>
+                                            <option>승인</option>
+                                            <option>반려</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="popup-button">
+                            <button>계약서 첨부</button>
+                            <button>등록</button>
+                            <button class="close-btn3">닫기</button>
+                        </div>
+                    </div>
+                </div>
 
 
-<!-- 팝업(등록하기) -->
-<div id="popup-regist" class="popup-regist">
-    <div class="popup-content">
-        <h2>판매 등록하기</h2>
-        <div class="popup-list">
-            <table>
-                <tbody>
-                <tr>
-                    <td>
-                        <p>판매등록일자</p>
-                        <input type="date" name="company-name">
-                    </td>
-                    <td>
-                        <p>고객사명</p>
-                        <input type="text" name="contract-manager">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>계약시작일</p>
-                        <input type="date" name="start-date">
-                    </td>
-                    <td>
-                        <p>계약종료일</p>
-                        <input type="date" name="end-date">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>상품품목명</p>
-                        <input type="text" name="regist-product-name">
-                    </td>
-                    <td class="product-price">
-                        <p>책정거래가</p>
-                        <input type="text" name="regist-price">
-                        <button type="button" id="add-item-btn-regist">+</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>계약담당자</p>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <p>판매담당자</p>
-                        <input type="text">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="delivery-status">
-                        <p>배송상태</p>
-                        <select>
-                            <option>선택하세요.</option>
-                            <option>배송대기</option>
-                            <option>배송중</option>
-                            <option>배송완료</option>
-                        </select>
-                    </td>
-                    <td>
-                        <p>배송일</p>
-                        <input type="date" name="end-date">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="contract-status">
-                        <p>계약상태</p>
-                        <select>
-                            <option>선택하세요.</option>
-                            <option>승인</option>
-                            <option>반려</option>
-                        </select>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="popup-button">
-            <button>계약서 첨부</button>
-            <button>등록</button>
-            <button class="close-btn3">닫기</button>
+            </div>
         </div>
     </div>
-</div>
-<!-- </form> -->
-
+</body>
 <script>
+
+    // thymeleafView js...
+    document.querySelectorAll('.title').forEach(function(title) {
+        title.addEventListener('click', function() {
+            const submenu = this.nextElementSibling; // 클릭된 title의 바로 다음 요소인 submenu
+
+            // 클릭된 submenu만 토글
+            if (submenu.classList.contains('open')) {
+                submenu.classList.remove('open'); // 열려 있으면 닫기
+
+            } else {
+                // 다른 열린 submenu를 모두 닫음
+                document.querySelectorAll('.submenu').forEach(function(sub) {
+                    sub.classList.remove('open');
+                });
+                submenu.classList.add('open'); // 클릭된 요소만 열기
+            }
+        });
+    });
 
 
     // 전체 선택 체크박스

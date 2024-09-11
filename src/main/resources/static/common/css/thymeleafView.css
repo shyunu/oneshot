@@ -32,22 +32,64 @@ header .left {
     float: left;
     width: 170px;
 }
+
 header .right {
-/* border: 1px solid green; */
     float: right;
+    width: 300px;
+}
+header .right div {
+    display: inline-block;
+    height: 60px;
+}
+header .right > img {
+    width: 40px; margin-bottom: 45px;
+}
+header .right div > p {
+    height: 3px;
+    font-size: 15px;
+    margin-left: 10px;
+
+}
+
+/* logout */
+.logout {
+    margin: 20px; font-size: 20px;
+}
+.logout:hover {
+    cursor: pointer;
+    color: #B3D5E0;
+}
+.logout img, .logout p {
+    display: inline-block;
+}
+.logout img {
+    margin-left:25px;
+    margin-bottom: 40px;
+}
+.logout a {
+    font-size: 20px;
+    position: relative;
+    bottom: 6px;
+}
+
+/* header .right {
+    border: 1px solid green;
+    float: right;
+    width: 500px;
     display: inline-block;
 }
 header .right div {
-/* border: 1px solid red; */
+    border: 1px solid red;
     display: inline-block;
     width: 100px; height: 60px;
     font-size: 14px;
-    margin: 5px;
 }
-.right img {
+header .right p {
+    height: 20px;
+}
+header .right img {
     width: 40px;
-    margin-right: 20px;
-}
+} */
 
 /* aside */
 .aside{
@@ -61,17 +103,24 @@ header .right div {
     padding: 60px;
     box-sizing: border-box;
     height: 1020px; width: 1670px;
+    margin-left: 150px;
 }
 
-/* .aside .category {
-    border: 1px solid Red;
-    height: 150px;
-} */
+
+
 .aside .category div{
-    text-align: center;
     width: 100%; height: 60px; line-height: 60px;
 }
-
+.aside .category div:nth-of-type(1) {
+/* margin-left: 37px; */
+}
+.aside .category .title i {
+    margin-left: 37px;
+}
+.aside .category .title p {
+    display: inline-block;
+    margin-left: 3px;
+}
 
 .aside .category .submenu {
     height: 0; /* 기본적으로 숨김 처리 */
@@ -82,6 +131,15 @@ header .right div {
     display: block;
     text-decoration: none;
     color: #000;
+    letter-spacing: 5px;
+    height: 60px;
+}
+.aside .category .submenu p {
+    margin-left: 60px;
+}
+.aside .category .submenu a:hover {
+    cursor: pointer;
+    background-color: #e3e3e3;
 }
 .aside .category .submenu.open {
     height: auto;
@@ -92,30 +150,13 @@ header .right div {
 }
 .aside .category .title {
     font-size: 25px;
+    height: 80px; line-height: 80px;
+    box-shadow: 0px 4px 8px #000;
 }
-6
+
 .aside .category .title:hover {
     background-color: #B3D5E0;
 }
 
-/* logout */
-.logout {
-    margin: 20px; font-size: 20px;
 
-}
-.logout:hover {
-    cursor: pointer;
-    color: #B3D5E0;
-}
-.logout img, .logout p {
-    display: inline-block;
-}
-.logout img {
-    margin-left:25px;
-}
-.logout a {
-    font-size: 20px;
-    position: relative;
-    bottom: 6px;
-}
 
