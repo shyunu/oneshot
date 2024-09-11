@@ -8,8 +8,8 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="common/thymeleafView :: headerFragment"></div>
-<div id="supplier_wrapped" style="float: right">
+<div id="supplier_wrapped">
+    <div class="supplier_wrap"></div>
     <h1 class="title">공급업체내역</h1>
     <button type="button" class="search">검색</button>
     <table>
@@ -55,34 +55,48 @@
             <span>공급업체 등록</span>
         </div>
         <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
-            <div class="modal_left">
-                <label for="supplierNo">공급업체번호:</label>
-                <input type="text" id="supplierNo" name="supplierNo" required disabled><br><br>
-
-                <label for="supplierName">공급업체명:</label>
-                <input type="text" id="supplierName" name="supplierName" required><br><br>
-
-                <label for="supplierAddress">공급업체주소:</label>
-                <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
-
-                <label for="supplierBusinessNo">공급업체 사업자등록번호:</label>
-                <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><br>
+            <div class="popup_content">
+                <table>
+                    </tbody>
+                        <tr class="modal_left">
+                            <td>
+                                <p>공급업체번호:</p>
+                                <input type="text" id="supplierNo" name="supplierNo" required disabled>
+                            </td>
+                            <td>
+                                <p>공급업체명:</p>
+                                <input type="text" id="supplierName" name="supplierName" required>
+                            </td>
+                            <td>
+                                <p>공급업체주소:</p>
+                                <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
+                            </td>
+                            <td>
+                                <p>공급업체 사업자등록번호:</p>
+                                <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><br>
+                            </td>
+                        </tr>
+                        <tr class="modal_right">
+                            <td>
+                                <p>담당자명:</p>
+                                <input type="text" id="managerName" name="managerName" required><br><br>
+                            </td>
+                            <td>
+                                <p>담당자 연락처:</p>
+                                <input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required><br><br>
+                            </td>
+                            <td>
+                                <p>담당자 이메일:</p>
+                                <input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><br>
+                            </td>
+                            <td>
+                                <p>첨부파일:</p>
+                                <input type="file" id="supplierFile" name="supplierFile" required><br><br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="modal_right">
-                <label for="managerName">담당자명:</label>
-                <input type="text" id="managerName" name="managerName" required><br><br>
-
-                <label for="managerPhone">담당자 연락처:</label>
-                <input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxx-xxxx" required><br><br>
-
-                <label for="managerEmail">담당자 이메일:</label>
-                <input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><br>
-
-                <label for="supplierFile">첨부파일:</label>
-                <input type="file" id="supplierFile" name="supplierFile" required><br><br>
-            </div>
-
             <div class="footer_button">
                 <button type="submit" class="save" onclick="saveSupplier()">등록</button>
                 <button type="button" class="close" onclick="closeModal()">닫기</button>
