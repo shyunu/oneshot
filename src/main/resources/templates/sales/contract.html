@@ -59,25 +59,26 @@
             const productNameValue = productNameInput.value;
             const priceValue = priceInput.value;
 
-            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
-                // 새로운 <tr> 생성
-                const newRow = document.createElement('tr');
+            if (productNameValue.trim() !== '' && priceValue.trim() !== '') {
+                // 상품 품목명 <td>에 새로운 <input> 추가
+                const productNameTd = productNameInput.closest('td');
+                const newProductInput = document.createElement('input');
+                newProductInput.type = 'text';
+                newProductInput.value = productNameValue;
+                newProductInput.readOnly = true;
+                newProductInput.style.marginTop = '8px';  // 간격 추가
+                productNameTd.appendChild(newProductInput);
 
-                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
-                newRow.innerHTML = `
-                    <td class="new-input">
-                        <input type="text" value="${productNameValue}" readonly>
-                    </td>
-                    <td class="new-input">
-                        <input type="text" value="${priceValue}" readonly>
-                    </td>
-                `;
+                // 책정 거래가 <td>에 새로운 <input> 추가
+                const priceTd = priceInput.closest('td');
+                const newPriceInput = document.createElement('input');
+                newPriceInput.type = 'text';
+                newPriceInput.value = priceValue;
+                newPriceInput.readOnly = true;
+                newPriceInput.style.marginTop = '8px';  // 간격 추가
+                priceTd.appendChild(newPriceInput);
 
-                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
-                const currentRow = priceInput.closest('tr');
-                currentRow.insertAdjacentElement('afterend', newRow);
-
-                // 기존 입력 필드를 비운다
+                // 기존 입력 필드를 비움
                 productNameInput.value = '';
                 priceInput.value = '';
             } else {
@@ -173,7 +174,7 @@
                 <div class="order-wrap right2">
                     <div class="text-wrap">
                         <div class="order-title">
-                            <p>계약가격내역</p>
+                            <h1>계약가격내역</h1>
                             <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
                         </div>
                         <div class="order-filter">
@@ -308,31 +309,43 @@
                                     <tr>
                                         <td>
                                             <p>고객사명(번호)</p>
-                                            <input type="number" name="clientNo" >
+                                        </td>
+                                        <td>
+                                            <input type="text" name="clientNo" >
                                         </td>
                                         <td>
                                             <p>계약시작일</p>
+                                        </td>
+                                        <td>
                                             <input type="date" name="contractSdate" >
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <p>계약담당자</p>
-                                            <input type="number" name="employeeNo" >
+                                        </td>
+                                        <td>
+                                            <input type="text" name="employeeNo" >
                                         </td>
                                         <td>
                                             <p>계약종료일</p>
+                                        </td>
+                                        <td>
                                             <input type="date" name="contractEdate" >
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <p>상품품목명</p>
-                                            <input type="number" name="productNo" >
+                                        </td>
+                                        <td>
+                                            <input type="text" name="productNo" >
+                                        </td>
+                                        <td>
+                                            <p>책정거래가</p>
                                         </td>
                                         <td class="product-price">
-                                            <p>책정거래가</p>
-                                            <input type="number" name="contractPrice">
+                                            <input type="text" name="contractPrice" class="price-input">
                                             <button type="button" id="add-item-btn-regist">+</button>
                                         </td>
                                     </tr>
