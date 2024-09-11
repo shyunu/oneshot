@@ -4,6 +4,8 @@ import com.project.oneshot.entity.mybatis.DepartmentVO;
 import com.project.oneshot.hr.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,5 +34,22 @@ public class DepartmentRestController {
         }
         return list;
     }
+
+    // 삭제
+    @DeleteMapping("/deleteDepartments")
+    public ResponseEntity<String> deleteDepartments(@RequestBody List<Integer> departmentNos) {
+        try {
+            int result = departmentService.deleteDepartments(departmentNos);
+            if (result > 0) {
+                return ResponseEntity.ok("삭제 성공");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제할 부서가 없습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+
 
 }

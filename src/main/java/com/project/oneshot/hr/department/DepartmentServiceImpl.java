@@ -1,8 +1,5 @@
 package com.project.oneshot.hr.department;
 
-
-
-
 import com.project.oneshot.entity.mybatis.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +29,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentVO> selectDepartment() {
         return departmentMapper.selectDepartment();
     }
+
+    // 삭제
+    @Override
+    public int deleteDepartments(List<Integer> departmentNos) {
+        return departmentMapper.deleteDepartments(departmentNos);
+    }
+
 }
