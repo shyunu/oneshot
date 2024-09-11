@@ -5,21 +5,23 @@
 }
 body {
     border: 0px solid red;
+    font-family: 'NanumBarunGothic';
 }
-#supllier_wrap {
+
+#supplier_wrapped {
     width : 1080px;
     height: 800px;
-
-}
-.supplier_wrapped {
     border: 0px solid red;
-    width: 70%; height: 30%;
-    margin: 0 auto;
     position: relative;
     bottom: 900px;
     margin-left: 200px;
     margin-top: 150px;
 }
+
+.title {
+    margin-bottom : -10px;
+}
+
 .search {
     width : 60px;
     height: 30px;
@@ -42,7 +44,6 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
     font-size: 15px;
@@ -52,7 +53,9 @@ th {
     background-color: #e3e3e3;
     color : #000;
     border: 1px solid #777;
+    font-family: 'NanumBarunGothicBold'; /* 볼드체 */
 }
+
 .footer > .register {
     width : 60px;
     height: 30px;
