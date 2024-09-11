@@ -75,7 +75,7 @@ public class ProductController {
         productService.registerProduct(vo);
         return "redirect:/product/productList";
     }
-
+  
     @GetMapping("/supplierList")
     public String supplier(Model model) {
         List<SupplierVO> list = productService.getAllSuppliers();

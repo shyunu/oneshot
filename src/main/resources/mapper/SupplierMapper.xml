@@ -3,18 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.inventory.supplier.SupplierMapper">
-    <insert id="registSupplier" parameterType="SupplierVO" useGeneratedKeys="true" keyProperty="supplierNo">
+    <insert id="registerSupplier" parameterType="SupplierVO" useGeneratedKeys="true" keyProperty="supplierNo">
         INSERT INTO supplier (
-                              supplier_name, supplier_address, supplier_business_no,
-                              manager_name, manager_phone, manager_email, supplier_file
-                              )
+        supplier_no, supplier_name, supplier_address, supplier_business_no,
+        manager_name, manager_phone, manager_email, supplier_file
+        )
         VALUES (
-                #{supplierName}, #{supplierAddress}, #{supplierBusinessNo},
-                #{managerName}, #{managerPhone}, #{managerEmail}, #{supplierFile}
-                )
+        nextval('supplier_seq'), #{supplierName}, #{supplierAddress}, #{supplierBusinessNo},
+        #{managerName}, #{managerPhone}, #{managerEmail}, #{supplierFile}
+        )
     </insert>
 
-    <select id="getAllSupplier" resultType="SupplierVO">
+    <select id="getAllSuppliers" resultType="SupplierVO">
         SELECT *
         FROM supplier
         ORDER BY supplier_no

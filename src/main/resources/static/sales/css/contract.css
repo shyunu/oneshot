@@ -7,7 +7,12 @@
 .order-wrap {
     border: 0px solid red;
     width: 1080px; height: 800px;
+    margin: 0 auto;
+    position: relative;
+    bottom: 900px;
+    margin-right: 280px;
 }
+
 .text-wrap {
     border: 0px solid pink;
     height: 80px;
@@ -35,7 +40,7 @@
 }
 .order-filter button {
     width: 70px; margin-right: -10px;
-    background-color: #B3D5E0;
+    background-color: #114477;
     border-radius: 5px;
     position: relative;
     left: -25px;
@@ -70,10 +75,10 @@ tr {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #B3D5E0;
 }
 
-#detail:hover {
+.detail:hover {
     color: blue;
     cursor: pointer;
 }
@@ -84,6 +89,8 @@ th {
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
+    margin: 0 auto;
+    justify-content: center;
 }
 .pagination a {
     outline: none;
@@ -144,7 +151,7 @@ button:hover {
     color: #B3D5E0;
 }
 
-/* �앹뾽 �섏젙(�곸꽭蹂닿린) */
+/* 占쎌빘毓� 占쎌꼷��(占쎄낯苑�퉪�용┛) */
 .popup-modify {
     display: none;
     position: fixed;
@@ -177,7 +184,7 @@ button:hover {
 }
 
 .popup-list > table, .popup-list td {
-    border: none; /* �뚮몢由� �쒓굅 */
+    border: none; /* 占쎈슢紐®뵳占� 占쎌뮄援� */
 }
 
 .popup-list table p {
@@ -264,7 +271,7 @@ button:hover {
     left: 260px;
 }
 
-/* �앹뾽 �깅줉�섍린 */
+/* 占쎌빘毓� 占쎄퉭以됵옙�띾┛ */
 .popup-regist {
     display: none;
     position: fixed;

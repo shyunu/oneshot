@@ -8,11 +8,11 @@
     <!-- 계약 등록 기능 -->
     <insert id="contractRegist" parameterType="ContractVO">
         INSERT INTO CONTRACT_PRICE(PRODUCT_NO
-                            ,EMPLOYEE_NO
-                            ,CLIENT_NO
-                            ,CONTRACT_SDATE
-                            ,CONTRACT_EDATE
-                            ,CONTRACT_PRICE
+        ,EMPLOYEE_NO
+        ,CLIENT_NO
+        ,CONTRACT_SDATE
+        ,CONTRACT_EDATE
+        ,CONTRACT_PRICE
         )
         VALUES(
         #{productNo}
@@ -23,4 +23,8 @@
         ,#{contractPrice}
         )
     </insert>
+
+    <select id="getList" resultType="ContractVO">
+        SELECT CONTRACT_PRICE.CONTRACT_PRICE_NO, CLIENT.CLIENT_NAME, CONTRACT_PRICE.CONTRACT_SDATE, CONTRACT_PRICE.CONTRACT_EDATE, PRODUCT.PRODUCT_NAME,  CLIENT.MANAGER_NAME, CONTRACT_PRICE.CONTRACT_PRICE_STATUS FROM CONTRACT_PRICE INNER JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO INNER JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO INNER JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+    </select>
 </mapper>

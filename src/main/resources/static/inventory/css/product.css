@@ -117,3 +117,12 @@ img {
 .autocomplete > .autocomplete-items div:hover {
     background-color: #ddd;
 }
+
+.container {
+    border: 0px solid red;
+    width: 1080px; height: 800px;
+    margin: 0 auto;
+    position: relative;
+    bottom: 900px;
+    margin-right: 320px;
+}

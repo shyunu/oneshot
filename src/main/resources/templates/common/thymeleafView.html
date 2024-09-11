@@ -1,95 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>인사관리</title>
-    <link rel="stylesheet" type="text/css" href="/humanResource/css/view.css" />
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+<div th:fragment="headerFragment">
+    <head>
+        <link rel="stylesheet" type="text/css" href="../../common/css/thymeleafView.css" />
+        <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+    </head>
 
-    <link rel="stylesheet" href="../../static/humanResource/css/index.css" />
-
-</head>
-
-<body>
-<header class="flex">
-    <img src="Logo.png" alt="Logo" style="width: 300px;" />
-    <ul class="menu flex">
-        <li><a>홈</a></li>
-        <li><a>인사관리</a></li>
-        <li><a>상품관리</a></li>
-        <li><a>영업판매관리</a></li>
-        <li><a>영업구매관리</a></li>
-    </ul>
-    <form action="searchPostIndex.board" method="post" style="display: contents;">
-        <input type="text" name="search" class="search" placeholder="메뉴검색">
-        <button type="submit" class="btn-srch">
-            <img src="search.svg" alt="searchImg" />
-        </button>
-    </form>
-</header>
-
-<<<<<<< HEAD
-    <div class="flex wrap">
-
-        <!--사이드바-->
-        <aside class="flex" style="overflow: hidden;">
-            <div class="wrapper-side-menu flex" style="overflow: auto;">
-                <div class="flex user-content">
-                    <img src="../../static/common/img/userCircle.png" alt="userCircle" class="user-photo"/>
-                    <div class="user-name">강현구</div>
-                    <div>개발1팀 / 사원</div>
-                    <div>cha@oneshot.com</div>
-                </div>
-                <ul class="side-menu flex">
-                    <li>
-                        <a>사원목록</a>
-                    </li>
-                    <li>
-                        <a>부서목록</a>
-                    </li>
-                </ul>
+    <div class="wrap">
+        <header>
+            <div class="left">
+                <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
             </div>
-            <div class="logout">
-                <img src="../../static/common/img/logout.svg" alt="logoutImg"/>
-                로그아웃
+            <div class="right">
+                <img src="../../common/img/userCircle.png" alt="userCircle"/>
+                <div>
+                    <p>신지윤</p>
+                    <p>개발1팀 / 사원</p>
+                    <p>cha@oneshot.com</p>
+                </div>
+
+                <div class="logout">
+                    <img src="../../common/img/logout.svg" alt="logoutImg"/>
+                </div>
+            </div>
+        </header>
+
+
+        <aside class="aside left2">
+            <div class="category">
+                <div class="title">홈</div>
+                <div class="submenu">
+                    <a href="#">서브메뉴1</a>
+                    <a href="#">서브메뉴2</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">인사관리</div>
+                <div class="submenu">
+                    <a href="#">사원관리</a>
+                    <a href="#">부서관리</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">재고관리</div>
+                <div class="submenu">
+                    <a href="#">재고내역관리</a>
+                    <a href="#">구매내역관리</a>
+                    <a href="#">공급업체관리</a>
+                </div>
+            </div>
+            <div class="category">
+                <div class="title">영업관리</div>
+                <div class="submenu">
+                    <a href="#">거래가격관리</a>
+                    <a href="#">판매내역관리</a>
+                </div>
             </div>
         </aside>
-        <div class="root content"></div>
-        <!--메인 내용-->
-
     </div>
-    <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
 
-<div class="flex wrap">
-    <!--사이드바-->
-    <aside class="flex" style="overflow: hidden;">
-        <div class="wrapper-side-menu flex" style="overflow: auto;">
-            <div class="flex user-content">
-                <img src="../../static/userCircle.png" alt="userCircle" class="user-photo" />
-                <div class="user-name">강현구</div>
-                <div>개발1팀 / 사원</div>
-                <div>cha@oneshot.com</div>
-            </div>
-            <ul class="side-menu flex">
-                <li>
-                    <a>사원목록</a>
-                </li>
-                <li>
-                    <a>부서목록</a>
-                </li>
-            </ul>
-        </div>
-        <div class="logout">
-            <img src="../../static/logout.svg" alt="logoutImg" />
-            로그아웃
-        </div>
-    </aside>
-    <div class="root content"></div>
-    <!--메인 내용-->
+    <script>
+        document.querySelectorAll('.title').forEach(function(title) {
+            title.addEventListener('click', function() {
+                const submenu = this.nextElementSibling; // 클릭된 title의 바로 다음 요소인 submenu
+
+                // 클릭된 submenu만 토글
+                if (submenu.classList.contains('open')) {
+                    submenu.classList.remove('open'); // 열려 있으면 닫기
+
+                } else {
+                    // 다른 열린 submenu를 모두 닫음
+                    document.querySelectorAll('.submenu').forEach(function(sub) {
+                        sub.classList.remove('open');
+                    });
+                    submenu.classList.add('open'); // 클릭된 요소만 열기
+                }
+            });
+        });
+    </script>
 </div>
-<script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
-</body>
-
 </html>
