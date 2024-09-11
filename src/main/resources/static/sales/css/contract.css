@@ -7,10 +7,6 @@
 .order-wrap {
     border: 0px solid red;
     width: 1080px; height: 800px;
-    margin: 0 auto;
-    position: relative;
-    bottom: 900px;
-    margin-right: 280px;
 }
 
 .text-wrap {
@@ -29,21 +25,21 @@
     margin-bottom: 5px;
 }
 
-.order-title p:nth-of-type(1) {
-    font-size: 40px;
-}
+/*.order-title p:nth-of-type(1) {*/
+/*    font-size: 40px;*/
+/*}*/
 .order-filter {
     display: inline-block;
-    border: 0px solid red;
     position: relative;
     width: 71.5%; bottom: 5px; right: 15px;
 }
 .order-filter button {
-    width: 70px; margin-right: -10px;
-    background-color: #114477;
+    width: 95px; margin-right: -10px;
+    background-color: #233047;
     border-radius: 5px;
     position: relative;
     left: -25px;
+    border: none;
 }
 .order-filter input {
     width: 150px; height: 25px;
@@ -51,7 +47,7 @@
     border: 1px solid #e3e3e3;
 }
 .order-filter input, .order-filter select {
-    position: relative; left: 300px;
+    position: relative; left: 223px;
     /* margin-left: 10px; */
 }
 
@@ -75,7 +71,7 @@ tr {
 }
 
 th {
-    background-color: #B3D5E0;
+    background-color: #e3e3e3;
 }
 
 .detail:hover {
@@ -122,9 +118,9 @@ th {
 
 .buttons {
     position: relative;
-    border: 0px solid red;
     height: 40px;
     right: 10px;
+    border: none;
 }
 
 .buttons button:nth-of-type(2) {
@@ -139,19 +135,19 @@ button {
     display: inline-block;
     padding: 5px 10px;
     margin-left: 10px;
-    border: 1px solid #e3e3e3;
     border-radius: 6px;
-    background-color: #114477;
+    background-color: #233047;
     color: #fff;
     cursor: pointer;
+    border:none;
 }
 
 button:hover {
-    background-color: #f0f0f0;
-    color: #B3D5E0;
+    background-color: #e3e3e3;
+    color: #233047;
+    border: none;
 }
 
-/* 占쎌빘毓� 占쎌꼷��(占쎄낯苑�퉪�용┛) */
 .popup-modify {
     display: none;
     position: fixed;
@@ -173,23 +169,17 @@ button:hover {
     vertical-align: top;
 }
 
-.popup-list table tbody .product-price {
-    position: relative;
-    left: 23px;
-}
-
 .new-input {
     position: relative;
     left: 33px;
 }
 
 .popup-list > table, .popup-list td {
-    border: none; /* 占쎈슢紐®뵳占� 占쎌뮄援� */
+    border: 1px solid #ddd;
 }
 
 .popup-list table p {
     margin: 0;
-    font-weight: bold;
 }
 
 /*  */
@@ -308,21 +298,31 @@ button:hover {
     height: 30px;
 }
 .popup-regist .popup-list p {
-    left: -30px;
     margin-top: 8px;
 }
-.popup-regist .popup-list input {
-    border: 1px solid #e3e3e3;
-    border-radius: 5px; height: 25px; left: -5px;
-    width: 260px;
+
+.product-price > .newinput {
+    width: 80%;
 }
+
+.popup-regist .popup-list input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+#add-item-btn-regist {
+    position: absolute;
+}
+
 .popup-regist .popup-list div:nth-of-type(1) input {
     left: 2px;
 }
 
 .button-regist {
     position: relative;
-    left: 760px;
+    left: 768px;
 }
 
 .popup-regist .close-btn {
