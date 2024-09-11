@@ -4,12 +4,13 @@ import './employee.css';
 import './one.css';
 import './delete.css';
 import Draggable from 'react-draggable';
+import axios from "axios";
 
 function Employee() {
     const [showPopup, setShowPopup] = useState(false);
+    const [detail, setDetail] =useState(false)
     const [showBankPopup, setShowBankPopup] = useState(false);
     const [newEmployee, setNewEmployee] = useState({
-        id: '',
         joinDate: '',
         name: '',
         department: '',
@@ -18,54 +19,47 @@ function Employee() {
         emergencyContact: '',
         email: '',
         accountNumber: '',
-        bank: '',
+        bankNo: '',
+        accountHolder:'',
         address: '',
-        addressDetail: ''
+        addressDetail: '',
+        backName:''
     });
-
-    const [employees, setEmployees] = useState([]);
-
     const handleFormChange = (e) => {
         const { name, value } = e.target;
         setNewEmployee(prev => ({ ...prev, [name]: value }));
     };
 
+    const [employees, setEmployees] = useState([]);
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        if (!newEmployee.name) {
-            alert('등록시 이름은 필수입니다');
-            return;
-        }
-
-        const employeeData = {
-            employeeNo: newEmployee.id || null,
+        const employeeVO = {
             employeeName: newEmployee.name,
-            employeeBirth: newEmployee.joinDate || null,
-            departmentNo: newEmployee.department || null,
-            rankNo: newEmployee.position || null,
-            employeePhone: newEmployee.phone || null,
-            emergencyPhone: newEmployee.emergencyContact || null,
-            employeeAddress: newEmployee.address || null,
-            accountNumber: newEmployee.accountNumber || null,
-            employeeHiredate: newEmployee.joinDate || null,
-            employeeEmail: newEmployee.email || null,
-            // 기타 필드
+            employeeBirth: newEmployee.joinDate,
+            departmentNo: newEmployee.department,
+            employeePhone: newEmployee.phone,
+            emergencyPhone: newEmployee.emergencyContact,
+            employeeAddress: newEmployee.address,
+            accountNumber: newEmployee.accountNumber,
+            employeeHiredate: newEmployee.joinDate,
+            employeeEmail: newEmployee.email,
+            bankNo: newEmployee.bankNo,
+            accountHolder:  newEmployee.accountHolder
         };
 
         try {
-            const response = await fetch('/hrm', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(employeeData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
+            const response = await axios.post(
+                "http://localhost:8181/hrm/registEmployee",
+                JSON.stringify(employeeVO),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
             const result = await response.json();
             console.log('폼 제출 완료 및 직원 생성:', result);
         } catch (error) {
@@ -77,6 +71,7 @@ function Employee() {
 
 
     const fetchEmployees = async () => {
+
         try {
             const response = await fetch('/hrm');
             if (response.ok) {
@@ -94,8 +89,10 @@ function Employee() {
         fetchEmployees();
     }, []);
 
-    const handleBankSelect = (bankCode, bankName) => {
-        setNewEmployee(prev => ({ ...prev, bank: bankName }));
+    const handleBankSelect = (bankNo, backName) => {
+        setNewEmployee(prev => ({ ...prev, bankNo: bankNo }));
+        setNewEmployee(prev => ({ ...prev, backName: backName }));
+
         setShowBankPopup(false);
     };
 
@@ -156,8 +153,10 @@ function Employee() {
 
             <div className="wrapper-footer flex">
                 <div>
-                    <button className="deleteBtn" onClick={handleDeleteClick}>선택삭제</button>
-                    <button className="submitBtn" onClick={() => setShowPopup(true)}>신규등록</button>
+                    <button className="deleteBtn" >선택삭제</button>
+                    <button className="submitBtn" onClick={() =>{
+                        setShowPopup(true);
+                        setDetail(true);}}>신규등록</button>
                 </div>
                 <div>페이징 넣을곳</div>
             </div>
@@ -184,12 +183,12 @@ function Employee() {
                                         <label htmlFor="employeeName">이름</label>
                                         <input type="text" id="employeeName" name="name" value={newEmployee.name} onChange={handleFormChange} />
                                     </div>
-                                    <div>
+                                    <div className={ detail ? 'hidden': ''} >
                                         <label htmlFor="employeeNo">사원번호</label>
                                         <input type="text" id="employeeNo" name="id" value={newEmployee.id} onChange={handleFormChange} />
                                     </div>
                                     <div>
-                                        <label htmlFor="department">부서</label>
+                                        <label htmlFor="department">부서번호</label>
                                         <input type="text" id="department" name="department" value={newEmployee.department} onChange={handleFormChange} />
                                     </div>
                                     <div>
@@ -221,9 +220,9 @@ function Employee() {
                                     <div>
                                         <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
                                         <button type="button" id="selectBankBtn" className="btn attach-file" onClick={() => setShowBankPopup(true)}>은행선택</button>
-                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.bank} readOnly />
-                                        <input type="text" id="accountNumber" name="accountNumber" placeholder="817745184522" value={newEmployee.accountNumber} onChange={handleFormChange} />
-                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="선우수현" />
+                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.backName} readOnly />
+                                        <input type="text" id="accountNumber" name="accountNumber" placeholder="계좌번호" value={newEmployee.accountNumber} onChange={handleFormChange} />
+                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주" value={newEmployee.accountHolder} onChange={handleFormChange}/>
                                     </div>
                                     <div>
                                         <label htmlFor="employeeAddress">주소</label>

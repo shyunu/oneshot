@@ -8,6 +8,6 @@ import java.util.List;
 public interface EmployeeService {
     List<EmployeeVO> getAllEmployees(); // 사원목록
 
-    EmployeeVO insertOrUpdateEmployee(EmployeeVO employeeVo); // 신규생성
+    int insertEmployee(EmployeeVO employeeVo); // 신규생성
 
 }

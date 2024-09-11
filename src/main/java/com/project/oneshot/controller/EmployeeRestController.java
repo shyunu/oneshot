@@ -5,15 +5,12 @@ import com.project.oneshot.hr.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/hrm")
-@Validated
 public class EmployeeRestController {
 
     @Autowired
@@ -27,10 +24,9 @@ public class EmployeeRestController {
     }
 
     // 사원 등록
-    @PostMapping
-    public ResponseEntity<EmployeeVO> insertOrUpdateEmployee(@Valid @RequestBody EmployeeVO employeeVo) {
-        EmployeeVO savedEmployee = employeeService.insertOrUpdateEmployee(employeeVo);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    @PostMapping("/registEmployee")
+    public int insertOrUpdateEmployee(@RequestBody EmployeeVO vo) {
+        return employeeService.insertEmployee(vo);
     }
 
 }

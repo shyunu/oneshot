@@ -6,13 +6,41 @@
 <mapper namespace="com.project.oneshot.hr.employee.EmployeeMapper">
 
     <!-- 사원 리스트 -->
-    <select id="getAllEmployees" resultType="com.project.oneshot.entity.mybatis.EmployeeVO">
-
+    <select id="getAllEmployees" resultType="EmployeeVO">
+        SELECT * FROM employee
     </select>
 
     <!-- 사원 생성 및 업데이트 -->
-    <insert id="insertOrUpdateEmployee">
-
+    <insert id="insertEmployee" parameterType="EmployeeVO">
+        INSERT INTO employee (
+        department_no,
+        rank_no,
+        employee_name,
+        employee_birth,
+        employee_phone,
+        emergency_phone,
+        employee_address,
+        account_number,
+        employee_hiredate,
+        employee_status,
+        employee_email,
+        bank_no,
+        employee_photo_path
+        ) VALUES (
+        #{departmentNo},
+        #{rankNo},
+        #{employeeName},
+        #{employeeBirth},
+        #{employeePhone},
+        #{emergencyPhone},
+        #{employeeAddress},
+        #{accountNumber},
+        #{employeeHiredate},
+        #{employeeStatus},
+        #{employeeEmail},
+        #{bankNo},
+        #{employeePhotoPath}
+        )
     </insert>
 
 </mapper>

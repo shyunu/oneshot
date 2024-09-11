@@ -8,10 +8,9 @@ import java.util.List;
 public interface EmployeeMapper {
 
     // 모든 사원 조회
-    List<EmployeeVO> getAllEmployees();
+    public List<EmployeeVO> getAllEmployees();
 
     // 사원 생성
-    void insertOrUpdateEmployee(EmployeeVO employeeVo);
-
+    public int insertEmployee(EmployeeVO employeeVo);
 
 }

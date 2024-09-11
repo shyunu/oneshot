@@ -18,9 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public EmployeeVO insertOrUpdateEmployee(EmployeeVO employeeVo) {
-        employeeMapper.insertOrUpdateEmployee(employeeVo);
-        return employeeVo;
+    public int insertEmployee(EmployeeVO vo) {
+        return employeeMapper.insertEmployee(vo);
     }
 
 }
