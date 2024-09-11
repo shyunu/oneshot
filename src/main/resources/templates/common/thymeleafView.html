@@ -1,83 +1,85 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="headerFragment">
-    <head>
-        <link rel="stylesheet" type="text/css" href="../../common/css/thymeleafView.css" />
-        <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-    </head>
 
-    <div class="wrap">
-        <header>
-            <div class="left">
-                <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
-            </div>
-            <div class="right">
-                <img src="../../common/img/userCircle.png" alt="userCircle"/>
-                <div>
-                    <p>신지윤</p>
-                    <p>개발1팀 / 사원</p>
-                    <p>cha@oneshot.com</p>
-                </div>
-
-                <div class="logout">
-                    <img src="../../common/img/logout.svg" alt="logoutImg"/>
-                </div>
-            </div>
-        </header>
-
-
-        <aside class="aside left2">
-            <div class="category">
-                <div class="title">홈</div>
-                <div class="submenu">
-                    <a href="#">서브메뉴1</a>
-                    <a href="#">서브메뉴2</a>
-                </div>
-            </div>
-            <div class="category">
-                <div class="title">인사관리</div>
-                <div class="submenu">
-                    <a href="#">사원관리</a>
-                    <a href="#">부서관리</a>
-                </div>
-            </div>
-            <div class="category">
-                <div class="title">재고관리</div>
-                <div class="submenu">
-                    <a href="#">재고내역관리</a>
-                    <a href="#">구매내역관리</a>
-                    <a href="#">공급업체관리</a>
-                </div>
-            </div>
-            <div class="category">
-                <div class="title">영업관리</div>
-                <div class="submenu">
-                    <a href="#">거래가격관리</a>
-                    <a href="#">판매내역관리</a>
-                </div>
-            </div>
-        </aside>
+<body>
+<header>
+    <div class="left">
+        <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
     </div>
+    <div class="right">
+        <img src="../../common//img/userCircle.png" alt="userCircle"/>
+        <div>
+            <p>신지윤</p>
+            <p>개발1팀 / 사원</p>
+            <p>cha@oneshot.com</p>
+        </div>
+        <div class="logout">
+            <img src="../../common//img/logout.svg" alt="logoutImg"/>
+        </div>
+    </div>
+</header>
 
-    <script>
-        document.querySelectorAll('.title').forEach(function(title) {
-            title.addEventListener('click', function() {
-                const submenu = this.nextElementSibling; // 클릭된 title의 바로 다음 요소인 submenu
 
-                // 클릭된 submenu만 토글
-                if (submenu.classList.contains('open')) {
-                    submenu.classList.remove('open'); // 열려 있으면 닫기
+<div class="wrap">
+    <aside class="aside left2">
+        <div class="category">
+            <div class="title">홈</div>
+            <div class="submenu">
+                <a href="#">서브메뉴1</a>
+                <a href="#">서브메뉴2</a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title">인사관리</div>
+            <div class="submenu">
+                <a href="#">사원관리</a>
+                <a href="#">부서관리</a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title">재고관리</div>
+            <div class="submenu">
+                <a href="#">재고내역관리</a>
+                <a href="#">구매내역관리</a>
+                <a href="#">공급업체관리</a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title">영업관리</div>
+            <div class="submenu">
+                <a href="#">거래가격관리</a>
+                <a href="#">판매내역관리</a>
+            </div>
+        </div>
 
-                } else {
-                    // 다른 열린 submenu를 모두 닫음
-                    document.querySelectorAll('.submenu').forEach(function(sub) {
-                        sub.classList.remove('open');
-                    });
-                    submenu.classList.add('open'); // 클릭된 요소만 열기
-                }
-            });
-        });
-    </script>
+
+    </aside>
+    <div class="content">
+        <div>
+            본문 여기에 추가하세요
+        </div>
+    </div>
 </div>
+</body>
+
+<script>
+    document.querySelectorAll('.title').forEach(function(title) {
+        title.addEventListener('click', function() {
+            const submenu = this.nextElementSibling; // 클릭된 title의 바로 다음 요소인 submenu
+
+            // 클릭된 submenu만 토글
+            if (submenu.classList.contains('open')) {
+                submenu.classList.remove('open'); // 열려 있으면 닫기
+
+            } else {
+                // 다른 열린 submenu를 모두 닫음
+                document.querySelectorAll('.submenu').forEach(function(sub) {
+                    sub.classList.remove('open');
+                });
+                submenu.classList.add('open'); // 클릭된 요소만 열기
+            }
+        });
+    });
+</script>
 </html>

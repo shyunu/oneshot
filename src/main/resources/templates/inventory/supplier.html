@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/inventory/css/supplier.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="common/thymeleafView :: headerFragment"></div>
-<div class="supplier_wrapped" style="float: right">
-    <div id="supplier_wrap">
-    <h1>공급업체내역</h1>
+<div id="supplier_wrapped" style="float: right">
+    <h1 class="title">공급업체내역</h1>
     <button type="button" class="search">검색</button>
     <table>
-        <thead class="title">
+        <thead class="title_name">
         <tr>
             <th></th>
             <th>공급업체번호</th>
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-    <div class="modalPopup" id="modal">
+<div class="modalPopup" id="modal">
     <div class="modal_content">
         <div class="popup_header" id="popupHeader">
             <span>공급업체 등록</span>
@@ -90,7 +90,6 @@
         </form>
     </div>
 </div>
-
 
 <script>
     // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
@@ -187,26 +186,6 @@
         // 마우스 버튼을 떼었을 때 드래그를 종료
         isDragging = false; // 드래그 상태를 false로 설정
     });
-
-    function validateForm() {
-        // 파일이 첨부되었는지 확인
-        const supplierFile = document.getElementById("supplierFile").files.length;
-        if (supplierFile === 0) {
-            alert("파일을 반드시 첨부해야 합니다.");
-            return false;
-        }
-
-        // 폼의 모든 필드가 입력되었는지 확인
-        const requiredFields = ["supplierName", "supplierAddress", "supplierBusinessNo", "managerName", "managerPhone", "managerEmail"];
-        for (const fieldId of requiredFields) {
-            const field = document.getElementById(fieldId);
-            if (field.value.trim() === "") {
-                alert(`${fieldId} 필드는 반드시 입력해야 합니다.`);
-                return false;
-            }
-        }
-        return true;
-    }
 </script>
 
 </body>
