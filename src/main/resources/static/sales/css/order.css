@@ -5,15 +5,9 @@
 }
 
 .order-wrap {
-    border: 0px solid red;
     width: 1080px; height: 800px;
-    margin: 0 auto;
-    position: relative;
-    bottom: 900px;
-    margin-right: 280px;
 }
 .text-wrap {
-    border: 0px solid pink;
     height: 80px;
 }
 .order-title {
@@ -38,7 +32,7 @@
     width: 71.5%; bottom: 5px; right: 15px;
 }
 .order-filter button {
-    width: 70px; margin-right: -10px;
+    width: 71px; margin-right: -10px;
     background-color: #114477;
     border-radius: 5px;
     position: relative;
@@ -74,7 +68,7 @@ tr {
 }
 
 th {
-    background-color: #B3D5E0;
+    background-color: #e3e3e3;
 }
 
 .detail:hover {
@@ -138,9 +132,8 @@ button {
     display: inline-block;
     padding: 5px 10px;
     margin-left: 10px;
-    border: 1px solid #e3e3e3;
     border-radius: 6px;
-    background-color: #114477;
+    background-color: #233047;
     color: #fff;
     cursor: pointer;
 }
