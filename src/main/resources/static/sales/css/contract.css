@@ -5,6 +5,7 @@
 }
 
 .order-wrap {
+    border: 0px solid red;
     width: 1080px; height: 800px;
 }
 
@@ -254,6 +255,7 @@ button:hover {
     position: relative;
     left: 260px;
 }
+
 
 .popup-regist {
     display: none;
