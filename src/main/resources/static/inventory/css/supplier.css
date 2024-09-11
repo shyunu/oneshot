@@ -5,26 +5,28 @@
 }
 body {
     border: 0px solid red;
+    font-family: 'NanumBarunGothic';
 }
-#supllier_wrap {
+
+#supplier_wrapped {
     width : 1080px;
     height: 800px;
-
-}
-.supplier_wrapped {
     border: 0px solid red;
-    width: 70%; height: 30%;
-    margin: 0 auto;
     position: relative;
     bottom: 900px;
     margin-left: 200px;
     margin-top: 150px;
 }
+
+.title {
+    margin-bottom : -10px;
+}
+
 .search {
     width : 60px;
     height: 30px;
     border-radius: 6px;
-    background-color: #114477;
+    background-color: #233047;
     color : white;
     border: none;
     float: right;
@@ -40,23 +42,25 @@ table {
     font-size: 15px;
     border: 1px solid #777;
 }
+
 th, td {
-    border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
     font-size: 15px;
     border: 1px solid #777;
 }
 th {
-    background-color: #B3D5E0;
+    background-color: #e3e3e3;
     color : #000;
     border: 1px solid #777;
+    font-family: 'NanumBarunGothicBold'; /* 볼드체 */
 }
+
 .footer > .register {
     width : 60px;
     height: 30px;
     border-radius: 6px;
-    background-color: #114477;
+    background-color: #233047;
     color : white;
     border: none;
     width: 95px;
@@ -66,7 +70,7 @@ th {
     height: 30px;
     border-radius: 6px;
     border-style: none;
-    background-color: #114477;
+    background-color: #233047;
     color : white;
     width: 95px;
 }
@@ -76,7 +80,7 @@ th {
 }
 .save {
     color: white;
-    background-color: #114477;
+    background-color: #233047;
     border-radius: 6px;
     font-size: 13px;
     width: 100px;
@@ -85,17 +89,17 @@ th {
 }
 .close {
     color: white;
-    background-color: #114477;
+    background-color: #233047;
     border-radius: 6px;
     font-size: 13px;
     width: 100px;
     height: 30px;
     border: none;
 }
-.register:hover, .register:focus, .update:focus, .update:hover, .save:hover, .save:focus, .close:hover, .close:focus {
-    color: #114477;
-    background-color: #f0f0f0;
-    color: #B3D5E0;
+.search:hover, .search:focus, .register:hover, .register:focus, .update:focus, .update:hover, .save:hover, .save:focus, .close:hover, .close:focus {
+    color: #233047;
+    background-color: #e3e3e3;
+    box-shadow: 0px 8px 16px #e3e3e3;
     border-radius: 6px;
     text-decoration: none;
     cursor: pointer;
@@ -132,7 +136,7 @@ th {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #114477;
+    background-color: #233047;
     padding: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

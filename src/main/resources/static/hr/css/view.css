@@ -133,6 +133,11 @@ aside .wrapper-side-menu .side-menu li a {
 aside .wrapper-side-menu .logout{
 }
 
+.wrapper{
+    overflow: auto;
+    padding: 20px;
+
+}
 
 #root{
     overflow: auto;
