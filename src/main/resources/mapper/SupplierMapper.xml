@@ -5,13 +5,13 @@
 <mapper namespace="com.project.oneshot.inventory.supplier.SupplierMapper">
     <insert id="registerSupplier" parameterType="SupplierVO" useGeneratedKeys="true" keyProperty="supplierNo">
         INSERT INTO supplier (
-        supplier_no, supplier_name, supplier_address, supplier_business_no,
-        manager_name, manager_phone, manager_email, supplier_file
-        )
+                                supplier_no, supplier_name, supplier_address, supplier_business_no,
+                                manager_name, manager_phone, manager_email, supplier_file
+                              )
         VALUES (
-        nextval('supplier_seq'), #{supplierName}, #{supplierAddress}, #{supplierBusinessNo},
-        #{managerName}, #{managerPhone}, #{managerEmail}, #{supplierFile}
-        )
+                nextval('supplier_seq'), #{supplierName}, #{supplierAddress}, #{supplierBusinessNo},
+                #{managerName}, #{managerPhone}, #{managerEmail}, #{supplierFile}
+                )
     </insert>
 
     <select id="getAllSuppliers" resultType="SupplierVO">
