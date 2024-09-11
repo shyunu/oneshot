@@ -35,7 +35,7 @@ public class SalesServiceImpl implements SalesService{
             LocalDate contractEdate = vo.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); //코드 분석 필요
             long daysBetween = ChronoUnit.DAYS.between(contractEdate, currentDate);
 
-            if(daysBetween > 0) {
+            if(daysBetween > 0 || daysBetween == 0) {
                 vo.setContractDday("계약만료");
             } else {
                 vo.setContractDday("D" + daysBetween);

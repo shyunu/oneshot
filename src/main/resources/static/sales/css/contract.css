@@ -5,6 +5,7 @@
 }
 
 .order-wrap {
+    border: 0px solid red;
     width: 1080px; height: 800px;
 }
 
@@ -260,7 +261,7 @@ button:hover {
     left: 260px;
 }
 
-/* 占쎌빘毓� 占쎄퉭以됵옙�띾┛ */
+/* �좎럩鍮섉캆占� �좎럡��빳�듭삕占쎈씭�� */
 .popup-regist {
     display: none;
     position: fixed;
