@@ -17,15 +17,15 @@ import java.io.File;
 import java.util.List;
 
 @Controller
-@RequestMapping("/inventory")
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
-    private ProductService inventoryService;
+    private ProductService productService;
 
     @GetMapping("/productList")
     public String product(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
-        Page<ProductVO> list = inventoryService.getAllProducts(page, size);
+        Page<ProductVO> list = productService.getAllProducts(page, size);
         model.addAttribute("list", list.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", list.getTotalPages());
@@ -58,8 +58,8 @@ public class ProductController {
             e.printStackTrace();
         }
 
-        CategoryVO categoryVO = inventoryService.getCategoryById(categoryNo);
-        SupplierVO supplierVO = inventoryService.getSupplierDetails(supplierNo);
+        CategoryVO categoryVO = productService.getCategoryById(categoryNo);
+        SupplierVO supplierVO = productService.getSupplierDetails(supplierNo);
 
         ProductVO vo = ProductVO.builder()
                 .categoryVO(categoryVO)
@@ -72,9 +72,54 @@ public class ProductController {
                 .productRemarks(productRemarks)
                 .build();
 
-        inventoryService.registerProduct(vo);
-        return "redirect:/inventory/productList";
+        productService.registerProduct(vo);
+        return "redirect:/product/productList";
+    }
+  
+    @GetMapping("/supplierList")
+    public String supplier(Model model) {
+        List<SupplierVO> list = productService.getAllSuppliers();
+        model.addAttribute("list", list);
+        return "product/supplier";
+    }
+
+    @PostMapping("/registerSupplier")
+    public ResponseEntity<SupplierVO> registerSupplier(
+            @RequestParam("supplierName") String supplierName,
+            @RequestParam("supplierAddress") String supplierAddress,
+            @RequestParam("supplierBusinessNo") String supplierBusinessNo,
+            @RequestParam("managerName") String managerName,
+            @RequestParam("managerPhone") String managerPhone,
+            @RequestParam("managerEmail") String managerEmail,
+            @RequestParam("supplierFile") MultipartFile supplierFile) {
+        String filename = null;
+        try {
+            filename = System.currentTimeMillis() + "_" + supplierFile.getOriginalFilename();
+            String directoryPath = System.getProperty("user.dir") + "/file_repo/";
+            File dir = new File(directoryPath);
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            String filePath = directoryPath + filename;
+            supplierFile.transferTo(new File(filePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        SupplierVO supplier = SupplierVO.builder()
+                .supplierName(supplierName)
+                .supplierAddress(supplierAddress)
+                .supplierBusinessNo(supplierBusinessNo)
+                .managerName(managerName)
+                .managerPhone(managerPhone)
+                .managerEmail(managerEmail)
+                .supplierFile(filename)
+                .build();
+
+        SupplierVO savedSupplier = productService.registerSupplier(supplier);
+        return ResponseEntity.ok(savedSupplier);
     }
 }
-
-

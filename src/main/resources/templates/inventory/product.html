@@ -48,20 +48,20 @@
             <td th:text="${vo.productName}"></td>
             <td th:text="${vo.productPrice}"></td>
             <td>계산 추가</td>
-            <td><img th:src="@{/inventory/display/{productImg}(productImg=${vo.productImg})}" /></td> <!-- 코드 분석 -->
+            <td><img th:src="@{/product/display/{productImg}(productImg=${vo.productImg})}" /></td> <!-- 코드 분석 -->
           </tr>
         </tbody>
       </table>
 
       <div style="text-align: center">
         <ul class="pagination" style="display: inline-block">
-          <li><a th:href="@{/inventory/productList(page=${currentPage - 1}, size=${size})}" th:if="${currentPage > 0}">이전</a></li>
+          <li><a th:href="@{/product/productList(page=${currentPage - 1}, size=${size})}" th:if="${currentPage > 0}">이전</a></li>
         </ul>
         <ul th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="pagination" style="display: inline-block">
-          <li><a th:href="@{/inventory/productList(page=${i}, size=${size})}" th:text="${i + 1}"></a></li>
+          <li><a th:href="@{/product/productList(page=${i}, size=${size})}" th:text="${i + 1}"></a></li>
         </ul>
         <ul class="pagination" style="display: inline-block">
-          <li><a th:href="@{/inventory/productList(page=${currentPage + 1}, size=${size})}" th:if="${currentPage < totalPages - 1}">다음</a></li>
+          <li><a th:href="@{/product/productList(page=${currentPage + 1}, size=${size})}" th:if="${currentPage < totalPages - 1}">다음</a></li>
         </ul>
       </div>
 
@@ -101,6 +101,7 @@
               <td>
                 <div class="autocomplete">
                   <input type="text" name="productName" id="productName" class="form-control" />
+                  <p>이미 등록된 상품명입니다.</p>
                   <div id="autocomplete-list" class="autocomplete-items"></div>
                 </div>
               </td>
