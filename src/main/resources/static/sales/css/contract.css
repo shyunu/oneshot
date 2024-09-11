@@ -167,6 +167,7 @@ button:hover {
 .popup-list td {
     padding: 10px;
     vertical-align: top;
+    border-color: #ccc;
 }
 
 .new-input {
@@ -174,15 +175,9 @@ button:hover {
     left: 33px;
 }
 
-.popup-list > table, .popup-list td {
-    border: 1px solid #ddd;
-}
-
 .popup-list table p {
     margin: 0;
 }
-
-/*  */
 
 .popup-modify:hover {
     cursor: pointer;
@@ -261,7 +256,7 @@ button:hover {
     left: 260px;
 }
 
-/* �좎럩鍮섉캆占� �좎럡��빳�듭삕占쎈씭�� */
+
 .popup-regist {
     display: none;
     position: fixed;
@@ -274,7 +269,7 @@ button:hover {
 .popup-regist .popup-content {
     background-color: white;
     margin: 13% auto;
-    width: 900px;
+    width: 1050px;
     border-radius: 10px;
     text-align: center;
     box-shadow : 0px 8px 16px #e3e3e3;
@@ -301,8 +296,19 @@ button:hover {
     margin-top: 8px;
 }
 
-.product-price > .newinput {
-    width: 80%;
+.product-price {
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.popup-list > table, th, td {
+    border-color: #ccc;
+}
+
+.product-price > .price-input {
+    width: 70%;
+    margin-right: 8px;
 }
 
 .popup-regist .popup-list input {
@@ -310,10 +316,6 @@ button:hover {
     border-radius: 4px;
     width: 100%;
     padding: 6px 12px;
-}
-
-#add-item-btn-regist {
-    position: absolute;
 }
 
 .popup-regist .popup-list div:nth-of-type(1) input {

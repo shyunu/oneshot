@@ -1,127 +1,224 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+* {
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+.product-wrap {
+    border: 0px solid red;
+    width: 1080px; height: 800px;
 }
-body {
-	line-height: 1;
+
+.text-wrap {
+    border: 0px solid pink;
+    height: 80px;
 }
-ol, ul {
-	list-style: none;
+.product-title {
+    display: inline-block;
+    border: 0px solid green;
+    width: 27%;
+    position: relative; margin-left: 10px;
 }
-blockquote, q {
-	quotes: none;
+.product-title p {
+    font-size: 13px;
+    border: 0px solid green;
+    margin-bottom: 5px;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+.product-filter input {
+    width: 150px; height: 25px;
+    border-radius: 5px;
+    border: 1px solid #e3e3e3;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    width: 100%;
+    border: 0px solid red;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-/*--------------------------------------------------*/
+table, th, td {
+    border: 1px solid #000;
+}
 
-body {
-  position: relative;
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+tr {
+    font-size: 15px;
 }
 
 th {
-  text-align: center;
-}
-
-.table > tbody > tr > td {
-  text-align: center;
-  vertical-align: middle;
+    background-color: #e3e3e3;
 }
 
 img {
   height: 50px;
 }
 
-.popup {
-  position: absolute;
-  top: 400px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 530px;
-  background-color: white;
-  box-shadow: 0px 8px 16px #e3e3e3;
-  border-radius: 10px;
-  z-index: 9;
-  display: none;
-}
-
-.popup > .popup-header {
-  height: 40px;
-  background-color: #b3d5e0;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  text-align: center;
-  line-height: 40px;
-}
-
-.popup > .popup-main {
-    position: relative;
-    padding: 10px;
-}
-
-.autocomplete {
-    position: relative;
-}
-
-.autocomplete > .autocomplete-items {
-    position: absolute;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 0 0 5px 5px;
-    z-index: 99;
-    top: 100%;
-    left: 0;
-    right: 0;
-}
-
-.autocomplete > .autocomplete-items div {
-    padding: 10px;
+.detail:hover {
+    color: blue;
     cursor: pointer;
-    background-color: #fff;
 }
 
-.autocomplete > .autocomplete-items div:hover {
-    background-color: #ddd;
-}
-
-.container {
-    border: 0px solid red;
-    width: 1080px; height: 800px;
+.pagination {
+    border: 0px solid green;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
     margin: 0 auto;
+    justify-content: center;
+}
+.pagination a {
+    outline: none;
+}
+
+.page-numbers {
     position: relative;
-    margin-right: 320px;
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.page-numbers li {
+    margin: 0 5px;
+}
+
+.page-numbers li a {
+    padding: 5px 10px;
+    /* border: 1px solid #000; */
+    text-decoration: none;
+    color: #000;
+
+}
+
+.page-numbers li a.active {
+    background-color: #000;
+    color: #fff;
+}
+
+.buttons {
+    position: relative;
+    height: 40px;
+    right: 10px;
+    border: none;
+}
+
+.buttons button:nth-of-type(2) {
+    position: relative;
+}
+
+.buttons button:nth-of-type(3) {
+    position: relative;
+}
+
+button {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 6px;
+    background-color: #233047;
+    color: #fff;
+    cursor: pointer;
+    border:none;
+}
+
+button:hover {
+    background-color: #e3e3e3;
+    color: #233047;
+    border: none;
+}
+
+/* 팝업 */
+.popup-regist {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: none;
+}
+
+.popup-regist .popup-content {
+    background-color: white;
+    margin: 13% auto;
+    width: 900px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow : 0px 8px 16px #e3e3e3;
+}
+
+.popup-regist .popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    background-color: #495864;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.popup-regist .popup-list {
+    padding: 30px;
+}
+
+.popup-regist .popup-list p, input, select {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+}
+
+.popup-regist .popup-list textarea {
+    display: inline-block;
+    position: relative;
+}
+
+.popup-regist .popup-list p {
+    margin-top: 8px;
+}
+
+.product-price > .newinput {
+    width: 80%;
+}
+
+.popup-regist .popup-list input, select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+#add-item-btn-regist {
+    position: absolute;
+}
+
+.popup-regist .popup-list div:nth-of-type(1) input {
+    left: 2px;
+}
+
+.button-regist {
+    position: relative;
+    left: 768px;
+}
+
+.popup-regist .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.popup-regist .popup-button button {
+    width: 100px;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.popup-regist .popup-button button:nth-of-type(1) {
+    position: relative;
+    right: 250px;
+}
+
+.popup-regist .popup-button button:nth-of-type(2),
+.popup-regist .popup-button button:nth-of-type(3) {
+    position: relative;
+    left: 250px;
 }

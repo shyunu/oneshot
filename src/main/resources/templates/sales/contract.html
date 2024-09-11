@@ -59,25 +59,26 @@
             const productNameValue = productNameInput.value;
             const priceValue = priceInput.value;
 
-            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
-                // 새로운 <tr> 생성
-                const newRow = document.createElement('tr');
+            if (productNameValue.trim() !== '' && priceValue.trim() !== '') {
+                // 상품 품목명 <td>에 새로운 <input> 추가
+                const productNameTd = productNameInput.closest('td');
+                const newProductInput = document.createElement('input');
+                newProductInput.type = 'text';
+                newProductInput.value = productNameValue;
+                newProductInput.readOnly = true;
+                newProductInput.style.marginTop = '8px';  // 간격 추가
+                productNameTd.appendChild(newProductInput);
 
-                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
-                newRow.innerHTML = `
-                    <td class="new-input">
-                        <input type="text" value="${productNameValue}" readonly>
-                    </td>
-                    <td class="new-input">
-                        <input type="text" value="${priceValue}" readonly>
-                    </td>
-                `;
+                // 책정 거래가 <td>에 새로운 <input> 추가
+                const priceTd = priceInput.closest('td');
+                const newPriceInput = document.createElement('input');
+                newPriceInput.type = 'text';
+                newPriceInput.value = priceValue;
+                newPriceInput.readOnly = true;
+                newPriceInput.style.marginTop = '8px';  // 간격 추가
+                priceTd.appendChild(newPriceInput);
 
-                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
-                const currentRow = priceInput.closest('tr');
-                currentRow.insertAdjacentElement('afterend', newRow);
-
-                // 기존 입력 필드를 비운다
+                // 기존 입력 필드를 비움
                 productNameInput.value = '';
                 priceInput.value = '';
             } else {
@@ -170,11 +171,60 @@
     <div class="content">
         <div>
 
-            <div class="order-wrap right2">
-                <div class="text-wrap">
-                    <div class="order-title">
-                        <p>계약가격내역</p>
-                        <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+
+                <div class="order-wrap right2">
+                    <div class="text-wrap">
+                        <div class="order-title">
+                            <h1>계약가격내역</h1>
+                            <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+                        </div>
+                        <div class="order-filter">
+                            <button>전체</button>
+                            <button>승인대기</button>
+                            <button>승인완료</button>
+                            <input type="text" placeholder="검색어를 입력하세요.">
+                            <select>
+                                <option>선택하세요</option>
+                                <option>빠른등록일자순</option>
+                                <option>오래된등록일자순</option>
+                                <option>높은거래가격순</option>
+                                <option>낮은거래가격순</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>no</th>
+                            <th>고객사명</th>
+                            <th>계약시작일</th>
+                            <th>계약종료일</th>
+                            <th>상품품목명</th>
+                            <!-- <th>책정거래가</th> -->
+                            <th>계약담당자</th>
+                            <th>계약상태</th>
+                            <th>계약만료예정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="vo : ${list}">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
+                            <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)" id="detail"></td>
+                            <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${vo.productName}"></td>
+                            <td th:text="${vo.managerName}"></td>
+                            <td th:text="${vo.contractPriceStatus}"></td>
+                            <td th:text="${vo.contractDday}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button>Excel로 내보내기</button><button>계약서 저장</button>
+                        <button class="button-regist" onclick="handleClick2(this.innerHTML)">신규거래 등록</button>
+
                     </div>
                     <div class="order-filter">
                         <button>전체</button>
@@ -296,53 +346,67 @@
                             <button type="button" class="close-btn2">닫기</button>
                         </div>
                     </div>
-                </div>
-            </form>
-            <form name="registForm" action="registForm" method="post">
-                <div id="popup-regist" class="popup-regist">
-                    <div class="popup-content">
-                        <h2>계약 등록하기</h2>
-                        <div class="popup-list">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <p>고객사명(번호)</p>
-                                        <input type="number" name="clientNo" >
-                                    </td>
-                                    <td>
-                                        <p>계약시작일</p>
-                                        <input type="date" name="contractSdate" >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>계약담당자</p>
-                                        <input type="number" name="employeeNo" >
-                                    </td>
-                                    <td>
-                                        <p>계약종료일</p>
-                                        <input type="date" name="contractEdate" >
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>상품품목명</p>
-                                        <input type="number" name="productNo" >
-                                    </td>
-                                    <td class="product-price">
-                                        <p>책정거래가</p>
-                                        <input type="number" name="contractPrice">
-                                        <button type="button" id="add-item-btn-regist">+</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="popup-button">
-                            <button>계약서 첨부</button>
-                            <button type="submit">등록</button>
-                            <button type="button" class="close-btn3">닫기</button>
+
+                </form>
+                <form name="registForm" action="registForm" method="post">
+                    <div id="popup-regist" class="popup-regist">
+                        <div class="popup-content">
+                            <h2>계약 등록하기</h2>
+                            <div class="popup-list">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>고객사명(번호)</p>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="clientNo" >
+                                        </td>
+                                        <td>
+                                            <p>계약시작일</p>
+                                        </td>
+                                        <td>
+                                            <input type="date" name="contractSdate" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>계약담당자</p>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="employeeNo" >
+                                        </td>
+                                        <td>
+                                            <p>계약종료일</p>
+                                        </td>
+                                        <td>
+                                            <input type="date" name="contractEdate" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>상품품목명</p>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="productNo" >
+                                        </td>
+                                        <td>
+                                            <p>책정거래가</p>
+                                        </td>
+                                        <td class="product-price">
+                                            <input type="text" name="contractPrice" class="price-input">
+                                            <button type="button" id="add-item-btn-regist">+</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="popup-button">
+                                <button>계약서 첨부</button>
+                                <button type="submit">등록</button>
+                                <button type="button" class="close-btn3">닫기</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
