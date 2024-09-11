@@ -10,6 +10,10 @@
         SELECT * FROM employee
     </select>
 
+    <select id="getAllBank" resultType="BankVO">
+        SELECT * FROM bank
+    </select>
+
     <!-- 사원 생성 및 업데이트 -->
     <insert id="insertEmployee" parameterType="EmployeeVO">
         INSERT INTO employee (

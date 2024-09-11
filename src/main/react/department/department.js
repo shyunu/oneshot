@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client';
 import './department.css';
 import './popup.css';
 import './delete.css';
-import '.search.css';
+import './search.css';
 
 function Department() {
     const [modalOpen, setModalOpen] = useState(false);

@@ -8,38 +8,61 @@ import axios from "axios";
 
 function Employee() {
     const [showPopup, setShowPopup] = useState(false);
+    const [selectedEmployees, setSelectedEmployees] = useState([]); // 선택된 직원 목록
+    const [isAllChecked, setIsAllChecked] = useState(false); // 전체 선택 체크박스 상태
     const [detail, setDetail] =useState(false)
+    const [showDepartmentPopup, setShowDepartmentPopup] = useState(false);
     const [showBankPopup, setShowBankPopup] = useState(false);
+    const [departments, setDepartments] = useState([]); //가저온 부서목록
+    const [banks, setBanks] = useState([]); //가져온 은행목록
+
     const [newEmployee, setNewEmployee] = useState({
         joinDate: '',
         name: '',
-        department: '',
+        departmentNo: '',
+        departmentName: '',
         position: '',
         phone: '',
         emergencyContact: '',
         email: '',
         accountNumber: '',
         bankNo: '',
+        bankName:'',
         accountHolder:'',
         address: '',
-        addressDetail: '',
-        backName:''
+        addressDetail: ''
     });
     const handleFormChange = (e) => {
         const { name, value } = e.target;
         setNewEmployee(prev => ({ ...prev, [name]: value }));
     };
 
+
     const [employees, setEmployees] = useState([]);
 
 
+    const handleCheckboxChange = (employeeNo) => {
+        setSelectedEmployees((prevSelected) =>
+            prevSelected.includes(employeeNo)
+                ? prevSelected.filter((no) => no !== employeeNo)
+                : [...prevSelected, employeeNo]
+        );
+    };
+    const handleAllCheckboxChange = () => {
+        if (isAllChecked) {
+            setSelectedEmployees([]);
+        } else {
+            setSelectedEmployees(employees.map((employee) => employee.employeeNo));
+        }
+        setIsAllChecked(!isAllChecked);
+    };
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
         const employeeVO = {
             employeeName: newEmployee.name,
             employeeBirth: newEmployee.joinDate,
-            departmentNo: newEmployee.department,
+            departmentNo: newEmployee.departmentNo,
             employeePhone: newEmployee.phone,
             emergencyPhone: newEmployee.emergencyContact,
             employeeAddress: newEmployee.address,
@@ -53,15 +76,14 @@ function Employee() {
         try {
             const response = await axios.post(
                 "http://localhost:8181/hrm/registEmployee",
-                JSON.stringify(employeeVO),
+                employeeVO,
                 {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
             );
-            const result = await response.json();
-            console.log('폼 제출 완료 및 직원 생성:', result);
+            console.log('폼 제출 완료 및 직원 생성:', response.data);
         } catch (error) {
             console.error('폼 제출 실패:', error);
         }
@@ -71,17 +93,50 @@ function Employee() {
 
 
     const fetchEmployees = async () => {
-
         try {
-            const response = await fetch('/hrm');
-            if (response.ok) {
-                const data = await response.json();
-                setEmployees(data);
-            } else {
-                console.error('Failed to fetch employees');
+            const response = await fetch('/hrm/getEmployee');
+
+            if (!response.ok) {
+                // 응답이 성공적이지 않을 경우 에러 메시지 로깅
+                const errorMessage = await response.text(); // 또는 response.json()을 사용할 수 있습니다.
+                console.error('직원불러오기실패:', errorMessage);
+                return; // 오류를 처리한 후 함수 종료
             }
+
+            // JSON 응답 데이터 처리
+            const data = await response.json();
+            setEmployees(data); // 상태 업데이트
         } catch (error) {
-            console.error('Error:', error);
+            console.error('직원불러오기Error:', error); // 네트워크 요청 실패 및 다른 예외 처리
+        }
+    };
+
+    const fetchBanks = async () => {
+        try {
+            const response = await fetch('/hrm/getBank');
+
+            if (!response.ok) {
+                // 응답이 성공적이지 않을 경우 에러 메시지 로깅
+                const errorMessage = await response.text(); // 또는 response.json()을 사용할 수 있습니다.
+                console.error('은행불러오기실패:', errorMessage);
+                return; // 오류를 처리한 후 함수 종료
+            }
+
+            // JSON 응답 데이터 처리
+            const data = await response.json();
+            setBanks(data); // 상태 업데이트
+        } catch (error) {
+            console.error('은행불러오기Error:', error); // 네트워크 요청 실패 및 다른 예외 처리
+        }
+    };
+
+
+    const fetchDepartments = async () => {
+        try {
+            const response = await axios.get("http://localhost:8181/hrm/getDepartment");
+            setDepartments(response.data);
+        } catch (err) {
+            console.error('Error fetching departments:', err);
         }
     };
 
@@ -92,9 +147,15 @@ function Employee() {
     const handleBankSelect = (bankNo, backName) => {
         setNewEmployee(prev => ({ ...prev, bankNo: bankNo }));
         setNewEmployee(prev => ({ ...prev, backName: backName }));
-
         setShowBankPopup(false);
     };
+
+    const handleDepartmentSelect = (departmentNo, departmentName) => {
+        setNewEmployee(prev => ({ ...prev, departmentNo: departmentNo }));
+        setNewEmployee(prev => ({ ...prev, departmentName: departmentName }));
+        setShowDepartmentPopup(false);
+    };
+
 
     // 디버깅: employees 상태 출력
     useEffect(() => {
@@ -113,14 +174,19 @@ function Employee() {
                     <thead>
                         <tr id="attribute">
                             <th>
-                                <input type="checkbox" id="checkAll" />
+                                <input
+                                    type="checkbox"
+                                    id="checkAll"
+                                    checked={isAllChecked}
+                                    onChange={handleAllCheckboxChange}
+                                />
                                 <label htmlFor="checkAll"></label>
                             </th>
-                            <th style={{ width: '150px' }}>입사일자</th>
-                            <th style={{ width: '100px' }}>사원번호</th>
-                            <th style={{ width: '100px' }}>성명</th>
-                            <th style={{ width: '200px' }}>부서명</th>
-                            <th style={{ width: '100px' }}>직급</th>
+                            <th style={{width: '150px'}}>입사일자</th>
+                            <th style={{width: '100px'}}>사원번호</th>
+                            <th style={{width: '100px'}}>성명</th>
+                            <th style={{width: '200px'}}>부서명</th>
+                            <th style={{width: '100px'}}>직급</th>
                             <th style={{ width: '200px' }}>전화번호</th>
                             <th style={{ width: '200px' }}>비상연락처</th>
                             <th style={{ width: '250px' }}>이메일</th>
@@ -131,11 +197,21 @@ function Employee() {
                         {employees && employees.length > 0 ? employees.map(employee => (
                             employee ? (
                                 <tr key={employee.employeeNo}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            id={`check${employee.employeeNo}`}
+                                            checked={selectedEmployees.includes(employee.employeeNo)}
+                                            onChange={() => handleCheckboxChange(employee.employeeNo)}
+                                        />
+                                        <label htmlFor={`check${employee.employeeNo}`}></label>
+                                    </td>
+                                    <td>{employee.employeeHiredate}</td>
                                     <td>{employee.employeeNo}</td>
                                     <td>{employee.employeeName}</td>
-                                    <td>{employee.departmentNo}</td>
-                                    <td>{employee.rankNo}</td>
-                                    <td>{employee.employeePhone}</td>
+                                    <td>{employee.departmentName}</td>
+                                    <td>{employee.rankName}</td>
+                                    <td>{employee.emergencyPhone}</td>
                                     <td>{employee.emergencyPhone}</td>
                                     <td>{employee.employeeEmail}</td>
                                     <td>{employee.accountNumber}</td>
@@ -153,12 +229,11 @@ function Employee() {
 
             <div className="wrapper-footer flex">
                 <div>
-                    <button className="deleteBtn" >선택삭제</button>
-                    <button className="submitBtn" onClick={() =>{
+                    <button className="btn" style={{marginRight: "10px"}} >선택삭제</button>
+                    <button className="btn" onClick={() =>{
                         setShowPopup(true);
                         setDetail(true);}}>신규등록</button>
                 </div>
-                <div>페이징 넣을곳</div>
             </div>
 
             {showPopup &&
@@ -189,7 +264,14 @@ function Employee() {
                                     </div>
                                     <div>
                                         <label htmlFor="department">부서번호</label>
-                                        <input type="text" id="department" name="department" value={newEmployee.department} onChange={handleFormChange} />
+                                        <button type="button" id="selectDepartmentBtn" className="btn"
+                                                onClick={() => {
+                                                    fetchDepartments();
+                                                    setShowDepartmentPopup(true);
+                                                }}>부서선택
+                                        </button>
+                                        <input type="text" id="department" name="department"
+                                               value={newEmployee.departmentName} style={{ marginTop: "4px" }} readOnly/>
                                     </div>
                                     <div>
                                         <label htmlFor="employeeRank">직급</label>
@@ -219,7 +301,7 @@ function Employee() {
                                     </div>
                                     <div>
                                         <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
-                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={() => setShowBankPopup(true)}>은행선택</button>
+                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={() => {setShowBankPopup(true); fetchBanks();}}>은행선택</button>
                                         <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.backName} readOnly />
                                         <input type="text" id="accountNumber" name="accountNumber" placeholder="계좌번호" value={newEmployee.accountNumber} onChange={handleFormChange} />
                                         <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주" value={newEmployee.accountHolder} onChange={handleFormChange}/>
@@ -232,7 +314,7 @@ function Employee() {
                                     </div>
                                 </div>
                                 <div className="popup-buttons">
-                                    <button type="submit" className="btn modify">등록</button>
+                                    <button type="submit" className="btn">등록</button>
                                     <button type="button" className="btn close" onClick={() => setShowPopup(false)}>닫기</button>
                                 </div>
                             </form>
@@ -240,24 +322,41 @@ function Employee() {
                     </Draggable>
                 </div>
             }
-
+            {/* 은행선택 팝업 */}
             {showBankPopup && (
-                <div id="bankSelectPopup" className="popup">
+                <div id="SelectPopup" className="popup">
                     <div className="popup-content">
                         <div className="popup-header">
                             <h3>은행 선택</h3>
                             <button className="btn close" onClick={() => setShowBankPopup(false)}>닫기</button>
                         </div>
-                        <div className="bank-options">
-                            <div className="bank-item" onClick={() => handleBankSelect('001', '한국은행')}>
-                                <button className="bank-code-option">001</button>
-                                <button className="bank-name-option">한국은행</button>
-                            </div>
-                            <div className="bank-item" onClick={() => handleBankSelect('002', '국민은행')}>
-                                <button className="bank-code-option">002</button>
-                                <button className="bank-name-option">국민은행</button>
-                            </div>
-                            {/* 추가 은행 항목들 */}
+                        <div className="options">
+                            {banks.map((bank) => (
+                                <div key={bank.bankNo} className="item" onClick={() => handleBankSelect(bank.bankNo, bank.bankName)}>
+                                    <button className="no-option">{bank.bankNo}</button>
+                                    <button className="name-option">{bank.bankName}</button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 부서선택 팝업 */}
+            {showDepartmentPopup && (
+                <div id="SelectPopup" className="popup">
+                    <div className="popup-content">
+                        <div className="popup-header">
+                            <h3>계좌 선택</h3>
+                            <button className="btn close" onClick={() => setShowDepartmentPopup(false)}>닫기</button>
+                        </div>
+                        <div className="options">
+                            {departments.map((department) => (
+                                <div key={department.departmentNo} className="item" onClick={() => handleDepartmentSelect(department.departmentNo, department.departmentName)}>
+                                    <button className="no-option">{department.departmentNo}</button>
+                                    <button className="name-option">{department.departmentName}</button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

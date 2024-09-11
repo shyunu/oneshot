@@ -1,5 +1,6 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.entity.mybatis.BankVO;
 import com.project.oneshot.entity.mybatis.EmployeeVO;
 import com.project.oneshot.hr.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,18 @@ public class EmployeeRestController {
     private EmployeeService employeeService;
 
     // 사원 목록 조회
-    @GetMapping
+    @GetMapping("/getEmployee")
     public ResponseEntity<List<EmployeeVO>> getAllEmployees() {
         List<EmployeeVO> employees = employeeService.getAllEmployees();
         return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+
+
+    // 사원 목록 조회
+    @GetMapping("/getBank")
+    public ResponseEntity<List<BankVO>> getAllBank() {
+        List<BankVO> banks = employeeService.getAllBank();
+        return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 
     // 사원 등록

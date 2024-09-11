@@ -1,46 +1,29 @@
-/*
-.btn {
-    height: 40px;
-    width: 80px;
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
-}
-*/
-
 .hidden{
     display: none;
 }
-.searchBtn {
-    height: 40px;
-    width: 80px;
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
+
+.btn {
+    height: 30px;
+    border-radius: 6px;
+    border-style: none;
+    background-color: #233047;
+    color : white;
+    width: 95px;
 }
-.deleteBtn {
-    height: 40px;
-    width: 80px;
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
-    margin-right: 5px;
+
+.btn:hover{
+    color: #233047;
+    background-color: #e3e3e3;
+    box-shadow: 0px 8px 16px #e3e3e3;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
 }
-.submitBtn {
-    height: 40px;
-    width: 80px;
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
-}
+
+
 
 /* 메인메뉴 */
 .wrapper{
-    overflow: auto;
     padding: 20px;
 
 }
@@ -52,16 +35,29 @@
     font-size: 25px;
 }
 
-.wrapper article table{ border-collapse : collapse; margin-bottom: 20px;}  /*이중선 제거*/
-.wrapper article table tr > td{
-    padding: 5px;
-    font-size: 20px;
-    text-align: center;
-    border: 1px solid #DEE2E6;
+.wrapper article table{ border-collapse : collapse; margin-bottom: 20px; border: 1px solid #777;}  /*이중선 제거*/
+
+.wrapper article table tr > th{
+    background-color: #e3e3e3;
+    border: 1px solid #777;
+    padding: 10px;
+    font-size: 15px;
     vertical-align: top;	/* 위 */
     vertical-align: bottom;   /* 아래 */
     vertical-align: middle;   /* 가운데 */
 }
+
+.wrapper article table tr > td{
+    font-size: 15px;
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #777;
+    vertical-align: top;	/* 위 */
+    vertical-align: bottom;   /* 아래 */
+    vertical-align: middle;   /* 가운데 */
+}
+
 
 /*테이블의 input태그의 checkbox 디자인 수정*/
 table input[type="checkbox"]{
