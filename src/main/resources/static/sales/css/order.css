@@ -19,7 +19,7 @@
 .order-title p {
     font-size: 13px;
     border: 0px solid green;
-    margin-bottom: 5px;
+    margin-bottom: -5px;
 }
 
 .order-title p:nth-of-type(1) {
@@ -29,10 +29,9 @@
     display: inline-block;
     border: 0px solid red;
     position: relative;
-    width: 71.5%; bottom: 5px; right: 15px;
+    width: 71.5%; bottom: 10px; right: 15px;
 }
 .order-filter button {
-    width: 71px; margin-right: -10px;
     background-color: #114477;
     border-radius: 5px;
     position: relative;
@@ -44,7 +43,7 @@
     border: 1px solid #e3e3e3;
 }
 .order-filter input, .order-filter select {
-    position: relative; left: 300px;
+    position: relative; left: 278px;
     /* margin-left: 10px; */
 }
 

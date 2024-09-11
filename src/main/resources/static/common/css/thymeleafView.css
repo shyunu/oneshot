@@ -19,7 +19,7 @@ body {
 /* header */
 header{
     height: 60px;
-    width: 1920px;
+    width: 100%;
     box-shadow: -5px 8px 16px #e3e3e3;
     border-right: none;
     justify-content: space-around;
@@ -36,6 +36,7 @@ header .left {
 header .right {
     float: right;
     width: 300px;
+    margin-top: -45px
 }
 header .right div {
     display: inline-block;

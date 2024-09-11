@@ -5,107 +5,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/inventory/css/supplier.css">
+    <link rel="stylesheet" href="/common/css/thymeleafView.css" />
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
 </head>
 <body>
-<div id="supplier_wrapped">
-    <div class="supplier_wrap"></div>
-    <h1 class="title">공급업체내역</h1>
-    <button type="button" class="search">검색</button>
-    <table>
-        <thead class="title_name">
-        <tr>
-            <th></th>
-            <th>공급업체번호</th>
-            <th>공급업체명</th>
-            <th>공급업체주소</th>
-            <th>공급업체 사업자등록번호</th>
-            <th>담당자명</th>
-            <th>담당자 연락처</th>
-            <th>담당자 이메일</th>
-            <th>첨부파일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="supplier : ${list}" >
-            <td><input type="checkbox"></td>
-            <td th:text="${supplier.supplierNo}"></td>
-            <td th:text="${supplier.supplierName}"></td>
-            <td th:text="${supplier.supplierAddress}"></td>
-            <td th:text="${supplier.supplierBusinessNo}"></td>
-            <td th:text="${supplier.managerName}"></td>
-            <td th:text="${supplier.managerPhone}"></td>
-            <td th:text="${supplier.managerEmail}"></td>
-            <td>
-                <a th:if="${supplier.supplierFile != null}" th:href="@{${supplier.supplierFile}}" target="_blank">조회</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 
-    <div class="footer">
-        <button type="button" class="register" onclick="checkRegister()">업체등록</button>
-        <button type="button" class="update" onclick="openUpdate()">수정</button>
+<header>
+    <div class="left">
+        <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
     </div>
-</div>
-
-<div class="modalPopup" id="modal">
-    <div class="modal_content">
-        <div class="popup_header" id="popupHeader">
-            <span>공급업체 등록</span>
+    <div class="right">
+        <img src="../../common/img/userCircle.png" alt="userCircle"/>
+        <div>
+            <p>신지윤</p>
+            <p>개발1팀 / 사원</p>
+            <p>cha@oneshot.com</p>
         </div>
-        <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
-            <div class="popup_content">
+        <div class="logout">
+<!--            <img src="../../common/img/logout.svg" alt="logoutImg"/>-->
+        </div>
+    </div>
+</header>
+
+<div class="wrap">
+    <aside class="aside left2">
+        <div class="category">
+            <div class="title">
+                <i class="bi bi-house"></i>
+                <p>홈</p>
+            </div>
+            <div class="submenu">
+                <a href="#"><p>홈페이지</p></a>
+                <a href="#"><p>내정보</p></a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title">
+                <i class="bi bi-person-circle"></i>
+                <p>인사관리</p></div>
+            <div class="submenu">
+                <a href="#"><p>사원관리</p></a>
+                <a href="#"><p>부서관리</p></a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title">
+                <i class="bi bi-box"></i>
+                <p>재고관리</p>
+            </div>
+            <div class="submenu">
+                <a href="#"><p>재고내역관리</p></a>
+                <a href="/product/productList"><p>구매내역관리</p></a>
+                <a href="/inventory/supplierList"><p>공급업체관리</p></a>
+            </div>
+        </div>
+        <div class="category">
+            <div class="title"><i class="bi bi-receipt"></i> 영업관리</div>
+            <div class="submenu">
+                <a href="/sales/contract"><p>거래가격관리</p></a>
+                <a href="/sales/order"><p>판매내역관리</p></a>
+            </div>
+        </div>
+    </aside>
+    <div class="content">
+        <div>
+
+            <div id="supplier_wrapped">
+                <div class="supplier_wrap"></div>
+                <h1 class="title">공급업체내역</h1>
+                <button type="button" class="search">검색</button>
                 <table>
-                    </tbody>
-                        <tr class="modal_left">
-                            <td>
-                                <p>공급업체번호:</p>
-                                <input type="text" id="supplierNo" name="supplierNo" required disabled>
-                            </td>
-                            <td>
-                                <p>공급업체명:</p>
-                                <input type="text" id="supplierName" name="supplierName" required>
-                            </td>
-                            <td>
-                                <p>공급업체주소:</p>
-                                <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
-                            </td>
-                            <td>
-                                <p>공급업체 사업자등록번호:</p>
-                                <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><br>
-                            </td>
-                        </tr>
-                        <tr class="modal_right">
-                            <td>
-                                <p>담당자명:</p>
-                                <input type="text" id="managerName" name="managerName" required><br><br>
-                            </td>
-                            <td>
-                                <p>담당자 연락처:</p>
-                                <input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required><br><br>
-                            </td>
-                            <td>
-                                <p>담당자 이메일:</p>
-                                <input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><br>
-                            </td>
-                            <td>
-                                <p>첨부파일:</p>
-                                <input type="file" id="supplierFile" name="supplierFile" required><br><br>
-                            </td>
-                        </tr>
+                    <thead class="title_name">
+                    <tr>
+                        <th></th>
+                        <th>공급업체번호</th>
+                        <th>공급업체명</th>
+                        <th>공급업체주소</th>
+                        <th>공급업체 사업자등록번호</th>
+                        <th>담당자명</th>
+                        <th>담당자 연락처</th>
+                        <th>담당자 이메일</th>
+                        <th>첨부파일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="supplier : ${list}" >
+                        <td><input type="checkbox"></td>
+                        <td th:text="${supplier.supplierNo}"></td>
+                        <td th:text="${supplier.supplierName}"></td>
+                        <td th:text="${supplier.supplierAddress}"></td>
+                        <td th:text="${supplier.supplierBusinessNo}"></td>
+                        <td th:text="${supplier.managerName}"></td>
+                        <td th:text="${supplier.managerPhone}"></td>
+                        <td th:text="${supplier.managerEmail}"></td>
+                        <td>
+                            <a th:if="${supplier.supplierFile != null}" th:href="@{${supplier.supplierFile}}" target="_blank">조회</a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
+
+                <div class="footer">
+                    <button type="button" class="register" onclick="checkRegister()">업체등록</button>
+                    <button type="button" class="update" onclick="openUpdate()">수정</button>
+                </div>
             </div>
-            <div class="footer_button">
-                <button type="submit" class="save" onclick="saveSupplier()">등록</button>
-                <button type="button" class="close" onclick="closeModal()">닫기</button>
+
+            <div class="modalPopup" id="modal">
+                <div class="modal_content">
+                    <div class="popup_header" id="popupHeader">
+                        <span>공급업체 등록</span>
+                    </div>
+                    <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
+                        <div class="popup_content">
+                            <table>
+                                </tbody>
+                                <tr class="modal_left">
+                                    <td>
+                                        <p>공급업체번호:</p>
+                                        <input type="text" id="supplierNo" name="supplierNo" required disabled>
+                                    </td>
+                                    <td>
+                                        <p>공급업체명:</p>
+                                        <input type="text" id="supplierName" name="supplierName" required>
+                                    </td>
+                                    <td>
+                                        <p>공급업체주소:</p>
+                                        <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
+                                    </td>
+                                    <td>
+                                        <p>공급업체 사업자등록번호:</p>
+                                        <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><br>
+                                    </td>
+                                </tr>
+                                <tr class="modal_right">
+                                    <td>
+                                        <p>담당자명:</p>
+                                        <input type="text" id="managerName" name="managerName" required><br><br>
+                                    </td>
+                                    <td>
+                                        <p>담당자 연락처:</p>
+                                        <input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required><br><br>
+                                    </td>
+                                    <td>
+                                        <p>담당자 이메일:</p>
+                                        <input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><br>
+                                    </td>
+                                    <td>
+                                        <p>첨부파일:</p>
+                                        <input type="file" id="supplierFile" name="supplierFile" required><br><br>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="footer_button">
+                            <button type="submit" class="save" onclick="saveSupplier()">등록</button>
+                            <button type="button" class="close" onclick="closeModal()">닫기</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+
+
+        </div>
     </div>
 </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
+
+//    thymeleaf js
+    document.querySelectorAll('.title').forEach(function(title) {
+        title.addEventListener('click', function() {
+            const submenu = this.nextElementSibling; // 클릭된 title의 바로 다음 요소인 submenu
+
+            // 클릭된 submenu만 토글
+            if (submenu.classList.contains('open')) {
+                submenu.classList.remove('open'); // 열려 있으면 닫기
+
+            } else {
+                // 다른 열린 submenu를 모두 닫음
+                document.querySelectorAll('.submenu').forEach(function(sub) {
+                    sub.classList.remove('open');
+                });
+                submenu.classList.add('open'); // 클릭된 요소만 열기
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
     // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
     function checkRegister() {
         const checkedSupplier = document.querySelector('input[name="supplier"]:checked');

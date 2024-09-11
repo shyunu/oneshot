@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<th:block th:fragment="setContent(content)">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="common/css/header-main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="common/css/thymeleafView.css" />
+    <link rel="stylesheet" href="/common/css/thymeleafView.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
 </head>
@@ -11,17 +17,17 @@
 <body>
     <header>
         <div class="left">
-            <img src="/img/Logo.png" alt="Logo" class="left"/>
+            <img src="../../common/img/Logo.png" alt="Logo" class="left"/>
         </div>
         <div class="right">
-            <img src="/img/userCircle.png" alt="userCircle"/>
+            <img src="../../common/img/userCircle.png" alt="userCircle"/>
             <div>
                 <p>신지윤</p>
                 <p>개발1팀 / 사원</p>
                 <p>cha@oneshot.com</p>
             </div>
             <div class="logout">
-                <img src="/img/logout.svg" alt="logoutImg"/>
+<!--                <img src="../../common/img/logout.svg" alt="logoutImg"/>-->
             </div>
         </div>
     </header>
@@ -66,13 +72,9 @@
                     <a href="/sales/order"><p>판매내역관리</p></a>
                 </div>
             </div>
-
-
         </aside>
         <div class="content">
-            <div>
-                본문 여기에 추가하세요
-            </div>
+            <th:block th:replace="${content}"></th:block>
         </div>
     </div>
 </body>
@@ -96,4 +98,7 @@
         });
     });
 </script>
+
+</th:block>
+
 </html>
