@@ -8,6 +8,10 @@
     font-size: 17px;
 }
 */
+
+.hidden{
+    display: none;
+}
 .searchBtn {
     height: 40px;
     width: 80px;

@@ -24,17 +24,9 @@ public class EmployeeRestController {
     }
 
     // 사원 등록
-    @PostMapping
-    public ResponseEntity<EmployeeVO> createEmployee(@RequestBody EmployeeVO employeeVo) {
-        EmployeeVO savedEmployee = employeeService.createOrUpdateEmployee(employeeVo);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-    }
-
-    // 사원 삭제
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PostMapping("/registEmployee")
+    public int insertOrUpdateEmployee(@RequestBody EmployeeVO vo) {
+        return employeeService.insertEmployee(vo);
     }
 
 }

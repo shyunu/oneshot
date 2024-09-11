@@ -10,27 +10,37 @@
         SELECT * FROM employee
     </select>
 
-    <!-- 사원 생성 -->
-    <insert id="insertOrUpdateEmployee">
-        INSERT INTO employee (id, join_date, name, department, position, phone, emergency_contact, email, account_number, bank, address, address_detail)
-        VALUES (#{id}, #{joinDate}, #{name}, #{department}, #{position}, #{phone}, #{emergencyContact}, #{email}, #{accountNumber}, #{bank}, #{address}, #{addressDetail})
-        ON CONFLICT (id) DO UPDATE SET
-        join_date = #{joinDate},
-        name = #{name},
-        department = #{department},
-        position = #{position},
-        phone = #{phone},
-        emergency_contact = #{emergencyContact},
-        email = #{email},
-        account_number = #{accountNumber},
-        bank = #{bank},
-        address = #{address},
-        address_detail = #{addressDetail}
+    <!-- 사원 생성 및 업데이트 -->
+    <insert id="insertEmployee" parameterType="EmployeeVO">
+        INSERT INTO employee (
+        department_no,
+        rank_no,
+        employee_name,
+        employee_birth,
+        employee_phone,
+        emergency_phone,
+        employee_address,
+        account_number,
+        employee_hiredate,
+        employee_status,
+        employee_email,
+        bank_no,
+        employee_photo_path
+        ) VALUES (
+        #{departmentNo},
+        #{rankNo},
+        #{employeeName},
+        #{employeeBirth},
+        #{employeePhone},
+        #{emergencyPhone},
+        #{employeeAddress},
+        #{accountNumber},
+        #{employeeHiredate},
+        #{employeeStatus},
+        #{employeeEmail},
+        #{bankNo},
+        #{employeePhotoPath}
+        )
     </insert>
-
-    <!-- 사원 삭제 -->
-    <delete id="deleteEmployee">
-        DELETE FROM employee WHERE id = #{id}
-    </delete>
 
 </mapper>

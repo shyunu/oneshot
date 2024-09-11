@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './employee.css';
 import './one.css';
 import './delete.css';
 import Draggable from 'react-draggable';
-import axios from 'axios';
+import axios from "axios";
 
 function Employee() {
     const [showPopup, setShowPopup] = useState(false);
+    const [detail, setDetail] =useState(false)
     const [showBankPopup, setShowBankPopup] = useState(false);
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-    const [showFinalWarning, setShowFinalWarning] = useState(false);
     const [newEmployee, setNewEmployee] = useState({
-        id: '',
         joinDate: '',
         name: '',
         department: '',
@@ -21,62 +19,87 @@ function Employee() {
         emergencyContact: '',
         email: '',
         accountNumber: '',
-        bank: '',
+        bankNo: '',
+        accountHolder:'',
         address: '',
-        addressDetail: ''
+        addressDetail: '',
+        backName:''
     });
-    const [bankList, setBankList] = useState([]);
-
     const handleFormChange = (e) => {
         const { name, value } = e.target;
         setNewEmployee(prev => ({ ...prev, [name]: value }));
     };
 
+    const [employees, setEmployees] = useState([]);
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        const employeeVO = {
+            employeeName: newEmployee.name,
+            employeeBirth: newEmployee.joinDate,
+            departmentNo: newEmployee.department,
+            employeePhone: newEmployee.phone,
+            emergencyPhone: newEmployee.emergencyContact,
+            employeeAddress: newEmployee.address,
+            accountNumber: newEmployee.accountNumber,
+            employeeHiredate: newEmployee.joinDate,
+            employeeEmail: newEmployee.email,
+            bankNo: newEmployee.bankNo,
+            accountHolder:  newEmployee.accountHolder
+        };
+
         try {
-            await axios.post('/api/employees', newEmployee);
-            alert('사원이 등록되었습니다.');
-            setShowPopup(false);
+            const response = await axios.post(
+                "http://localhost:8181/hrm/registEmployee",
+                JSON.stringify(employeeVO),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            const result = await response.json();
+            console.log('폼 제출 완료 및 직원 생성:', result);
         } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('사원 등록에 실패했습니다.');
+            console.error('폼 제출 실패:', error);
         }
     };
 
-    const fetchBankList = async () => {
+
+
+
+    const fetchEmployees = async () => {
+
         try {
-            const response = await axios.get('/api/banks'); // 은행 목록 API 호출
-            setBankList(response.data);
+            const response = await fetch('/hrm');
+            if (response.ok) {
+                const data = await response.json();
+                setEmployees(data);
+            } else {
+                console.error('Failed to fetch employees');
+            }
         } catch (error) {
-            console.error('Error fetching bank list:', error);
+            console.error('Error:', error);
         }
     };
 
-    const handleBankSelect = (bankCode, bankName) => {
-        setNewEmployee(prev => ({ ...prev, bank: bankName }));
+    useEffect(() => {
+        fetchEmployees();
+    }, []);
+
+    const handleBankSelect = (bankNo, backName) => {
+        setNewEmployee(prev => ({ ...prev, bankNo: bankNo }));
+        setNewEmployee(prev => ({ ...prev, backName: backName }));
+
         setShowBankPopup(false);
     };
 
-    const handleDeleteClick = () => {
-        setShowDeleteConfirmation(true);
-    };
-
-    const handleNextClick = () => {
-        setShowDeleteConfirmation(false);
-        setShowFinalWarning(true);
-    };
-
-    const handleDelete = () => {
-        // 실제 삭제 로직을 여기에 구현합니다.
-        alert('항목이 삭제되었습니다.');
-        setShowFinalWarning(false);
-    };
-
-    const handleBackClick = () => {
-        setShowFinalWarning(false);
-        setShowDeleteConfirmation(true);
-    };
+    // 디버깅: employees 상태 출력
+    useEffect(() => {
+        console.log('Employees:', employees);
+    }, [employees]);
 
     return (
         <main className="wrapper">
@@ -105,20 +128,40 @@ function Employee() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* 데이터 표시 부분 */}
+                        {employees && employees.length > 0 ? employees.map(employee => (
+                            employee ? (
+                                <tr key={employee.employeeNo}>
+                                    <td>{employee.employeeNo}</td>
+                                    <td>{employee.employeeName}</td>
+                                    <td>{employee.departmentNo}</td>
+                                    <td>{employee.rankNo}</td>
+                                    <td>{employee.employeePhone}</td>
+                                    <td>{employee.emergencyPhone}</td>
+                                    <td>{employee.employeeEmail}</td>
+                                    <td>{employee.accountNumber}</td>
+                                    {/* 필요한 모든 데이터 표시 */}
+                                </tr>
+                            ) : null
+                        )) : (
+                            <tr>
+                                <td colSpan="10">등록된 사원이 없습니다.</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </article>
 
             <div className="wrapper-footer flex">
                 <div>
-                    <button className="deleteBtn" onClick={handleDeleteClick}>선택삭제</button>
-                    <button className="submitBtn" onClick={() => setShowPopup(true)}>신규등록</button>
+                    <button className="deleteBtn" >선택삭제</button>
+                    <button className="submitBtn" onClick={() =>{
+                        setShowPopup(true);
+                        setDetail(true);}}>신규등록</button>
                 </div>
                 <div>페이징 넣을곳</div>
             </div>
 
-            {showPopup && (
+            {showPopup &&
                 <div className="popup" id="contractPopup">
                     <Draggable bounds="body">
                         <div className="popup-content" id="draggablePopup">
@@ -138,14 +181,14 @@ function Employee() {
                                     </div>
                                     <div>
                                         <label htmlFor="employeeName">이름</label>
-                                        <input type="text" id="employeeName" name="name" value={newEmployee.name} onChange={handleFormChange} required />
+                                        <input type="text" id="employeeName" name="name" value={newEmployee.name} onChange={handleFormChange} />
                                     </div>
-                                    <div>
+                                    <div className={ detail ? 'hidden': ''} >
                                         <label htmlFor="employeeNo">사원번호</label>
-                                        <input type="text" id="employeeNo" name="id" value={newEmployee.id} onChange={handleFormChange} required />
+                                        <input type="text" id="employeeNo" name="id" value={newEmployee.id} onChange={handleFormChange} />
                                     </div>
                                     <div>
-                                        <label htmlFor="department">부서</label>
+                                        <label htmlFor="department">부서번호</label>
                                         <input type="text" id="department" name="department" value={newEmployee.department} onChange={handleFormChange} />
                                     </div>
                                     <div>
@@ -168,18 +211,18 @@ function Employee() {
                                 <div className="formBox2">
                                     <div>
                                         <label htmlFor="employeeBirth">생년월일</label>
-                                        <input type="date" id="employeeBirth" name="birthDate" onChange={handleFormChange} />
+                                        <input type="text" id="employeeBirth" name="birthDate" />
                                     </div>
                                     <div>
                                         <label htmlFor="employeeEmail">이메일</label>
-                                        <input type="email" id="employeeEmail" name="email" value={newEmployee.email} onChange={handleFormChange} />
+                                        <input type="text" id="employeeEmail" name="email" value={newEmployee.email} onChange={handleFormChange} />
                                     </div>
                                     <div>
                                         <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
-                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={fetchBankList}>은행선택</button>
-                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.bank} readOnly />
+                                        <button type="button" id="selectBankBtn" className="btn attach-file" onClick={() => setShowBankPopup(true)}>은행선택</button>
+                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택" value={newEmployee.backName} readOnly />
                                         <input type="text" id="accountNumber" name="accountNumber" placeholder="계좌번호" value={newEmployee.accountNumber} onChange={handleFormChange} />
-                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="예금주" />
+                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주" value={newEmployee.accountHolder} onChange={handleFormChange}/>
                                     </div>
                                     <div>
                                         <label htmlFor="employeeAddress">주소</label>
@@ -196,7 +239,7 @@ function Employee() {
                         </div>
                     </Draggable>
                 </div>
-            )}
+            }
 
             {showBankPopup && (
                 <div id="bankSelectPopup" className="popup">
@@ -206,66 +249,25 @@ function Employee() {
                             <button className="btn close" onClick={() => setShowBankPopup(false)}>닫기</button>
                         </div>
                         <div className="bank-options">
-                            {bankList.map(bank => (
-                                <div key={bank.code} className="bank-item" onClick={() => handleBankSelect(bank.code, bank.name)}>
-                                    <button className="bank-code-option">{bank.code}</button>
-                                    <button className="bank-name-option">{bank.name}</button>
-                                </div>
-                            ))}
+                            <div className="bank-item" onClick={() => handleBankSelect('001', '한국은행')}>
+                                <button className="bank-code-option">001</button>
+                                <button className="bank-name-option">한국은행</button>
+                            </div>
+                            <div className="bank-item" onClick={() => handleBankSelect('002', '국민은행')}>
+                                <button className="bank-code-option">002</button>
+                                <button className="bank-name-option">국민은행</button>
+                            </div>
+                            {/* 추가 은행 항목들 */}
                         </div>
                     </div>
                 </div>
             )}
 
-            {showDeleteConfirmation && (
-                <div id="popupDeleteConfirmation" className="popup">
-                    <div className="popup-content">
-                        <div className="popup-header">
-                            <span>삭제 여부 확인</span>
-                        </div>
-                        <div className="popup-body">
-                            <table className="employee-table">
-                                <thead>
-                                    <tr>
-                                        <th>이름</th>
-                                        <th>사원번호</th>
-                                        <th>부서명</th>
-                                        <th>직급</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="employeeDataTable">
-                                    {/* 삭제할 직원 데이터 */}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="popup-buttons">
-                            <button type="button" className="btn-next" id="buttonNext" onClick={handleNextClick}>다음</button>
-                            <button type="button" className="btn-close" id="buttonClosePopup" onClick={() => setShowDeleteConfirmation(false)}>닫기</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {showFinalWarning && (
-                <div id="popupFinalWarning" className="popup">
-                    <div className="popup-content">
-                        <div className="popup-header">
-                            <span>삭제 확인</span>
-                        </div>
-                        <div className="popup-body">
-                            <p>선택한 정보를 정말로 삭제하시겠습니까?</p>
-                        </div>
-                        <div className="popup-buttons">
-                            <button type="button" className="btn-delete" id="buttonDelete" onClick={handleDelete}>삭제</button>
-                            <button type="button" className="btn-back" id="buttonBack" onClick={handleBackClick}>뒤로</button>
-                            <button type="button" className="btn-close" id="buttonFinalClose" onClick={() => setShowFinalWarning(false)}>닫기</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </main>
     );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Employee />);
+root.render(
+    <Employee />
+);

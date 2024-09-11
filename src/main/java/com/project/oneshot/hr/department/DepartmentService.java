@@ -3,9 +3,11 @@ package com.project.oneshot.hr.department;
 
 import com.project.oneshot.entity.mybatis.DepartmentVO;
 
-public interface DepartmentService {
-    public int departmentInsert(DepartmentVO vo);//등록
+import java.util.List;
 
+public interface DepartmentService {
+    public int insertDepartment(DepartmentVO vo);//등록
+    public List<DepartmentVO> selectDepartment();
 
     //public int productInsert(ProductVO vo); //등록
 //    public int productInsert(ProductVO vo, List<MultipartFile> list); //등록
