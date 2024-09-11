@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -20,5 +22,10 @@ public class ContractVO { //계약가격 테이블(DB기준)
     private Date contractEdate; //계약종료일
     private Integer contractPrice; //책정거래가
 
-
+    private Integer contractPriceNo;
+    private String clientName;
+    private String productName;
+    private String managerName;
+    private String contractPriceStatus;
+    private String contractDday;
 }

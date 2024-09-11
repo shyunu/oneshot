@@ -4,6 +4,14 @@ import com.project.oneshot.entity.mybatis.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.util.Date;
+import java.util.List;
+
 @Service("salesService")
 public class SalesServiceImpl implements SalesService{
 
@@ -17,7 +25,24 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
-    public int contractUpdate(ContractVO vo) { //계약수정
-        return 0;
+    public List<ContractVO> getList() {
+
+
+        List<ContractVO> list = salesMapper.getList();
+
+        LocalDate currentDate = LocalDate.now();
+        for (ContractVO vo : list) {
+            LocalDate contractEdate = vo.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); //코드 분석 필요
+            long daysBetween = ChronoUnit.DAYS.between(contractEdate, currentDate);
+
+            if(daysBetween > 0) {
+                vo.setContractDday("계약만료");
+            } else {
+                vo.setContractDday("D" + daysBetween);
+            }
+        }
+
+
+        return list;
     }
 }
