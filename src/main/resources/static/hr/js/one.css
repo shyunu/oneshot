@@ -1,0 +1,276 @@
+/* 기존 팝업 스타일 유지 */
+.popup {
+    /* display: none; */ /* 처음에는 숨기기 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 메인 팝업 내용 스타일 */
+.popup-content {
+    background-color: #f3f3f3;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute; /* 드래그 가능하도록 absolute 설정 */
+    width: 600px;
+    height: 750px;
+}
+
+/* 팝업 헤더 스타일 */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5c6f7f;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+/* 팝업 닫기 버튼 스타일 */
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+    padding: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn.modify {
+    background-color: #6a737f;
+    color: white;
+}
+
+.btn.modify:hover {
+    background-color: #586672;
+}
+
+.btn.close {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn.close:hover {
+    background-color: #c0392b;
+}
+
+/* 프로필 사진과 첨부파일 버튼 스타일 */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input-container input[type="file"] {
+    display: none;
+}
+
+.file-input-container label.btn.attach-file {
+    padding: 5px 5px;
+    font-size: 10px;
+    background-color: #6a737f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 70px;
+}
+
+.file-input-container label.btn.attach-file:hover {
+    background-color: #586672;
+}
+
+/* 은행 선택 팝업 스타일 */
+#bankSelectPopup .popup-content {
+    width: 400px;
+    max-height: 600px; /* 최대 높이 설정 */
+    padding: 0; /* 패딩 초기화 */
+    background-color: #f3f3f3;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* 자식 요소의 오버플로우를 숨김 */
+    display: flex;
+    flex-direction: column; /* 요소들을 위아래로 배치 */
+}
+
+#bankSelectPopup .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5c6f7f;
+    padding: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+#bankSelectPopup .bank-options {
+    padding: 30px; /* 내부 여백 설정 */
+    overflow-y: auto; /* 세로 방향 스크롤바 추가 */
+    flex: 1; /* 남은 공간을 모두 차지 */
+}
+
+
+.bank-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 코드와 이름 사이의 간격 */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.bank-item:hover {
+    background-color: #e0e0e0;
+}
+
+.bank-code-option, .bank-name-option {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+}
+
+.bank-code-option {
+    background-color: #6a737f;
+    color: white;
+}
+
+.bank-code-option:hover {
+    background-color: #586672;
+}
+
+.bank-name-option {
+    background-color: #e0e0e0;
+}
+
+.bank-name-option:hover {
+    background-color: #d0d0d0;
+}
+
+/* 기존 form 스타일 유지 */
+.contract-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 두 개의 열로 나눔 */
+    column-gap: 20px; /* 두 열 사이의 간격 */
+    padding: 15px;
+}
+
+.formBox2 {
+    margin-top: 120px;
+}
+
+.contract-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contract-form input {
+    width: 90%; /* 각 인풋 필드의 너비 */
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.account-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 은행 선택 버튼 스타일 조정 */
+#selectBankBtn {
+    background-color: #6a737f;
+    color: white;
+    padding: 7px 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#selectBankBtn:hover {
+    background-color: #586672;
+}
+
+/* 주소 */
+#employeeAddress {
+    width: 90%;
+    margin-top: 5px;
+}
+
+/* 주소 검색 버튼 스타일 */
+#searchAddressBtn {
+    background-color: #6a737f; /* 은행 선택 버튼과 동일한 배경색 */
+    color: white;
+    padding: 7px 7px; /* 은행 선택 버튼과 동일한 패딩 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#searchAddressBtn:hover {
+    background-color: #586672;
+}
+
+/* 은행칸과 주소칸 간격 조정 */
+#accountBank {
+    margin-top: 3px;
+    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
+}
+
+#accountNumber {
+    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
+}
+
+#accountHolder {
+    margin-bottom: 20px; /* 마지막 필드는 margin-bottom을 설정하지 않음 */
+}
+
+#employeeAddress {
+    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
+}
+

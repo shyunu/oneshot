@@ -1,8 +1,5 @@
 package com.project.oneshot.hr.department;
 
-
-
-
 import com.project.oneshot.entity.mybatis.DepartmentVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
@@ -14,4 +11,6 @@ public interface DepartmentMapper {
     public int checkDuplicateDepartment(DepartmentVO vo);//같은번호가 있는지 확인
     List<DepartmentVO> selectDepartment();
 
+    // 삭제
+    int deleteDepartments(List<Integer> departmentNos);
 }

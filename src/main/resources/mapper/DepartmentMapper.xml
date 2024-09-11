@@ -18,4 +18,12 @@
         select * from department
     </select>
 
+    <delete id="deleteDepartments" parameterType="list">
+        DELETE FROM department
+        WHERE department_no IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>
