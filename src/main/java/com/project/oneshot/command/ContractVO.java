@@ -1,12 +1,10 @@
-package com.project.oneshot.entity.mybatis;
+package com.project.oneshot.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor

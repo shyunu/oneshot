@@ -1,7 +1,7 @@
 package com.project.oneshot.hr.employee;
 
 
-import com.project.oneshot.entity.mybatis.EmployeeVO;
+import com.project.oneshot.command.EmployeeVO;
 
 import java.util.List;
 

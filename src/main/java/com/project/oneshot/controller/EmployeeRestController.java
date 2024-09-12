@@ -1,6 +1,6 @@
 package com.project.oneshot.controller;
 
-import com.project.oneshot.entity.mybatis.EmployeeVO;
+import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.hr.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

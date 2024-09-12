@@ -1,6 +1,6 @@
 package com.project.oneshot.controller;
 
-import com.project.oneshot.entity.jpa.SupplierVO;
+import com.project.oneshot.command.SupplierVO;
 import com.project.oneshot.inventory.supplier.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.project.oneshot.hr.employee;
 
-import com.project.oneshot.entity.mybatis.EmployeeVO;
+import com.project.oneshot.command.EmployeeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

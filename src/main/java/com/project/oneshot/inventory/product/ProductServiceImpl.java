@@ -1,11 +1,10 @@
 package com.project.oneshot.inventory.product;
 
 
-import com.project.oneshot.entity.jpa.CategoryVO;
-import com.project.oneshot.entity.jpa.ProductVO;
-import com.project.oneshot.entity.jpa.SupplierVO;
+import com.project.oneshot.command.CategoryVO;
+import com.project.oneshot.command.ProductVO;
+import com.project.oneshot.command.SupplierVO;
 import com.project.oneshot.inventory.supplier.SupplierMapper;
-import com.project.oneshot.inventory.supplier.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,62 +21,43 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    private SupplierMapper supplierMapper;
+    ProductMapper productMapper;
 
     public List<SupplierVO> getAllSuppliers() {
-        List<SupplierVO> list = supplierRepository.findAll();
-        list = list.stream()
-                   .sorted(Comparator.comparing(SupplierVO::getSupplierName))
-                   .collect(Collectors.toList());
-        return list;
+        return null;
     }
 
     @Override
     public SupplierVO getSupplierDetails(Long supplierNo) {
-        Optional<SupplierVO> vo = supplierRepository.findById(supplierNo);
-        return vo.get();
+        return null;
     }
 
     @Override
     public void registerProduct(ProductVO vo) {
-        productRepository.save(vo);
     }
 
     @Override
     public List<CategoryVO> getAllCategories() {
-        List<CategoryVO> list = categoryRepository.findAll();
-        list = list.stream()
-                   .sorted(Comparator.comparing(CategoryVO::getCategoryNo))
-                   .collect(Collectors.toList());
-        return list;
+        return null;
     }
 
     @Override
     public List<ProductVO> getProductDetails(Long supplierNo) {
-        List<ProductVO> list = productRepository.findBySupplierNo(supplierNo);
-        return list;
+        return null;
     }
 
     @Override
     public Page<ProductVO> getAllProducts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("productNo").descending());
-        return productRepository.findProductVOs(pageable);
+        return null;
     }
 
     @Override
     public CategoryVO getCategoryById(Long categoryNo) {
-        return categoryRepository.findById(categoryNo).orElse(null);
+        return null;
     }
 
     @Override
     public SupplierVO registerSupplier(SupplierVO supplier) {
-        return supplierRepository.save(supplier);
+        return null;
     }
-
 }

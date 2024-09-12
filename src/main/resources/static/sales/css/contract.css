@@ -1,153 +1,116 @@
-*{
+* {
     padding: 0;
-    margin: 0 auto;
     box-sizing: border-box;
 }
 
 .order-wrap {
-    border: 0px solid red;
-    width: 1080px; height: 800px;
+    width: 100%;
+    height: 100vh;
 }
 
 .text-wrap {
-    border: 0px solid pink;
-    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: -8px;
+    padding: 5px
 }
+
 .order-title {
-    display: inline-block;
-    border: 0px solid green;
-    width: 27%;
-    position: relative; margin-left: 10px;
+    float: left;
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-bottom: 1px solid #e3e3e3;
+    border-top: 1px solid #777;
 }
-.order-title p {
+
+.text-wrap h2 {
+    font-size: 30px;
+    line-height: 30px;
+}
+
+.text-wrap p {
     font-size: 13px;
-    border: 0px solid green;
     margin-bottom: 5px;
 }
 
-/*.order-title p:nth-of-type(1) {*/
-/*    font-size: 40px;*/
-/*}*/
-.order-filter {
-    display: inline-block;
-    position: relative;
-    width: 71.5%; bottom: 5px; right: 15px;
-}
-.order-filter button {
-    width: 95px; margin-right: -10px;
-    background-color: #233047;
-    border-radius: 5px;
-    position: relative;
-    left: -25px;
-    border: none;
-}
-.order-filter input {
-    width: 150px; height: 25px;
-    border-radius: 5px;
-    border: 1px solid #e3e3e3;
-}
-.order-filter input, .order-filter select {
-    position: relative; left: 223px;
-    /* margin-left: 10px; */
-}
-
+/* //////////////////////////////////////////////////////////// */
 table {
     width: 100%;
-    border: 0px solid red;
     border-collapse: collapse;
     margin-bottom: 20px;
+    /* box-shadow: 0px 4px 8px #e3e3e3; */
 }
 
 table, th, td {
-    border: 1px solid #000;
+    border: 1px solid #777;
 }
 
-th, td {
-    padding: 10px;
-    text-align: center;
-}
 tr {
     font-size: 15px;
 }
 
 th {
+    padding: 5px;
+    text-align: center;
     background-color: #e3e3e3;
 }
 
-.detail:hover {
-    color: blue;
-    cursor: pointer;
+td {
+    padding: 5px;
+    text-align: center;
+    height: auto;
+}
+
+
+/* ----- pagination ----- */
+.center {
+    margin-top: 20px;
+    text-align: center;
 }
 
 .pagination {
-    border: 0px solid green;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 5px;
-    margin: 0 auto;
-    justify-content: center;
+    display: inline-block;
 }
+
 .pagination a {
-    outline: none;
-}
-
-.page-numbers {
-    position: relative;
-    display: flex;
-    list-style: none;
-    padding: 0;
-}
-
-.page-numbers li {
-    margin: 0 5px;
-}
-
-.page-numbers li a {
-    padding: 5px 10px;
-    /* border: 1px solid #000; */
+    color: black;
+    float: left;
+    padding: 8px 16px;
     text-decoration: none;
-    color: #000;
-
+    transition: background-color .3s;
+    margin: 0 4px;
 }
 
-.page-numbers li a.active {
-    background-color: #000;
-    color: #fff;
+.pagination a.active {
+    background-color: #e3e3e3;
 }
 
+.pagination a:hover:not(.active) {
+    background-color: #e3e3e3;
+}
+/* //////////////////////////////////////////////////////////// */
 .buttons {
     position: relative;
     height: 40px;
     right: 10px;
     border: none;
+    display: flex;
+    justify-content: space-between;
 }
 
-.buttons button:nth-of-type(2) {
-    position: relative;
+.button-left {
+    float: left;
 }
 
-.buttons button:nth-of-type(3) {
-    position: relative;
+.button-right {
+    float: right;
 }
 
-button {
-    display: inline-block;
-    padding: 5px 10px;
-    margin-left: 10px;
-    border-radius: 6px;
-    background-color: #233047;
-    color: #fff;
-    cursor: pointer;
-    border:none;
-}
-
-button:hover {
-    background-color: #e3e3e3;
-    color: #233047;
-    border: none;
-}
-
+/* //////////////////////////////////////////////////////////// */
+/* popup modify */
 .popup-modify {
     display: none;
     position: fixed;
@@ -155,7 +118,6 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-
 }
 
 /* tr td */
@@ -165,9 +127,8 @@ button:hover {
 }
 
 .popup-list td {
-    padding: 10px;
+    padding: 5px;
     vertical-align: top;
-    border-color: #ccc;
 }
 
 .new-input {
@@ -175,88 +136,17 @@ button:hover {
     left: 33px;
 }
 
+.popup-list>table,
+.popup-list td {
+    border: 1px solid #e3e3e3;
+}
+
 .popup-list table p {
     margin: 0;
 }
 
-.popup-modify:hover {
-    cursor: pointer;
-}
-
-.popup-modify .popup-content {
-    background-color: white;
-    margin: 13% auto;
-    width: 900px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow : 0px 8px 16px #e3e3e3;
-}
-
-.popup-modify .popup-content h2 {
-    color: #fff;
-    padding: 10px;
-    background-color: #495864;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.popup-modify .popup-list {
-    padding: 30px;
-}
-
-.popup-modify .popup-list p, input {
-    display: inline-block;
-    position: relative;
-    height: 30px;
-}
-.popup-modify .popup-list p {
-    left: -30px;
-    margin-top: 8px;
-}
-
-.popup-modify .contract-status {
-    position: relative;
-    right: 86px;
-}
-
-.popup-modify .popup-list input {
-    border: 1px solid #e3e3e3;
-    border-radius: 5px; height: 25px; left: -5px;
-    width: 260px;
-}
-
-.popup-modify .popup-list div:nth-of-type(1) input,
-.popup-modify .popup-list div:nth-of-type(7) input {
-    left: 2px;
-}
-
-.popup-modify .popup-list div:nth-of-type(8) input {
-    left: -12px;
-}
-.popup-modify .close-btn {
-    float: right;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.popup-modify .popup-button button {
-    width: 100px;
-    height: 100%;
-    margin-bottom: 20px;
-}
-
-.popup-modify .popup-button button:nth-of-type(1) {
-    position: relative;
-    right: 260px;
-}
-
-.popup-modify .popup-button button:nth-of-type(2),
-.popup-modify .popup-button button:nth-of-type(3) {
-    position: relative;
-    left: 260px;
-}
-
-
+/* //////////////////////////////////////////////////////////// */
+/* popup regist */
 .popup-regist {
     display: none;
     position: fixed;
@@ -268,84 +158,198 @@ button:hover {
 
 .popup-regist .popup-content {
     background-color: white;
-    margin: 13% auto;
-    width: 1050px;
+    margin: 10% auto;
+    width: 900px;
+    height: auto;
     border-radius: 10px;
     text-align: center;
-    box-shadow : 0px 8px 16px #e3e3e3;
+    box-shadow: 0px 8px 16px #e3e3e3;
 }
 
 .popup-regist .popup-content h2 {
     color: #fff;
     padding: 10px;
-    background-color: #495864;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    font-size: 25px; letter-spacing: 2px; font-weight: 400;
+    background-color: #434343;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 50px; line-height: 35px;
 }
 
 .popup-regist .popup-list {
-    padding: 30px;
+    padding: 10px;
 }
 
-.popup-regist .popup-list p, input {
+.popup-regist .popup-list p,
+input {
     display: inline-block;
     position: relative;
     height: 30px;
 }
+
 .popup-regist .popup-list p {
-    margin-top: 8px;
+    line-height: 30px;
+    width: 100%;
 }
 
-.product-price {
-    display: flex;
-    align-items: center;
-    border: none;
-}
-
-.popup-list > table, th, td {
-    border-color: #ccc;
-}
-
-.product-price > .price-input {
-    width: 70%;
-    margin-right: 8px;
+.product-price>.newinput {
+    width: 80%;
 }
 
 .popup-regist .popup-list input {
-    border: 1px solid #ccc;
+    border: 1px solid #e3e3e3;
     border-radius: 4px;
     width: 100%;
     padding: 6px 12px;
+}
+
+#add-item-btn-regist {
+    position: absolute;
 }
 
 .popup-regist .popup-list div:nth-of-type(1) input {
     left: 2px;
 }
 
-.button-regist {
-    position: relative;
-    left: 768px;
+.popup-button {
+    height: 50px;
+
+}
+.popup-regist .popup-button button {
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
-.popup-regist .close-btn {
-    float: right;
-    font-size: 20px;
+.popup-regist .close-btn3 {
     cursor: pointer;
 }
 
-.popup-regist .popup-button button {
-    width: 100px;
-    height: 100%;
-    margin-bottom: 20px;
+
+
+/* popup modify */
+.popup-modify:hover {
+    cursor: pointer;
 }
 
-.popup-regist .popup-button button:nth-of-type(1) {
-    position: relative;
-    right: 250px;
+.popup-modify .popup-content {
+    background-color: white;
+    margin: 10% auto;
+    width: 900px;
+    height: auto;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 8px 16px #e3e3e3;
 }
 
-.popup-regist .popup-button button:nth-of-type(2),
-.popup-regist .popup-button button:nth-of-type(3) {
+.popup-modify .popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    font-size: 25px; letter-spacing: 2px; font-weight: 400;
+    background-color: #434343;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 50px; line-height: 35px;
+}
+
+.popup-modify .popup-list {
+    padding: 10px;
+}
+
+.popup-modify .popup-list p,
+input {
+    display: inline-block;
     position: relative;
-    left: 250px;
+    height: 30px;
+}
+
+.popup-modify .popup-list p {
+    line-height: 30px;
+    width: 100%;
+}
+
+.popup-modify .popup-list input, select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+
+.popup-modify .close-btn2 {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+
+
+/* button css (공통) */
+
+button {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, #434343, #000);
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    text-transform: none;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    padding: 5px 10px;
+    margin: 0px -10px 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    width: 130px;
+    height: 30px;
+}
+
+button:active {
+    background-color: #F3F4F6;
+    box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15), 0px 1px 1px rgba(81, 41, 10, 0.15);
+    transform: translateY(0.125rem);
+}
+
+/* filter table */
+.content .filter-content,
+.content .filter-content table {
+    /* border: 1px solid red; */
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.content .filter-content td {
+    border: 1px solid #e3e3e3;
+    letter-spacing: 3px;
+}
+.content .filter-content input {
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+.content .filter-button {
+    margin-left: 194px;
+}
+
+.content .filter-main {
+    display: flex; /* Flexbox 사용 */
+    align-items: right; /* 요소들을 수직 중앙 정렬 */
+    gap: 10px; /* input과 select 사이의 간격 */
+}
+.content .filter-main {
+    margin: 0px 10px 10px 0px;
+    width: 23%;
+    float: right;
+}
+
+
+.content .filter-main select {
+    flex: 1;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    height: 32px;
+    border-radius: 4px;
+    width: 100%;
 }

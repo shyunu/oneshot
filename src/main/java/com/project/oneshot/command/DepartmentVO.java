@@ -1,6 +1,7 @@
-package com.project.oneshot.entity.mybatis;
+package com.project.oneshot.command;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class DepartmentVO {
 
     @NotNull(message = "부서번호는 필수입니다.")

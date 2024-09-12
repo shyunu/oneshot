@@ -1,7 +1,7 @@
 package com.project.oneshot.hr.department;
 
 
-import com.project.oneshot.entity.mybatis.DepartmentVO;
+import com.project.oneshot.command.DepartmentVO;
 
 import java.util.List;
 

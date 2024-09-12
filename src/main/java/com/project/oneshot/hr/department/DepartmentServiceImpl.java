@@ -1,6 +1,6 @@
 package com.project.oneshot.hr.department;
 
-import com.project.oneshot.entity.mybatis.DepartmentVO;
+import com.project.oneshot.command.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

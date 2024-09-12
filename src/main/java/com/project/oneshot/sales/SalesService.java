@@ -1,7 +1,7 @@
 package com.project.oneshot.sales;
 
 
-import com.project.oneshot.entity.mybatis.ContractVO;
+import com.project.oneshot.command.ContractVO;
 
 import java.util.List;
 
