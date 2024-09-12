@@ -24,7 +24,6 @@ header{
     border-right: none;
     justify-content: space-around;
     display: flex;
-    justify-content: space-between;
 }
 header .left {
     margin: 2px;
@@ -93,7 +92,7 @@ header .right div {
 .aside .category .title {
     font-size: 25px;
 }
-6
+
 .aside .category .title:hover {
     background-color: #B3D5E0;
 }

@@ -7,18 +7,45 @@
 
     <!-- 사원 리스트 -->
     <select id="getAllEmployees" resultType="EmployeeVO">
-        SELECT * FROM employee
+        SELECT
+            e.employee_no,
+            e.department_no,
+            e.position_no,
+            e.employee_name,
+            e.employee_birth,
+            e.employee_phone,
+            e.emergency_phone,
+            e.employee_address,
+            e.account_number,
+            e.employee_hiredate,
+            e.employee_status,
+            e.employee_email,
+            e.employee_photo_path,
+            e.bank_no,
+            e.account_holder,
+            d.department_name,
+            p.position_name
+        FROM
+            employee e
+                LEFT JOIN
+            department d ON e.department_no = d.department_no
+                LEFT JOIN
+            position p ON e.position_no = p.position_no
+        where e.employee_status='y'
     </select>
 
     <select id="getAllBank" resultType="BankVO">
         SELECT * FROM bank
+    </select>
+    <select id="getAllPosition" resultType="PositionVO">
+        SELECT * FROM position order by position_no asc
     </select>
 
     <!-- 사원 생성 및 업데이트 -->
     <insert id="insertEmployee" parameterType="EmployeeVO">
         INSERT INTO employee (
         department_no,
-        rank_no,
+        position_no,
         employee_name,
         employee_birth,
         employee_phone,
@@ -26,13 +53,13 @@
         employee_address,
         account_number,
         employee_hiredate,
-        employee_status,
         employee_email,
         bank_no,
+        account_holder,
         employee_photo_path
         ) VALUES (
         #{departmentNo},
-        #{rankNo},
+        #{positionNo},
         #{employeeName},
         #{employeeBirth},
         #{employeePhone},
@@ -40,11 +67,19 @@
         #{employeeAddress},
         #{accountNumber},
         #{employeeHiredate},
-        #{employeeStatus},
         #{employeeEmail},
         #{bankNo},
+        #{accountHolder},
         #{employeePhotoPath}
         )
     </insert>
 
+    <update id="updateEmployee" parameterType="list">
+        UPDATE employee
+        SET employee_status = 'n'
+        WHERE employee_no IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

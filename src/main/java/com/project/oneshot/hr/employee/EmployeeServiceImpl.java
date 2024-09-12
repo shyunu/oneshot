@@ -2,6 +2,7 @@ package com.project.oneshot.hr.employee;
 
 import com.project.oneshot.entity.mybatis.BankVO;
 import com.project.oneshot.entity.mybatis.EmployeeVO;
+import com.project.oneshot.entity.mybatis.PositionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,20 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeMapper.getAllBank();
     }
 
+    @Override
+    public List<PositionVO> getAllPosition() {
+        return employeeMapper.getAllPosition();
+    }
 
     @Override
     public int insertEmployee(EmployeeVO vo) {
         return employeeMapper.insertEmployee(vo);
     }
+
+    @Override
+    public int updateEmployee(List<Integer> employeeNos) {
+        return employeeMapper.updateEmployee(employeeNos);
+    }
+
 
 }
