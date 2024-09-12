@@ -12,6 +12,14 @@ html, body{
     position: absolute;
     font-size: 20px;
 }
+
+.user{
+    display: flex;
+    width: 300px;
+    padding: 10px;
+}
+
+
 .flex{ /* flex넣을려면 이걸로 */
     display: flex;
 }
@@ -29,19 +37,24 @@ button{
 }
 
 .btn {
-    /* height: 40px;
-    width: 80px; */
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
+    height: 30px;
+    border-radius: 6px;
+    border-style: none;
+    background-color: #233047;
+    color : white;
+    width: 95px;
 }
-
+.user{
+    display: flex;
+    width: 300px;
+    padding: 10px;
+}
 
 /* 헤더 */
 header{
     border-bottom: 1px solid #aaaaaa;
     height: 100px;
+    justify-content: space-between;
 }
 header .menu{
     width: 100%;
@@ -53,6 +66,14 @@ header .menu{
 }
 header .user-name{
     padding-left: 10px;
+}
+.user-content{
+    flex-direction: column;
+}
+.user-photo{
+    width: 50px;
+    height: 50px;
+    margin-top: 9px;
 }
 .search{
     display: block;
@@ -84,61 +105,50 @@ header .user-name{
 }
 
 
-
-
-/* 사이드바 */
-aside{
-    width: 250px;
-    height: 100%;
-    flex-direction: column;
-    border-right: 1px solid #aaaaaa;
-}
-aside .wrapper-side-menu{
-    flex: 1;
-    width: 100%;
-    flex-direction: column;
-}
-aside .wrapper-side-menu .user-content{
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding-top: 10px;
-    padding-bottom: 30px;
-}
-aside .wrapper-side-menu .user-content .user-photo{
-    width: 100px;
-    height: 100px;
-    margin: 20px 20px;
-}
-aside .wrapper-side-menu .user-content .user-name{
-    padding-bottom: 10px;
-}
-
-aside .wrapper-side-menu .side-menu{
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 1.2em;
-}
-
-aside .wrapper-side-menu .side-menu li::marker  {
-    content: "•"; /* 유니코드 불릿 문자 사용 */
-    font-size: 15px; /* 불릿 크기 조정 */
-    position: absolute;
-    top: 20px;
-}
-aside .wrapper-side-menu .side-menu li a {
-    padding-right: 40px;
-}
-aside .wrapper-side-menu .logout{
-}
-
-.wrapper{
-    overflow: auto;
-    padding: 20px;
-
-}
-
 #root{
     overflow: auto;
+}
+
+/* aside */
+.aside {
+    flex: 0 0 250px;
+    box-shadow: 0px 8px 16px #e3e3e3;
+    background-color: #233047;
+    color: #fff;
+    overflow: auto;
+}
+
+/* .aside .category {
+    border: 1px solid Red;
+    height: 150px;
+} */
+.aside .category div{
+    text-align: center;
+    width: 100%; height: 60px; line-height: 60px;
+}
+
+
+.aside .category .submenu {
+    height: 0; /* 기본적으로 숨김 처리 */
+    overflow: hidden; /* 내용 넘침 방지 */
+    transition: height 0.2s ease-in-out;
+}
+.aside .category .submenu a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+.aside .category .submenu.open {
+    height: auto;
+}
+.aside .category .submenu {
+    background-color: #fff;
+    color: #000;
+}
+.aside .category .title {
+    font-size: 25px;
+}
+
+.aside .category .title:hover {
+    background-color: #B3D5E0;
 }
