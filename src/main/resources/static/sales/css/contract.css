@@ -4,7 +4,7 @@
 }
 
 .order-wrap {
-    width: 100%;
+    width: 105%;
     height: 100vh;
 }
 
@@ -19,19 +19,17 @@
     float: left;
     width: 100%;
     position: relative;
-    margin-top: 10px;
     margin-bottom: 20px;
     padding: 5px;
     border-bottom: 1px solid #e3e3e3;
     border-top: 1px solid #777;
 }
 
-.text-wrap h2 {
+.text-wrap p {
     font-size: 30px;
     line-height: 30px;
 }
-
-.text-wrap p {
+.text-wrap p:nth-of-type(2) {
     font-size: 13px;
     margin-bottom: 5px;
 }
@@ -67,7 +65,6 @@ td {
 
 /* ----- pagination ----- */
 .center {
-    margin-top: 20px;
     text-align: center;
 }
 
@@ -330,7 +327,7 @@ button:active {
 }
 
 .content .filter-button {
-    margin-left: 194px;
+    margin-left: 0px;
 }
 
 .content .filter-main {
@@ -338,9 +335,10 @@ button:active {
     align-items: right; /* 요소들을 수직 중앙 정렬 */
     gap: 10px; /* input과 select 사이의 간격 */
 }
+
 .content .filter-main {
     margin: 0px 10px 10px 0px;
-    width: 23%;
+    width: 8%;
     float: right;
 }
 
@@ -349,7 +347,7 @@ button:active {
     flex: 1;
     border-radius: 10px;
     border: 1px solid #e3e3e3;
-    height: 32px;
+    height: 30px;
     border-radius: 4px;
     width: 100%;
 }
