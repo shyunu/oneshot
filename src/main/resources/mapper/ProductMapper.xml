@@ -1,5 +1,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.inventory.product.ProductMapper">
+    <select id="getProductList" resultType="ProductVO">
+        select * from product order by product_no desc
+    </select>
 
+    <select id="getSupplierList" resultType="SupplierVO">
+        select * from supplier order by supplier_name
+    </select>
+
+    <select id="getSupplierContent" parameterType="int" resultType="SupplierVO">
+        select * from supplier where supplier_no = #{supplierNo}
+    </select>
+
+    <select id="getCategoryList" resultType="CategoryVO">
+        select * from category order by category_name
+    </select>
 </mapper>

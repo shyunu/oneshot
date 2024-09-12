@@ -107,16 +107,82 @@
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
-
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
-                <div class="order-title">
-                    <p>판매내역</p>
-                    <div>
-                        여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다.)
+                <p>판매내역</p>
+                <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+            </div>
+            <div class="order-title">
+                <div class="filter-content">
+                    <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
+                    <div class="filter-main">
+                        <h3>상세내역검색</h3>
+                        <button class="filter-button">검색하기</button>
                     </div>
-                    <p>❉ 수정을 원하시면 no 및 고객사명을 클릭하세요.</p>
+
+                    <table>
+                        <tr>
+                            <td>
+                                <p>고객사명</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>상품품목명</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>계약담당자</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>계약상태</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>계약만료예정</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>계약담당자</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                        </tr>
+                        <tr></tr>
+                        <td>
+                            <p>계약상태</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약만료예정</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약담당자</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <table>
@@ -135,6 +201,7 @@
                     <th>배송일</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <tr>
                     <td><input type="checkbox" class="checkbox"></td>

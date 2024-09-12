@@ -4,6 +4,7 @@ import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
 import com.project.oneshot.inventory.product.ProductService;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,22 +18,35 @@ import java.nio.file.Files;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/inventory")
 public class ProductRestController {
 
     @Autowired
     ProductService productService;
 
+    @GetMapping("getSupplierList")
+    public List<SupplierVO> getAllSuppliers() {
+        List<SupplierVO> list = productService.getSupplierList();
+        return list;
+    }
+
+    @GetMapping("getSupplierContent")
+    public SupplierVO getProductDetails(@RequestParam("supplierNo") int supplierNo) {
+        SupplierVO vo = productService.getSupplierContent(supplierNo);
+        return vo;
+    }
+
+    @GetMapping("getCategoryList")
+    public List<CategoryVO> getCategoryList() {
+        List<CategoryVO> list = productService.getCategoryList();
+        return list;
+    }
+
+    /*
     @GetMapping("suppliers")
     public List<SupplierVO> getAllSuppliers() {
         List<SupplierVO> list = productService.getAllSuppliers();
         return list;
-    }
-
-    @GetMapping("supplier")
-    public SupplierVO getSupplierDetails(@RequestParam("supplierNo") Long supplierNo) {
-        SupplierVO vo = productService.getSupplierDetails(supplierNo);
-        return vo;
     }
 
     @GetMapping("categories")
@@ -65,4 +79,5 @@ public class ProductRestController {
         }
         return result;
     }
+    */
 }

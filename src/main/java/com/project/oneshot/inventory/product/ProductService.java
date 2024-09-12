@@ -5,24 +5,19 @@ import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
 
-    public List<SupplierVO> getAllSuppliers();
+    List<ProductVO> getProductList();
 
-    SupplierVO getSupplierDetails(Long supplierNo);
+    List<SupplierVO> getSupplierList();
 
-    void registerProduct(ProductVO vo);
+    SupplierVO getSupplierContent(int supplierNo);
 
-    List<CategoryVO> getAllCategories();
+    List<CategoryVO> getCategoryList();
 
-    List<ProductVO> getProductDetails(Long supplierNo);
-
-    SupplierVO registerSupplier(SupplierVO supplier);
-
-    Page<ProductVO> getAllProducts(int page, int size);
-
-    CategoryVO getCategoryById(Long categoryNo);
+    void registerProduct(ProductVO vo, MultipartFile file);
 }
