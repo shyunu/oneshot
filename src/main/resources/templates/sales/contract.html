@@ -107,150 +107,42 @@
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
-
-    <nav class="navbar">
-        <div class="logo_item">
-            <i class="sidebar" id="sidebarOpen"></i>
-            <img src="/img/userCircle.png" class="profile" />
-        </div>
-
-        <div class="navbar_content">
-            <i class='bx bx-sun' id="darkLight"></i>
-            <img src="../../common/img/userCircle.png" class="profile" />
-        </div>
-    </nav>
-
-    <div class="sidebar_content">
-        <nav class="sidebar">
-            <div class="menu_content">
-                <ul class="menu_items">
-                    <li class="item">
-                        <div href="#" class="nav_link submenu_item">
-                                <span class="navlink_icon">
-                                    <i class="bx bx-home-alt"></i>
-                                </span>
-                            <span class="navlink">홈</span>
-                        </div>
-                    </li>
-
-                    <li class="item">
-                        <div href="#" class="nav_link submenu_item" id="mainCategory1">
-                                <span class="navlink_icon">
-                                    <i class="bx bx-grid-alt"></i>
-                                </span>
-                            <span class="navlink">인사관리</span>
-                            <i class="bx bx-chevron-right arrow-left"></i>
-                        </div>
-
-                        <ul class="submenu">
-                            <a href="#" class="nav_link sublink" id="subCategory1">사원관리</a>
-                            <a href="#" class="nav_link sublink" id="subCategory2">부서관리</a>
-                        </ul>
-                    </li>
-
-                    <li class="item">
-                        <div href="#" class="nav_link submenu_item" id="mainCategory2">
-                                <span class="navlink_icon">
-                                    <i class="bx bx-grid-alt"></i>
-                                </span>
-                            <span class="navlink">재고관리</span>
-                            <i class="bx bx-chevron-right arrow-left"></i>
-                        </div>
-
-                        <ul class="submenu">
-                            <a href="#" class="nav_link sublink">재고내역관리</a>
-                            <a href="/product/productList" class="nav_link sublink" id="subCategory1">구매내역관리</a>
-                            <a href="/inventory/supplierList" class="nav_link sublink" id="subCategory2">공급업체관리</a>
-                        </ul>
-                    </li>
-
-                    <li class="item">
-                        <div href="#" class="nav_link submenu_item" id="mainCategory3">
-                                <span class="navlink_icon">
-                                    <i class="bx bx-grid-alt"></i>
-                                </span>
-                            <span class="navlink">영업관리</span>
-                            <i class="bx bx-chevron-right arrow-left"></i>
-                        </div>
-
-                        <ul class="submenu">
-                            <a href="/sales/contract" class="nav_link sublink" id="subCategory1">거래가격관리</a>
-                            <a href="/sales/order" class="nav_link sublink" id="subCategory2">판매내역관리</a>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="bottom_content">
-                    <div class="bottom expand_sidebar">
-                        <span> Expand</span>
-                    </div>
-                    <div class="bottom collapse_sidebar">
-                        <span>로그아웃</span>
-                        <i class='bx bx-log-out'></i>
-                    </div>
-                </div>
+    <div class="content">
+        <div class="order-wrap">
+            <div class="text-wrap">
+                <p>계약가격내역</p>
+                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
-        </nav>
+            <div class="order-title">
+                <div class="filter-content">
+                    <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
+                    <h3>상세내역검색</h3>
+                    <div class="filter-main">
+                        <button class="filter-button">검색하기</button>
+                    </div>
 
-        <div class="content">
-
-            <div class="order-wrap">
-                <div class="text-wrap">
-                    <h2>계약가격내역</h2>
-                    <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
-                </div>
-                <div class="order-title">
-                    <div class="filter-content">
-                        <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
-                        <div style="float: left;">
-                            <h3>상세내역검색</h3>
-                        </div>
-                        <div class="filter-main">
-                            <button class="filter-button">검색하기</button>
-                        </div>
-
-                        <table>
-                            <tr>
-                                <td>
-                                    <p>고객사명</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                                <td>
-                                    <p>상품품목명</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                                <td>
-                                    <p>계약담당자</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>계약상태</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                                <td>
-                                    <p>계약만료예정</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                                <td>
-                                    <p>계약담당자</p>
-                                </td>
-                                <td>
-                                    <input type="text">
-                                </td>
-                            </tr>
-                            <tr></tr>
+                    <table>
+                        <tr>
+                            <td>
+                                <p>고객사명</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>상품품목명</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <p>계약담당자</p>
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                        </tr>
+                        <tr>
                             <td>
                                 <p>계약상태</p>
                             </td>
@@ -269,248 +161,259 @@
                             <td>
                                 <input type="text">
                             </td>
-                            </tr>
-                        </table>
-
-
-
-
-
-                    </div>
-
-                </div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th><input type="checkbox" id="selectAll"></th>
-                        <th>no</th>
-                        <th>고객사명</th>
-                        <th>계약시작일</th>
-                        <th>계약종료일</th>
-                        <th>상품품목명</th>
-                        <th>계약담당자</th>
-                        <th>계약상태</th>
-                        <th>계약만료예정</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="vo : ${list}">
-                        <td><input type="checkbox" class="checkbox"></td>
-                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)">1</td>
-                        <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)">삼성전자 주식회사</td>
-                        <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"
-                            onclick="handleClick(this.innerHTML)">2022-01-01</td>
-                        <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"
-                            onclick="handleClick(this.innerHTML)">2025-12-31</td>
-                        <td th:text="${vo.productName}" onclick="handleClick(this.innerHTML)">갤럭시 워치</td>
-                        <td th:text="${vo.managerName}" onclick="handleClick(this.innerHTML)">이재용</td>
-                        <td th:text="${vo.contractPriceStatus}" onclick="handleClick(this.innerHTML)">승인완료</td>
-                        <td th:text="${vo.contractDday}" onclick="handleClick(this.innerHTML)">2024-12-01</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="buttons">
-                    <div class="button-left">
-                        <button>Excel로 내보내기</button>
-                        <button>계약서 저장</button>
-                    </div>
-                    <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규거래
-                        등록</button>
+                        </tr>
+                        <tr></tr>
+                        <td>
+                            <p>계약상태</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약만료예정</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        <td>
+                            <p>계약담당자</p>
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                        </tr>
+                    </table>
                 </div>
 
-                <div class="center">
-                    <div class="pagination">
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">&raquo;</a>
-                    </div>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>no</th>
+                    <th>고객사명</th>
+                    <th>계약시작일</th>
+                    <th>계약종료일</th>
+                    <th>상품품목명</th>
+                    <th>계약담당자</th>
+                    <th>계약상태</th>
+                    <th>계약만료예정</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vo : ${list}">
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"
+                        onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"
+                        onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${vo.productName}" onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${vo.managerName}" onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${vo.contractPriceStatus}" onclick="handleClick(this.innerHTML)"></td>
+                    <td th:text="${vo.contractDday}" onclick="handleClick(this.innerHTML)"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="buttons">
+                <div class="button-left">
+                    <button>Excel로 내보내기</button>
+                    <button>계약서 저장</button>
                 </div>
+                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규거래
+                    등록</button>
             </div>
 
-            <!-- 등록 기능 -->
-            <div id="popup-regist" class="popup-regist">
-                <form name="registForm" action="registForm" method="post">
-                    <div class="popup-content">
-                        <h2>계약 등록하기</h2>
-                        <div class="popup-list">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <p>고객사명(번호)</p>
-                                    </td>
-                                    <td><input type="number" name="clientNo"></td>
-                                    <td>
-                                        <p>계약시작일</p>
-                                    </td>
-                                    <td><input type="date" name="contractSdate"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>계약담당자</p>
-                                    </td>
-                                    <td><input type="number" name="employeeNo"></td>
-                                    <td>
-                                        <p>계약종료일</p>
-                                    </td>
-                                    <td><input type="date" name="contractEdate"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>상품품목명</p>
-                                    </td>
-                                    <td><input type="number" name="productNo"></td>
-                                    <td class="product-price">
-                                        <p>책정거래가</p>
-                                    </td>
-                                    <td><input type="number" name="contractPrice"></td>
-                                    <!-- <td><button type="button"
-                                        id="add-item-btn-regist">+</button></td> -->
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="popup-button">
-                            <div class="button-left">
-                                <button>계약서 첨부</button>
-                            </div>
-                            <div class="button-right">
-                                <button type="submit">등록</button>
-                                <button type="button" class="close-btn3">닫기</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- 수정 기능 -->
-            <div id="popup-modify" class="popup-modify">
-                <form name="modifyForm" action="modifyForm" method="post">
-                    <div class="popup-content">
-                        <h2>계약 상세보기</h2>
-                        <div class="popup-list">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <p>고객사명</p>
-                                    </td>
-                                    <td><input type="text"></td>
-                                    <td>
-                                        <p>계약시작일</p>
-                                    </td>
-                                    <td><input type="date"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>계약담당자</p>
-                                    </td>
-                                    <td><input type="text"></td>
-                                    <td>
-                                        <p>계약종료일</p>
-                                    </td>
-                                    <td><input type="date"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>상품품목명</p>
-                                    </td>
-                                    <td><input type="text" name="product-name"></td>
-                                    <td class="product-price">
-                                        <p>책정거래가</p>
-                                    </td>
-                                    <td><input type="text" name="price"></td>
-
-                                    <!-- <td><button type="button"
-                                        id="add-item-btn">+</button></td> -->
-                                </tr>
-                                <tr>
-                                    <td class="contract-status">
-                                        <p>계약상태</p>
-                                    </td>
-                                    <td><select>
-                                        <option>선택하세요.</option>
-                                        <option>승인</option>
-                                        <option>반려</option>
-                                    </select></td>
-                                    <td>
-                                        <p>계약만료예정</p>
-                                    </td>
-                                    <td><input type="text"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="popup-button">
-                            <div class="button-left">
-                                <button>계약서 첨부</button>
-                            </div>
-                            <div class="button-right">
-                                <button type="submit">등록</button>
-                                <button type="button" class="close-btn2">닫기</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="center">
+                <div class="pagination">
+                    <a href="#">&laquo;</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">&raquo;</a>
+                </div>
             </div>
         </div>
 
-    </div>
+        <!-- 등록 기능 -->
+        <div id="popup-regist" class="popup-regist">
+            <form name="registForm" action="registForm" method="post">
+                <div class="popup-content">
+                    <h2>계약 등록하기</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <p>고객사명(번호)</p>
+                                </td>
+                                <td><input type="number" name="clientNo"></td>
+                                <td>
+                                    <p>계약시작일</p>
+                                </td>
+                                <td><input type="date" name="contractSdate"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>계약담당자</p>
+                                </td>
+                                <td><input type="number" name="employeeNo"></td>
+                                <td>
+                                    <p>계약종료일</p>
+                                </td>
+                                <td><input type="date" name="contractEdate"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>상품품목명</p>
+                                </td>
+                                <td><input type="number" name="productNo"></td>
+                                <td class="product-price">
+                                    <p>책정거래가</p>
+                                </td>
+                                <td><input type="number" name="contractPrice"></td>
+                                <!-- <td><button type="button"
+                                    id="add-item-btn-regist">+</button></td> -->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <div class="button-left">
+                            <button>계약서 첨부</button>
+                        </div>
+                        <div class="button-right">
+                            <button type="submit">등록</button>
+                            <button type="button" class="close-btn3">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 수정 기능 -->
+        <div id="popup-modify" class="popup-modify">
+            <form name="modifyForm" action="modifyForm" method="post">
+                <div class="popup-content">
+                    <h2>계약 상세보기</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <p>고객사명</p>
+                                </td>
+                                <td><input type="text"></td>
+                                <td>
+                                    <p>계약시작일</p>
+                                </td>
+                                <td><input type="date"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>계약담당자</p>
+                                </td>
+                                <td><input type="text"></td>
+                                <td>
+                                    <p>계약종료일</p>
+                                </td>
+                                <td><input type="date"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>상품품목명</p>
+                                </td>
+                                <td><input type="text" name="product-name"></td>
+                                <td class="product-price">
+                                    <p>책정거래가</p>
+                                </td>
+                                <td><input type="text" name="price"></td>
+
+                                <!-- <td><button type="button"
+                                    id="add-item-btn">+</button></td> -->
+                            </tr>
+                            <tr>
+                                <td class="contract-status">
+                                    <p>계약상태</p>
+                                </td>
+                                <td><select>
+                                    <option>선택하세요.</option>
+                                    <option>승인</option>
+                                    <option>반려</option>
+                                </select></td>
+                                <td>
+                                    <p>계약만료예정</p>
+                                </td>
+                                <td><input type="text"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <div class="button-left">
+                            <button>계약서 첨부</button>
+                        </div>
+                        <div class="button-right">
+                            <button type="submit">등록</button>
+                            <button type="button" class="close-btn2">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </th:block>
 
-<script>
+    <script>
 
-    // 전체 선택 체크박스
-    const selectAllCheckbox = document.getElementById('selectAll');
+        // 전체 선택 체크박스
+        const selectAllCheckbox = document.getElementById('selectAll');
 
-    // 각 체크박스들
-    const checkboxes = document.querySelectorAll('.checkbox');
+        // 각 체크박스들
+        const checkboxes = document.querySelectorAll('.checkbox');
 
-    // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
-    selectAllCheckbox.addEventListener('change', function () {
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = selectAllCheckbox.checked;
+        // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
+        selectAllCheckbox.addEventListener('change', function () {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
         });
-    });
 
-    // 팝업창 열기 및 닫기 기능
-    const popupModify = document.getElementById('popup-modify');
-    const popupRegist = document.getElementById('popup-regist');
-    const closeBtn = document.querySelectorAll('.close-btn');
-    const closeBtn2 = document.querySelector('.close-btn2');
-    const closeBtn3 = document.querySelector('.close-btn3');
-    const forPopup = document.querySelectorAll('.for-popup');
+        // 팝업창 열기 및 닫기 기능
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
+        const closeBtn = document.querySelectorAll('.close-btn');
+        const closeBtn2 = document.querySelector('.close-btn2');
+        const closeBtn3 = document.querySelector('.close-btn3');
+        const forPopup = document.querySelectorAll('.for-popup');
 
-    // 팝업창 열기
-    function handleClick(tdValue) { //수정페이지
-        popupModify.style.display = 'block';
-    }
-    function handleClick2(tdValue) { //수정페이지
-        popupRegist.style.display = 'block';
-    }
+        // 팝업창 열기
+        function handleClick(tdValue) { //수정페이지
+            popupModify.style.display = 'block';
+        }
+        function handleClick2(tdValue) { //수정페이지
+            popupRegist.style.display = 'block';
+        }
 
 
-    // 팝업창 닫기
-    function closePopupModify() {
-        popupModify.style.display = 'none';
-    }
-    function closePopupRegist() {
-        popupRegist.style.display = 'none';
-    }
+        // 팝업창 닫기
+        function closePopupModify() {
+            popupModify.style.display = 'none';
+        }
+        function closePopupRegist() {
+            popupRegist.style.display = 'none';
+        }
 
-    // 닫기 버튼 클릭 시 팝업창 닫기
-    closeBtn2.addEventListener('click', closePopupModify); //--- 닫기 버튼
-    closeBtn3.addEventListener('click', closePopupRegist); //--- 닫기 버튼
+        // 닫기 버튼 클릭 시 팝업창 닫기
+        closeBtn2.addEventListener('click', closePopupModify); //--- 닫기 버튼
+        closeBtn3.addEventListener('click', closePopupRegist); //--- 닫기 버튼
 
-    // 등록팝업창 열기
-    const registBtn = document.getElementById('button-regist');
-    registBtn.addEventListener('click', openPopup);
-</script>
-
+        // 등록팝업창 열기
+        const registBtn = document.getElementById('button-regist');
+        registBtn.addEventListener('click', openPopup);
+    </script>
 </html>
