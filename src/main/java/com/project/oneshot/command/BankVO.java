@@ -1,5 +1,4 @@
-package com.project.oneshot.entity.mybatis;
-
+package com.project.oneshot.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
