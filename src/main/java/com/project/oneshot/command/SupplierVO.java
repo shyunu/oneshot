@@ -1,22 +1,15 @@
-package com.project.oneshot.entity.jpa;
+package com.project.oneshot.command;
 
 import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "supplier")
-@Getter
-@Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
 public class SupplierVO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "supplier_seq")
-    @SequenceGenerator(name = "supplier_seq", sequenceName = "supplier_seq", allocationSize = 1)
     private Long supplierNo;
     private String supplierName;
     private String supplierAddress;

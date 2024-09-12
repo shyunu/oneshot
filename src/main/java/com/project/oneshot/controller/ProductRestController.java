@@ -1,8 +1,8 @@
 package com.project.oneshot.controller;
 
-import com.project.oneshot.entity.jpa.CategoryVO;
-import com.project.oneshot.entity.jpa.ProductVO;
-import com.project.oneshot.entity.jpa.SupplierVO;
+import com.project.oneshot.command.CategoryVO;
+import com.project.oneshot.command.ProductVO;
+import com.project.oneshot.command.SupplierVO;
 import com.project.oneshot.inventory.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -1,13 +1,16 @@
-package com.project.oneshot.entity.mybatis;
+package com.project.oneshot.command;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@Builder
 public class EmployeeVO {
     private Integer employeeNo;           // 사원번호
     private String employeeName;          // 사원이름

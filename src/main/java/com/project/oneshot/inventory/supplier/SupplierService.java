@@ -1,6 +1,6 @@
 package com.project.oneshot.inventory.supplier;
 
-import com.project.oneshot.entity.jpa.SupplierVO;
+import com.project.oneshot.command.SupplierVO;
 
 import java.util.List;
 

@@ -1,127 +1,204 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+* {
+  padding: 0;
+  box-sizing: border-box;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+.product-wrap {
+  width: 100%;
+  height: 100vh;
 }
-body {
-	line-height: 1;
+
+.text-wrap {
+  display: flex;
 }
-ol, ul {
-	list-style: none;
+
+.product-title {
+  margin-left: 10px;
 }
-blockquote, q {
-	quotes: none;
+
+.product-title p {
+  font-size: 13px;
+  margin-bottom: 5px;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+.product-title p:nth-of-type(1) {
+  font-size: 40px;
 }
+
+/* table */
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-/*--------------------------------------------------*/
+table,
+th,
+td {
+  border: 1px solid #000;
+}
 
-body {
-  position: relative;
+tr {
+  font-size: 15px;
 }
 
 th {
-  text-align: center;
+  padding: 5px;
+  background-color: #e3e3e3;
 }
 
-.table > tbody > tr > td {
+td {
+  padding: 5px;
   text-align: center;
-  vertical-align: middle;
+  background-color: #fff;
+}
+
+input {
+  display: inline-block;
+  position: relative;
+  height: 30px;
 }
 
 img {
   height: 50px;
 }
 
-.popup {
-  position: absolute;
-  top: 400px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 530px;
-  background-color: white;
-  box-shadow: 0px 8px 16px #e3e3e3;
-  border-radius: 10px;
-  z-index: 9;
-  display: none;
+.buttons {
+  text-align: right;
 }
 
-.popup > .popup-header {
-  height: 40px;
-  background-color: #b3d5e0;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+/* button css */
+button {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, #434343, #000);
+  color: #fff;
   text-align: center;
-  line-height: 40px;
+  text-transform: none;
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  width: 130px;
+  height: 30px;
 }
 
-.popup > .popup-main {
-    position: relative;
-    padding: 10px;
+button:active {
+  background-color: #f3f4f6;
+  box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15),
+    0px 1px 1px rgba(81, 41, 10, 0.15);
+  transform: translateY(0.125rem);
 }
 
-.autocomplete {
-    position: relative;
+/* pagination */
+.center {
+  text-align: center;
 }
 
-.autocomplete > .autocomplete-items {
-    position: absolute;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 0 0 5px 5px;
-    z-index: 99;
-    top: 100%;
-    left: 0;
-    right: 0;
+.pagination {
+  display: inline-block;
 }
 
-.autocomplete > .autocomplete-items div {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #fff;
+.pagination ul {
+  display: inline-block;
+  list-style-type: none;
 }
 
-.autocomplete > .autocomplete-items div:hover {
-    background-color: #ddd;
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  margin: 0 4px;
 }
 
-.container {
-    border: 0px solid red;
-    width: 1080px; height: 800px;
-    margin: 0 auto;
-    position: relative;
-    margin-right: 320px;
+.pagination a.active {
+  background-color: #e3e3e3;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #e3e3e3;
+}
+
+/* popup regist */
+.popup-regist {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-regist .popup-content {
+  background-color: white;
+  margin: 10% auto;
+  width: 900px;
+  height: auto;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 8px 16px #e3e3e3;
+}
+
+.popup-regist .popup-content h2 {
+  color: #fff;
+  padding: 10px;
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  background-color: #434343;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  height: 50px;
+  line-height: 35px;
+}
+
+.popup-regist .popup-list {
+  padding: 10px;
+}
+
+.popup-regist .popup-list p,
+input {
+  display: inline-block;
+  position: relative;
+  height: 30px;
+}
+
+.popup-regist .popup-list p {
+  line-height: 30px;
+  width: 100%;
+}
+
+.product-price > .newinput {
+  width: 80%;
+}
+
+.popup-regist .popup-list input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  padding: 6px 12px;
+}
+
+#add-item-btn-regist {
+  position: absolute;
+}
+
+.popup-regist .popup-list div:nth-of-type(1) input {
+  left: 2px;
+}
+
+.popup-button {
+  height: 50px;
+}
+.popup-regist .popup-button button {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.popup-regist .close-btn3 {
+  cursor: pointer;
 }

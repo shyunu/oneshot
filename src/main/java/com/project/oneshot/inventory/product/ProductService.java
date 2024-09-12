@@ -1,9 +1,9 @@
 package com.project.oneshot.inventory.product;
 
 
-import com.project.oneshot.entity.jpa.CategoryVO;
-import com.project.oneshot.entity.jpa.ProductVO;
-import com.project.oneshot.entity.jpa.SupplierVO;
+import com.project.oneshot.command.CategoryVO;
+import com.project.oneshot.command.ProductVO;
+import com.project.oneshot.command.SupplierVO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

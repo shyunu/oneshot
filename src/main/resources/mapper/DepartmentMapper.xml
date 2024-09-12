@@ -11,11 +11,11 @@
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)
         FROM department
-        WHERE department_name = #{departmentName}
+        WHERE department_no = #{departmentNo}
     </select>
 
     <select id="selectDepartment" parameterType="DepartmentVO" resultType="DepartmentVO">
-        select * from department
+        select * from department order by department_no asc
     </select>
 
     <delete id="deleteDepartments" parameterType="list">

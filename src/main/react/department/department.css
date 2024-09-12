@@ -5,6 +5,8 @@
     border-radius: 5px;
     color: #fff;
     font-size: 17px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 .input-error {
     border: 1px solid red;
@@ -35,6 +37,7 @@
     vertical-align: top;	/* 위 */
     vertical-align: bottom;   /* 아래 */
     vertical-align: middle;   /* 가운데 */
+    cursor: pointer;
 }
 
 .wrapper article table tr > td{

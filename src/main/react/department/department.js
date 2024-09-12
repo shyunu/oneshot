@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom/client';
 import './department.css';
 import './popup.css';
 import './delete.css';
-import './search.css';
+
 
 function Department() {
+
     const [modalOpen, setModalOpen] = useState(false);
     const [formValues, setFormValues] = useState({
         departmentNo: '',
@@ -23,6 +24,9 @@ function Department() {
         departmentName: false,
     });
     const [submitted, setSubmitted] = useState(false); // 폼 제출 상태
+
+    // 정렬
+    const [sortConfig, setSortConfig] = useState({ key: 'departmentNo', direction: 'ascending' });
 
     useEffect(() => {
         fetchDepartments();
@@ -145,6 +149,39 @@ function Department() {
         }
     };
 
+    // 정렬
+    const sortedDepartments = [...departments].sort((a, b) => {
+        let aValue = a[sortConfig.key];
+        let bValue = b[sortConfig.key];
+
+        // 부서번호
+        if (sortConfig.key === 'departmentNo') {
+            aValue = parseInt(aValue);
+            bValue = parseInt(bValue);
+        }
+
+        // 사용여부
+        if (sortConfig.key === 'isActive') {
+            aValue = aValue === 'YES' ? 1 : 0;
+            bValue = bValue === 'YES' ? 1 : 0;
+        }
+        if (aValue < bValue) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+    });
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    }
+
     return (
         <main className="wrapper">
             <div className="wrapper-title">
@@ -166,14 +203,22 @@ function Department() {
                                 />
                                 <label htmlFor="checkAll"></label>
                             </td>
-                            <td style={{ width: '150px' }}>부서번호</td>
-                            <td style={{ width: '100px' }}>부서명</td>
-                            <td style={{ width: '100px' }}>사용가능메뉴</td>
-                            <td style={{ width: '200px' }}>사용여부</td>
+                            <td style={{ width: '150px' }} onClick={() => requestSort('departmentNo') }>
+                            부서번호 { sortConfig.key === 'departmentNo' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                            </td>
+                            <td style={{ width: '100px' }} onClick={() => requestSort('departmentName') }>
+                            부서명 { sortConfig.key === 'departmentName' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                            </td>
+                            <td style={{ width: '100px' }} onClick={() => requestSort('menu') }>
+                            사용가능메뉴 { sortConfig.key === 'menu' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                            </td>
+                            <td style={{ width: '200px' }} onClick={() => requestSort('isActive') }>
+                            사용여부 { sortConfig.key === 'isActive' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                            </td>
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map((department) => (
+                        {sortedDepartments.map((department) => (
                             <tr key={department.departmentNo}>
                                 <td>
                                     <input
@@ -184,7 +229,7 @@ function Department() {
                                     />
                                     <label htmlFor={`check${department.departmentNo}`}></label>
                                 </td>
-                                <td>00{department.departmentNo}</td>
+                                <td>{department.departmentNo}</td>
                                 <td>{department.departmentName}</td>
                                 <td>인사관리</td>
                                 <td>YES</td>
@@ -201,8 +246,9 @@ function Department() {
                         disabled={selectedDepartments.length === 0}
                         onClick={handleDeleteClick}
                     >
-                        선택삭제
+                        삭제
                     </button>
+                    <button className="btn">여부</button>
                     <button className="btn" onClick={() => setModalOpen(true)}>등록</button>
                 </div>
             </div>

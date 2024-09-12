@@ -1,95 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/inventory/css/supplier.css">
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-</head>
-<body>
-<div th:replace="common/thymeleafView :: headerFragment"></div>
-<div id="supplier_wrapped" style="float: right">
-    <h1 class="title">공급업체내역</h1>
-    <button type="button" class="search">검색</button>
-    <table>
-        <thead class="title_name">
-        <tr>
-            <th></th>
-            <th>공급업체번호</th>
-            <th>공급업체명</th>
-            <th>공급업체주소</th>
-            <th>공급업체 사업자등록번호</th>
-            <th>담당자명</th>
-            <th>담당자 연락처</th>
-            <th>담당자 이메일</th>
-            <th>첨부파일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="supplier : ${list}" >
-            <td><input type="checkbox"></td>
-            <td th:text="${supplier.supplierNo}"></td>
-            <td th:text="${supplier.supplierName}"></td>
-            <td th:text="${supplier.supplierAddress}"></td>
-            <td th:text="${supplier.supplierBusinessNo}"></td>
-            <td th:text="${supplier.managerName}"></td>
-            <td th:text="${supplier.managerPhone}"></td>
-            <td th:text="${supplier.managerEmail}"></td>
-            <td>
-                <a th:if="${supplier.supplierFile != null}" th:href="@{${supplier.supplierFile}}" target="_blank">조회</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
+    <div class="content">
+        <div class="supplier-wrap">
+            <div class="text-wrap">
+                <div class="supplier-title">
+                    <p>공급업체내역</p>
+                    <div>
+                        여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다)
+                    </div>
+                    <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
+                </div>
+            </div>
 
-    <div class="footer">
-        <button type="button" class="register" onclick="checkRegister()">업체등록</button>
-        <button type="button" class="update" onclick="openUpdate()">수정</button>
-    </div>
-</div>
+            <table>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>공급업체번호</th>
+                    <th>공급업체명</th>
+                    <th>공급업체주소</th>
+                    <th>공급업체 사업자등록번호</th>
+                    <th>담당자명</th>
+                    <th>담당자 연락처</th>
+                    <th>담당자 이메일</th>
+                    <th>첨부파일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="supplier : ${list}" >
+                    <td><input type="checkbox"></td>
+                    <td th:text="${supplier.supplierNo}"></td>
+                    <td th:text="${supplier.supplierName}"></td>
+                    <td th:text="${supplier.supplierAddress}"></td>
+                    <td th:text="${supplier.supplierBusinessNo}"></td>
+                    <td th:text="${supplier.managerName}"></td>
+                    <td th:text="${supplier.managerPhone}"></td>
+                    <td th:text="${supplier.managerEmail}"></td>
+                    <td>
+                        <a th:if="${supplier.supplierFile != null}" th:href="@{${supplier.supplierFile}}" target="_blank">조회</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-<div class="modalPopup" id="modal">
-    <div class="modal_content">
-        <div class="popup_header" id="popupHeader">
-            <span>공급업체 등록</span>
+            <div class="buttons">
+                <div class="button-left">
+                    <button type="button" class="register" onclick="checkRegister()">업체등록</button>
+                    <button type="button" class="update" onclick="openUpdate()">수정</button>
+                </div>
+            </div>
+
+            <div class="center">
+                <div class="pagination">
+                    <a href="#">&laquo;</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">&raquo;</a>
+                </div>
+            </div>
         </div>
-        <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
-            <div class="modal_left">
-                <label for="supplierNo">공급업체번호:</label>
-                <input type="text" id="supplierNo" name="supplierNo" required disabled><br><br>
 
-                <label for="supplierName">공급업체명:</label>
-                <input type="text" id="supplierName" name="supplierName" required><br><br>
+        <div id="popup-regist" class="popup-regist">
+            <form action="/inventory/registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
+                <div class="popup-content">
+                    <h2>공급업체 등록</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td><p>공급업체번호</p></td>
+                                <td><input type="text" id="supplierNo" name="supplierNo" required disabled></td>
+                                <td><p>담당자명</p></td>
+                                <td><input type="text" id="managerName" name="managerName" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체명</p></td>
+                                <td><input type="text" id="supplierName" name="supplierName" required></td>
+                                <td><p>담당자 연락처</p></td>
+                                <td><input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체주소</p></td>
+                                <td><input type="text" id="supplierAddress" name="supplierAddress" required></td>
+                                <td><p>담당자 이메일</p></td>
+                                <td><input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체 사업자등록번호</p></td>
+                                <td><input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                <td><p>첨부파일</p></td>
+                                <td><input type="file" id="supplierFile" name="supplierFile" required></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <div class="button-right">
+                            <button type="submit" class="save" onclick="saveSupplier()">등록</button>
+                            <button type="button" class="close" onclick="closeModal()">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-                <label for="supplierAddress">공급업체주소:</label>
-                <input type="text" id="supplierAddress" name="supplierAddress" required><br><br>
-
-                <label for="supplierBusinessNo">공급업체 사업자등록번호:</label>
-                <input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><br>
-            </div>
-
-            <div class="modal_right">
-                <label for="managerName">담당자명:</label>
-                <input type="text" id="managerName" name="managerName" required><br><br>
-
-                <label for="managerPhone">담당자 연락처:</label>
-                <input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxx-xxxx" required><br><br>
-
-                <label for="managerEmail">담당자 이메일:</label>
-                <input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><br>
-
-                <label for="supplierFile">첨부파일:</label>
-                <input type="file" id="supplierFile" name="supplierFile" required><br><br>
-            </div>
-
-            <div class="footer_button">
-                <button type="submit" class="save" onclick="saveSupplier()">등록</button>
-                <button type="button" class="close" onclick="closeModal()">닫기</button>
-            </div>
-        </form>
+        <!-- <div id="popup-modify" class="popup-modify">
+            <form action="/inventory/updateSupplier" id="updateSupplier" method="post" enctype="multipart/form-data">
+                <div class="popup-content">
+                    <h2>공급업체 등록</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><p>공급업체번호</p></td>
+                                    <td><input type="text" id="supplierNo" name="supplierNo" required disabled></td>
+                                    <td><p>공급업체명</p></td>
+                                        <input type="text" id="supplierName" name="supplierName" required></td>
+                                    <td>
+                                </tr>
+                                <tr>
+                                    <td><p>공급업체주소</p></td>
+                                    <td><input type="text" id="supplierAddress" name="supplierAddress" required></td>
+                                    <td><p>공급업체 사업자등록번호</p></td>
+                                    <td><input type="text" id="supplierBusinessNo" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <td><p>담당자명</p></td>
+                                        <td><input type="text" id="managerName" name="managerName" required></td>
+                                    </td>
+                                    <td>
+                                        <td><p>담당자 연락처</p></td>
+                                        <td><input type="text" id="managerPhone" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>담당자 이메일</p></td>
+                                    <td><input type="email" id="managerEmail" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                                <td>
+                                    <td><p>첨부파일</p></td>
+                                    <td><input type="file" id="supplierFile" name="supplierFile" required></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <button type="submit" class="save" onclick="saveSupplier()">수정</button>
+                        <button type="button" class="close" onclick="closeModal()">닫기</button>
+                    </div>
+                </div>
+            </form> -->
     </div>
-</div>
+</th:block>
 
 <script>
     // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
@@ -115,22 +181,15 @@
     }
 
     // 모달 열기
-    function openModal(mode) {
-        const modal = document.getElementById("modal");
-        const header = document.getElementById("popupHeader");
-
-        if (mode === 'register') {
-            header.innerHTML = '<span>공급업체 등록</span>';
-            document.getElementById("registerSupplier").reset(); // 폼 초기화
-        } else if (mode === 'update') {
-            header.innerHTML = '<span>공급업체 수정</span>';
-        }
-        modal.style.display = "flex"; // 모달 열기
+    function openModal() {
+        const popupRegist  = document.getElementById("popup-regist");
+        popupRegist.style.display="flex";
     }
+
 
     // 모달 닫기 + 내용 초기화
     function closeModal() {
-        document.getElementById("modal").style.display = "none"; // 모달 닫기
+        document.getElementById("popup-regist").style.display = "none"; // 모달 닫기
         document.getElementById("registerSupplier").reset(); // 폼 내용 초기화
     }
 
@@ -147,7 +206,7 @@
     let startX, startY, initialX, initialY;
 
     // 팝업과 헤더 요소 선택
-    const draggablePopup = document.getElementById("modal");
+    const draggablePopup = document.getElementById("re");
     const popupHeader = document.getElementById("popupHeader");
 
     // 헤더의 마우스 다운 이벤트 리스너
@@ -186,6 +245,8 @@
         // 마우스 버튼을 떼었을 때 드래그를 종료
         isDragging = false; // 드래그 상태를 false로 설정
     });
+
+
 </script>
 
 </body>
