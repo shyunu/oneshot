@@ -1,279 +1,351 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <script>
-    window.onload = function () {
-      // 드래그 기능을 추가할 팝업창 요소 선택
-      const popupRegist = document.getElementById("popup-regist");
+<script>
+  window.onload = function () {
+    // 드래그 기능을 추가할 팝업창 요소 선택
+    const popupModify = document.getElementById('popup-modify');
+    const popupRegist = document.getElementById('popup-regist');
 
-      // 드래그 가능하게 만들기
-      makeDraggable(popupRegist);
-    };
+    // 드래그 가능하게 만들기
+    makeDraggable(popupModify);
+    makeDraggable(popupRegist);
+  };
 
-    // 드래그 가능하게 하는 함수
-    function makeDraggable(element) {
-      let isDragging = false;
-      let offsetX, offsetY;
+  // 드래그 가능하게 하는 함수
+  function makeDraggable(element) {
+    let isDragging = false;
+    let offsetX, offsetY;
+    const header = element.querySelector('.popup-content');
 
-      const header = element.querySelector(".popup-content");
+    header.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - element.getBoundingClientRect().left;
+      offsetY = e.clientY - element.getBoundingClientRect().top;
+    });
 
-      header.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - element.getBoundingClientRect().left;
-        offsetY = e.clientY - element.getBoundingClientRect().top;
-      });
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        element.style.left = `${e.clientX - offsetX}px`;
+        element.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
 
-      document.addEventListener("mousemove", (e) => {
-        if (isDragging) {
-          element.style.left = `${e.clientX - offsetX}px`;
-          element.style.top = `${e.clientY - offsetY}px`;
-        }
-      });
-
-      document.addEventListener("mouseup", () => {
-        isDragging = false;
-      });
-    }
-  </script>
-
-
-    <div class="content">
-      <div class="product-wrap">
-        <div class="text-wrap">
-          <div class="product-title">
-            <p>상품관리</p>
-            <div>
-              여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다.)
-            </div>
-            <p>❉ 수정을 원하시면 no 및 상품명을 클릭하세요.</p>
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  }
+</script>
+<th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
+  <div class="content">
+    <div class="order-wrap">
+      <div class="text-wrap">
+        <p>상품조회</p>
+        <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
+      </div>
+      <div class="order-title">
+        <div class="filter-content">
+          <div class="filter-main">
+            <h3>상세내역검색</h3>
+            <button class="filter-button">검색하기</button>
           </div>
-        </div>
-
-        <table>
-          <thead>
+          <table>
             <tr>
-              <th><input type="checkbox" id="selectAll"/></th>
-              <th>상품번호</th>
-              <th>카테고리</th>
-              <th>상품명</th>
-              <th>판매정가</th>
-              <th>구매단가</th>
-              <th>이미지</th>
+              <td><p>고객사명</p></td>
+              <td><input type="text"></td>
+              <td><p>상품품목명</p></td>
+              <td><input type="text"></td>
+              <td><p>계약담당자</p></td>
+              <td><input type="text"></td>
             </tr>
-          </thead>
-          <tbody>
-            <tr th:each="vo : ${list}">
-              <td><input type="checkbox"/></td>
-              <td th:text="${vo.productNo}"></td>
-              <td th:text="${vo.categoryName}"></td>
-              <td th:text="${vo.productName}"></td>
-              <td th:text="${vo.productPrice}"></td>
-              <td>계산 추가</td>
-              <td><img th:src="@{/product/display/{productImg}(productImg=${vo.productImg})}"/></td>
+            <tr>
+              <td><p>계약상태</p></td>
+              <td><input type="text"></td>
+              <td><p>계약만료예정</p></td>
+              <td><input type="text"></td>
+              <td><p>계약담당자</p></td>
+              <td><input type="text"></td>
             </tr>
-          </tbody>
-        </table>
-
-        <div class="buttons">
-          <button class="button-regist button-right" onclick="openPopup()">상품등록</button>
-        </div>
-
-        <div class="center">
-          <div class="pagination">
-            <ul>
-              <li><a th:href="@{/product/productList(page=${currentPage - 1}, size=${size})}" th:if="${currentPage > 0}">&laquo;</a></li>
-            </ul>
-            <ul th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-              <li><a th:href="@{/product/productList(page=${i}, size=${size})}" th:text="${i + 1}">1</a></li>
-            </ul>
-            <ul>
-              <li><a th:href="@{/product/productList(page=${currentPage + 1}, size=${size})}" th:if="${currentPage < totalPages - 1}">&raquo;</a></li>
-            </ul>
-          </div>
+            <tr>
+              <td><p>계약상태</p></td>
+              <td><input type="text"></td>
+              <td><p>계약만료예정</p></td>
+              <td><input type="text"></td>
+              <td><p>계약담당자</p></td>
+              <td><input type="text"></td>
+            </tr>
+          </table>
         </div>
       </div>
 
-      <!-- 등록 기능 -->
-      <div id="popup-regist" class="popup-regist">
-        <div class="popup-content">
-          <h2>상품 등록</h2>
-          <div class="popup-list">
-            <form action="registerProduct" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="supplierNo" id="supplierNo" />
-              <table>
-                <tr>
-                  <td><p>공급업체명</p></td>
-                  <td><select id="supplierList" onchange="changeSupplier(event)"></select></td>
-                  <td><p>사업자등록번호</p></td>
-                  <td><input type="text" name="supplierBusinessNo" id="supplierBusinessNo" disabled /></td>
-                </tr>
-                <tr>
-                  <td><p>담당자명</p></td>
-                  <td><input type="text" name="managerName" id="managerName" disabled /></td>
-                  <td><p>담당자연락처</p></td>
-                  <td><input type="text" name="managerPhone" id="managerPhone" disabled /></td>
-                </tr>
-                <tr>
-                  <td><p>카테고리</p></td>
-                  <td><select id="categoryList" name="categoryNo"></select></td>
-                </tr>
-                <tr>
-                  <td><p>상품명</p></td>
-                  <td><div class="autocomplete"><input type="text" name="productName" id="productName" /><!-- <p>이미 등록된 상품명입니다.</p> --><div id="autocomplete-list"></div></div></td>
-                  <td>상품정가</td>
-                  <td><input type="text" name="productPrice" id="productPrice" /></td>
-                </tr>
-                <tr>
-                  <td><p>상품이미지</p></td>
-                  <td><input type="file" name="productImg" id="productImg" /></td>
-                  <td><p>안전재고수량</p></td>
-                  <td><input type="text" name="safetyQuantity" id="safetyQuantity" /></td>
-                </tr>
-                <tr>
-                  <td>상품설명</td>
-                  <td colspan="3"><textarea name="productContent" rows="4" id="productContent"></textarea></td>
-                </tr>
-                <tr>
-                  <td>비고</td>
-                  <td colspan="3"><input type="text" name="productRemarks" id="productRemarks" /></td>
-                </tr>
-              </table>
-              <div class="popup-button">
-                <button type="submit">등록</button>
-                <button type="reset">초기화</button>
-                <button type="button" onclick="closePopup()" class="close-btn3">닫기</button>
-              </div>
-            </form>
-          </div>
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAll"></th>
+            <th>상품번호</th>
+            <th>카테고리</th>
+            <th>공급업체</th>
+            <th>상품명</th>
+            <th>상품설명</th>
+            <th>판매가격</th>
+            <th>상품이미지</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="vo : ${list}">
+            <td><input type="checkbox" class="checkbox"></td>
+            <td th:text="${vo.productNo}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.categoryNo}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.supplierNo}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.productName}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.productContent}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.productPrice}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.productImg}" onclick="handleClick(this.innerHTML)"></td>
+            <td th:text="${vo.productRemarks}" onclick="handleClick(this.innerHTML)"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="buttons">
+        <div class="button-left"></div>
+        <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">상품 등록</button>
+      </div>
+
+      <div class="center">
+        <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+          <a href="#">&raquo;</a>
         </div>
       </div>
     </div>
-  </th:block>
 
-  <script>
-    var popup = document.querySelector(".popup-regist");
-    function openPopup() {
-      $.ajax({
-        url: "suppliers",
-        type: "get",
-        dataType: "json",
-        success: function (data) {
-          var html = "<option>- 공급업체명 -</option>";
-          $.each(data, function (index, obj) {
-            html +=
-              "<option value=" +
-              obj.supplierNo +
-              ">" +
-              obj.supplierName +
-              "</option>";
-          });
-          $("#supplierList").html(html);
-        },
-        error: function () {
-          alert("error");
-        },
+
+    <!-- 등록 팝업 -->
+    <div id="popup-regist" class="popup-regist">
+      <form name="registForm" action="registForm" method="post">
+        <div class="popup-content">
+          <h2>상품등록</h2>
+          <div class="popup-list">
+            <table>
+              <tbody>
+                <tr>
+                  <td><p>공급업체</p></td>
+                  <td><select class="supplierName" onchange="changeSupplierName(event)"></select></td>
+                  <td><p>사업자번호</p></td>
+                  <td><input type="text" class="supplierBusinessNo" disabled></td>
+                </tr>
+                <tr>
+                  <td><p>담당자</p></td>
+                  <td><input type="text" class="managerName" disabled></td>
+                  <td><p>담당자 연락처</p></td>
+                  <td><input type="text" class="managerPhone" disabled></td>
+                </tr>
+                <tr>
+                  <td><p>카테고리</p></td>
+                  <td><select class="categoryName"></select></td>
+                </tr>
+                <tr>
+                  <td><p>상품명</p></td>
+                  <td><input type="text" class="managerName"></td>
+                  <td><p>판매정가</p></td>
+                  <td><input type="text" class="managerPhone"></td>
+                </tr>
+                <tr>
+                  <td><p>안전재고수량</p></td>
+                  <td><input type="text" class="managerName"></td>
+                  <td><p>상품이미지</p></td>
+                  <td><input type="text" class="managerPhone"></td>
+                </tr>
+                <tr>
+                  <td><p>상품설명</p></td>
+                  <td colspan="3"><textarea rows="4"></textarea></td>
+                </tr>
+                <tr>
+                  <td><p>비고</p></td>
+                  <td colspan="3"><select class="categoryName"></select></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="popup-button">
+            <div class="button-left">
+            </div>
+            <div class="button-right">
+              <button type="submit">등록</button>
+              <button type="button" class="close-btn2">닫기</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- 수정 팝업 -->
+    <div id="popup-modify" class="popup-modify">
+      <form name="modifyForm" action="modifyForm" method="post">
+        <div class="popup-content">
+          <h2>계약 상세보기</h2>
+          <div class="popup-list">
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  <p>고객사명</p>
+                </td>
+                <td><input type="text"></td>
+                <td>
+                  <p>계약시작일</p>
+                </td>
+                <td><input type="date"></td>
+              </tr>
+              <tr>
+                <td>
+                  <p>계약담당자</p>
+                </td>
+                <td><input type="text"></td>
+                <td>
+                  <p>계약종료일</p>
+                </td>
+                <td><input type="date"></td>
+              </tr>
+              <tr>
+                <td>
+                  <p>상품품목명</p>
+                </td>
+                <td><input type="text" name="product-name"></td>
+                <td class="product-price">
+                  <p>책정거래가</p>
+                </td>
+                <td><input type="text" name="price"></td>
+
+                <!-- <td><button type="button"
+                    id="add-item-btn">+</button></td> -->
+              </tr>
+              <tr>
+                <td class="contract-status">
+                  <p>계약상태</p>
+                </td>
+                <td><select>
+                  <option>선택하세요.</option>
+                  <option>승인</option>
+                  <option>반려</option>
+                </select></td>
+                <td>
+                  <p>계약만료예정</p>
+                </td>
+                <td><input type="text"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="popup-button">
+            <div class="button-left">
+              <button>계약서 첨부</button>
+            </div>
+            <div class="button-right">
+              <button type="submit">등록</button>
+              <button type="button" class="close-btn3">닫기</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</th:block>
+
+<script>
+  // 전체 선택 체크박스
+  const selectAllCheckbox = document.getElementById('selectAll');
+  // 각 체크박스들
+  const checkboxes = document.querySelectorAll('.checkbox');
+  // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
+  selectAllCheckbox.addEventListener('change', function () {
+      checkboxes.forEach(function (checkbox) {
+          checkbox.checked = selectAllCheckbox.checked;
       });
+  });
 
-      $.ajax({
-        url: "categories",
-        type: "get",
-        dataType: "json",
-        success: function (data) {
-          var html = "<option value=0>- 카테고리 -</option>";
-          $.each(data, function (index, obj) {
-            html +=
-              "<option value=" +
-              obj.categoryNo +
-              ">" +
-              obj.categoryName +
-              "</option>";
-          });
-          $("#categoryList").html(html);
-        },
-        error: function () {
-          alert("error");
-        },
-      });
-      popup.style.display = "block";
-    }
+  //팝업창 열기 및 닫기 기능
+  const openResistPopup = document.getElementById('popup-regist');
+  const openModifyPopup = document.getElementById('popup-modify');
+  const closeRegistPopup = document.querySelector('.close-btn2');
+  const closeModifyPopup = document.querySelector('.close-btn3');
 
-    function closePopup() {
-      popup.style.display = "none";
-    }
-
-    var products = [];
-    function changeSupplier(event) {
-      $.ajax({
-        url: "supplier",
-        type: "get",
-        data: { supplierNo: event.target.value },
-        dataType: "json",
-        success: function (data) {
-          $("#supplierNo").val(data.supplierNo);
-          $("#supplierBusinessNo").val(data.supplierBusinessNo);
-          $("#managerName").val(data.managerName);
-          $("#managerPhone").val(data.managerPhone);
-          $("#categoryList").val("0").prop("selected", true);
-          $("#productName").val("");
-          $("#productPrice").val("");
-          $("#productImg").val("");
-          $("#safetyQuantity").val("");
-          $("#productContent").val("");
-          $("#productRemarks").val("");
-        },
-        error: function () {
-          $("#supplierNo").val("");
-          $("#supplierBusinessNo").val("");
-          $("#managerName").val("");
-          $("#managerPhone").val("");
-          $("#categoryList").val("0").prop("selected", true);
-          $("#productName").val("");
-          $("#productPrice").val("");
-          $("#productImg").val("");
-          $("#safetyQuantity").val("");
-          $("#productContent").val("");
-          $("#productRemarks").val("");
-        },
-      });
-
-      $.ajax({
-        url: "product",
-        type: "get",
-        data: { supplierNo: event.target.value },
-        dataType: "json",
-        success: function (data) {
-          $.each(data, function (index, obj) {
-            products.push(obj.productName);
-          });
-          console.log(products);
-        },
-        error: function () {
-          alert("error");
-        },
-      });
-    }
-
-    document
-      .getElementById("productName")
-      .addEventListener("input", function () {
-        const input = this.value;
-        const autocompleteList = document.getElementById("autocomplete-list");
-        autocompleteList.innerHTML = "";
-
-        if (!input) return;
-
-        const filteredProducts = products.filter((product) =>
-          product.includes(input)
-        );
-
-        filteredProducts.forEach((product) => {
-          const div = document.createElement("div");
-          div.textContent = product;
-          div.addEventListener("click", function () {
-            document.getElementById("productName").value = this.textContent;
-            autocompleteList.innerHTML = "";
-          });
-          autocompleteList.appendChild(div);
+  //팝업창 열기
+  function handleClick2(tdValue) { //등록페이지 팝업 열기
+    $.ajax({
+      url: '/inventory/getSupplierList',
+      type: 'get',
+      dataType: 'json',
+      success: function(data) {
+        var html = '<option>- 공급업체 -</option>';
+        $.each(data, function(index, obj) {
+          html += '<option value=' + obj.supplierNo + '>' + obj.supplierName + '</option>';
         });
-      });
-  </script>
+        $('.supplierName').html(html);
+      },
+      error: function() {
+        alert('error');
+      }
+    });
+
+    $.ajax({
+      url: '/inventory/getCategoryList',
+      type: 'get',
+      dataType: 'json',
+      success: function(data) {
+        var html = '<option>- 카테고리 -</option>';
+        $.each(data, function(index, obj) {
+          html += '<option value=' + obj.categoryNo + '>' + obj.categoryName + '</option>';
+        });
+        $('.categoryName').html(html);
+      },
+      error: function() {
+        alert('error');
+      }
+    });
+    openResistPopup.style.display = 'block';
+  }
+
+  function changeSupplierName(event) {
+    $.ajax({
+      url: '/inventory/getSupplierContent',
+      type: 'get',
+      data: {supplierNo : event.target.value},
+      dataType: 'json',
+      success: function(data) {
+        $('.supplierBusinessNo').val(data.supplierBusinessNo);
+        $('.managerName').val(data.managerName);
+        $('.managerPhone').val(data.managerPhone);
+      },
+      error: function() {
+        $('.supplierBusinessNo').val('');
+        $('.managerName').val('');
+        $('.managerPhone').val('');
+      }
+    });
+  }
+
+  function handleClick(tdValue) { //수정페이지 팝업 열기
+      openModifyPopup.style.display = 'block';
+  }
+
+  //팝업창 닫기
+  function closePopupRegist() {
+      popupRegist.style.display = 'none'; //등록페이지 팝업 열기
+  }
+
+  function closePopupModify() {
+      popupModify.style.display = 'none'; //수정페이지 팝업 닫기
+  }
+
+  // 닫기 버튼 클릭 시 팝업창 닫기
+  closeRegistPopup.addEventListener('click', closePopupRegist); //--- 닫기 버튼
+  closeModifyPopup.addEventListener('click', closePopupModify); //--- 닫기 버튼
+</script>
 </html>

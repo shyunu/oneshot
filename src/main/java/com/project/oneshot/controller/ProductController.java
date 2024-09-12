@@ -12,76 +12,42 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.util.List;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/inventory")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/productList")
-    public String product(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
-        Page<ProductVO> list = productService.getAllProducts(page, size);
-        model.addAttribute("list", list.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", list.getTotalPages());
-        model.addAttribute("size", size);
+    @GetMapping("/product.do")
+    public String product(Model model) {
+        List<ProductVO> list = productService.getProductList();
+        model.addAttribute("list", list);
         return "inventory/product";
     }
 
+    /*
     @PostMapping("/registerProduct")
-    public String registerProduct(@RequestParam("categoryNo") Long categoryNo,
-                                  @RequestParam("supplierNo") Long supplierNo,
-                                  @RequestParam("productName") String productName,
-                                  @RequestParam("productContent") String productContent,
-                                  @RequestParam("safetyQuantity") Long safetyQuantity,
-                                  @RequestParam("productPrice") Long productPrice,
-                                  @RequestParam("productImg") MultipartFile productImg,
-                                  @RequestParam("productRemarks") String productRemarks) {
+    public String registerProduct(ProductVO vo, @RequestParam("file") MultipartFile file, RedirectAttributes ra) {
         String filename = null;
-        try {
-            filename = System.currentTimeMillis() + "_" + productImg.getOriginalFilename();
-            String directoryPath = "D:/file_repo/";
-            File dir = new File(directoryPath);
 
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String filePath = directoryPath + filename;
-            productImg.transferTo(new File(filePath));
-        } catch (Exception e) {
-            e.printStackTrace();
+        String contentType = file.getContentType();
+        System.out.println("contentType = " + contentType);
+        if(!contentType.contains("image")) {
+            ra.addFlashAttribute("msg", "png, jpg, jpeg 형식만 등록가능합니다");
+            return "redirect:/product/productList";
         }
 
-        CategoryVO categoryVO = productService.getCategoryById(categoryNo);
-        SupplierVO supplierVO = productService.getSupplierDetails(supplierNo);
-
-        ProductVO vo = ProductVO.builder()
-                .categoryVO(categoryVO)
-                .supplierVO(supplierVO)
-                .productName(productName)
-                .productContent(productContent)
-                .safetyQuantity(safetyQuantity)
-                .productPrice(productPrice)
-                .productImg(filename)
-                .productRemarks(productRemarks)
-                .build();
-
-        productService.registerProduct(vo);
+        productService.registerProduct(vo, file);
         return "redirect:/product/productList";
     }
-  
-    @GetMapping("/supplierList")
-    public String supplier(Model model) {
-        List<SupplierVO> list = productService.getAllSuppliers();
-        model.addAttribute("list", list);
-        return "product/supplier";
-    }
+
+    /*
 
     @PostMapping("/registerSupplier")
     public ResponseEntity<SupplierVO> registerSupplier(
@@ -122,4 +88,5 @@ public class ProductController {
         SupplierVO savedSupplier = productService.registerSupplier(supplier);
         return ResponseEntity.ok(savedSupplier);
     }
+    */
 }

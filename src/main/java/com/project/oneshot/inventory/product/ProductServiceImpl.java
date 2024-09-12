@@ -11,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -23,41 +25,48 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductMapper productMapper;
 
-    public List<SupplierVO> getAllSuppliers() {
-        return null;
+    @Override
+    public List<ProductVO> getProductList() {
+        List<ProductVO> list = productMapper.getProductList();
+        return list;
     }
 
     @Override
-    public SupplierVO getSupplierDetails(Long supplierNo) {
-        return null;
+    public List<SupplierVO> getSupplierList() {
+        List<SupplierVO> list = productMapper.getSupplierList();
+        return list;
     }
 
     @Override
-    public void registerProduct(ProductVO vo) {
+    public SupplierVO getSupplierContent(int supplierNo) {
+        SupplierVO vo = productMapper.getSupplierContent(supplierNo);
+        return vo;
     }
 
     @Override
-    public List<CategoryVO> getAllCategories() {
-        return null;
+    public List<CategoryVO> getCategoryList() {
+        List<CategoryVO> list = productMapper.getCategoryList();
+        return list;
     }
 
     @Override
-    public List<ProductVO> getProductDetails(Long supplierNo) {
-        return null;
-    }
+    public void registerProduct(ProductVO vo, MultipartFile file) {
+        /*
+        String filename;
+        try {
+            filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            String directoryPath = "D:/file_repo/";
+            File dir = new File(directoryPath);
 
-    @Override
-    public Page<ProductVO> getAllProducts(int page, int size) {
-        return null;
-    }
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
-    @Override
-    public CategoryVO getCategoryById(Long categoryNo) {
-        return null;
-    }
-
-    @Override
-    public SupplierVO registerSupplier(SupplierVO supplier) {
-        return null;
+            String filePath = directoryPath + filename;
+            file.transferTo(new File(filePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
     }
 }
