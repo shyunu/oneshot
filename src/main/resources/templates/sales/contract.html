@@ -202,17 +202,18 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="vo : ${list}">
-                    <td><input type="checkbox" class="checkbox"></td>
-                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
-                    <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)" id="detail"></td>
-                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${vo.productName}"></td>
-                    <td th:text="${vo.managerName}"></td>
-                    <td th:text="${vo.contractPriceStatus}"></td>
-                    <td th:text="${vo.contractDday}"></td>
-                </tr>
+                    <tr th:each="vo : ${list}">
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
+                        <td th:text="${vo.clientName}"></td>
+                        <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${vo.productName}"></td>
+                        <td th:text="${vo.managerName}"></td>
+                        <td th:text="${vo.contractPriceStatus}"></td>
+                        <td th:text="${vo.contractDday}"></td>
+
+                    </tr>
                 </tbody>
             </table>
 
@@ -247,9 +248,7 @@
                         <table>
                             <tbody>
                             <tr>
-                                <td>
-                                    <p>고객사명(번호)</p>
-                                </td>
+                                <td><p>고객사명(번호)</p></td>
                                 <td><input type="number" name="clientNo"></td>
                                 <td>
                                     <p>계약시작일</p>
@@ -414,6 +413,8 @@
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
     registBtn.addEventListener('click', openPopup);
+
+
 </script>
 
 </html>
