@@ -6,8 +6,9 @@
 <mapper namespace="com.project.oneshot.hr.department.DepartmentMapper">
 
     <insert id="insertDepartment" parameterType="DepartmentVO">
-        insert into department (department_no, department_name) values (#{departmentNo}, #{departmentName}, '')
+        insert into department (department_no, department_name) values (#{departmentNo}, #{departmentName})
     </insert>
+
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)
         FROM department

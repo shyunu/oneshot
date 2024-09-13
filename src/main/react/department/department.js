@@ -203,16 +203,16 @@ function Department() {
                                 />
                                 <label htmlFor="checkAll"></label>
                             </td>
-                            <td style={{ width: '150px' }} onClick={() => requestSort('departmentNo') }>
+                            <td onClick={() => requestSort('departmentNo') }>
                             부서번호 { sortConfig.key === 'departmentNo' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
                             </td>
-                            <td style={{ width: '100px' }} onClick={() => requestSort('departmentName') }>
+                            <td onClick={() => requestSort('departmentName') }>
                             부서명 { sortConfig.key === 'departmentName' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
                             </td>
-                            <td style={{ width: '100px' }} onClick={() => requestSort('menu') }>
+                            <td onClick={() => requestSort('menu') }>
                             사용가능메뉴 { sortConfig.key === 'menu' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
                             </td>
-                            <td style={{ width: '200px' }} onClick={() => requestSort('isActive') }>
+                            <td onClick={() => requestSort('isActive') }>
                             사용여부 { sortConfig.key === 'isActive' && ( sortConfig.direction === 'ascending' ? '▲' : '▼')}
                             </td>
                         </tr>

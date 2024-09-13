@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("humanResourceService") //이름
+@Service("departmentService")
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
@@ -35,5 +35,4 @@ public class DepartmentServiceImpl implements DepartmentService {
     public int deleteDepartments(List<Integer> departmentNos) {
         return departmentMapper.deleteDepartments(departmentNos);
     }
-
 }

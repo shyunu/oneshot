@@ -15,7 +15,7 @@ import java.util.List;
 public class DepartmentRestController {
 
     @Autowired
-    @Qualifier("humanResourceService")
+    @Qualifier("departmentService")
     private DepartmentService departmentService;
 
     @PostMapping("/registDepartment")
