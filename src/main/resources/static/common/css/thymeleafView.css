@@ -213,8 +213,8 @@ body.dark .navbar {
 }
 
 .content {
-  float: right;
-  margin-left: 100px;
+  float: left;
+  margin-left: 150px;
   margin-top: 50px;
   width: 85%;
 }

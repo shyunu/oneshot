@@ -27,10 +27,8 @@ public class SalesController {
     public String contract(Model model) {
 
         List<ContractVO> list = salesService.getList();
-        System.out.println("list.toString() = " + list.toString());
+        System.out.println("list = " + list);
         model.addAttribute("list", list);
-
-
 
         return "sales/contract";
     }

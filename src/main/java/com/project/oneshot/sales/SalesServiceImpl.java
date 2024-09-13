@@ -24,7 +24,6 @@ public class SalesServiceImpl implements SalesService{
     @Override
     public List<ContractVO> getList() {
 
-
         List<ContractVO> list = salesMapper.getList();
 
         LocalDate currentDate = LocalDate.now();
@@ -38,7 +37,6 @@ public class SalesServiceImpl implements SalesService{
                 vo.setContractDday("D" + daysBetween);
             }
         }
-
 
         return list;
     }
