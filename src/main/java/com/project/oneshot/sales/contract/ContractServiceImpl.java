@@ -1,4 +1,4 @@
-package com.project.oneshot.sales;
+package com.project.oneshot.sales.contract;
 
 import com.project.oneshot.command.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +9,23 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-@Service("salesService")
-public class SalesServiceImpl implements SalesService{
+@Service("contractService")
+public class ContractServiceImpl implements ContractService {
 
     @Autowired
-    private SalesMapper salesMapper;
+    private ContractMapper contractMapper;
 
+    // ----- 계약가격내역 ----- //
     @Override
     public int contractRegist(ContractVO vo) { //계약등록
-        int result = salesMapper.contractRegist(vo);
+        int result = contractMapper.contractRegist(vo);
         return result;
     }
 
     @Override
     public List<ContractVO> getList() {
 
-        List<ContractVO> list = salesMapper.getList();
+        List<ContractVO> list = contractMapper.getList();
 
         LocalDate currentDate = LocalDate.now();
         for (ContractVO vo : list) {
@@ -40,4 +41,7 @@ public class SalesServiceImpl implements SalesService{
 
         return list;
     }
+
+
+
 }

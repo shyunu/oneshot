@@ -1,7 +1,7 @@
 package com.project.oneshot.controller;
 
 import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.sales.SalesService;
+import com.project.oneshot.sales.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,16 +17,18 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/sales")
-public class SalesController {
+public class ContractController {
 
     @Autowired
-    @Qualifier("salesService") //서비스연결
-    private SalesService salesService;
+    @Qualifier("contractService") //서비스연결
+    private ContractService contractService;
 
+
+    // ----- 계약가격내역 ----- //
     @GetMapping("/contract")
     public String contract(Model model) {
 
-        List<ContractVO> list = salesService.getList();
+        List<ContractVO> list = contractService.getList();
         System.out.println("list = " + list);
         model.addAttribute("list", list);
 
@@ -37,7 +39,7 @@ public class SalesController {
     public String registForm(ContractVO vo,
                              RedirectAttributes ra) { //--- 계약 등록하기
         System.out.println("-------------");
-        int result = salesService.contractRegist(vo);
+        int result = contractService.contractRegist(vo);
         if(result == 1) {
             ra.addFlashAttribute("msg", "정상 등록되었습니다");
         } else {
@@ -47,15 +49,7 @@ public class SalesController {
         return "redirect:/sales/contract";
     }
 
-
-
-    ///////////////////////
-    @GetMapping("/order")
-    public String order() { //--- 판매
-        return "sales/order";
-    }
-
-
+    // ----- 날짜 데이터 변환 ----- //
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
