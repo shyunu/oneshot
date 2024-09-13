@@ -34,11 +34,14 @@
         where e.employee_status='y'
     </select>
 
+    <!-- 은행목록 -->
     <select id="getAllBank" resultType="BankVO">
         SELECT * FROM bank
     </select>
+
+    <!-- 직급목록 -->
     <select id="getAllPosition" resultType="PositionVO">
-        SELECT * FROM position order by position_no asc
+        SELECT * FROM position where POSITION_no >7 order by position_no asc
     </select>
 
     <!-- 사원 생성 및 업데이트 -->

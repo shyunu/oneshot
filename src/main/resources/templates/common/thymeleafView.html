@@ -100,9 +100,16 @@
         </div>
     </nav>
 
-    <div class="content">
+    <th:block th:if="${reactInclude == null}">
+        <div class="content">
             <th:block th:replace="${content}"></th:block>
         </div>
+    </th:block>
+    <th:block th:if="${reactInclude != null}">
+        <div class="content">
+            <div id="root" class="content"></div>
+        </div>
+    </th:block>
     </div>
 
 <script>
@@ -161,6 +168,10 @@
     }
 
 </script>
+
+<th:block th:if="${reactInclude != null}">
+    <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
+</th:block>
 </body>
 </th:block>
 </html>

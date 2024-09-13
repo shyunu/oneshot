@@ -133,7 +133,7 @@
 }
 
 
-.item {
+.select-item {
     display: flex;
     align-items: center;
     gap: 10px; /* 코드와 이름 사이의 간격 */
@@ -145,7 +145,7 @@
     background-color: #f9f9f9;
 }
 
-.item:hover {
+.select-item:hover {
     background-color: #e0e0e0;
 }
 
