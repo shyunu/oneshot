@@ -10,77 +10,12 @@
         makeDraggable(popupModify);
         makeDraggable(popupRegist);
 
-        // modify
-        document.getElementById('add-item-btn').addEventListener('click', function () {
-            // 입력된 상품 품목명과 책정 거래가 가져오기
-            const productNameInput = document.querySelector('input[name="product-name"]');
-            const priceInput = document.querySelector('input[name="price"]');
-            const productNameValue = productNameInput.value;
-            const priceValue = priceInput.value;
-
-            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
-                // 새로운 <tr> 생성
-                const newRow = document.createElement('tr');
-
-                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
-                newRow.innerHTML = `
-                    <td class="new-input">
-                        <input type="text" value="${productNameValue}" readonly>
-                    </td>
-                    <td class="new-input">
-                        <input type="text" value="${priceValue}" readonly>
-                    </td>
-                `;
-
-                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
-                const currentRow = priceInput.closest('tr');
-                currentRow.insertAdjacentElement('afterend', newRow);
-
-                // 기존 입력 필드를 비운다
-                productNameInput.value = '';
-                priceInput.value = '';
-            } else {
-                alert('상품 품목명 및 책정 거래가를 입력하세요.');
-            }
-        });
-
-        // regist
-        document.getElementById('add-item-btn-regist').addEventListener('click', function () {
-            // 입력된 상품 품목명과 책정 거래가 가져오기
-            const productNameInput = document.querySelector('input[name="productNo"]');
-            const priceInput = document.querySelector('input[name="contractPrice"]');
-            const productNameValue = productNameInput.value;
-            const priceValue = priceInput.value;
-
-            if (productNameValue.trim() !== '' && priceValue.trim() !== '') { // 값이 비어있지 않을 경우만
-                // 새로운 <tr> 생성
-                const newRow = document.createElement('tr');
-
-                // <tr> 안에 <td>로 상품명과 거래가 입력 필드 추가
-                newRow.innerHTML = `
-                    <td class="new-input">
-                        <input type="text" value="${productNameValue}" readonly>
-                    </td>
-                    <td class="new-input">
-                        <input type="text" value="${priceValue}" readonly>
-                    </td>
-                `;
-
-                // 현재 입력 필드 있는 행의 바로 아래에 새로운 행을 추가
-                const currentRow = priceInput.closest('tr');
-                currentRow.insertAdjacentElement('afterend', newRow);
-
-                // 기존 입력 필드를 비운다
-                productNameInput.value = '';
-                priceInput.value = '';
-            } else {
-                alert('상품 품목명 및 책정 거래가를 입력하세요.');
-            }
-        });
-
+        // + 버튼 클릭 시 새로운 상품 및 가격 행 추가
+        const addItemBtnRegist = document.getElementById('add-item-btn-regist');
+        addItemBtnRegist.addEventListener('click', addNewItemRow);
     };
 
-    // 드래그 가능하게 하는 함수
+    // 드래그 가능하게 하는 함수 (이미 제공된 함수)
     function makeDraggable(element) {
         let isDragging = false;
         let offsetX, offsetY;
@@ -104,6 +39,46 @@
             isDragging = false;
         });
     }
+
+    // regist - 상품품목 및 책정거래가 새로운 input 추가
+    function addNewItemRow() {
+        const tableBody = document.querySelector('#popup-regist .popup-list tbody');
+
+        // 입력 필드에서 값 가져오기
+        const productNoInput = document.querySelector('input[name="productNo"]');
+        const contractPriceInput = document.querySelector('input[name="contractPrice"]');
+
+        const productNoValue = productNoInput.value;
+        const contractPriceValue = contractPriceInput.value;
+
+        // 새로운 행을 추가하기 전에 값이 있는지 확인
+        if (productNoValue.trim() !== "" && contractPriceValue.trim() !== "") {
+            // 새로운 행 생성
+            const newRow = document.createElement('tr');
+            newRow.classList.add('new-item-row');
+
+            newRow.innerHTML = `
+            <td><p>상품품목리스트</p></td>
+            <td colspan="3" style="text-align: left;">
+                <input type="text" value="${productNoValue}" readonly style="width:40%;">
+                <input type="text" value="${contractPriceValue}" readonly style="width:40%;">
+                <button type="button" class="remove-item-btn" style="width: 30px;">-</button>
+            </td>
+        `;
+
+            tableBody.appendChild(newRow);
+
+            productNoInput.value = '';
+            contractPriceInput.value = '';
+
+            const removeBtn = newRow.querySelector('.remove-item-btn');
+            removeBtn.addEventListener('click', function() {
+                newRow.remove();
+            });
+        } else {
+            alert("상품 품목명과 책정 거래가를 입력해주세요.");
+        }
+    }
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
@@ -115,7 +90,6 @@
             </div>
             <div class="order-title">
                 <div class="filter-content">
-                    <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button">검색하기</button>
@@ -204,7 +178,7 @@
                 <tbody>
                     <tr th:each="vo : ${list}">
                         <td><input type="checkbox" class="checkbox"></td>
-                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(this.innerHTML)"></td>
+                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
                         <td th:text="${vo.clientName}"></td>
                         <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
@@ -222,8 +196,7 @@
                     <button>Excel로 내보내기</button>
                     <button>계약서 저장</button>
                 </div>
-                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규거래
-                    등록</button>
+                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규거래 등록</button>
             </div>
 
             <div class="center">
@@ -265,17 +238,18 @@
                                 </td>
                                 <td><input type="date" name="contractEdate"></td>
                             </tr>
-                            <tr>
+                            <tr class="addList">
                                 <td>
                                     <p>상품품목명</p>
                                 </td>
-                                <td><input type="number" name="productNo"></td>
+                                <td><input type="text" name="productNo"></td>
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
-                                <td><input type="number" name="contractPrice"></td>
-                                <!-- <td><button type="button"
-                                    id="add-item-btn-regist">+</button></td> -->
+                                <td colspan="3" style="text-align: left;">
+                                    <input type="number" name="contractPrice" style="width: 85%;">
+                                    <button type="button" id="add-item-btn-regist">+</button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -390,8 +364,10 @@
     const forPopup = document.querySelectorAll('.for-popup');
 
     // 팝업창 열기
-    function handleClick(tdValue) { //수정페이지
+    function handleClick(event) { //수정페이지
         popupModify.style.display = 'block';
+        console.log(event.target);
+
     }
     function handleClick2(tdValue) { //수정페이지
         popupRegist.style.display = 'block';
