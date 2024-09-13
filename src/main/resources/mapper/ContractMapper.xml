@@ -3,11 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.oneshot.sales.SalesMapper">
+<mapper namespace="com.project.oneshot.sales.contract.ContractMapper">
 
+    <!-- 계약가격내역 -->
     <!-- 계약 등록 기능 -->
     <insert id="contractRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
-        INSERT INTO CONTRACT_PRICE(PRODUCT_NO
+        INSERT INTO CONTRACT_PRICE(
+         PRODUCT_NO
         ,EMPLOYEE_NO
         ,CLIENT_NO
         ,CONTRACT_SDATE
@@ -15,7 +17,7 @@
         ,CONTRACT_PRICE
         )
         VALUES(
-        #{productNo}
+         #{productNo}
         ,#{employeeNo}
         ,#{clientNo}
         ,#{contractSdate}
@@ -24,6 +26,7 @@
         )
     </insert>
 
+    <!-- 계약 조회 기능 -->
     <select id="getList" resultType="ContractVO">
         SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO,
                 CLIENT.CLIENT_NAME,
@@ -37,4 +40,7 @@
         INNER JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
         INNER JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
     </select>
+
+
+
 </mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.oneshot.sales.order.OrderMapper">
+
+    <!-- 판매내역 -->
+    <insert id="orderRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
+        INSERT INTO ORDER_HEADER(
+        ORDER_SDATE
+        ,CLIENT_NO
+        ,PRODUCT_NO
+        ,CONTRACT_PRICE
+        ,EMPLOYEE_NO
+        ,ORDER_EMPLOYEE
+        )
+        VALUES(
+        #{orderSdate}
+        ,#{clientNo}
+        ,#{productNo}
+        ,#{contractPrice}
+        ,#{employeeNo}
+        ,#{orderEmployee}
+        )
+    </insert>
+
+</mapper>

@@ -196,26 +196,25 @@
                     <th>총 거래가</th>
                     <th>계약담당자</th>
                     <th>판매담당자</th>
-                    <th>계약상태</th>
+                    <th>판매승인상태</th>
                     <th>배송상태</th>
                     <th>배송일</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td><input type="checkbox" class="checkbox"></td>
-                    <td onclick="handleClick(this.innerHTML)" class="detail"></td>
-                    <td onclick="handleClick(this.innerHTML)" class="detail"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <tr th:each="vo : ${list}">
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td th:text="${vo.orderSdate}" onclick="handleClick(this.innerHTML)"></td>
+                        <td th:text="${vo.clientNo}" onclick="handleClick(this.innerHTML)"></td>
+                        <td th:text="${vo.productNo}" ></td>
+                        <td th:text="${vo.contractPrice}" ></td>
+                        <td th:text="${vo.employeeNo}" ></td>
+                        <td th:text="${vo.orderEmployee}" ></td>
+                        <td th:text="${vo.orderStatus}" ></td>
+                        <td th:text="${vo.deliveryStatus}" ></td>
+                        <td th:text="${vo.delivery}" ></td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -323,23 +322,26 @@
             </div>
         </div>
         <div id="popup-regist" class="popup-regist">
-            <div class="popup-content">
+            <form name="orderForm" action="orderForm" method="post">
+                <div class="popup-content">
                 <h2>판매 등록하기</h2>
                 <div class="popup-list">
                     <table>
                         <tbody>
                         <tr>
                             <td>
-                                <p>판매등록일자</p>
+                                <p>고객사</p>
                             </td>
                             <td>
-                                <input type="date" name="company-name">
+                                <select>
+                                    <option value=""></option>
+                                </select>
                             </td>
                             <td>
-                                <p>고객사명</p>
+                                <p>고객사명(번호)</p>
                             </td>
                             <td>
-                                <input type="text" name="contract-manager">
+                                <input type="number" name="contract-manager">
                             </td>
                         </tr>
                         <tr>
@@ -358,62 +360,31 @@
                         </tr>
                         <tr>
                             <td>
-                                <p>상품품목명</p>
+                                <p>상품품목명(번호)</p>
                             </td>
                             <td>
-                                <input type="text" name="regist-product-name">
+                                <input type="number" name="regist-product-name">
                             </td>
                             <td class="product-price">
                                 <p>책정거래가</p>
                                 <!-- <button type="button" id="add-item-btn-regist">+</button> -->
                             </td>
                             <td>
-                                <input type="text" name="regist-price">
+                                <input type="number" name="regist-price">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <p>계약담당자</p>
+                                <p>계약담당자(번호)</p>
                             </td>
                             <td>
-                                <input type="text">
+                                <input type="number">
                             </td>
                             <td>
-                                <p>판매담당자</p>
+                                <p>판매담당자(번호)</p>
                             </td>
                             <td>
-                                <input type="text">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="delivery-status">
-                                <p>배송상태</p>
-                            </td>
-                            <td>
-                                <select>
-                                    <option>선택하세요.</option>
-                                    <option>배송대기</option>
-                                    <option>배송중</option>
-                                    <option>배송완료</option>
-                                </select>
-                            </td>
-                            <td>
-                                <p>배송일</p>
-                            </td>
-                            <td>
-                                <input type="date" name="end-date">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="contract-status">
-                                <p>계약상태</p>
-                            </td>
-                            <td>
-                                <select>
-                                    <option>선택하세요.</option>
-                                    <option>승인</option>
-                                    <option>반려</option>
-                                </select>
+                                <input type="number">
                             </td>
                         </tr>
                         </tbody>
@@ -429,6 +400,7 @@
                     </div>
                 </div>
             </div>
+            </form>>
         </div>
     </div>
 </th:block>
@@ -462,7 +434,20 @@
 
     function handleClick2(tdValue) { //수정페이지
         popupRegist.style.display = 'block';
+
+        $.ajax({
+            url: '/sales/getClientList',
+            type: 'get',
+            dataType: 'json',
+        success: function(data) {
+            alert('success');
+        },
+        error: function() {
+            alert('fail');
+        }
+        });
     }
+
 
 
     // 팝업창 닫기
@@ -481,6 +466,7 @@
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
     registBtn.addEventListener('click', openPopup);
+
 
 </script>
 </html>
