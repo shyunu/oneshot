@@ -27,35 +27,7 @@
     font-size: 25px;
 }
 
-.wrapper article table{ border-collapse : collapse; margin-bottom: 20px; border: 1px solid #777;}  /*이중선 제거*/
 
-.wrapper article table tr > th{
-    background-color: #e3e3e3;
-    border: 1px solid #777;
-    padding: 10px;
-    font-size: 15px;
-    vertical-align: top;	/* 위 */
-    vertical-align: bottom;   /* 아래 */
-    vertical-align: middle;   /* 가운데 */
-    cursor: pointer;
-}
-
-.wrapper article table tr > td{
-    font-size: 15px;
-    padding: 10px;
-    font-size: 15px;
-    text-align: center;
-    border: 1px solid #777;
-    vertical-align: top;	/* 위 */
-    vertical-align: bottom;   /* 아래 */
-    vertical-align: middle;   /* 가운데 */
-}
-
-
-
-.wrapper article table #attribute{ /*테이블의 속성칸*/
-    background-color: #D9D9D9;
-}
 
 .wrapper .wrapper-footer {
     justify-content: space-between;

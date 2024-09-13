@@ -20,13 +20,13 @@ function Employee() {
     const [zodecode, setZonecode] = useState(''); //우편번호
     const [currentPopup, setCurrentPopup] = useState(null); // 'bank', 'department', 'position'
     const [uploadImgUrl, setUploadImgUrl] = useState(""); // 사진
-    const [search,setSearch] =useState({
+    const [search, setSearch] = useState({
         employeeNo: '',
         employeeName: '',
         departmentName: '',
         employeePhone: '',
         positionName: '',
-        employeeStatus:''
+        employeeStatus: ''
     });
     const [newEmployee, setNewEmployee] = useState({
         departmentNo: '',
@@ -52,7 +52,7 @@ function Employee() {
         position: "absolute",
         top: '50%',
         left: '50%',
-        transform:'translate(-50%,-50%)',
+        transform: 'translate(-50%,-50%)',
         width: "600px",
         height: "600px",
         padding: "7px",
@@ -135,7 +135,7 @@ function Employee() {
         setIsAllChecked(!isAllChecked);
     };
 
-    const handleImageChange = (e)=> {
+    const handleImageChange = (e) => {
         const {files} = e.target;
         const uploadFile = files[0];
         const reader = new FileReader();
@@ -303,7 +303,8 @@ function Employee() {
                                 <p>사원명</p>
                             </td>
                             <td>
-                                <input type="text"/>
+                                name="employeeHiredate"
+                                value={newEmployee.employeeHiredate} onChange={handleFormChange}
                             </td>
                             <td>
                                 <p>부서명</p>
@@ -346,245 +347,245 @@ function Employee() {
             </div>
 
 
-                <article>
-                    <table>
-                        <thead>
-                        <tr id="attribute">
-                            <th>
-                                <input
-                                    type="checkbox"
-                                    id="checkAll"
-                                    checked={isAllChecked}
-                                    onChange={handleAllCheckboxChange}
-                                />
-                                <label htmlFor="checkAll"></label>
-                            </th>
-                            <th style={{width: '150px'}}>입사일자</th>
-                            <th style={{width: '100px'}}>사원번호</th>
-                            <th style={{width: '100px'}}>성명</th>
-                            <th style={{width: '200px'}}>부서명</th>
-                            <th style={{width: '100px'}}>직급</th>
-                            <th style={{width: '200px'}}>전화번호</th>
-                            <th style={{width: '200px'}}>비상연락처</th>
-                            <th style={{width: '250px'}}>이메일</th>
-                            <th style={{width: '250px'}}>계좌번호</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {employees && employees.length > 0 ? employees.map(employee => (
-                            employee ? (
-                                <tr key={employee.employeeNo}>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            id={`check${employee.employeeNo}`}
-                                            checked={selectedEmployees.includes(employee.employeeNo)}
-                                            onChange={() => handleCheckboxChange(employee.employeeNo)}
-                                        />
-                                        <label htmlFor={`check${employee.employeeNo}`}></label>
-                                    </td>
-                                    <td>{employee.employeeHiredate}</td>
-                                    <td>{employee.employeeNo}</td>
-                                    <td>{employee.employeeName}</td>
-                                    <td>{employee.departmentName}</td>
-                                    <td>{employee.positionName}</td>
-                                    <td>{employee.emergencyPhone}</td>
-                                    <td>{employee.emergencyPhone}</td>
-                                    <td>{employee.employeeEmail}</td>
-                                    <td>{employee.accountNumber}</td>
-                                    {/* 필요한 모든 데이터 표시 */}
-                                </tr>
-                            ) : null
-                        )) : (
-                            <tr>
-                                <td colSpan="10">등록된 사원이 없습니다.</td>
+            <article>
+                <table>
+                    <thead>
+                    <tr id="attribute">
+                        <th>
+                            <input
+                                type="checkbox"
+                                id="checkAll"
+                                checked={isAllChecked}
+                                onChange={handleAllCheckboxChange}
+                            />
+                            <label htmlFor="checkAll"></label>
+                        </th>
+                        <th style={{width: '150px'}}>입사일자</th>
+                        <th style={{width: '100px'}}>사원번호</th>
+                        <th style={{width: '100px'}}>성명</th>
+                        <th style={{width: '200px'}}>부서명</th>
+                        <th style={{width: '100px'}}>직급</th>
+                        <th style={{width: '200px'}}>전화번호</th>
+                        <th style={{width: '200px'}}>비상연락처</th>
+                        <th style={{width: '250px'}}>이메일</th>
+                        <th style={{width: '250px'}}>계좌번호</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {employees && employees.length > 0 ? employees.map(employee => (
+                        employee ? (
+                            <tr key={employee.employeeNo}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        id={`check${employee.employeeNo}`}
+                                        checked={selectedEmployees.includes(employee.employeeNo)}
+                                        onChange={() => handleCheckboxChange(employee.employeeNo)}
+                                    />
+                                    <label htmlFor={`check${employee.employeeNo}`}></label>
+                                </td>
+                                <td>{employee.employeeHiredate}</td>
+                                <td>{employee.employeeNo}</td>
+                                <td>{employee.employeeName}</td>
+                                <td>{employee.departmentName}</td>
+                                <td>{employee.positionName}</td>
+                                <td>{employee.emergencyPhone}</td>
+                                <td>{employee.emergencyPhone}</td>
+                                <td>{employee.employeeEmail}</td>
+                                <td>{employee.accountNumber}</td>
+                                {/* 필요한 모든 데이터 표시 */}
                             </tr>
-                        )}
-                        </tbody>
-                    </table>
-                </article>
+                        ) : null
+                    )) : (
+                        <tr>
+                            <td colSpan="10">등록된 사원이 없습니다.</td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+            </article>
 
-                <div className="wrapper-footer flex">
-                    <div>
-                        <button className="btn" style={{marginRight: "10px"}}
-                                onClick={() => handleEmployeeDelete()}>선택삭제
-                        </button>
-                        <button className="btn" onClick={() => {
-                            setShowPopup(true);
-                            setDetail(true);
-                        }}>신규등록
-                        </button>
-                    </div>
+            <div className="wrapper-footer flex">
+                <div>
+                    <button className="btn" style={{marginRight: "10px"}}
+                            onClick={() => handleEmployeeDelete()}>선택삭제
+                    </button>
+                    <button className="btn" onClick={() => {
+                        setShowPopup(true);
+                        setDetail(true);
+                    }}>신규등록
+                    </button>
                 </div>
+            </div>
 
-                {showPopup &&
-                    <div className="popup" id="contractPopup">
-                        <Draggable nodeRef={nodeRef}>
-                            <div className="popup-content" ref={nodeRef} id="draggablePopup">
-                                <div className="popup-header" id="popupHeader">
-                                    <span>사원 등록</span>
-                                </div>
-                                <form className="contract-form" onSubmit={handleFormSubmit}>
-                                    <div className="formBox1">
-                                        <div className="profile-picture-container">
-                                            <div className="profile-picture">
-                                                <img src={uploadImgUrl} alt="Profile Picture" id="profileImg"/>
-                                            </div>
-                                            <div className="file-input-container">
-                                                <input type="file" id="fileInput" accept="image/*"
-                                                       onChange={handleImageChange}/>
-                                                <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
-                                            </div>
+            {showPopup &&
+                <div className="popup" id="contractPopup">
+                    <Draggable nodeRef={nodeRef}>
+                        <div className="popup-content" ref={nodeRef} id="draggablePopup">
+                            <div className="popup-header" id="popupHeader">
+                                <span>사원 등록</span>
+                            </div>
+                            <form className="contract-form" onSubmit={handleFormSubmit}>
+                                <div className="formBox1">
+                                    <div className="profile-picture-container">
+                                        <div className="profile-picture">
+                                            <img src={uploadImgUrl} alt="Profile Picture" id="profileImg"/>
                                         </div>
-                                        <div>
-                                            <label htmlFor="employeeName">이름</label>
-                                            <input type="text" id="employeeName" name="name" value={newEmployee.name}
-                                                   onChange={handleFormChange}/>
-                                        </div>
-                                        <div className={detail ? 'hidden' : ''}>
-                                            <label htmlFor="employeeNo">사원번호</label>
-                                            <input type="text" id="employeeNo" name="id" value={newEmployee.id}
-                                                   onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="department">부서번호</label>
-                                            <button type="button" className="btn"
-                                                    onClick={() => {
-                                                        fetchDepartments();
-                                                        setCurrentPopup('department');
-                                                    }}>부서선택
-                                            </button>
-                                            <input type="text" id="department" name="department"
-                                                   value={newEmployee.departmentName} style={{marginTop: "4px"}}
-                                                   readOnly/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="positionNo">직급</label>
-                                            <button type="button" className="btn" onClick={() => {
-                                                fetchpositions();
-                                                setCurrentPopup('position');
-                                            }
-                                            }>직급선택
-                                            </button>
-                                            <input type="text" id="positionName" name="positionNo"
-                                                   value={newEmployee.positionName} onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="employeeHiredate">입사일</label>
-                                            <input type="date" id="employeeHiredate" name="employeeHiredate"
-                                                   value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="employeePhone">전화번호</label>
-                                            <input type="text" id="employeePhone" name="phone" value={newEmployee.phone}
-                                                   onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="emergencyPhone">비상연락망</label>
-                                            <input type="text" id="emergencyPhone" name="emergencyContact"
-                                                   value={newEmployee.emergencyContact} onChange={handleFormChange}/>
+                                        <div className="file-input-container">
+                                            <input type="file" id="fileInput" accept="image/*"
+                                                   onChange={handleImageChange}/>
+                                            <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
                                         </div>
                                     </div>
-                                    <div className="formBox2">
-                                        <div>
-                                            <label htmlFor="employeeBirth">생년월일</label>
-                                            <input type="date" id="employeeBirth" name="employeeBirth"
-                                                   value={newEmployee.employeeBirth} onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="employeeEmail">이메일</label>
-                                            <input type="text" id="employeeEmail" name="email" value={newEmployee.email}
-                                                   onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
-                                            <button type="button" className="btn attach-file" onClick={() => {
-                                                fetchBanks();
-                                                setCurrentPopup('bank');
-                                            }
-                                            }>은행선택
-                                            </button>
-                                            <input type="text" id="accountBank" name="bank" placeholder="은행 선택"
-                                                   value={newEmployee.bankName} readOnly/>
-                                            <input type="text" id="accountNumber" name="accountNumber"
-                                                   placeholder="계좌번호" value={newEmployee.accountNumber}
-                                                   onChange={handleFormChange}/>
-                                            <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주"
-                                                   value={newEmployee.accountHolder} onChange={handleFormChange}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="employeeAddress">주소</label>
-                                            <button type="button" id="searchAddressBtn" className="btn attach-file"
-                                                    onClick={() => setShowMap(true)}>주소검색
-                                            </button>
-                                            <input type="text" id="employeeAddress" name="address"
-                                                   placeholder="주소를 입력하세요" value={newEmployee.address} readOnly/>
-                                            <input type="text" id="employeeAddress1" name="addressDetail"
-                                                   placeholder="상세주소를 입력하세요" value={newEmployee.addressDetail}
-                                                   onChange={handleFormChange}/>
-                                        </div>
+                                    <div>
+                                        <label htmlFor="employeeName">이름</label>
+                                        <input type="text" id="employeeName" name="name" value={newEmployee.name}
+                                               onChange={handleFormChange}/>
                                     </div>
-                                    <div className="popup-buttons">
-                                        <button type="submit" className="btn">등록</button>
-                                        <button type="button" className="btn close"
-                                                onClick={() => setShowPopup(false)}>닫기
+                                    <div className={detail ? 'hidden' : ''}>
+                                        <label htmlFor="employeeNo">사원번호</label>
+                                        <input type="text" id="employeeNo" name="id" value={newEmployee.id}
+                                               onChange={handleFormChange}/>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="department">부서번호</label>
+                                        <button type="button" className="btn"
+                                                onClick={() => {
+                                                    fetchDepartments();
+                                                    setCurrentPopup('department');
+                                                }}>부서선택
                                         </button>
+                                        <input type="text" id="department" name="department"
+                                               value={newEmployee.departmentName} style={{marginTop: "4px"}}
+                                               readOnly/>
                                     </div>
-                                </form>
-                            </div>
-                        </Draggable>
-                    </div>
-                }
-                {/*선택팝업창*/}
-                {currentPopup && (
-                    <div id="SelectPopup" className="popup">
-                        <div className="popup-content">
-                            <div className="popup-header">
-                                <h3>
-                                    {currentPopup === 'bank' && '은행 선택'}
-                                    {currentPopup === 'department' && '부서 선택'}
-                                    {currentPopup === 'position' && '직책 선택'}
-                                </h3>
-                                <button className="btn close" onClick={() => setCurrentPopup(null)}>닫기</button>
-                            </div>
-                            <div className="options">
-                                {currentPopup === 'bank' && banks.map(bank => (
-                                    <div key={bank.bankNo} className="select-item"
-                                         onClick={() => handleBankSelect(bank.bankNo, bank.bankName)}>
-                                        <button className="no-option">{bank.bankNo}</button>
-                                        <button className="name-option">{bank.bankName}</button>
+                                    <div>
+                                        <label htmlFor="positionNo">직급</label>
+                                        <button type="button" className="btn" onClick={() => {
+                                            fetchpositions();
+                                            setCurrentPopup('position');
+                                        }
+                                        }>직급선택
+                                        </button>
+                                        <input type="text" id="positionName" name="positionNo"
+                                               value={newEmployee.positionName} onChange={handleFormChange}/>
                                     </div>
-                                ))}
-                                {currentPopup === 'department' && departments.map(department => (
-                                    <div key={department.departmentNo} className="select-item"
-                                         onClick={() => handleDepartmentSelect(department.departmentNo, department.departmentName)}>
-                                        <button className="no-option">{department.departmentNo}</button>
-                                        <button className="name-option">{department.departmentName}</button>
+                                    <div>
+                                        <label htmlFor="employeeHiredate">입사일</label>
+                                        <input type="date" id="employeeHiredate" name="employeeHiredate"
+                                               value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
                                     </div>
-                                ))}
-                                {currentPopup === 'position' && positions.map(position => (
-                                    <div key={position.positionNo} className="select-item"
-                                         onClick={() => handlePositionSelect(position.positionNo, position.positionName)}>
-                                        <button className="no-option">{position.positionNo}</button>
-                                        <button className="name-option">{position.positionName}</button>
+                                    <div>
+                                        <label htmlFor="employeePhone">전화번호</label>
+                                        <input type="text" id="employeePhone" name="phone" value={newEmployee.phone}
+                                               onChange={handleFormChange}/>
                                     </div>
-                                ))}
-                            </div>
+                                    <div>
+                                        <label htmlFor="emergencyPhone">비상연락망</label>
+                                        <input type="text" id="emergencyPhone" name="emergencyContact"
+                                               value={newEmployee.emergencyContact} onChange={handleFormChange}/>
+                                    </div>
+                                </div>
+                                <div className="formBox2">
+                                    <div>
+                                        <label htmlFor="employeeBirth">생년월일</label>
+                                        <input type="date" id="employeeBirth" name="employeeBirth"
+                                               value={newEmployee.employeeBirth} onChange={handleFormChange}/>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="employeeEmail">이메일</label>
+                                        <input type="text" id="employeeEmail" name="email" value={newEmployee.email}
+                                               onChange={handleFormChange}/>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
+                                        <button type="button" className="btn attach-file" onClick={() => {
+                                            fetchBanks();
+                                            setCurrentPopup('bank');
+                                        }
+                                        }>은행선택
+                                        </button>
+                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택"
+                                               value={newEmployee.bankName} readOnly/>
+                                        <input type="text" id="accountNumber" name="accountNumber"
+                                               placeholder="계좌번호" value={newEmployee.accountNumber}
+                                               onChange={handleFormChange}/>
+                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주"
+                                               value={newEmployee.accountHolder} onChange={handleFormChange}/>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="employeeAddress">주소</label>
+                                        <button type="button" id="searchAddressBtn" className="btn attach-file"
+                                                onClick={() => setShowMap(true)}>주소검색
+                                        </button>
+                                        <input type="text" id="employeeAddress" name="address"
+                                               placeholder="주소를 입력하세요" value={newEmployee.address} readOnly/>
+                                        <input type="text" id="employeeAddress1" name="addressDetail"
+                                               placeholder="상세주소를 입력하세요" value={newEmployee.addressDetail}
+                                               onChange={handleFormChange}/>
+                                    </div>
+                                </div>
+                                <div className="popup-buttons">
+                                    <button type="submit" className="btn">등록</button>
+                                    <button type="button" className="btn close"
+                                            onClick={() => setShowPopup(false)}>닫기
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </Draggable>
+                </div>
+            }
+            {/*선택팝업창*/}
+            {currentPopup && (
+                <div id="SelectPopup" className="popup">
+                    <div className="popup-content">
+                        <div className="popup-header">
+                            <h3>
+                                {currentPopup === 'bank' && '은행 선택'}
+                                {currentPopup === 'department' && '부서 선택'}
+                                {currentPopup === 'position' && '직책 선택'}
+                            </h3>
+                            <button className="btn close" onClick={() => setCurrentPopup(null)}>닫기</button>
+                        </div>
+                        <div className="options">
+                            {currentPopup === 'bank' && banks.map(bank => (
+                                <div key={bank.bankNo} className="select-item"
+                                     onClick={() => handleBankSelect(bank.bankNo, bank.bankName)}>
+                                    <button className="no-option">{bank.bankNo}</button>
+                                    <button className="name-option">{bank.bankName}</button>
+                                </div>
+                            ))}
+                            {currentPopup === 'department' && departments.map(department => (
+                                <div key={department.departmentNo} className="select-item"
+                                     onClick={() => handleDepartmentSelect(department.departmentNo, department.departmentName)}>
+                                    <button className="no-option">{department.departmentNo}</button>
+                                    <button className="name-option">{department.departmentName}</button>
+                                </div>
+                            ))}
+                            {currentPopup === 'position' && positions.map(position => (
+                                <div key={position.positionNo} className="select-item"
+                                     onClick={() => handlePositionSelect(position.positionNo, position.positionName)}>
+                                    <button className="no-option">{position.positionNo}</button>
+                                    <button className="name-option">{position.positionName}</button>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                )}
-                {/* 도로명주소 입력 */}
-                {showMap && (
-                    <div>
-                        <DaumPostcode
-                            onComplete={completeMap}
-                            onClose={closeMap}
-                            style={postCodeStyle}
-                        />
-                    </div>
-                )}
+                </div>
+            )}
+            {/* 도로명주소 입력 */}
+            {showMap && (
+                <div>
+                    <DaumPostcode
+                        onComplete={completeMap}
+                        onClose={closeMap}
+                        style={postCodeStyle}
+                    />
+                </div>
+            )}
         </main>
-);
+    );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
