@@ -1,7 +1,6 @@
 package com.project.oneshot.sales.order;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.OrderVO;
+import com.project.oneshot.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<ClientVO> getClientList() {
-
         List<ClientVO> list = orderMapper.getClientList();
         return list;
     }
+
+    @Override
+    public ClientVO getClientContent(int clientNo) {
+        ClientVO vo = orderMapper.getClientContent(clientNo);
+        return vo;
+    }
+
+    @Override
+    public List<ContractVO> getProductList(int clientNo) {
+        List<ContractVO> list = orderMapper.getProductList(clientNo);
+        return list;
+    }
+
 }
