@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,8 @@ public class ContractVO { //계약가격 테이블(DB기준)
     private String managerName;
     private String contractPriceStatus;
     private String contractDday;
+
+
+    private List<String> contractProductNames;
+    private List<Integer> contractPrices;
 }

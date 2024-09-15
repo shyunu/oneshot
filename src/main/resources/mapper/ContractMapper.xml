@@ -5,7 +5,6 @@
 
 <mapper namespace="com.project.oneshot.sales.contract.ContractMapper">
 
-    <!-- 계약가격내역 -->
     <!-- 계약 등록 기능 -->
     <insert id="contractRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
         INSERT INTO CONTRACT_PRICE(
@@ -17,9 +16,9 @@
         ,CONTRACT_PRICE
         )
         VALUES(
-         #{productNo}
-        ,#{employeeNo}
-        ,#{clientNo}
+         (SELECT PRODUCT_NO FROM PRODUCT WHERE PRODUCT_NAME = #{productName})
+        ,1
+        ,1
         ,#{contractSdate}
         ,#{contractEdate}
         ,#{contractPrice}
@@ -41,6 +40,11 @@
         INNER JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
     </select>
 
+    <select id="getClientList" resultType="ClientVO">
+        select * from client
+    </select>
 
-
+    <select id="getContractUpdateList" resultType="ClientVO">
+        select * from client where client_no = #{clientNo}
+    </select>
 </mapper>

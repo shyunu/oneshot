@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ClientVO {
-
     private Integer clientNo; //고객사번호
     private String clientName; //고객사명
     private String clientBusinessNo; //고객사사업자등록번호
