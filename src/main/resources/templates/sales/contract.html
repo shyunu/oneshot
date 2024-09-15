@@ -45,14 +45,14 @@
         const tableBody = document.querySelector('#popup-regist .popup-list tbody');
 
         // 입력 필드에서 값 가져오기
-        const productNoInput = document.querySelector('input[name="productNo"]');
-        const contractPriceInput = document.querySelector('input[name="contractPrice"]');
+        const contractProductNameInput = document.querySelector('input[name="contractProductName[]"]');
+        const contractPriceInput = document.querySelector('input[name="contractPrice[]"]');
 
-        const productNoValue = productNoInput.value;
+        const contractProductNameValue = contractProductNameInput.value;
         const contractPriceValue = contractPriceInput.value;
 
         // 새로운 행을 추가하기 전에 값이 있는지 확인
-        if (productNoValue.trim() !== "" && contractPriceValue.trim() !== "") {
+        if (contractProductNameValue.trim() !== "" && contractPriceValue.trim() !== "") {
             // 새로운 행 생성
             const newRow = document.createElement('tr');
             newRow.classList.add('new-item-row');
@@ -60,15 +60,15 @@
             newRow.innerHTML = `
             <td><p>상품품목리스트</p></td>
             <td colspan="3" style="text-align: left;">
-                <input type="text" value="${productNoValue}" readonly style="width:40%;">
-                <input type="text" value="${contractPriceValue}" readonly style="width:40%;">
+                <input type="text" name="contractProductName[]" value="${contractProductNameValue}" readonly style="width:40%;">
+                <input type="text" name="contractPrice[]" value="${contractPriceValue}" readonly style="width:40%;">
                 <button type="button" class="remove-item-btn" style="width: 30px;">-</button>
             </td>
         `;
 
             tableBody.appendChild(newRow);
 
-            productNoInput.value = '';
+            contractProductNameInput.value = '';
             contractPriceInput.value = '';
 
             const removeBtn = newRow.querySelector('.remove-item-btn');
@@ -176,18 +176,18 @@
                 </thead>
 
                 <tbody>
-                    <tr th:each="vo : ${list}">
-                        <td><input type="checkbox" class="checkbox"></td>
-                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
-                        <td th:text="${vo.clientName}"></td>
-                        <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${vo.productName}"></td>
-                        <td th:text="${vo.managerName}"></td>
-                        <td th:text="${vo.contractPriceStatus}"></td>
-                        <td th:text="${vo.contractDday}"></td>
+                <tr th:each="vo : ${list}">
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.clientName}"></td>
+                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${vo.productName}"></td>
+                    <td th:text="${vo.managerName}"></td>
+                    <td th:text="${vo.contractPriceStatus}"></td>
+                    <td th:text="${vo.contractDday}"></td>
 
-                    </tr>
+                </tr>
                 </tbody>
             </table>
 
@@ -196,7 +196,7 @@
                     <button>Excel로 내보내기</button>
                     <button>계약서 저장</button>
                 </div>
-                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규거래 등록</button>
+                <button class="button-regist button-right" onclick="handleClick2(event)">신규거래 등록</button>
             </div>
 
             <div class="center">
@@ -222,7 +222,7 @@
                             <tbody>
                             <tr>
                                 <td><p>고객사명(번호)</p></td>
-                                <td><input type="number" name="clientNo"></td>
+                                <td><select class="clientName" onchange="updateInfo(event)"></select></td>
                                 <td>
                                     <p>계약시작일</p>
                                 </td>
@@ -232,22 +232,36 @@
                                 <td>
                                     <p>계약담당자</p>
                                 </td>
-                                <td><input type="number" name="employeeNo"></td>
+                                <td><input type="text" class="managerName" disabled></td>
                                 <td>
                                     <p>계약종료일</p>
                                 </td>
                                 <td><input type="date" name="contractEdate"></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <p>사업자등록번호</p>
+                                </td>
+                                <td>
+                                    <input type="text" class="clientBusinessNo" disabled>
+                                </td>
+                                <td>
+                                    <p>담당자 전화번호</p>
+                                </td>
+                                <td>
+                                    <input type="text" class="managerPhone" disabled>
+                                </td>
+                            </tr>
                             <tr class="addList">
                                 <td>
                                     <p>상품품목명</p>
                                 </td>
-                                <td><input type="text" name="productNo"></td>
+                                <td><input type="text" name="contractProductName[]"></td>
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
                                 <td colspan="3" style="text-align: left;">
-                                    <input type="number" name="contractPrice" style="width: 85%;">
+                                    <input type="number" name="contractPrice[]" style="width: 85%;">
                                     <button type="button" id="add-item-btn-regist">+</button>
                                 </td>
                             </tr>
@@ -366,11 +380,45 @@
     // 팝업창 열기
     function handleClick(event) { //수정페이지
         popupModify.style.display = 'block';
-        console.log(event.target);
-
     }
-    function handleClick2(tdValue) { //수정페이지
+
+    function handleClick2(event) { //수정페이지
+        $.ajax({
+            url: '/sales/getContractClientList',
+            type: 'get',
+            dataType: 'json',
+            success: function(data) {
+                var html = '<option>- 고객사명 -</option>';
+                $.each(data, function(index, obj) {
+                    html += '<option value=' + obj.clientNo + '>' + obj.clientName + '</option>';
+                });
+                $('.clientName').html(html);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
         popupRegist.style.display = 'block';
+    }
+
+    function updateInfo(event) {
+        console.log(event.target.value);
+        $.ajax({
+            url: '/sales/getContractUpdateList',
+            type: 'get',
+            data: {clientNo : event.target.value},
+            dataType: 'json',
+            success: function(data) {
+                $('.clientBusinessNo').val(data.clientBusinessNo);
+                $('.managerName').val(data.managerName);
+                $('.managerPhone').val(data.managerPhone);
+            },
+            error: function() {
+                $('.clientBusinessNo').val('');
+                $('.managerName').val('');
+                $('.managerPhone').val('');
+            }
+        });
     }
 
 

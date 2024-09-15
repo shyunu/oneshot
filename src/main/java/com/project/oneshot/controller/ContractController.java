@@ -23,7 +23,6 @@ public class ContractController {
     @Qualifier("contractService") //서비스연결
     private ContractService contractService;
 
-
     // ----- 계약가격내역 ----- //
     @GetMapping("/contract")
     public String contract(Model model) {
@@ -35,15 +34,21 @@ public class ContractController {
         return "sales/contract";
     }
 
-    @PostMapping("/registForm")
-    public String registForm(ContractVO vo,
-                             RedirectAttributes ra) { //--- 계약 등록하기
-        System.out.println("-------------");
+    @PostMapping("/registForm") //--- 계약 등록하기
+    public String registForm(@RequestParam("contractProductName[]") List<String> contractProductNames,
+                             @RequestParam("contractPrice[]") List<Integer> contractPrices,
+                             ContractVO vo,
+                             RedirectAttributes ra) {
+
+        vo.setContractProductNames(contractProductNames);
+        vo.setContractPrices(contractPrices);
+
         int result = contractService.contractRegist(vo);
+
         if(result == 1) {
-            ra.addFlashAttribute("msg", "정상 등록되었습니다");
+            ra.addFlashAttribute("msg", "정상 등록");
         } else {
-            ra.addFlashAttribute("msg", "등록에 실패했습니다.");
+            ra.addFlashAttribute("msg", "등록 실패");
         }
 
         return "redirect:/sales/contract";
