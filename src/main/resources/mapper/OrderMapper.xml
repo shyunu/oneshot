@@ -6,7 +6,7 @@
 <mapper namespace="com.project.oneshot.sales.order.OrderMapper">
 
     <!-- 판매내역 -->
-    <insert id="orderRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
+    <insert id="orderRegist" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
         INSERT INTO ORDER_HEADER(
         ORDER_SDATE
         ,CLIENT_NO
@@ -25,4 +25,22 @@
         )
     </insert>
 
+    <select id="getClientList" resultType="ClientVO">
+        SELECT *
+        FROM CLIENT
+    </select>
+
+    <select id="getClientContent" parameterType="int" resultType="ClientVO">
+        select * from client where client_no = #{clientNo}
+    </select>
+
+    <select id="getProductList" resultType="ContractVO">
+        SELECT PRODUCT.PRODUCT_NAME, CONTRACT_PRICE.CONTRACT_PRICE
+        FROM CLIENT
+        INNER JOIN CONTRACT_PRICE
+        ON CLIENT.CLIENT_NO = CONTRACT_PRICE.CONTRACT_PRICE
+        INNER JOIN PRODUCT
+        ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+        WHERE CLIENT.CLIENT_NO = #{clientNo} AND CURRENT_DATE BETWEEN CONTRACT_PRICE.CONTRACT_SDATE AND CONTRACT_PRICE.CONTRACT_EDATE
+    </select>
 </mapper>
