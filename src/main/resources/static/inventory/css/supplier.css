@@ -99,36 +99,13 @@ td {
   justify-content: space-between;
 }
 
-.register, .update {
-  padding: 5px 10px;
-  margin-left: 10px;
-  border-radius: 5px;
-  background-color: #343434;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  width: 150px;
-  height: 30px;
-}
-
-.button-left {
-  float: left;
+.button-right {
+  margin-left: auto;
 }
 
 /* //////////////////////////////////////////////////////////// */
-/* popup regist */
-.popup-regist {
-  display: none;
-  position: fixed;
-  left: 0%;
-  top: 0%;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-
-}
-
-.popup-regist .popup-content {
+/* 팝업 공통 디자인 */
+.popup-content {
   background-color: white;
   margin: 10% auto;
   width: 900px;
@@ -138,131 +115,98 @@ td {
   box-shadow: 0px 8px 16px #e3e3e3;
 }
 
-.popup-regist .popup-content h2 {
+.popup-content h2 {
   color: #fff;
   padding: 10px;
-  font-size: 25px; letter-spacing: 2px; font-weight: 400;
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 400;
   background-color: #434343;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  height: 50px; line-height: 35px;
+  height: 50px;
+  line-height: 35px;
 }
 
-.popup-regist .popup-list {
+.popup-list {
   padding: 10px;
 }
 
-.popup-regist .popup-list p,
+.popup-list p,
 input {
   display: inline-block;
   position: relative;
   height: 30px;
 }
 
-.popup-regist .popup-list p {
+.popup-list p {
   line-height: 30px;
   width: 100%;
 }
 
-
-.popup-regist .popup-list input {
+.popup-list input {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
   padding: 6px 12px;
+  background-color: white;
+  color: black;
 }
 
-#add-item-btn-regist {
-  position: absolute;
-}
+/*.popup-list input:not([disabled]) {*/
+/*  pointer-events: auto;*/
+/*}*/
 
-.popup-regist .popup-list div:nth-of-type(1) input {
-  left: 2px;
+.popup-list input:disabled {
+  background-color: #f0f0f0;
+  color: #888;
 }
 
 .popup-button {
   height: 50px;
 }
 
-.button-right {
-  float: right;
-}
-
-.popup-regist .popup-button button {
+.popup-button button {
   margin-top: 10px;
   margin-right: 10px;
 }
 
-.popup-regist .close-btn3 {
+.close-btn {
   cursor: pointer;
 }
 
-
-/* popup modify */
-/* .popup-modify:hover {
-  cursor: pointer;
-}
-
-.popup-modify .popup-content {
-  background-color: white;
-  margin: 10% auto;
-  width: 900px;
-  height: auto;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0px 8px 16px #e3e3e3;
-}
-
-.popup-modify .popup-content h2 {
-  color: #fff;
-  padding: 10px;
-  font-size: 25px; letter-spacing: 2px; font-weight: 400;
-  background-color: #434343;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  height: 50px; line-height: 35px;
-}
-
-.popup-modify .popup-list {
-  padding: 10px;
-}
-
-.popup-modify .popup-list p,
-input {
-  display: inline-block;
-  position: relative;
-  height: 30px;
-}
-
-.popup-modify .popup-list p {
-  line-height: 30px;
+/* 등록과 수정 팝업창 */
+.popup-regist, .popup-modify {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
+  height: 100%;
+  justify-content: center;
+  cursor: pointer; /* 드래그 가능한 영역에 커서 스타일 추가 */
+  z-index: 9999;
 }
 
-.popup-modify .popup-list input, select {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* tr td */
+.popup-list > table {
   width: 100%;
-  padding: 6px 12px;
+  border-collapse: collapse;
 }
 
+.popup-list td {
+  padding: 5px;
+  vertical-align: top;
+}
 
-.popup-modify .close-btn2 {
-  margin-right: 10px;
-  cursor: pointer;
-} */
+.popup-list>table,
+.popup-list td {
+  border: 1px solid #e3e3e3;
+}
 
-/*
-.search:hover, .search:focus, .register:hover, .register:focus, .update:focus, .update:hover, .save:hover, .save:focus, .close:hover, .close:focus {
-  color: #233047;
-  background-color: #e3e3e3;
-  box-shadow: 0px 8px 16px #e3e3e3;
-  border-radius: 6px;
-  text-decoration: none;
-  cursor: pointer;
-
-} */
-
+.popup-list table p {
+  margin: 0;
+}
 
 
 /* button css */
@@ -290,4 +234,52 @@ button:active {
   background-color: #F3F4F6;
   box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15), 0px 1px 1px rgba(81, 41, 10, 0.15);
   transform: translateY(0.125rem);
+}
+
+
+/* filter table */
+.content .filter-content,
+.content .filter-content table {
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.content .filter-content table {
+  margin-bottom: 15px;
+}
+.content .filter-content td {
+  border: 1px solid #e3e3e3;
+  letter-spacing: 3px;
+}
+.content .filter-content input {
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  width: 100%;
+  padding: 6px 12px;
+}
+
+.content .filter-button {
+  margin-right: 0px;
+  margin-bottom: 5px;
+}
+
+.content .filter-main {
+  gap: 10px; /* input과 select 사이의 간격 */
+  margin: 0px 10px 15px 0px;
+  width: 100%;
+}
+.content .filter-main h3 {
+  float: left;
+}
+.content .filter-main button {
+  float: right;
+}
+
+.content .filter-main select {
+  flex: 1;
+  border-radius: 10px;
+  border: 1px solid #e3e3e3;
+  height: 30px;
+  border-radius: 4px;
+  width: 100%;
 }
