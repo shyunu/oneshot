@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
+
+
     window.onload = function () {
+
+        //판매등록일자 sysdate설정
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = today.getMonth() + 1; // Months start at 0
+        var dd = today.getDate();
+
+        if (mm < 10) mm = '0' + mm;
+        if (dd < 10) dd = '0' + dd;
+
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+        document.getElementById('dateField').value = formattedDate;
+
         // 드래그 기능을 추가할 팝업창 요소 선택
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
@@ -15,7 +31,34 @@
         addItemBtnRegist.addEventListener('click', addNewItemRow);
     };
 
-        // modify
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        const header = element.querySelector('.popup-content');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+
+
+
+    // modify
         document.getElementById('add-item-btn').addEventListener('click', function () {
             // 입력된 상품 품목명과 책정 거래가 가져오기
             const productNameInput = document.querySelector('input[name="product-name"]');
@@ -51,63 +94,77 @@
 
     // regist - 상품품목 및 책정거래가 새로운 input 추가
     function addRow() {
-        const tableBody = document.getElementById('inputContainer');
-        const newRow = document.createElement('tr');
+        // 마지막 행을 가져와서 복사본 생성
+        const rows = document.querySelectorAll('#inputContainer tr');
+        const lastRow = rows[rows.length - 1];
 
-        newRow.innerHTML = `
-                <td><p>상품명</p></td>
-                <td><select class="productName" onchange="getPrice(event)"></select></td>
-                <td><p>책정거래가</p></td>
-                <td><input type="number" class="contractPrice" disabled></td>
-                <td><p>개수</p></td>
-                <td><input type="number" class="quantity" onchange="updateAmount()"></td>
-                <td><p>금액</p></td>
-                <td><input type="number" class="amount" disabled></td>
-                <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-color: #000; color: white; margin:12px;">+</button></td>
-                <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-color: #000 margin:12px;; color: white; margin:12px;">-</button></td>
-            `;
+        // 새 행 생성
+        const newRow = lastRow.cloneNode(true);
 
-        // Add the new row before the last row
-        tableBody.insertBefore(newRow, tableBody.querySelector('#dynamicRow'));
-    }
-
-    function removeRow(button) {
-        const row = button.closest('tr');
-        if (document.querySelectorAll('#inputContainer tr').length > 2) { // Ensure at least one row remains
-            row.remove();
-        } else {
-            alert("최소 한 개의 항목은 남아야 합니다.");
-        }
-    }
-
-
-    // 드래그 가능하게 하는 함수
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-
-        const header = element.querySelector('.popup-content');
-
-        header.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
+        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
+        const newRowInputs = newRow.querySelectorAll('input, select');
+        newRowInputs.forEach((element, index) => {
+            // 기존 name 속성에서 배열 인덱스를 추출하여 업데이트
+            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
         });
 
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                element.style.left = `${e.clientX - offsetX}px`;
-                element.style.top = `${e.clientY - offsetY}px`;
+        // 새 행의 값 초기화
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            if (input.classList.contains('contractPrice')) {
+                input.readOnly = false; // 활성화
+            } else {
+                input.readOnly = false; // 신규 행에서는 모든 input 필드를 활성화
             }
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
+        // 새 행의 선택 필드 초기화
+        newRow.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0; // 기본 옵션으로 초기화
+            select.disabled = false; // 새 행의 선택 필드 활성화
         });
+
+        // 기존 행의 입력 필드와 선택 필드를 readonly로 설정
+        const lastRowInputs = lastRow.querySelectorAll('input');
+        lastRowInputs.forEach(input => {
+            input.readOnly = true; // 기존 행의 input 필드를 readonly로 설정
+        });
+        lastRow.querySelectorAll('select').forEach(select => {
+            select.disabled = true; // 기존 행의 select 필드를 비활성화
+        });
+
+        // 새 행의 삭제 버튼에 이벤트 리스너 추가
+        const removeButton = newRow.querySelector('.remove-button');
+        if (removeButton) {
+            removeButton.addEventListener('click', function() {
+                removeRow(removeButton);
+            });
+        }
+
+        // 새 행의 입력 필드에 이벤트 리스너 추가
+        const productQuantityInput = newRow.querySelector('.productQuantity');
+        if (productQuantityInput) {
+            productQuantityInput.addEventListener('input', updateAmount);
+        }
+
+        // 새 행을 테이블에 추가
+        document.getElementById('inputContainer').appendChild(newRow);
     }
+
+    function removeRow(button) {
+        // 버튼이 위치한 행을 찾는다
+        const row = button.closest('tr');
+        // 행을 테이블에서 제거한다
+        row.remove();
+    }
+
+
+
+
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
+    ${msg}
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
@@ -193,9 +250,8 @@
                     <th>no</th>
                     <th>판매등록일자</th>
                     <th>고객사명</th>
-                    <th>상품 품목명</th>
+                    <th>상품리스트</th>
                     <th>총 거래가</th>
-                    <th>계약담당자</th>
                     <th>판매담당자</th>
                     <th>판매승인상태</th>
                     <th>배송상태</th>
@@ -204,19 +260,20 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="vo : ${list}">
+                    <tr th:each="vo : ${list}" onclick="handleClick(this.innerHTML)">
                         <td><input type="checkbox" class="checkbox"></td>
-                        <td th:text="${vo.orderSdate}" onclick="handleClick(this.innerHTML)"></td>
+                        <td th:text="${vo.orderHeaderNo}"></td>
+                        <td th:text="${#dates.format(vo.orderSdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${vo.clientNo}" onclick="handleClick(this.innerHTML)"></td>
-                        <td th:text="${vo.productNo}" ></td>
-                        <td th:text="${vo.contractPrice}" ></td>
+                        <td></td>
+                        <td></td>
                         <td th:text="${vo.employeeNo}" ></td>
-                        <td th:text="${vo.orderEmployee}" ></td>
                         <td th:text="${vo.orderStatus}" ></td>
                         <td th:text="${vo.deliveryStatus}" ></td>
                         <td th:text="${vo.delivery}" ></td>
                     </tr>
                 </tbody>
+
             </table>
 
             <div class="buttons">
@@ -316,59 +373,78 @@
                         <button>계약서 첨부</button>
                     </div>
                     <div class="button-right">
-                        <button type="submit">등록</button>
+                        <button type="submit">수정</button>
                         <button type="button" class="close-btn2">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
         <div id="popup-regist" class="popup-regist">
-            <form name="orderForm" action="orderForm" method="post">
+            <form name="orderForm" action="/sales/orderForm" method="post">
                 <div class="popup-content">
                 <h2>판매 등록하기</h2>
                 <div class="popup-list">
                     <table>
                         <tbody>
                             <tr class="left-row">
-                                <td><p>고객사</p></td>
-                                <td><select class="clientName" onchange="changeClientName(event)"></select></td>
-                                <td><p>사업자등록번호</p></td>
-                                <td><input type="number" class="clientBusinessNo" disabled></td>
+                                <td colspan="3"><p>판매등록일자</p></td>
+                                <td colspan="3"><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
+                                <td colspan="3"><p>판매담당자</p></td>
+                                <td colspan="3"><select class="employeeNo" name="employeeNo" onchange="changeEmployeeName(event)" required></select></td>
                             </tr>
                             <tr class="left-row">
-                                <td><p>담당자</p></td>
-                                <td><input type="text" class="managerName" disabled></td>
-                                <td><p>담당자 연락처</p></td>
-                                <td><input type="text" class="managerPhone" disabled></td>
+                                <td colspan="3"><p>고객사</p></td>
+                                <td colspan="3"><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
+                                <td colspan="3"><p>사업자등록번호</p></td>
+                                <td colspan="3"><input type="number" class="clientBusinessNo" disabled></td>
+                            </tr>
+                            <tr class="left-row">
+                                <td colspan="3"><p>담당자</p></td>
+                                <td colspan="3"><input type="text" class="managerName" disabled></td>
+                                <td colspan="3"><p>담당자 연락처</p></td>
+                                <td colspan="3"><input type="text" class="managerPhone" disabled></td>
                             </tr>
                         </tbody>
-                            <tbody id="inputContainer">
-                                <tr id="dynamicRow">
-                                    <td><p>상품명</p></td>
-                                    <td><select class="productName" onchange="getPrice(event)"></select></td>
-                                    <td><p>책정거래가</p></td>
-                                    <td><input type="number" class="contractPrice" disabled></td>
-                                    <td><p>개수</p></td>
-                                    <td><input type="number" class="quantity" onchange="updateAmount()"></td>
-                                    <td><p>금액</p></td>
-                                    <td><input type="number" class="amount" disabled></td>
-                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-color: #000; color: white; margin:12px;">+</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-color: #000; color: white; margin:12px;">-</button></td>
-                                </tr>
-                            </tbody>
+                        <tbody id="inputContainer" class="input-wrapper">
+                        <tr id="dynamicRow">
+                            <td><p>상품명</p></td>
+                            <td><select name="productNo[]" class="productNo" onchange="getPrice(event)"></select></td>
+                            <td><p>책정거래가</p></td>
+                            <td><input type="number" name="contractPrice[]" class="contractPrice" readonly></td>
+                            <td><p>개수</p></td>
+                            <td><input type="number" name="productQuantity[]" class="productQuantity" onchange="updateAmount()"></td>
+                            <td><p>금액</p></td>
+                            <td><input type="number" name="amount[]" class="amount" readonly></td>
+                            <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-color: #000; color: white; margin:12px;">+</button></td>
+                            <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-color: #000; color: white; margin:12px;">-</button></td>
+                        </tr>
+                        </tbody>
+
+                        <tbody>
+                            <tr>
+                                <td colspan="2"><p>판매승인상태</p></td>
+                                <td colspan="2"><input type="text" name="orderStatus" placeholder="-" readonly style="text-align: center;"></td>
+                                <td colspan="2"><p>배송상태</p></td>
+                                <td colspan="2"><input type="text" name="deliveryStatus" placeholder="-" readonly style="text-align: center;"></td>
+                                <td colspan="2"><p>배송일</p></td>
+                                <td colspan="2"><input type="date" name="delivery" readonly></td>
+                            </tr>
+                        </tbody>
                     </table>
+                    <hr style="border: 0; height: 1px; background-color: #e3e3e3;">
+
                 </div>
                 <div class="popup-button">
                     <div class="button-left">
                         <button>계약서 첨부</button>
                     </div>
                     <div class="button-right">
-                        <button type="submit">등록</button>
+                        <button type="submit" onclick="handleSubmit()">등록</button>
                         <button type="button" class="close-btn3">닫기</button>
                     </div>
                 </div>
             </div>
-            </form>>
+            </form>
         </div>
     </div>
 </th:block>
@@ -396,24 +472,41 @@
     const forPopup = document.querySelectorAll('.for-popup');
 
     // 팝업창 열기
-    function handleClick(tdValue) { //수정페이지
+    function handleClick(thValue) { //수정페이지
 
 
         popupModify.style.display = 'block';
     }
 
     function handleClick2(tdValue) { //등록페이지
-        //고객리스트 가져오기
+        //사원리스트 가져오기(판매담당자 선택) changeEmployeeName
+        $.ajax({
+            url: '/sales/getEmployeeList',
+            type: 'get',
+            dataType: 'json',
+            success: function(data) {
+                var html = '<option>사원번호를 선택하세요</option>';
+                $.each(data, function(index, obj) {
+                    html += '<option value="' + obj.employeeNo + '">' + obj.employeeNo + '</option>';
+                });
+                $('.employeeNo').html(html);
+            },
+            error: function() {
+                alert('fail');
+            }
+        });
+
+        //고객리스트 가져오기(고객사 선택)
         $.ajax({
             url: '/sales/getClientList',
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var html = '<option>고객사를 선택하세요</option>';
+                var html = '<option>고객사번호를 선택하세요</option>';
                 $.each(data, function(index, obj) {
-                    html += '<option value="' + obj.clientNo + '">' + obj.clientName + '</option>';
+                    html += '<option value="' + obj.clientNo + '">' + obj.clientNo + '</option>';
                 });
-                $('.clientName').html(html);
+                $('.clientNo').html(html);
             },
             error: function() {
                 alert('fail');
@@ -443,10 +536,10 @@
                         $.each(data2, function(index2, obj2) {
                             html += '<option value="' + obj2.contractPrice + '">' + obj2.productName + '</option>';
                         });
-                        $('.productName').html(html);
+                        $('.productNo').html(html);
                     },
                     error: function() {
-                        $('.productName').html('<option>상품 로드 실패</option>');
+                        $('.productNo').html('<option>상품 로드 실패</option>');
                     }
                 });
             },
@@ -463,11 +556,63 @@
     }
 
     function updateAmount() {
-        var contractPrice = document.querySelector('.contractPrice').value;
-        var quantity = document.querySelector('.quantity').value;
-        var amount = contractPrice * quantity;
-        document.querySelector('.amount').value = amount;
+        const rows = document.querySelectorAll('#inputContainer tr');
+        rows.forEach(row => {
+            const contractPrice = row.querySelector('.contractPrice');
+            const productQuantity = row.querySelector('.productQuantity');
+            const amount = row.querySelector('.amount');
+
+            if (contractPrice && productQuantity && amount) {
+                const price = parseFloat(contractPrice.value) || 0;
+                const qty = parseFloat(productQuantity.value) || 0;
+                amount.value = price * qty;
+            }
+        });
     }
+
+    // input값들 리스트로 받기
+//    function handleSubmit() {
+//        const rows = document.querySelectorAll('#inputContainer tr');
+//        const dataList = [];
+//
+//        rows.forEach(row => {
+//            const productName = row.querySelector('.productName').value;
+//            const contractPrice = row.querySelector('.contractPrice').value;
+//            const productQuantity = row.querySelector('.productQuantity').value;
+//            const amount = row.querySelector('.amount').value;
+//
+//            // 데이터를 객체로 만들어서 배열에 담음
+//            const rowData = {
+//                productName: productName,
+//                contractPrice: contractPrice,
+//                productQuantity: productQuantity,
+//                amount: amount
+//            };
+//
+//            dataList.push(rowData);
+//        });
+//
+//        console.log(dataList); // 처리된 데이터를 콘솔에 출력 (혹은 서버로 전송 등)
+//
+//        // 이후 이 데이터를 서버로 보낼 수 있습니다. 예를 들어 fetch API로 전송 가능
+//        // fetch('/submit', {
+//        //     method: 'POST',
+//        //     headers: {
+//        //         'Content-Type': 'application/json'
+//        //     },
+//        //     body: JSON.stringify(dataList)
+//        // }).then(response => response.json())
+//        //   .then(data => console.log('Success:', data))
+//        //   .catch((error) => console.error('Error:', error));
+//    }
+//
+
+
+
+
+
+
+
     // 팝업창 닫기
     function closePopupModify() {
         popupModify.style.display = 'none';

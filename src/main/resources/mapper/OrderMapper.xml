@@ -5,25 +5,109 @@
 
 <mapper namespace="com.project.oneshot.sales.order.OrderMapper">
 
-    <!-- 판매내역 -->
-    <insert id="orderRegist" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
-        INSERT INTO ORDER_HEADER(
-        ORDER_SDATE
-        ,CLIENT_NO
-        ,PRODUCT_NO
-        ,CONTRACT_PRICE
+
+    <!-- 판매등록  -->
+    <insert id="orderRegist" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="orderHeaderNo">
+        <!-- 헤더 정보 삽입 -->
+        INSERT INTO ORDER_HEADER (
+         ORDER_SDATE
         ,EMPLOYEE_NO
-        ,ORDER_EMPLOYEE
+        ,CLIENT_NO
+        ,ORDER_STATUS
+        ,DELIVERY_STATUS
+        ,DELIVERY
         )
         VALUES(
         #{orderSdate}
-        ,#{clientNo}
-        ,#{productNo}
-        ,#{contractPrice}
         ,#{employeeNo}
-        ,#{orderEmployee}
-        )
+        ,#{clientNo}
+        ,#{orderStatus}
+        ,#{deliveryStatus}
+        ,#{delivery}
+        );
+
+        <foreach collection="productNo" item="product" index="idx" separator=";">
+            INSERT INTO ORDER_ITEM (
+            PRODUCT_NO,
+            CONTRACT_PRICE,
+            PRODUCT_QUANTITY,
+            AMOUNT
+            ) VALUES (
+            #{product},
+            #{contractPrice[idx]},
+            #{productQuantity[idx]},
+            #{amount[idx]}
+            )
+        </foreach>
+
     </insert>
+
+<!--    <insert id="orderRegist" parameterType="OrderVO">-->
+<!--        INSERT INTO ORDER_HEADER(-->
+<!--        ORDER_SDATE-->
+<!--        ,EMPLOYEE_NO-->
+<!--        ,CLIENT_NO-->
+<!--        ,ORDER_STATUS-->
+<!--        ,DELIVERY_STATUS-->
+<!--        ,DELIVERY-->
+<!--        )-->
+<!--        VALUES(-->
+<!--        #{orderSdate}-->
+<!--        ,#{employeeNo}-->
+<!--        ,#{clientNo}-->
+<!--        ,#{orderStatus}-->
+<!--        ,#{deliveryStatus}-->
+<!--        ,#{delivery}-->
+<!--        ) RETURNING ORDER_HEADER_NO-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 판매아이템 등록 &ndash;&gt;-->
+<!--    <insert id="orderItem" parameterType="OrderVO">-->
+<!--        INSERT INTO ORDER_ITEM (-->
+<!--        PRODUCT_NO,-->
+<!--        CONTRACT_PRICE,-->
+<!--        PRODUCT_QUANTITY,-->
+<!--        AMOUNT-->
+<!--        )-->
+<!--        VALUES(-->
+<!--        #{productNo}-->
+<!--        ,#{contractPrice}-->
+<!--        ,#{productQuantity}-->
+<!--        ,#{amount}-->
+<!--    </insert>-->
+
+
+    <resultMap id="OrderResultMap" type="OrderVO">
+        <result property="orderHeaderNo" column="ORDER_HEADER_NO"/>
+        <result property="orderSdate" column="ORDER_SDATE"/>
+        <result property="clientNo" column="CLIENT_NO"/>
+        <result property="employeeNo" column="EMPLOYEE_NO"/>
+        <result property="orderStatus" column="ORDER_STATUS"/>
+        <result property="deliveryStatus" column="DELIVERY_STATUS"/>
+        <result property="delivery" column="DELIVERY"/>
+    </resultMap>
+
+    <!-- 판매내역 조회 기능 -->
+    <select id="getList" resultMap="OrderResultMap">
+        SELECT
+        H.ORDER_HEADER_NO,
+        H.ORDER_SDATE,
+        H.CLIENT_NO,
+        H.EMPLOYEE_NO,
+        H.ORDER_STATUS,
+        H.DELIVERY_STATUS,
+        H.DELIVERY
+        FROM ORDER_HEADER H
+        INNER JOIN CONTRACT_PRICE ON H.CLIENT_NO = CONTRACT_PRICE.CLIENT_NO
+        ORDER BY ORDER_HEADER_NO ASC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+
+    <select id="getEmployeeList" resultType="EmployeeVO">
+        SELECT *
+        FROM EMPLOYEE
+    </select>
 
     <select id="getClientList" resultType="ClientVO">
         SELECT *
