@@ -1,9 +1,6 @@
 package com.project.oneshot.controller;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.ProductVO;
-import com.project.oneshot.command.SupplierVO;
+import com.project.oneshot.command.*;
 import com.project.oneshot.sales.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +17,14 @@ public class OrderRestController {
     @Autowired
     OrderService orderService;
 
+    @GetMapping("/getEmployeeList")
+    public List<EmployeeVO> getEmployeeList() {
+
+        List<EmployeeVO> list = orderService.getEmployeeList();
+        return list;
+    }
+
+
     @GetMapping("/getClientList")
     public List<ClientVO> getClientList() {
 
@@ -30,7 +35,7 @@ public class OrderRestController {
     @GetMapping("getClientContent")
     public ClientVO getClientContent(@RequestParam("clientNo") int clientNo) {
         ClientVO vo = orderService.getClientContent(clientNo);
-        System.out.println("vo = " + vo);
+//        System.out.println("vo = " + vo);
         return vo;
     }
 

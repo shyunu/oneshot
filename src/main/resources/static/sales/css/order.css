@@ -302,11 +302,9 @@ button:active {
     transform: translateY(0.125rem);
 }
 
-/* //////////////////////////////////////////////////////////// */
-/* add-button, remove-button */
-/*.add-button, remove-button {*/
-/*    width: 80px;*/
-/*}*/
+tbody tr:hover {
+    background-color: yellow;
+}
 /* //////////////////////////////////////////////////////////// */
 /* filter table */
 .content .filter-content,
