@@ -19,8 +19,8 @@
     position: absolute; /* 드래그 가능하도록 absolute 설정 */
     width: 600px;
     height: 750px;
-    left: 35%;
-    top: 5%;
+    left: 50%;
+    top: 50%;
 }
 
 /* 팝업 헤더 스타일 */
@@ -101,8 +101,9 @@
 
 /* 선택 팝업 스타일 */
 #SelectPopup .popup-content {
-    margin-left: 100px;
-    margin-top: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 400px;
     max-height: 600px; /* 최대 높이 설정 */
     padding: 0; /* 패딩 초기화 */

@@ -5,15 +5,25 @@ import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.PositionVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface EmployeeMapper {
 
-    // 모든 활성화된 사원 조회
-    public List<EmployeeVO> getAllEmployees();
+    // 모든 사원 조회
+    public List<EmployeeVO> getAllEmployees(Map<String, Object> params);
+
+    // 사원 총인원
+    int getTotalEmployeeCount();
+
+    // 사원 검색
+    public List<EmployeeVO> getSearchEmployees(EmployeeVO employeeVO);
 
     // 사원 생성
     public int insertEmployee(EmployeeVO employeeVo);
+
+    // 사원 수정
+    public int updateEmployee(EmployeeVO employeeVo);
 
     // 은행 목록 조회
     public List<BankVO> getAllBank();
@@ -21,6 +31,6 @@ public interface EmployeeMapper {
     public List<PositionVO> getAllPosition();
 
     // 직원 비활성화
-    public int updateEmployee(List<Integer> employeeNos);
+    public int updateResignEmployee(List<Integer> employeeNos);
 
 }
