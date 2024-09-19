@@ -1,16 +1,15 @@
-package com.project.oneshot.util;
+package com.project.oneshot.inventory.product;
 
-import com.project.oneshot.inventory.product.ProductCriteria;
+import com.project.oneshot.util.Criteria;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data //getter, setter
-public class PageVO {
-    
+public class ProductPageVO {
+
     //화면에 그려질 pageNation을 계산하는 클래스
     private int start; //시작페이지 번호
     private int end; //마지막페이지 번호
@@ -19,18 +18,18 @@ public class PageVO {
 
     private int page; //현재조회하는 페이지번호 <-- cri
     private int amount; //현재조회하는 데이터개수 <-- cri
-    
+
     private int total; //전체 게시글 수
     private int realEnd; //맨 마지막페이지에 도달했을 때, 재 계산이 들어가는 실제 끝번호
 
-    private Criteria cri;
+    private ProductCriteria cri;
     private List<Integer> pageList; //페이지 네이션 번호를 list로 생성
 
     private int pageSize = 5; //페이지네이션 크기
 
 
     //생성자 - 생성될때 criteria객체, 전체게시글 수 를 받습니다.
-    public PageVO(Criteria cri, int total) {
+    public ProductPageVO(ProductCriteria cri, int total) {
         this.page = cri.getPage();
         this.amount = cri.getAmount();
         this.total = total;

@@ -191,7 +191,7 @@ input {
     width: 100%;
 }
 
-.popup-regist .popup-list input {
+.popup-regist .popup-list input, textarea {
     border: 1px solid #e3e3e3;
     border-radius: 4px;
     width: 100%;
