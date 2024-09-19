@@ -138,13 +138,25 @@
 
     <!-- 거래체결한 상품 조회하기 -->
     <select id="getProductList" resultType="ContractVO">
-        SELECT P.PRODUCT_NAME, CP.CONTRACT_PRICE
+        SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
         FROM CLIENT C
         INNER JOIN CONTRACT_PRICE CP
         ON C.CLIENT_NO = CP.CLIENT_NO
         INNER JOIN PRODUCT P
         ON CP.PRODUCT_NO = P.PRODUCT_NO
         WHERE C.CLIENT_NO = #{clientNo}
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+    </select>
+
+    <select id="getProductPrice" resultType="int">
+        SELECT CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND P.PRODUCT_NO = #{productNo}
         AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
     </select>
 </mapper>

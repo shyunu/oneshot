@@ -75,4 +75,10 @@ public class OrderServiceImpl implements OrderService {
         return list;
     }
 
+    @Override
+    public int getProductPrice(int clientNo, int productNo) {
+        int result = orderMapper.getProductPrice(clientNo, productNo);
+        return result;
+    }
+
 }

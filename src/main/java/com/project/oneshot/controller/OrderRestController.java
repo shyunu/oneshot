@@ -41,6 +41,15 @@ public class OrderRestController {
         return list;
     }
 
+    @GetMapping("/getProductPrice")
+    public int getProductPrice(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
+        System.out.println("clientNo = " + clientNo);
+        System.out.println("productNo = " + productNo);
+        int result = orderService.getProductPrice(clientNo, productNo);
+        System.out.println("result = " + result);
+        return result;
+    }
+
 //    @PostMapping("/updateOrder")
 //    public ResponseEntity<String> updateOrder(@RequestBody OrderVO orderVO) {
 //        try {
