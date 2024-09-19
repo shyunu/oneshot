@@ -12,23 +12,24 @@
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button" type="submit" form="searchSuppliers">검색하기</button>
-                        <form action="searchSuppliers" method="post" id="searchSuppliers" enctype="multipart/form-data">
+                        <button type="button" onclick="location.href='/inventory/supplierList'" class="filter-button">초기화</button>
+                        <form action="supplierList" method="get" id="searchSuppliers" enctype="multipart/form-data">
                             <table>
                                 <tr>
                                     <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName"></td>
+                                    <td><input type="text" name="supplierName" th:value="${pageVO.cri.supplierName}"></td>
                                     <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress"></td>
+                                    <td><input type="text" name="supplierAddress" th:value="${pageVO.cri.supplierAddress}"></td>
                                     <td><p>공급업체사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo"></td>
+                                    <td><input type="text" name="supplierBusinessNo" th:value="${pageVO.cri.supplierBusinessNo}"></td>
                                 </tr>
                                 <tr>
                                     <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName"></td>
+                                    <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
                                     <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone"></td>
+                                    <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
                                     <td><p>담당자 이메일</p></td>
-                                    <td><input type="email" name="managerEmail"></td>
+                                    <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
                                 </tr>
                             </table>
                         </form>
@@ -71,19 +72,12 @@
             <div class="buttons">
                 <div class="button-right">
                     <button type="button" class="register" onclick="checkRegister()">업체등록</button>
-<!--                    <button type="button" class="modify" onclick="openModify()">수정</button>-->
                 </div>
             </div>
 
             <div class="center">
-                <div class="pagination">
-                    <a href="#">&laquo;</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">&raquo;</a>
+                <div class="page">
+                    <th:block th:replace="~{./inventory/supplierPagination::page(${pageVO})}"></th:block>
                 </div>
             </div>
         </div>
@@ -187,7 +181,7 @@
         document.getElementById("popup-regist").style.display = "flex";
     }
 
-    // 공급업체의 정보 조회하고 수정 모달에 표시
+    // 공급업체의 정보 조회 후 수정 모달에 표시
     function openModifyModal(supplierNo) {
         fetch(`/inventory/getSupplierByNo/${supplierNo}`)
         .then(response => response.json())
@@ -282,7 +276,6 @@
 
     // 페이지 로드 시 이벤트 리스너 추가
     document.addEventListener('DOMContentLoaded', function() {
-
         // 드래그 기능을 위한 스크립트
         ['popup-regist', 'popup-modify'].forEach(id => {
             const popup = document.getElementById(id);

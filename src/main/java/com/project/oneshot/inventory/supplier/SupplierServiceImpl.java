@@ -14,13 +14,19 @@ public class SupplierServiceImpl implements SupplierService {
     private SupplierMapper supplierMapper;
 
     @Override
-    public void registerSupplier(SupplierVO supplier) {
-        supplierMapper.registerSupplier(supplier);
+    public List<SupplierVO> getAllSuppliers(SupplierCriteria cri) {
+        return supplierMapper.getAllSuppliers(cri);
     }
 
     @Override
-    public List<SupplierVO> getAllSuppliers() {
-        return supplierMapper.getAllSuppliers();
+    public int getTotalSupplier(SupplierCriteria cri) {
+        int TotalPosts = supplierMapper.getTotalSupplier(cri);
+        return TotalPosts;
+    }
+
+    @Override
+    public void registerSupplier(SupplierVO supplier) {
+        supplierMapper.registerSupplier(supplier);
     }
 
     public List<SupplierVO> searchSuppliers(Map<String, Object> parameters) {
