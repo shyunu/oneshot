@@ -7,37 +7,50 @@
 
     <!-- 계약 조회 기능 -->
     <select id="getList" resultType="ContractVO">
-        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO AS contractPriceNo,
-                CLIENT.CLIENT_NAME AS clientName,
-                CONTRACT_PRICE.CONTRACT_SDATE AS contractSdate,
-                CONTRACT_PRICE.CONTRACT_EDATE AS contractEdate,
-                PRODUCT.PRODUCT_NAME AS productName,
-                CLIENT.MANAGER_NAME AS managerName,
-                CONTRACT_PRICE.CONTRACT_PRICE_STATUS AS contractPriceStatus
+        SELECT  CLIENT.CLIENT_NAME,
+                CONTRACT_PRICE.CONTRACT_SDATE,
+                CONTRACT_PRICE.CONTRACT_EDATE,
+                CASE
+                WHEN COUNT(PRODUCT.PRODUCT_NAME) > 1 THEN
+                CONCAT(
+                MIN(PRODUCT.PRODUCT_NAME),
+                ' 외 ',
+                COUNT(PRODUCT.PRODUCT_NAME) -1,
+                '건'
+                )
+                ELSE
+                MIN(PRODUCT.PRODUCT_NAME)
+                END AS PRODUCT_NAME,
+                CLIENT.MANAGER_NAME,
+                CONTRACT_PRICE.CONTRACT_PRICE_STATUS
         FROM CONTRACT_PRICE
                  LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
                  LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
                  LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+        GROUP BY CLIENT.CLIENT_NAME, CONTRACT_PRICE.CONTRACT_SDATE, CONTRACT_PRICE.CONTRACT_EDATE, CLIENT.MANAGER_NAME, CONTRACT_PRICE.CONTRACT_PRICE_STATUS
+
     </select>
 
     <!-- 계약 등록 기능 -->
-    <insert id="contractRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
+    <insert id="getRegist" parameterType="java.util.List">
         INSERT INTO CONTRACT_PRICE (
-         PRODUCT_NO
-        ,EMPLOYEE_NO
-        ,CLIENT_NO
-        ,CONTRACT_SDATE
-        ,CONTRACT_EDATE
-        ,CONTRACT_PRICE
+            PRODUCT_NO,
+            EMPLOYEE_NO,
+            CLIENT_NO,
+            CONTRACT_SDATE,
+            CONTRACT_EDATE,
+            CONTRACT_PRICE
         )
-        VALUES(
-         (SELECT PRODUCT_NO FROM PRODUCT WHERE PRODUCT_NAME = #{productName})
-        ,1
-        ,1
-        ,#{contractSdate}
-        ,#{contractEdate}
-        ,#{contractPrice}
-        )
+        VALUES
+
+            <foreach collection="list" item="list" separator=",">
+                (#{list.productNo},
+                #{list.employeeNo},
+                #{list.clientNo},
+                #{list.contractSdate},
+                #{list.contractEdate},
+                #{list.contractPrice})
+            </foreach>
     </insert>
 
     <select id="getClientList" resultType="ClientVO">
@@ -46,5 +59,9 @@
 
     <select id="getContractUpdateList" resultType="ClientVO">
         select * from client where client_no = #{clientNo}
+    </select>
+
+    <select id="getContractProductList" resultType="ProductVO">
+        SELECT * FROM PRODUCT
     </select>
 </mapper>
