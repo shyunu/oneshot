@@ -2,9 +2,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    font-family: 'NanumBarunGothic';
+}
 
-
-.order-wrap {
+.purchase-wrap {
     width: 100%;
     height: 100vh;
 }
@@ -16,7 +18,7 @@
     padding: 5px
 }
 
-.order-title {
+.purchase-title {
     float: left;
     width: 100%;
     position: relative;
@@ -35,62 +37,59 @@
     margin-bottom: 5px;
 }
 
-/* //////////////////////////////////////////////////////////// */
-/* ----- table ----- */
+/*---------------- table ----------------*/
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    /* box-shadow: 0px 4px 8px #e3e3e3; */
 }
-
 table, th, td {
-    border: 1px solid #777;
+    border: 1px solid #000;
 }
-
 tr {
     font-size: 15px;
 }
-
 th {
     padding: 5px;
     text-align: center;
     background-color: #e3e3e3;
+    font-family: 'NanumBarunGothicBold'; /* 볼드체 */
 }
-
 td {
     padding: 5px;
     text-align: center;
     height: auto;
 }
+.detail:hover {
+    color: blue;
+    cursor: pointer;
+}
 
-/* //////////////////////////////////////////////////////////// */
 /* ----- pagination ----- */
 .center {
     text-align: center;
 }
-
 .pagination {
     display: inline-block;
 }
-
 .pagination a {
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
     transition: background-color .3s;
+    border: 1px solid #ddd;
     margin: 0 4px;
 }
-
 .pagination a.active {
     background-color: #e3e3e3;
 }
-
 .pagination a:hover:not(.active) {
-    background-color: #e3e3e3;
+    background-color: #ddd;
 }
-/* //////////////////////////////////////////////////////////// */
+
+/*---------------- List button ----------------*/
+
 .buttons {
     position: relative;
     height: 40px;
@@ -100,23 +99,93 @@ td {
     justify-content: space-between;
 }
 
-.button-left {
-    float: left;
-}
-
 .button-right {
-    float: right;
+    margin-left: auto;
 }
 
 /* //////////////////////////////////////////////////////////// */
-/* popup modify */
-.popup-modify {
+/* 팝업 공통 디자인 */
+.popup-content {
+    background-color: white;
+    margin: 10% auto;
+    width: 900px;
+    height: auto;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 8px 16px #e3e3e3;
+}
+
+.popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    font-size: 25px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    background-color: #434343;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 50px;
+    line-height: 35px;
+}
+
+.popup-list {
+    padding: 10px;
+}
+
+.popup-list p,
+input {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+}
+
+.popup-list p {
+    line-height: 30px;
+    width: 100%;
+}
+
+.popup-list input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+    background-color: white;
+    color: black;
+}
+
+/*.popup-list input:not([disabled]) {*/
+/*  pointer-events: auto;*/
+/*}*/
+
+.popup-list input:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+}
+
+.popup-button {
+    height: 50px;
+}
+
+.popup-button button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.close-btn {
+    cursor: pointer;
+}
+
+/* 등록과 수정 팝업창 */
+.popup-regist, .popup-modify {
     display: none;
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+    justify-content: center;
+    cursor: pointer; /* 드래그 가능한 영역에 커서 스타일 추가 */
+    z-index: 9999;
 }
 
 /* tr td */
@@ -130,11 +199,6 @@ td {
     vertical-align: top;
 }
 
-.new-input {
-    position: relative;
-    left: 33px;
-}
-
 .popup-list>table,
 .popup-list td {
     border: 1px solid #e3e3e3;
@@ -144,139 +208,8 @@ td {
     margin: 0;
 }
 
-/* //////////////////////////////////////////////////////////// */
-/* popup regist */
-.popup-regist {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
 
-.popup-regist .popup-content {
-    background-color: white;
-    margin: 10% auto;
-    width: 900px;
-    height: auto;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 8px 16px #e3e3e3;
-}
-
-.popup-regist .popup-content h2 {
-    color: #fff;
-    padding: 10px;
-    font-size: 25px; letter-spacing: 2px; font-weight: 400;
-    background-color: #434343;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 50px; line-height: 35px;
-}
-
-.popup-regist .popup-list {
-    padding: 10px;
-}
-
-.popup-regist .popup-list p,
-input {
-    display: inline-block;
-    position: relative;
-    height: 30px;
-}
-
-.popup-regist .popup-list p {
-    line-height: 30px;
-    width: 100%;
-}
-
-.popup-regist .popup-list input {
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    width: 100%;
-    padding: 6px 12px;
-}
-
-#add-item-btn-regist {
-    position: absolute;
-}
-
-.popup-regist .popup-list div:nth-of-type(1) input {
-    left: 2px;
-}
-
-.popup-button {
-    height: 50px;
-
-}
-.popup-regist .popup-button button {
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
-.popup-regist .close-btn3 {
-    cursor: pointer;
-}
-
-
-/* //////////////////////////////////////////////////////////// */
-/* popup modify */
-.popup-modify:hover {
-    cursor: pointer;
-}
-
-.popup-modify .popup-content {
-    background-color: white;
-    margin: 10% auto;
-    width: 900px;
-    height: auto;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 8px 16px #e3e3e3;
-}
-
-.popup-modify .popup-content h2 {
-    color: #fff;
-    padding: 10px;
-    font-size: 25px; letter-spacing: 2px; font-weight: 400;
-    background-color: #434343;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 50px; line-height: 35px;
-}
-
-.popup-modify .popup-list {
-    padding: 10px;
-}
-
-.popup-modify .popup-list p,
-input {
-    display: inline-block;
-    position: relative;
-    height: 30px;
-}
-
-.popup-modify .popup-list p {
-    line-height: 30px;
-    width: 100%;
-}
-
-.popup-modify .popup-list input, select {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    padding: 6px 12px;
-}
-
-.popup-modify .close-btn2 {
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-/* //////////////////////////////////////////////////////////// */
-/* button css (공통) */
-
+/* button css */
 button {
     background-color: transparent;
     background-image: linear-gradient(to bottom, #434343, #000);
@@ -302,6 +235,7 @@ button:active {
     box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15), 0px 1px 1px rgba(81, 41, 10, 0.15);
     transform: translateY(0.125rem);
 }
+
 
 /* filter table */
 .content .filter-content,
@@ -340,7 +274,6 @@ button:active {
 .content .filter-main button {
     float: right;
 }
-
 
 .content .filter-main select {
     flex: 1;

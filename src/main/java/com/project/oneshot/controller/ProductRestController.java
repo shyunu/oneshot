@@ -24,6 +24,23 @@ public class ProductRestController {
     @Autowired
     ProductService productService;
 
+    @GetMapping("/displayImg/{productImg}")
+    public ResponseEntity<byte[]> display(@PathVariable("productImg") String productImg) {
+        ResponseEntity<byte[]> result = null;
+        String path = "D:/file_repo/" + productImg;
+        File file = new File(path);
+
+        try {
+            byte[] arr = FileCopyUtils.copyToByteArray(file); //파일데이터의 byte배열값을 구해서 반환
+            HttpHeaders header = new HttpHeaders();
+            header.add("Content-type", Files.probeContentType(file.toPath() )); //해당 경로 파일에 mime타입을 구함
+            result = new ResponseEntity<>(arr, header, HttpStatus.OK);
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
+        return result;
+    }
+
     @GetMapping("getSupplierList")
     public List<SupplierVO> getAllSuppliers() {
         List<SupplierVO> list = productService.getSupplierList();
@@ -42,42 +59,11 @@ public class ProductRestController {
         return list;
     }
 
-    /*
-    @GetMapping("suppliers")
-    public List<SupplierVO> getAllSuppliers() {
-        List<SupplierVO> list = productService.getAllSuppliers();
-        return list;
+    @GetMapping("getProductContent")
+    public ProductVO getProductContent(@RequestParam("productNo") int productNo) {
+        System.out.println("ProductRestController.getProductContent");
+        ProductVO vo = productService.getProductContent(productNo);
+        System.out.println("vo = " + vo);
+        return vo;
     }
-
-    @GetMapping("categories")
-    public List<CategoryVO> getAllCategories() {
-        List<CategoryVO> list = productService.getAllCategories();
-        return list;
-    }
-
-    @GetMapping("product")
-    public List<ProductVO> getProductDetails(@RequestParam("supplierNo") Long supplierNo) {
-        List<ProductVO> list = productService.getProductDetails(supplierNo);
-        System.out.println("list = " + list);
-        return list;
-    }
-
-    @GetMapping("/display/{productImg}")
-    public ResponseEntity<byte[]> display(@PathVariable("productImg") String productImg) {
-        System.out.println("productImg = " + productImg);
-        ResponseEntity<byte[]> result = null;
-        String path = "D:/file_repo/" + productImg;
-        File file = new File(path);
-
-        try {
-            byte[] arr = FileCopyUtils.copyToByteArray(file); //파일데이터의 byte배열값을 구해서 반환
-            HttpHeaders header = new HttpHeaders();
-            header.add("Content-type", Files.probeContentType(file.toPath() )); //해당 경로 파일에 mime타입을 구함
-            result = new ResponseEntity<>(arr, header, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    */
 }

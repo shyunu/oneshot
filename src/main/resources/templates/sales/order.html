@@ -116,9 +116,21 @@
     }
 
     function getPrice(event) {
+        $.ajax({
+            url: '/sales/getProductPrice',
+            type: 'get',
+            data: {clientNo : event.target.value, productNo : event.target.parentElement.parentElement.parentElement.parentElement.querySelector('.clientNo').value},
+            dataType: 'text',
+            success: function(data) {
+                $('.contractPrice').val(data);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+
         const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재 행 가져오기
         const selectedValue = event.target.value;
-        console.log('selectedValue = ' + selectedValue);
         const contractPriceInput = currentRow.querySelector('.contractPrice'); // 현재 행의 contractPrice 필드
         const productQuantityInput = currentRow.querySelector('.productQuantity'); // 현재 행의 productQuantity 필드
         const amountInput = currentRow.querySelector('.amount'); // 현재 행의 amount 필드
@@ -435,7 +447,7 @@
                             <td><p>책정거래가</p></td>
                             <td><input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
                             <td><p>개수</p></td>
-                            <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" onchange="updateAmount()"></td>
+                            <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount()"></td>
                             <td><p>금액</p></td>
                             <td><input type="number" name="orderItems[0].amount[]" class="amount" readonly></td>
                             <td><button type="button" class="add-button" onclick="addRow()"
@@ -644,7 +656,6 @@
             data: {clientNo : event.target.value},
             dataType: 'json',
             success: function(data) {
-                console.log('data = ' + data);
                 //clientName이 변경되면 해당 고객사정보도 변경
                 $('.clientBusinessNo').val(data.clientBusinessNo);
                 $('.managerName').val(data.managerName);
@@ -661,7 +672,6 @@
                     data: {clientNo : data.clientNo},
                     dataType: 'json',
                     success: function(data2) {
-                        console.log('data2 = ' + data2);
                         var html = '<option>상품을 선택하세요</option>';
                         $.each(data2, function(index2, obj2) {
                             html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
