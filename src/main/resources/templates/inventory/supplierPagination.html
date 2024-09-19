@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="page(pageVO)">
+    <ul>
+        <!-- 3. 이전버튼-->
+        <th:block th:if="${pageVO.prev}">
+            <li style="margin-right:5px;">
+                <a th:href="@{supplierList(page = ${pageVO.start - 1},
+                                          amount = ${pageVO.amount},
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          supplierAddress = ${pageVO.cri.supplierAddress},
+                                          supplierBusinessNo = ${pageVO.cri.supplierBusinessNo},
+                                          managerName = ${pageVO.cri.managerName},
+                                          managerPhone = ${pageVO.cri.managerPhone},
+                                          managerEmail = ${pageVO.cri.managerEmail}
+                                          )}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+
+        <!-- 1. 페이지네이션 -->
+        <th:block th:each="page : ${pageVO.pageList}">
+            <li th:class="${pageVO.page == page ? 'on' : '' }">
+                <a th:href="@{supplierList(page = ${page},
+                                          amount = ${pageVO.amount},
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          supplierAddress = ${pageVO.cri.supplierAddress},
+                                          supplierBusinessNo = ${pageVO.cri.supplierBusinessNo},
+                                          managerName = ${pageVO.cri.managerName},
+                                          managerPhone = ${pageVO.cri.managerPhone},
+                                          managerEmail = ${pageVO.cri.managerEmail}
+                                          )}">[[${page}]]</a></li>
+        </th:block>
+
+        <!--2. 다음버튼 -->
+        <th:block th:if="${pageVO.next}">
+            <li style="margin-left:5px;">
+                <a th:href="@{supplierList(page = ${pageVO.end + 1},
+                                          amount = ${pageVO.amount},
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          supplierAddress = ${pageVO.cri.supplierAddress},
+                                          supplierBusinessNo = ${pageVO.cri.supplierBusinessNo},
+                                          managerName = ${pageVO.cri.managerName},
+                                          managerPhone = ${pageVO.cri.managerPhone},
+                                          managerEmail = ${pageVO.cri.managerEmail}
+                                          )}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
