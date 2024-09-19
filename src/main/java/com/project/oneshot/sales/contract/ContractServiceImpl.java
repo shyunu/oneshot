@@ -16,7 +16,6 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractMapper contractMapper;
 
-    // ----- 계약가격내역 ----- //
     @Override
     public int contractRegist(ContractVO vo) { //계약등록
         int result = 0;
