@@ -1,5 +1,6 @@
-package com.project.oneshot.sales;
+package com.project.oneshot.sales.contract;
 
+import com.project.oneshot.command.ClientVO;
 import com.project.oneshot.command.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,23 +10,28 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-@Service("salesService")
-public class SalesServiceImpl implements SalesService{
+@Service("contractService")
+public class ContractServiceImpl implements ContractService {
 
     @Autowired
-    private SalesMapper salesMapper;
+    private ContractMapper contractMapper;
 
     @Override
     public int contractRegist(ContractVO vo) { //계약등록
-        int result = salesMapper.contractRegist(vo);
+        int result = 0;
+
+        for(int i = 0; i < vo.getContractProductNames().size(); i++) {
+            vo.setProductName(vo.getContractProductNames().get(i));
+            vo.setContractPrice(vo.getContractPrices().get(i));
+            result += contractMapper.contractRegist(vo);
+        }
         return result;
     }
 
     @Override
     public List<ContractVO> getList() {
 
-
-        List<ContractVO> list = salesMapper.getList();
+        List<ContractVO> list = contractMapper.getList();
 
         LocalDate currentDate = LocalDate.now();
         for (ContractVO vo : list) {
@@ -39,7 +45,20 @@ public class SalesServiceImpl implements SalesService{
             }
         }
 
-
         return list;
+    }
+
+    @Override
+    public List<ClientVO> getClientList() {
+
+        List<ClientVO> list = contractMapper.getClientList();
+        return list;
+    }
+
+    @Override
+    public ClientVO getContractUpdateList(int clientNo) {
+
+        ClientVO updateList = contractMapper.getContractUpdateList(clientNo);
+        return updateList;
     }
 }

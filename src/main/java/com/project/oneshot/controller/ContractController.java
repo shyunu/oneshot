@@ -1,7 +1,7 @@
 package com.project.oneshot.controller;
 
 import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.sales.SalesService;
+import com.project.oneshot.sales.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,47 +17,37 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/sales")
-public class SalesController {
+public class ContractController {
 
     @Autowired
-    @Qualifier("salesService") //서비스연결
-    private SalesService salesService;
+    @Qualifier("contractService") //서비스연결
+    private ContractService contractService;
 
+    // ----- 계약가격내역 ----- //
     @GetMapping("/contract")
     public String contract(Model model) {
 
-        List<ContractVO> list = salesService.getList();
-        System.out.println("list.toString() = " + list.toString());
+        List<ContractVO> list = contractService.getList();
+        System.out.println("list = " + list);
         model.addAttribute("list", list);
-
-
 
         return "sales/contract";
     }
 
-    @PostMapping("/registForm")
-    public String registForm(ContractVO vo,
-                             RedirectAttributes ra) { //--- 계약 등록하기
-        System.out.println("-------------");
-        int result = salesService.contractRegist(vo);
-        if(result == 1) {
-            ra.addFlashAttribute("msg", "정상 등록되었습니다");
-        } else {
-            ra.addFlashAttribute("msg", "등록에 실패했습니다.");
-        }
+    @PostMapping("/registForm") //--- 계약 등록하기
+    public String registForm(@RequestParam("contractProductName[]") List<String> contractProductNames,
+                             @RequestParam("contractPrice[]") List<Integer> contractPrices,
+                             ContractVO vo,
+                             RedirectAttributes ra) {
+
+
+        vo.setContractProductNames(contractProductNames);
+        vo.setContractPrices(contractPrices);
 
         return "redirect:/sales/contract";
     }
 
-
-
-    ///////////////////////
-    @GetMapping("/order")
-    public String order() { //--- 판매
-        return "sales/order";
-    }
-
-
+    // ----- 날짜 데이터 변환 ----- //
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,9 +61,4 @@ public class SalesController {
         System.out.println("contractEdate: " + contractVO.getContractEdate());
         return "result";
     }
-
-
-
-
-
 }

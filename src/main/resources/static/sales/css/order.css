@@ -38,11 +38,17 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
 }
+table p {
+    white-space: nowrap;
+}
+
 
 table, th, td {
     border: 1px solid #777;
 }
-
+.left-row {
+    text-align: left;
+}
 tr {
     font-size: 15px;
 }
@@ -57,6 +63,13 @@ td {
     padding: 5px;
     text-align: center;
     height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 체크박스 클릭 시 배경색과 투명도 변경 */
+.order-wrap table .tr-checked {
+    background-color: #e3e3e3;
+    opacity: 0.7;
 }
 
 
@@ -177,6 +190,7 @@ td {
 .popup-regist .popup-list p {
     line-height: 30px;
     width: 100%;
+    white-space: nowrap;
 }
 .popup-regist .popup-list input {
     border: 1px solid #e3e3e3;
@@ -197,7 +211,9 @@ td {
     margin-right: 10px;
 }
 
-
+.popup-regist td {
+    white-space: nowrap;
+}
 
 /* //////////////////////////////////////////////////////////// */
 /* popup modify */
@@ -265,6 +281,12 @@ td {
 .popup-modify .close-btn2 {
     margin-right: 10px;
     cursor: pointer;
+}
+
+.popup-modify input[readonly]:focus,
+.popup-modify select[readonly]:focus{
+    outline: none; /* 포커스 외곽선 제거 */
+    box-shadow: none; /* 그림자 제거 */
 }
 
 

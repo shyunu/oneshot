@@ -1,63 +1,60 @@
-*{
+* {
     padding: 0;
-    margin: 0 auto;
     box-sizing: border-box;
 }
 
-.home-wrap {
-    border: 0px solid red;
-    width: 1080px; height: 500px;
-    margin: 0 auto;
-    position: relative;
-    bottom: 900px;
-    margin-right: 320px;
-}
-
-.calendar-container table {
+.main-wrap {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    border-collapse: collapse;
-}
-.calendar-container th, .calendar-container td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-.calendar-container th {
-    background-color: #B3D5E0;
-    width: 90px; height: 50px;
-}
-.calendar-container td {
-    background-color: #fff;
-    height: 70px;
-}
-.red {
-    color: red;
-}
-.black {
-    color: black;
+    height: 100vh;
 }
 
-.calendar-container {
-    display: inline-block;
+.main-left {
+    flex: 1;
+    padding: 20px;
+}
+
+.main-right {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.right1 {
+    width: 100%;
+    height: 43%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 13px;
+    margin-top: -3px;
+}
+
+.chart-container {
+    width: 48%;
+    height: 100%;
     position: relative;
-    bottom: 184px;
 }
-.calendar-controls {
-    margin: 30px 0px 20px 240px;
+
+.chart-container > h3 {
+    text-align: center;
 }
-.calendar-controls button {
-    border-style: none;
-    background-color: #fff;
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* 오른쪽 노티스 */
 .notice-wrap {
     display: inline-block;
-    border: 0px solid green;
-    width: 420px; margin-left: 15px;
+    width: 500px;
 }
 .notice1 {
-    margin-top: 20px;
+    margin-top: 90px;
+    width: 650px;
+    margin-left : 13px;
 }
 .notice1 table {
     width: 100%;
@@ -66,7 +63,8 @@
 }
 .notice1 p {
     font-size: 20px;
-    letter-spacing: 5px;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
 }
 .notice1 th, .notice1 td {
     padding: 2px;
@@ -76,5 +74,19 @@
     border: 1px solid #ddd;
 }
 .notice1 th {
-    background-color: #B3D5E0;
+    background-color: #e3e3e3;
+}
+
+
+
+.fc .fc-toolbar-title {
+    font-size: 1.4em;
+    marign-left: -55px;
+}
+
+.fc-button-group {
+    width: 60%;
+}
+.fc-button-group:nth-of-type {
+    width: 40%;
 }
