@@ -89,7 +89,6 @@
       <table>
         <thead>
           <tr>
-            <th><input type="checkbox" id="selectAll"></th>
             <th>상품번호</th>
             <th>카테고리</th>
             <th>공급업체</th>
@@ -102,14 +101,13 @@
         </thead>
         <tbody>
           <tr th:each="productVO : ${productList}">
-            <td><input type="checkbox" class="checkbox"></td>
             <td th:text="${productVO.productNo}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.categoryName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
             <!-- <td th:text="${vo.productContent}"></td> -->
             <td th:text="${productVO.productPrice}"></td>
-            <td><img th:src="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" style="height: 50px;"></td>
+            <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
             <td th:text="${productVO.productRemark}"></td>
           </tr>
         </tbody>
@@ -196,6 +194,7 @@
     <div id="popup-modify" class="popup-modify">
       <form action="/inventory/putProduct" method="post" enctype="multipart/form-data">
         <input type="hidden" name="productNo" id="putProductNo">
+        <input type="hidden" name="supplierNo" id="putSupplierNo">
         <div class="popup-content">
           <h2>상품수정</h2>
           <div class="popup-list">
@@ -259,17 +258,6 @@
 </th:block>
 
 <script>
-  // 전체 선택 체크박스
-  const selectAllCheckbox = document.getElementById('selectAll');
-  // 각 체크박스들
-  const checkboxes = document.querySelectorAll('.checkbox');
-  // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
-  selectAllCheckbox.addEventListener('change', function () {
-      checkboxes.forEach(function (checkbox) {
-          checkbox.checked = selectAllCheckbox.checked;
-      });
-  });
-
   //팝업창 열기 및 닫기 기능
   const resistPopup = document.getElementById('popup-regist');
   const modifyPopup = document.getElementById('popup-modify');
@@ -360,31 +348,32 @@
         $('#putCategoryNo').html(html);
       },
       error: function() {
-        alert('error');
+        alert('getCategoryList error');
       }
     });
 
     $.ajax({
       url: '/inventory/getProductContent',
       type: 'get',
-      data: {productNo : event.target.parentElement.children[1].innerText},
+      data: {productNo : event.target.parentElement.children[0].innerText},
       dataType: 'json',
       success: function(data) {
         $('#putProductNo').val(data.productNo);
+        $('#putSupplierNo').val(data.supplierNo);
         $('#putSupplierName').val(data.supplierName);
         $('#putSupplierBusinessNo').val(data.supplierBusinessNo);
         $('#putManagerName').val(data.managerName);
         $('#putManagerPhone').val(data.managerPhone);
-        $('#putCategoryNo').val(data.categoryNo);
+        $('#putCategoryNo').val(data.categoryNo).prop('selected', true);
         $('#putProductName').val(data.productName);
         $('#putProductPrice').val(data.productPrice);
         $('#putSafetyQuantity').val(data.safetyQuantity);
         //$('#putProductImg').val(data.productImg);
         $('#putProductContent').val(data.productContent);
-        $('#putProductRemark').val(data.productRemark)
+        $('#putProductRemark').val(data.productRemark);
       },
       error: function() {
-        alert('error');
+        alert('getProductContent error');
       }
     });
     modifyPopup.style.display = 'block';
