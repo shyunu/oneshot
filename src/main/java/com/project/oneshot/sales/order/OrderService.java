@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface OrderService {
 
-    // ----- 판매내역 ----- //
-    public int orderRegist(OrderVO vo); //판매등록
+    public void orderRegist(OrderVO vo); //판매등록
 
-    public List<OrderVO> getList(); //판매내역조회
+    public List<OrderVO> getList(); //판매내역조회(메인페이지)
+    public List<OrderItemVO> getOrderItemsByHeaderNo(int orderHeaderNo); //판매내역의 판매아이템 리스트 조회(상세페이지)
+    public void updateOrder(OrderVO orderVO); //판매내역 수정사항 반영
+
 
     public List<EmployeeVO> getEmployeeList(); //판매담당자 조회
 

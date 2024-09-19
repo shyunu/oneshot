@@ -1,5 +1,6 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.command.OrderItemVO;
 import com.project.oneshot.command.OrderVO;
 import com.project.oneshot.sales.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class OrderController {
     @Qualifier("orderService") //서비스연결
     private OrderService orderService;
 
-    // ----- 판매내역 ----- //
 
     @GetMapping("/order")
     public String getOrderPage(Model model) {
@@ -35,16 +35,10 @@ public class OrderController {
 
     @PostMapping("/orderForm")
     public String orderForm(@ModelAttribute OrderVO vo, RedirectAttributes ra) {
-        int result = orderService.orderRegist(vo);
-
-        if (result == 1) {
-            ra.addFlashAttribute("msg", "정상 등록");
-        } else {
-            ra.addFlashAttribute("msg", "등록 실패");
-        }
-
+        orderService.orderRegist(vo);
         return "redirect:/sales/order";
     }
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

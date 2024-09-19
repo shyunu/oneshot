@@ -4,9 +4,6 @@ import com.project.oneshot.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service("orderService")
@@ -16,9 +13,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    public int orderRegist(OrderVO vo) {
-        int result = orderMapper.orderRegist(vo);
-        return result;
+    public void orderRegist(OrderVO vo) {
+        orderMapper.orderHeader(vo);
+
+        // 주문 아이템을 삽입
+        orderMapper.orderItem(vo);
     }
 
 
@@ -40,6 +39,16 @@ public class OrderServiceImpl implements OrderService {
 //        }
 
         return list;
+    }
+
+    @Override
+    public List<OrderItemVO> getOrderItemsByHeaderNo(int orderHeaderNo) {
+        return orderMapper.getOrderItemsByHeaderNo(orderHeaderNo);
+    }
+
+    @Override
+    public void updateOrder(OrderVO orderVO) {
+        orderMapper.updateOrder(orderVO);
     }
 
     @Override
