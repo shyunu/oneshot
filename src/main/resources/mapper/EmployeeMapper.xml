@@ -82,19 +82,19 @@
                     </otherwise>
                 </choose>
             </if>
-            <if test="departmentName != null and departmentName != ''">
+            <if test="departmentNo != null and departmentNo != '' and departmentNo != '-1'">
                 <choose>
                     <when test="employeeNo != null or employeeName != null">
-                        AND d.department_name = #{departmentName}
+                        AND e.department_no = #{departmentNo}
                     </when>
                     <otherwise>
-                        d.department_name = #{departmentName}
+                        e.department_no = #{departmentNo}
                     </otherwise>
                 </choose>
             </if>
             <if test="employeePhone != null and employeePhone != ''">
                 <choose>
-                    <when test="employeeNo != null or employeeName != null or departmentName != null">
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null">
                         AND e.employee_phone = #{employeePhone}
                     </when>
                     <otherwise>
@@ -102,19 +102,19 @@
                     </otherwise>
                 </choose>
             </if>
-            <if test="positionName != null and positionName != ''">
+            <if test="positionNo != null and positionNo != '' and positionNo !='-1'">
                 <choose>
-                    <when test="employeeNo != null or employeeName != null or departmentName != null or employeePhone != null">
-                        AND p.position_name = #{positionName}
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null or employeePhone != null">
+                        AND e.position_no = #{positionNo}
                     </when>
                     <otherwise>
-                        p.position_name = #{positionName}
+                        e.position_no = #{positionNo}
                     </otherwise>
                 </choose>
             </if>
-            <if test="employeeStatus != null and employeeStatus != ''">
+            <if test='employeeStatus != null and employeeStatus != "" and employeeStatus != "a"'>
                 <choose>
-                    <when test="employeeNo != null or employeeName != null or departmentName != null or employeePhone != null or positionName != null">
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null or employeePhone != null or positionNo != null">
                         AND e.employee_status = #{employeeStatus}
                     </when>
                     <otherwise>

@@ -32,12 +32,12 @@ function Employee() {
             return false;
         }
     };
-    const [search, setSearch] = useState({
+    const [search, setSearch] = useState({ // 검색
         employeeNo: '',
         employeeName: '',
-        departmentName: '',
+        departmentNo: '',
         employeePhone: '',
-        positionName: '',
+        positionNo: '',
         employeeStatus: ''
     });
     const [newEmployee, setNewEmployee] = useState({ //사원 등록
@@ -349,7 +349,7 @@ function Employee() {
     // 등록팝업
     const openRegistrationPopup = () => {
         setEditMode(false);  // 등록 모드
-        setNewEmployee({
+        setNewEmployee({ //초기화
             departmentNo: '',
             employeeNo:'',
             positionNo: '',
@@ -410,9 +410,11 @@ function Employee() {
 
     useEffect(() => {
         fetchEmployees();
-        fetchpositions();
     }, [currentPage]);
-
+    useEffect(() => {
+        fetchpositions();
+        fetchDepartments();
+    }, []);
     // 디버깅: employees 상태 출력
     useEffect(() => {
         console.log('Employees:', employees);
@@ -451,7 +453,15 @@ function Employee() {
                                 <p>부서명</p>
                             </td>
                             <td>
-                                <input type="text" name="departmentName" value={search.departmentName} onChange={handleSearchChange}/>
+                                <select name="departmentNo" value={search.departmentNo} onChange={handleSearchChange}>
+                                    <option value="" disabled hidden>부서 선택</option>
+                                    <option value="-1">전체</option>
+                                    {departments.map(department => (
+                                        <option key={department.departmentNo} value={department.departmentNo}>
+                                            {department.departmentName}
+                                        </option>
+                                    ))}
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -459,14 +469,16 @@ function Employee() {
                                 <p>전화번호</p>
                             </td>
                             <td>
-                                <input type="number" name="employeePhone" value={search.employeePhone} onChange={handleSearchChange}/>
+                                <input type="number" name="employeePhone" value={search.employeePhone}
+                                       onChange={handleSearchChange}/>
                             </td>
                             <td>
                                 <p>직급</p>
                             </td>
                             <td>
-                                <select name="positionName" value={search.positionName} onChange={handleSearchChange}>
+                                <select name="positionNo" value={search.positionNo} onChange={handleSearchChange}>
                                     <option value="" disabled hidden>직급 선택</option>
+                                    <option value="-1">전체</option>
                                     {positions.map(position => (
                                         <option key={position.positionNo} value={position.positionNo}>
                                             {position.positionName}
@@ -481,6 +493,7 @@ function Employee() {
                                 <select name="employeeStatus" value={search.employeeStatus}
                                         onChange={handleSearchChange}>
                                     <option value="" disabled hidden>재직여부 선택</option>
+                                    <option value="a">전체</option>
                                     <option value="y">재직</option>
                                     <option value="n">퇴직</option>
                                 </select>
