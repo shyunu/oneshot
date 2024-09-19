@@ -2,6 +2,7 @@ package com.project.oneshot.sales.contract;
 
 import com.project.oneshot.command.ClientVO;
 import com.project.oneshot.command.ContractVO;
+import com.project.oneshot.command.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +18,9 @@ public class ContractServiceImpl implements ContractService {
     private ContractMapper contractMapper;
 
     @Override
-    public int contractRegist(ContractVO vo) { //계약등록
-        int result = 0;
+    public void contractRegist(List<ContractVO> list) {
 
-        for(int i = 0; i < vo.getContractProductNames().size(); i++) {
-            vo.setProductName(vo.getContractProductNames().get(i));
-            vo.setContractPrice(vo.getContractPrices().get(i));
-            result += contractMapper.contractRegist(vo);
-        }
-        return result;
+         contractMapper.getRegist(list);
     }
 
     @Override
@@ -61,4 +56,12 @@ public class ContractServiceImpl implements ContractService {
         ClientVO updateList = contractMapper.getContractUpdateList(clientNo);
         return updateList;
     }
+
+    @Override
+    public List<ProductVO> getContractProductList() {
+        List<ProductVO> list = contractMapper.getContractProductList();
+        return list;
+    }
+
+
 }

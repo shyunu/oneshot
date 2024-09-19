@@ -2,24 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
     window.onload = function () {
-        // 드래그 기능을 추가할 팝업창 요소 선택
+        // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
 
-        // 드래그 가능하게 만들기
         makeDraggable(popupModify);
         makeDraggable(popupRegist);
 
-        // + 버튼 클릭 시 새로운 상품 및 가격 행 추가
-        const addItemBtnRegist = document.getElementById('add-item-btn-regist');
-        addItemBtnRegist.addEventListener('click', addNewItemRow);
     };
 
-    // 드래그 가능하게 하는 함수 (이미 제공된 함수)
     function makeDraggable(element) {
         let isDragging = false;
         let offsetX, offsetY;
-
         const header = element.querySelector('.popup-content');
 
         header.addEventListener('mousedown', (e) => {
@@ -41,45 +35,81 @@
     }
 
     // regist - 상품품목 및 책정거래가 새로운 input 추가
-    function addNewItemRow() {
-        const tableBody = document.querySelector('#popup-regist .popup-list tbody');
+    function addRow() {
+        // 마지막 행을 가져와서 복사본 생성
+        const rows = document.querySelectorAll('#inputContainer tr');
+        const lastRow = rows[rows.length - 1];
 
-        // 입력 필드에서 값 가져오기
-        const contractProductNameInput = document.querySelector('input[name="contractProductName[]"]');
-        const contractPriceInput = document.querySelector('input[name="contractPrice[]"]');
+        // 새 행 생성
+        const newRow = lastRow.cloneNode(true);
 
-        const contractProductNameValue = contractProductNameInput.value;
-        const contractPriceValue = contractPriceInput.value;
+        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
+        const newRowInputs = newRow.querySelectorAll('input, select');
+        newRowInputs.forEach((element) => {
+            // 기존 name 속성에서 배열 인덱스를 추출하여 업데이트
+            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
+        });
 
-        // 새로운 행을 추가하기 전에 값이 있는지 확인
-        if (contractProductNameValue.trim() !== "" && contractPriceValue.trim() !== "") {
-            // 새로운 행 생성
-            const newRow = document.createElement('tr');
-            newRow.classList.add('new-item-row');
+        // 새 행의 값 초기화
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            if (input.classList.contains('contractPrice')) {
+                input.readOnly = true; // 활성화
+            } else {
+                input.readOnly = false; // 신규 행에서는 모든 input 필드를 활성화
+            }
+        });
 
-            newRow.innerHTML = `
-            <td><p>상품품목리스트</p></td>
-            <td colspan="3" style="text-align: left;">
-                <input type="text" name="contractProductName[]" value="${contractProductNameValue}" readonly style="width:40%;">
-                <input type="text" name="contractPrice[]" value="${contractPriceValue}" readonly style="width:40%;">
-                <button type="button" class="remove-item-btn" style="width: 30px;">-</button>
-            </td>
-        `;
+        // 새 행의 select 필드에 개별적으로 getPrice 연결
+        newRow.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0; // 기본 옵션으로 초기화
+            select.disabled = false; // 새 행의 select 필드 활성화
+            select.onchange = function(event) {
+                getPrice(event); // 새로 추가된 행에 대해서만 getPrice 연결
+            };
+        });
 
-            tableBody.appendChild(newRow);
+        // 기존 행의 add-button 삭제
+        const addButton = lastRow.querySelector('.add-button');
+        if (addButton) {
+            addButton.remove(); // 기존 행의 추가 버튼 제거
+        }
 
-            contractProductNameInput.value = '';
-            contractPriceInput.value = '';
-
-            const removeBtn = newRow.querySelector('.remove-item-btn');
-            removeBtn.addEventListener('click', function() {
-                newRow.remove();
+        // 새 행의 삭제 버튼에 이벤트 리스너 추가
+        const removeButton = newRow.querySelector('.remove-button');
+        if (removeButton) {
+            removeButton.addEventListener('click', function() {
+                removeRow(removeButton);
             });
-        } else {
-            alert("상품 품목명과 책정 거래가를 입력해주세요.");
+        }
+
+        // 새 행의 입력 필드에 이벤트 리스너 추가
+        const productQuantityInput = newRow.querySelector('.productQuantity');
+        if (productQuantityInput) {
+            productQuantityInput.addEventListener('input', updateAmount);
+        }
+
+        // 새 행을 테이블에 추가
+        document.getElementById('inputContainer').appendChild(newRow);
+    }
+
+    function removeRow(button) {
+        // 버튼이 위치한 행을 찾는다
+        const row = button.closest('tr');
+
+        // 해당 행에 `add-button`이 있는지 확인
+        const addButton = row.querySelector('.add-button');
+
+        // `add-button`이 없는 경우에만 행을 삭제
+        if (!addButton) {
+            row.remove();
         }
     }
+
+
+
 </script>
+
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
@@ -104,57 +134,39 @@
                                 <input type="text">
                             </td>
                             <td>
+                                <p>계약시작일</p>
+                            </td>
+                            <td>
+                                <input type="date">
+                            </td>
+                            <td>
+                                <p>계약종료일</p>
+                            </td>
+                            <td>
+                                <input type="date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <p>상품품목명</p>
                             </td>
                             <td>
                                 <input type="text">
                             </td>
                             <td>
-                                <p>계약담당자</p>
+                                <p>담당자</p>
                             </td>
                             <td>
                                 <input type="text">
                             </td>
-                        </tr>
-                        <tr>
                             <td>
                                 <p>계약상태</p>
                             </td>
                             <td>
                                 <input type="text">
                             </td>
-                            <td>
-                                <p>계약만료예정</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                            <td>
-                                <p>계약담당자</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
                         </tr>
                         <tr></tr>
-                        <td>
-                            <p>계약상태</p>
-                        </td>
-                        <td>
-                            <input type="text">
-                        </td>
-                        <td>
-                            <p>계약만료예정</p>
-                        </td>
-                        <td>
-                            <input type="text">
-                        </td>
-                        <td>
-                            <p>계약담당자</p>
-                        </td>
-                        <td>
-                            <input type="text">
-                        </td>
                         </tr>
                     </table>
                 </div>
@@ -184,7 +196,8 @@
                     <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${vo.productName}"></td>
                     <td th:text="${vo.managerName}"></td>
-                    <td th:text="${vo.contractPriceStatus}"></td>
+                    <td th:text="승인대기"></td>
+                    <!-- ${vo.contractPriceStatus} -->
                     <td th:text="${vo.contractDday}"></td>
 
                 </tr>
@@ -215,6 +228,7 @@
         <!-- 등록 기능 -->
         <div id="popup-regist" class="popup-regist">
             <form name="registForm" action="registForm" method="post">
+                <input type="hidden" name="employeeNo" value="1">
                 <div class="popup-content">
                     <h2>계약 등록하기</h2>
                     <div class="popup-list">
@@ -222,17 +236,15 @@
                             <tbody>
                             <tr>
                                 <td><p>고객사명(번호)</p></td>
-                                <td><select class="clientName" onchange="updateInfo(event)"></select></td>
-                                <td>
-                                    <p>계약시작일</p>
-                                </td>
+                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
+                                <td><p>계약시작일</p></td>
                                 <td><input type="date" name="contractSdate"></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>계약담당자</p>
+                                    <p>고객사 담당자</p>
                                 </td>
-                                <td><input type="text" class="managerName" disabled></td>
+                                <td><input type="text" class="managerName" readonly></td>
                                 <td>
                                     <p>계약종료일</p>
                                 </td>
@@ -252,17 +264,24 @@
                                     <input type="text" class="managerPhone" disabled>
                                 </td>
                             </tr>
+                            </tbody>
+                            <tbody id="inputContainer" class="input-wrapper">
                             <tr class="addList">
+                                <td><p>상품품목명</p></td>
                                 <td>
-                                    <p>상품품목명</p>
+                                    <select class="productNo" name="productNo">
+                                        <option>상품을 선택하세요.</option>
+                                    </select>
+                                    <!-- <input type="text" name="contractProductName[]"> -->
                                 </td>
-                                <td><input type="text" name="contractProductName[]"></td>
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
                                 <td colspan="3" style="text-align: left;">
-                                    <input type="number" name="contractPrice[]" style="width: 85%;">
-                                    <button type="button" id="add-item-btn-regist">+</button>
+                                    <input type="number" name="contractPrice">
+                                    <!-- <button type="button" id="add-item-btn-regist">+</button> -->
+                                <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </td>
                             </tr>
                             </tbody>
@@ -310,10 +329,10 @@
                                 <td><input type="date" name="contractEdate"></td>
                             </tr>
                             <tr>
+                                <td><p>상품품목명</p></td>
                                 <td>
-                                    <p>상품품목명</p>
+                                    <input type="text" name="contractProductName[]">
                                 </td>
-                                <td><input type="text" name="contractProductName[]"></td>
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
@@ -398,17 +417,34 @@
                 alert('error');
             }
         });
+
+        $.ajax({
+            url: '/sales/getContractProductList',
+            type: 'get',
+            dataType: 'json',
+            success: function(data2) {
+                var html = '<option>상품을 선택하세요.</option>';
+                $.each(data2, function(index2, obj2) {
+                    html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
+                });
+                $('.productNo').html(html);
+            },
+            error: function() {
+                $('.productNo').html('<option>상품 로드 실패</option>');
+            }
+        })
+
         popupRegist.style.display = 'block';
     }
 
     function updateInfo(event) {
-        console.log(event.target.value);
         $.ajax({
             url: '/sales/getContractUpdateList',
             type: 'get',
             data: {clientNo : event.target.value},
             dataType: 'json',
             success: function(data) {
+                console.log(data);
                 $('.clientBusinessNo').val(data.clientBusinessNo);
                 $('.managerName').val(data.managerName);
                 $('.managerPhone').val(data.managerPhone);
@@ -419,6 +455,7 @@
                 $('.managerPhone').val('');
             }
         });
+
     }
 
 

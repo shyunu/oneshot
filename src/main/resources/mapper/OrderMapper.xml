@@ -56,8 +56,6 @@
     </select>
 
 
-
-
     <resultMap id="OrderResultMap" type="OrderVO">
         <result property="orderHeaderNo" column="ORDER_HEADER_NO"/>
         <result property="orderSdate" column="ORDER_SDATE"/>

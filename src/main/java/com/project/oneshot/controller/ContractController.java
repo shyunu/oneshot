@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,22 +28,36 @@ public class ContractController {
     public String contract(Model model) {
 
         List<ContractVO> list = contractService.getList();
-        System.out.println("list = " + list);
         model.addAttribute("list", list);
 
         return "sales/contract";
     }
 
     @PostMapping("/registForm") //--- 계약 등록하기
-    public String registForm(@RequestParam("contractProductName[]") List<String> contractProductNames,
-                             @RequestParam("contractPrice[]") List<Integer> contractPrices,
-                             ContractVO vo,
-                             RedirectAttributes ra) {
+    public String contractRegist(@RequestParam("productNo") List<Integer> productNo,
+                                 @RequestParam("employeeNo") int employeeNo,
+                                 @RequestParam("clientNo") int clientNo,
+                                 @RequestParam("contractSdate") Date contractSdate,
+                                 @RequestParam("contractEdate") Date contractEdate,
+                                 @RequestParam("contractPrice") List<Integer> contractPrice
+                                 ) {
 
+        List<ContractVO> list = new ArrayList<>();
 
-        vo.setContractProductNames(contractProductNames);
-        vo.setContractPrices(contractPrices);
+        for(int i = 0; i < productNo.size(); i++) {
+            ContractVO vo = new ContractVO();
+            vo.setProductNo(productNo.get(i));
+            System.out.println("productNo.get(i) = " + productNo.get(i));
+            vo.setEmployeeNo(employeeNo);
+            vo.setClientNo(clientNo);
+            vo.setContractSdate(contractSdate);
+            vo.setContractEdate(contractEdate);
+            vo.setContractPrice(contractPrice.get(i));
+            System.out.println("contractPrice.get(i) = " + contractPrice.get(i));
+            list.add(vo);
+        }
 
+        contractService.contractRegist(list);
         return "redirect:/sales/contract";
     }
 
@@ -57,8 +71,11 @@ public class ContractController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submitForm(ContractVO contractVO) {
-        // Your logic here
-        System.out.println("contractEdate: " + contractVO.getContractEdate());
         return "result";
     }
+
+
+
+
+
 }

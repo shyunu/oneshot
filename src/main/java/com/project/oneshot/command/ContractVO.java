@@ -29,6 +29,4 @@ public class ContractVO { //계약가격 테이블(DB기준)
     private String contractDday;
 
 
-    private List<String> contractProductNames;
-    private List<Integer> contractPrices;
 }
