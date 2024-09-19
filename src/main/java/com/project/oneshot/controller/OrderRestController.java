@@ -3,10 +3,7 @@ package com.project.oneshot.controller;
 import com.project.oneshot.command.*;
 import com.project.oneshot.sales.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +16,6 @@ public class OrderRestController {
 
     @GetMapping("/getEmployeeList")
     public List<EmployeeVO> getEmployeeList() {
-
         List<EmployeeVO> list = orderService.getEmployeeList();
         return list;
     }
@@ -41,9 +37,18 @@ public class OrderRestController {
 
     @GetMapping("/getProductList")
     public List<ContractVO> getProductList(@RequestParam("clientNo") int clientNo) {
-
         List<ContractVO> list = orderService.getProductList(clientNo);
         return list;
     }
+
+//    @PostMapping("/updateOrder")
+//    public ResponseEntity<String> updateOrder(@RequestBody OrderVO orderVO) {
+//        try {
+//            orderService.updateOrder(orderVO);  // 서비스에서 업데이트 로직 처리
+//            return ResponseEntity.ok("성공적으로 업데이트되었습니다.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류 발생");
+//        }
+//    }
 
 }
