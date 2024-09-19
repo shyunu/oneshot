@@ -18,8 +18,11 @@ public class ProductVO {
     private int safetyQuantity;
     private int productPrice;
     private String productImg;
-    private String productRemarks;
+    private String productRemark;
 
     private String categoryName;
     private String supplierName;
+    private String supplierBusinessNo;
+    private String managerName;
+    private String managerPhone;
 }
