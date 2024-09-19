@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.oneshot.sales.order.OrderMapper">
+
+
+    <!-- 판매등록  -->
+    <insert id="orderHeader" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="orderHeaderNo">
+        INSERT INTO ORDER_HEADER (
+        ORDER_SDATE,
+        EMPLOYEE_NO,
+        CLIENT_NO,
+        ORDER_STATUS,
+        DELIVERY_STATUS,
+        DELIVERY
+        )
+        VALUES (
+        #{orderSdate},
+        #{employeeNo},
+        #{clientNo},
+        #{orderStatus},
+        #{deliveryStatus},
+        #{delivery}
+        )
+    </insert>
+
+    <!-- 판매아이템등록  -->
+    <insert id="orderItem" parameterType="OrderVO">
+        INSERT INTO ORDER_ITEM (
+        ORDER_HEADER_NO,
+        PRODUCT_NO,
+        CONTRACT_PRICE,
+        PRODUCT_QUANTITY,
+        AMOUNT
+        )
+        VALUES
+        <foreach collection="orderItems" item="item" separator=",">
+            (#{orderHeaderNo}, #{item.productNo}, #{item.contractPrice}, #{item.productQuantity}, #{item.amount})
+        </foreach>
+    </insert>
+
+
+
+
+    <resultMap id="OrderResultMap" type="OrderVO">
+        <result property="orderHeaderNo" column="ORDER_HEADER_NO"/>
+        <result property="orderSdate" column="ORDER_SDATE"/>
+        <result property="clientNo" column="CLIENT_NO"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="totalAmount" column="TOTAL_AMOUNT"/>
+        <result property="employeeNo" column="EMPLOYEE_NO"/>
+        <result property="orderStatus" column="ORDER_STATUS"/>
+        <result property="deliveryStatus" column="DELIVERY_STATUS"/>
+        <result property="delivery" column="DELIVERY"/>
+    </resultMap>
+
+    <!-- 판매내역 조회 기능 (메인화면창) -->
+    <select id="getList" resultMap="OrderResultMap">
+        SELECT
+            H.ORDER_HEADER_NO,
+            H.ORDER_SDATE,
+            H.CLIENT_NO,
+            CL.CLIENT_NAME,
+                CASE
+                WHEN COUNT(P.PRODUCT_NAME) > 1 THEN
+                CONCAT(
+                MIN(P.PRODUCT_NAME),
+                ' 외 ',
+                COUNT(P.PRODUCT_NAME) - 1,
+                '건'
+                )
+                ELSE
+                MIN(P.PRODUCT_NAME)
+                END AS PRODUCT_NAMES,
+            SUM(I.AMOUNT) AS TOTAL_AMOUNT,
+            H.EMPLOYEE_NO,
+            E.EMPLOYEE_NAME,
+            H.ORDER_STATUS,
+            H.DELIVERY_STATUS,
+            H.DELIVERY
+        FROM ORDER_ITEM I
+        LEFT JOIN ORDER_HEADER H ON I.ORDER_HEADER_NO = H.ORDER_HEADER_NO
+        LEFT JOIN CLIENT CL ON H.CLIENT_NO = CL.CLIENT_NO
+        LEFT JOIN EMPLOYEE E ON H.EMPLOYEE_NO = E.EMPLOYEE_NO
+        LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
+        GROUP BY
+        H.ORDER_HEADER_NO,
+        H.ORDER_SDATE,
+        H.CLIENT_NO,
+        CL.CLIENT_NAME,
+        E.EMPLOYEE_NAME,
+        H.EMPLOYEE_NO,
+        H.ORDER_STATUS,
+        H.DELIVERY_STATUS,
+        H.DELIVERY
+        ORDER BY H.ORDER_HEADER_NO ASC
+    </select>
+
+
+    <!-- 판매내역 누르면 상세에서 아이템 보여주기 -->
+<!--    <select id="getOrderItemsByHeaderNo" parameterType="int" resultMap="OrderItemResultMap">-->
+<!--        SELECT-->
+<!--        I.PRODUCT_NO,-->
+<!--        I.CONTRACT_PRICE,-->
+<!--        I.PRODUCT_QUANTITY,-->
+<!--        I.AMOUNT-->
+<!--        FROM ORDER_ITEM I-->
+<!--        WHERE I.ORDER_HEADER_NO = #{orderHeaderNo}-->
+<!--    </select>-->
+
+<!--    <resultMap id="OrderItemResultMap" type="OrderItemVO">-->
+<!--        <result property="productNo" column="PRODUCT_NO"/>-->
+<!--        <result property="contractPrice" column="CONTRACT_PRICE"/>-->
+<!--        <result property="productQuantity" column="PRODUCT_QUANTITY"/>-->
+<!--        <result property="amount" column="AMOUNT"/>-->
+<!--    </resultMap>-->
+
+    <!-- 사원리스트 조회하기 -->
+    <select id="getEmployeeList" resultType="EmployeeVO">
+        SELECT *
+        FROM EMPLOYEE
+        ORDER BY EMPLOYEE_NO ASC
+    </select>
+
+    <!-- 고객사리스트 조회하기 -->
+    <select id="getClientList" resultType="ClientVO">
+        SELECT *
+        FROM CLIENT
+        ORDER BY CLIENT_NO ASC
+    </select>
+
+    <!-- 고객사 정보 조회하기 -->
+    <select id="getClientContent" parameterType="int" resultType="ClientVO">
+        select * from client where client_no = #{clientNo}
+    </select>
+
+    <!-- 거래체결한 상품 조회하기 -->
+    <select id="getProductList" resultType="ContractVO">
+        SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+    </select>
+
+    <select id="getProductPrice" resultType="int">
+        SELECT CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND P.PRODUCT_NO = #{productNo}
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+    </select>
+</mapper>

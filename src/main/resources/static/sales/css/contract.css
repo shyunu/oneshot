@@ -3,8 +3,9 @@
     box-sizing: border-box;
 }
 
+
 .order-wrap {
-    width: 105%;
+    width: 100%;
     height: 100vh;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .text-wrap p {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 30px;
 }
 .text-wrap p:nth-of-type(2) {
@@ -35,6 +36,7 @@
 }
 
 /* //////////////////////////////////////////////////////////// */
+/* ----- table ----- */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -62,7 +64,7 @@ td {
     height: auto;
 }
 
-
+/* //////////////////////////////////////////////////////////// */
 /* ----- pagination ----- */
 .center {
     text-align: center;
@@ -189,19 +191,20 @@ input {
     width: 100%;
 }
 
-.product-price>.newinput {
-    width: 80%;
-}
-
-.popup-regist .popup-list input {
+.popup-regist .popup-list input, textarea {
     border: 1px solid #e3e3e3;
     border-radius: 4px;
     width: 100%;
     padding: 6px 12px;
 }
 
+.product-price > input {
+    width: 80%;
+}
+
 #add-item-btn-regist {
     position: absolute;
+    width: 30px;
 }
 
 .popup-regist .popup-list div:nth-of-type(1) input {
@@ -221,8 +224,11 @@ input {
     cursor: pointer;
 }
 
+.new-item-row > input {
+    width: 50%;
+}
 
-
+/* //////////////////////////////////////////////////////////// */
 /* popup modify */
 .popup-modify:hover {
     cursor: pointer;
@@ -271,15 +277,12 @@ input {
     padding: 6px 12px;
 }
 
-
 .popup-modify .close-btn2 {
     margin-right: 10px;
     cursor: pointer;
 }
 
-
-
-
+/* //////////////////////////////////////////////////////////// */
 /* button css (공통) */
 
 button {
@@ -311,9 +314,12 @@ button:active {
 /* filter table */
 .content .filter-content,
 .content .filter-content table {
-    /* border: 1px solid red; */
     margin-top: 10px;
     border-radius: 10px;
+}
+
+.content .filter-content table {
+    margin-bottom: 15px;
 }
 .content .filter-content td {
     border: 1px solid #e3e3e3;
@@ -327,21 +333,21 @@ button:active {
 }
 
 .content .filter-button {
-    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 5px;
 }
 
 .content .filter-main {
-    display: flex; /* Flexbox 사용 */
-    align-items: right; /* 요소들을 수직 중앙 정렬 */
     gap: 10px; /* input과 select 사이의 간격 */
+    margin: 0px 10px 15px 0px;
+    width: 100%;
 }
-
-.content .filter-main {
-    margin: 0px 10px 10px 0px;
-    width: 8%;
+.content .filter-main h3 {
+    float: left;
+}
+.content .filter-main button {
     float: right;
 }
-
 
 .content .filter-main select {
     flex: 1;

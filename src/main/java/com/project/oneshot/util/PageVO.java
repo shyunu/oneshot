@@ -1,5 +1,6 @@
 package com.project.oneshot.util;
 
+import com.project.oneshot.inventory.product.ProductCriteria;
 import lombok.Data;
 
 import java.util.ArrayList;

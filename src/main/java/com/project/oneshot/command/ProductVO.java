@@ -10,16 +10,19 @@ import javax.persistence.*;
 @Builder
 public class ProductVO {
 
-    private Long productNo;
-    private CategoryVO categoryVO;
-    private SupplierVO supplierVO;
+    private int productNo;
+    private int categoryNo;
+    private int supplierNo;
     private String productName;
     private String productContent;
-    private Long safetyQuantity;
-    private Long productPrice;
+    private int safetyQuantity;
+    private int productPrice;
     private String productImg;
-    private String productRemarks;
+    private String productRemark;
 
     private String categoryName;
     private String supplierName;
+    private String supplierBusinessNo;
+    private String managerName;
+    private String managerPhone;
 }

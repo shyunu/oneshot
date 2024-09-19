@@ -1,5 +1,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.inventory.product.ProductMapper">
+    <select id="getProductList" resultType="ProductVO">
+        select product_no, category_name, supplier_name, product_name, product_content, safety_quantity, product_price, product_img, product_remark
+        from product left join category on product.category_no = category.category_no left join supplier on product.supplier_no = supplier.supplier_no
+        where 1 = 1
+        <if test="categoryNo != null and categoryNo != ''">
+            and product.category_no = #{categoryNo}
+        </if>
+        <if test="supplierNo != null and supplierNo != ''">
+            and product.supplier_no = #{supplierNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            and product.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice == null or endProductPrice == '')">
+            <![CDATA[ and product.product_price >= cast(#{startProductPrice} as integer) ]]>
+        </if>
+        <if test="(endProductPrice != null and endProductPrice != '') and (startProductPrice == null or startProductPrice == '')">
+            <![CDATA[ and product.product_price <= cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice != null and endProductPrice != '')">
+            <![CDATA[ and product.product_price between cast(#{startProductPrice} as integer) and cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="productRemark != null and productRemark != ''">
+            <![CDATA[ and product.product_remark = #{productRemark} ]]>
+        </if>
+        order by product_no desc limit #{amount} offset #{pageStart}
+    </select>
 
+    <select id="getTotalProductCount" resultType="int">
+        select count(*)
+        from product
+        where 1 = 1
+        <if test="categoryNo != null and categoryNo != '' and categoryNo != 0">
+            and product.category_no = #{categoryNo}
+        </if>
+        <if test="supplierNo != null and supplierNo != '' and supplierNo != 0">
+            and product.supplier_no = #{supplierNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            and product.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice == null or endProductPrice == '')">
+            <![CDATA[ and product.product_price >= cast(#{startProductPrice} as integer) ]]>
+        </if>
+        <if test="(endProductPrice != null and endProductPrice != '') and (startProductPrice == null or startProductPrice == '')">
+            <![CDATA[ and product.product_price <= cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice != null and endProductPrice != '')">
+            <![CDATA[ and product.product_price between cast(#{startProductPrice} as integer) and cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="productRemark != null and productRemark != ''">
+            <![CDATA[ and product.product_remark = #{productRemark} ]]>
+        </if>
+    </select>
+
+    <select id="getSupplierList" resultType="SupplierVO">
+        select * from supplier order by supplier_name
+    </select>
+
+    <select id="getSupplierContent" parameterType="int" resultType="SupplierVO">
+        select * from supplier where supplier_no = #{supplierNo}
+    </select>
+
+    <select id="getCategoryList" resultType="CategoryVO">
+        select * from category order by category_name
+    </select>
+
+    <insert id="postProduct" parameterType="ProductVO">
+        insert into product values (nextval('product_seq'), #{categoryNo}, #{supplierNo}, #{productName}, #{productContent}, #{safetyQuantity}, #{productPrice}, #{productImg}, #{productRemark})
+    </insert>
+
+    <select id="getProductContent" resultType="ProductVO">
+        select product_no, product.category_no, category_name, supplier_name, supplier_business_no, manager_name, manager_phone, product_name, product_content, safety_quantity, product_price, product_img, product_remark
+        from product left join category on product.category_no = category.category_no left join supplier on product.supplier_no = supplier.supplier_no
+        where product_no = #{productNo}
+    </select>
+
+    <update id="putProduct" parameterType="ProductVO">
+        update product set category_no = #{categoryNo}, supplier_no = #{supplierNo}, product_name = #{productName}, product_content = #{productContent}, safety_quantity = #{safetyQuantity}, product_price = #{productPrice}, product_img = #{productImg}, product_remark = #{productRemark} where product_no = #{productNo}
+    </update>
 </mapper>

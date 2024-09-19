@@ -3,44 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link rel="stylesheet" href="/common/css/login.css">
 </head>
 <body>
-<div class="container">
-    <div class="login-box">
-        <h1>LOGIN</h1>
-<!--        <img src="/common/img/login-logo.png">-->
-        <input type="text" placeholder="아이디를 입력하세요.">
-        <input type="password" placeholder="비밀번호를 입력하세요.">
-        <button>로그인하기</button>
+    <div class="container">
+        <div class="login-container">
+            <form class="login-form" action="loginForm" method="post">
+              <p class="logo"><img src="img/logo2.png" alt="#"></p>
+                <div class="input-group">
+                    <label for="username">사원번호</label>
+                    <input type="text" id="username" name="employeeNo" placeholder="사원번호 입력" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호 입력" required>
+                </div>
+                <button type="submit">로그인</button>
+                <p>© 2024 All Rights Reserved.</p>
+            </form>
+        </div>
     </div>
-    <div class="image-box">
-        <img src="/common/img/img1.jpg" alt="#">
-        <img src="/common/img/img2.jpg" alt="#">
-        <img src="/common/img/img3.jpg" alt="#">
-    </div>
-</div>
 
-<script>
-    const images = document.querySelectorAll('.image-box img');
-    let currentIndex = 0;
-
-    // 초기화: 첫 번째 이미지만 보이도록 나머지 숨김
-    images.forEach((img, index) => {
-        if (index !== currentIndex) {
-            img.style.display = 'none';
+    <script th:inline="javascript">
+        var errormsg = [[${msg}]];
+        if(errormsg != null && errormsg != '') {
+            alert(errormsg);
         }
-    });
-
-    function showNextImage() {
-        images[currentIndex].style.display = 'none';  // 현재 이미지 숨기기
-        currentIndex = (currentIndex + 1) % images.length;  // 다음 인덱스로 이동
-        images[currentIndex].style.display = 'block';  // 다음 이미지 보이기
-    }
-
-    // 3초마다 이미지 변경
-    setInterval(showNextImage, 3000);
-</script>
+    </script>
 </body>
 </html>

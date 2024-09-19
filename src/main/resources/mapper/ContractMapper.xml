@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.oneshot.sales.contract.ContractMapper">
+
+    <!-- 계약 조회 기능 -->
+    <select id="getList" resultType="ContractVO">
+        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO AS contractPriceNo,
+                CLIENT.CLIENT_NAME AS clientName,
+                CONTRACT_PRICE.CONTRACT_SDATE AS contractSdate,
+                CONTRACT_PRICE.CONTRACT_EDATE AS contractEdate,
+                PRODUCT.PRODUCT_NAME AS productName,
+                CLIENT.MANAGER_NAME AS managerName,
+                CONTRACT_PRICE.CONTRACT_PRICE_STATUS AS contractPriceStatus
+        FROM CONTRACT_PRICE
+                 LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+                 LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
+                 LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+    </select>
+
+    <!-- 계약 등록 기능 -->
+    <insert id="contractRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
+        INSERT INTO CONTRACT_PRICE (
+         PRODUCT_NO
+        ,EMPLOYEE_NO
+        ,CLIENT_NO
+        ,CONTRACT_SDATE
+        ,CONTRACT_EDATE
+        ,CONTRACT_PRICE
+        )
+        VALUES(
+         (SELECT PRODUCT_NO FROM PRODUCT WHERE PRODUCT_NAME = #{productName})
+        ,1
+        ,1
+        ,#{contractSdate}
+        ,#{contractEdate}
+        ,#{contractPrice}
+        )
+    </insert>
+
+    <select id="getClientList" resultType="ClientVO">
+        select * from client
+    </select>
+
+    <select id="getContractUpdateList" resultType="ClientVO">
+        select * from client where client_no = #{clientNo}
+    </select>
+</mapper>
