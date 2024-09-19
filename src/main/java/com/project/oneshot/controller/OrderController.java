@@ -1,7 +1,10 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.command.ClientVO;
 import com.project.oneshot.command.OrderItemVO;
 import com.project.oneshot.command.OrderVO;
+import com.project.oneshot.sales.order.OrderCriteria;
+import com.project.oneshot.sales.order.OrderPageVO;
 import com.project.oneshot.sales.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,9 +29,18 @@ public class OrderController {
 
 
     @GetMapping("/order")
-    public String getOrderPage(Model model) {
-        List<OrderVO> orderList = orderService.getList();
+    public String orderList(OrderCriteria cri, Model model) {
+        System.out.println("cri = " + cri);
+        List<OrderVO> orderList = orderService.getList(cri);
         model.addAttribute("list", orderList);
+
+        int totalCount = orderService.getTotalCount(cri);
+        OrderPageVO pageVO = new OrderPageVO(cri, totalCount);
+        model.addAttribute("pageVO", pageVO);
+
+        List<ClientVO> clientList = orderService.getClientList();
+        model.addAttribute("clientList", clientList);
+
         return "sales/order";
     }
 
