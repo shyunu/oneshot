@@ -68,5 +68,4 @@ public class PageVO {
         this.pageList = IntStream.rangeClosed(this.start, this.end).boxed().collect(Collectors.toList());
 
     }
-    
 }

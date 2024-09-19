@@ -16,12 +16,58 @@
                 )
     </insert>
 
-    <!-- 전체 목록 조회 -->
+    <!-- 목록 조회 -->
     <select id="getAllSuppliers" resultType="SupplierVO">
-        SELECT *
-        FROM supplier
+        SELECT * FROM supplier
+        <where>
+            <if test="supplierName != null and supplierName != ''">
+                <![CDATA[ AND supplier_name LIKE CONCAT('%', #{supplierName}, '%') ]]>
+            </if>
+            <if test="supplierAddress != null and supplierAddress != ''">
+                <![CDATA[ AND supplier_address LIKE CONCAT('%', #{supplierAddress}, '%') ]]>
+            </if>
+            <if test="supplierBusinessNo != null and supplierBusinessNo != ''">
+                <![CDATA[ AND supplier_business_no LIKE CONCAT('%', #{supplierBusinessNo}, '%') ]]>
+            </if>
+            <if test="managerName != null and managerName != ''">
+                <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+            </if>
+            <if test="managerPhone != null and managerPhone != ''">
+                <![CDATA[ AND manager_phone LIKE CONCAT('%', #{managerPhone}, '%') ]]>
+            </if>
+            <if test="managerEmail != null and managerEmail != ''">
+                <![CDATA[ AND manager_email LIKE CONCAT('%', #{managerEmail}, '%') ]]>
+            </if>
+        </where>
         ORDER BY supplier_no
+        limit #{amount} offset #{pageStart}
     </select>
+
+    <!-- 전체 게시글 수 페이지네이션-->
+    <select id="getTotalSupplier" resultType="int">
+        SELECT count(*)
+        FROM supplier
+        where 1 = 1
+        <if test="supplierName != null and supplierName != ''">
+            <![CDATA[ AND supplier_name LIKE CONCAT('%', #{supplierName}, '%') ]]>
+        </if>
+        <if test="supplierAddress != null and supplierAddress != ''">
+            <![CDATA[ AND supplier_address LIKE CONCAT('%', #{supplierAddress}, '%') ]]>
+        </if>
+        <if test="supplierBusinessNo != null and supplierBusinessNo != ''">
+            <![CDATA[ AND supplier_business_no LIKE CONCAT('%', #{supplierBusinessNo}, '%') ]]>
+        </if>
+        <if test="managerName != null and managerName != ''">
+            <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+        </if>
+        <if test="managerPhone != null and managerPhone != ''">
+            <![CDATA[ AND manager_phone LIKE CONCAT('%', #{managerPhone}, '%') ]]>
+        </if>
+        <if test="managerEmail != null and managerEmail != ''">
+            <![CDATA[ AND manager_email LIKE CONCAT('%', #{managerEmail}, '%') ]]>
+        </if>
+    </select>
+
 
     <!-- 공급업체 번호로 수정 팝업창 내용 보기 -->
     <select id="getSupplierByNo" parameterType="Long" resultType="SupplierVO">
@@ -30,31 +76,6 @@
         WHERE supplier_no = #{supplierNo}
     </select>
 
-    <!-- 상세 검색 -->
-    <select id="searchSuppliers" parameterType="map" resultType="SupplierVO">
-        SELECT * FROM supplier
-        <where>
-            <if test="supplierName != null and supplierName != ''">
-                AND supplier_name LIKE CONCAT('%', #{supplierName}, '%')
-            </if>
-            <if test="supplierAddress != null and supplierAddress != ''">
-                AND supplier_address LIKE CONCAT('%', #{supplierAddress}, '%')
-            </if>
-            <if test="supplierBusinessNo != null and supplierBusinessNo != ''">
-                AND supplier_business_no LIKE CONCAT('%', #{supplierBusinessNo}, '%')
-            </if>
-            <if test="managerName != null and managerName != ''">
-                AND manager_name LIKE CONCAT('%', #{managerName}, '%')
-            </if>
-            <if test="managerPhone != null and managerPhone != ''">
-                AND manager_phone LIKE CONCAT('%', #{managerPhone}, '%')
-            </if>
-            <if test="managerEmail != null and managerEmail != ''">
-                AND manager_email LIKE CONCAT('%', #{managerEmail}, '%')
-            </if>
-        </where>
-        ORDER BY supplier_no
-    </select>
 
     <!-- 등록업체 수정 -->
     <update id="modifySupplier" parameterType="SupplierVO">

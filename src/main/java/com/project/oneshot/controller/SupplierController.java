@@ -1,6 +1,9 @@
 package com.project.oneshot.controller;
 
 import com.project.oneshot.command.SupplierVO;
+import com.project.oneshot.inventory.product.ProductPageVO;
+import com.project.oneshot.inventory.supplier.SupplierCriteria;
+import com.project.oneshot.inventory.supplier.SupplierPageVO;
 import com.project.oneshot.inventory.supplier.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,10 +32,16 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @GetMapping("/supplierList")
-    public String supplier(Model model) {
-        List<SupplierVO> list = supplierService.getAllSuppliers();
+    public String supplier(Model model, SupplierCriteria cri) {
+        System.out.println("cri = " + cri);
+        List<SupplierVO> list = supplierService.getAllSuppliers(cri);
         System.out.println("list = " + list.toString());
         model.addAttribute("list", list);
+
+        int totalSupplier = supplierService.getTotalSupplier(cri);
+        SupplierPageVO pageVO = new SupplierPageVO(cri, totalSupplier);
+        model.addAttribute("pageVO", pageVO);
+
         return "inventory/supplier";
     }
 
@@ -126,6 +135,7 @@ public class SupplierController {
     public String searchSuppliers(@RequestParam Map<String, Object> params, Model model) {
         List<SupplierVO> list = supplierService.searchSuppliers(params);
         model.addAttribute("list", list);
+
         return "inventory/supplier";
     }
 
@@ -142,7 +152,6 @@ public class SupplierController {
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
-
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource);
