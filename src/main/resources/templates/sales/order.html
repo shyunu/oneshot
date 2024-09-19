@@ -169,9 +169,63 @@
         }
     }
 
+    // filter기능
+    function filterTable() {
+        // 필터 입력 값 가져오기
+        var saleDate = document.getElementById("saleDateInput").value;
+        var clientName = document.getElementById("clientNameInput").value.toLowerCase();
+        var productName = document.getElementById("productNameInput").value.toLowerCase();
 
+        // 테이블의 tbody와 모든 행 가져오기
+        var tbody = document.querySelector("#dataTable tbody");
+        var rows = tbody.getElementsByTagName("tr");
 
+        // 각 행을 반복하며 필터 적용
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            var dateCell = cells[2]; // 판매 등록일자 열의 인덱스
+            var clientCell = cells[3]; // 고객사명 열의 인덱스
+            var productCell = cells[4]; // 상품명 열의 인덱스
 
+            var dateText = dateCell ? dateCell.textContent || dateCell.innerText : "";
+            var clientText = clientCell ? clientCell.textContent || clientCell.innerText : "";
+            var productText = productCell ? productCell.textContent || productCell.innerText : "";
+
+            // 필터 입력 값과 셀 값 비교
+            var showRow = true;
+            if (saleDate && dateText !== saleDate) {
+                showRow = false;
+            }
+            if (clientName && !clientText.toLowerCase().includes(clientName)) {
+                showRow = false;
+            }
+            if (productName && !productText.toLowerCase().includes(productName)) {
+                showRow = false;
+            }
+
+            // 조건에 맞지 않으면 행 숨기기
+            rows[i].style.display = showRow ? "" : "none";
+        }
+    }
+
+    function resetFilters() {
+        // 모든 입력 필드와 선택 필드 초기화
+        document.getElementById("saleDateInput").value = "";
+        document.getElementById("clientNameInput").value = "";
+        document.getElementById("productNameInput").value = "";
+
+        var selectElements = document.querySelectorAll("select");
+        selectElements.forEach(function(select) {
+            select.selectedIndex = 0; // 기본 선택값으로 초기화
+        });
+
+        // 테이블의 모든 행을 표시
+        var tbody = document.querySelector("#dataTable tbody");
+        var rows = tbody.getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = "";
+        }
+    }
 
 
 </script>
@@ -189,17 +243,18 @@
                     <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
-                        <button class="filter-button">검색하기</button>
+                        <button class="filter-button" onclick="filterTable()">검색하기</button>
+                        <button onclick="resetFilters()">전체보기</button>
                     </div>
 
                     <table>
                         <tr class="left-row" style="white-space: nowrap;">
                             <td><p>판매등록일자</p></td>
-                            <td><input type="date"></td>
+                            <td><input type="date" id="saleDateInput"></td>
                             <td><p>고객사명</p></td>
-                            <td><input type="text"></td>
+                            <td><input type="text" id="clientNameInput"></td>
                             <td><p>상품명</p></td>
-                            <td><input type="text"></td>
+                            <td><input type="text" id="productNameInput"></td>
                         </tr>
                         <tr>
                             <td><p>판매담당자</p></td>
@@ -207,6 +262,7 @@
                             <td><p>판매승인상태</p></td>
                             <td>
                                 <select>
+                                    <option>-</option>
                                     <option>승인</option>
                                     <option>반려</option>
                                 </select>
@@ -214,6 +270,7 @@
                             <td><p>배송상태</p></td>
                             <td>
                                 <select>
+                                    <option>-</option>
                                     <option>배송대기</option>
                                     <option>배송중</option>
                                     <option>배송완료</option>
@@ -225,7 +282,7 @@
                     </table>
                 </div>
             </div>
-            <table>
+            <table id="dataTable">
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll"></th>
@@ -242,7 +299,7 @@
                 </thead>
 
                 <tbody>
-                    <tr th:each="vo : ${list}"onclick="handleClick(this)">
+                    <tr th:each="vo : ${list}" onclick="handleClick(this, event)">
                         <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"></td>
                         <td th:text="${vo.orderHeaderNo}"></td>
                         <td th:text="${#dates.format(vo.orderSdate, 'yyyy-MM-dd')}"></td>
@@ -284,13 +341,15 @@
                 <div class="popup-list">
                     <table>
                         <tbody>
-                        <tr>
+                        <tr style="white-space: nowrap;">
+                            <td><p>판매등록번호</p></td>
+                            <td><input type="number" name="orderHeaderNo" readonly></td>
                             <td colspan="2"><p>판매등록일자</p></td>
                             <td colspan="2"><input type="date" name="orderSdate" readonly></td>
                             <td colspan="2"><p>고객사명</p></td>
                             <td colspan="2"><input type="text" name="clientName" readonly></td>
                         </tr>
-                        <tr>
+                        <tr style="white-space: nowrap;">
                             <td><p>상품품목명</p></td>
                             <td><input type="text" name="orderItems[0].productNo[]" readonly></td>
                             <td><p>책정거래가</p></td>
@@ -305,7 +364,7 @@
                             <td colspan="2" class="contract-status"><p>판매승인상태 *</p></td>
                             <td colspan="2">
                                 <select name="orderStatus" disabled>
-                                    <option>선택하세요.</option>
+                                    <option>선택하세요.</option>de
                                     <option>승인</option>
                                     <option>반려</option>
                                 </select>
@@ -425,6 +484,12 @@
     selectAllCheckbox.addEventListener('change', function() {
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = selectAllCheckbox.checked;
+
+            // 배경색 지정
+            const td = checkbox.closest('tr').querySelectorAll('td'); // 체크박스가 있는 모든 <td>
+            td.forEach(function(cell) {
+                cell.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+            });
         });
     });
 
@@ -450,10 +515,9 @@
 
         // 각 td에 해당하는 input이나 select에 값을 채워 넣습니다.
         const mappings = [
+            { name: 'orderHeaderNo', index: 1 },
             { name: 'orderSdate', index: 2 },
             { name: 'clientName', index: 3 },
-            { name: 'productNames', index: 4 },
-            { name: 'price', index: 5 },
             { name: 'employeeName', index: 6 },
             { name: 'orderStatus', index: 7 },
             { name: 'deliveryStatus', index: 8 },
@@ -483,6 +547,7 @@
         popupModify.style.display = 'block';
     }
 
+    // 체크박스 누르면 누른 행 색상 변하게
     function toggleRow(checkbox) {
         const row = checkbox.closest('tr'); // 체크박스가 속한 tr 요소를 찾음
         const tds = row.getElementsByTagName('td'); // 해당 tr의 모든 td 요소를 가져옴
