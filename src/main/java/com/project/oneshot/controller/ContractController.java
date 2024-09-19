@@ -40,16 +40,9 @@ public class ContractController {
                              ContractVO vo,
                              RedirectAttributes ra) {
 
+
         vo.setContractProductNames(contractProductNames);
         vo.setContractPrices(contractPrices);
-
-        int result = contractService.contractRegist(vo);
-
-        if(result == 1) {
-            ra.addFlashAttribute("msg", "정상 등록");
-        } else {
-            ra.addFlashAttribute("msg", "등록 실패");
-        }
 
         return "redirect:/sales/contract";
     }
@@ -68,9 +61,4 @@ public class ContractController {
         System.out.println("contractEdate: " + contractVO.getContractEdate());
         return "result";
     }
-
-
-
-
-
 }

@@ -5,9 +5,24 @@
 
 <mapper namespace="com.project.oneshot.sales.contract.ContractMapper">
 
+    <!-- 계약 조회 기능 -->
+    <select id="getList" resultType="ContractVO">
+        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO AS contractPriceNo,
+                CLIENT.CLIENT_NAME AS clientName,
+                CONTRACT_PRICE.CONTRACT_SDATE AS contractSdate,
+                CONTRACT_PRICE.CONTRACT_EDATE AS contractEdate,
+                PRODUCT.PRODUCT_NAME AS productName,
+                CLIENT.MANAGER_NAME AS managerName,
+                CONTRACT_PRICE.CONTRACT_PRICE_STATUS AS contractPriceStatus
+        FROM CONTRACT_PRICE
+                 LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+                 LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
+                 LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+    </select>
+
     <!-- 계약 등록 기능 -->
     <insert id="contractRegist" parameterType="ContractVO" useGeneratedKeys="true" keyProperty="contractPriceNo">
-        INSERT INTO CONTRACT_PRICE(
+        INSERT INTO CONTRACT_PRICE (
          PRODUCT_NO
         ,EMPLOYEE_NO
         ,CLIENT_NO
@@ -24,21 +39,6 @@
         ,#{contractPrice}
         )
     </insert>
-
-    <!-- 계약 조회 기능 -->
-    <select id="getList" resultType="ContractVO">
-        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO,
-                CLIENT.CLIENT_NAME,
-                CONTRACT_PRICE.CONTRACT_SDATE,
-                CONTRACT_PRICE.CONTRACT_EDATE,
-                PRODUCT.PRODUCT_NAME,
-                CLIENT.MANAGER_NAME,
-                CONTRACT_PRICE.CONTRACT_PRICE_STATUS
-        FROM CONTRACT_PRICE
-        INNER JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
-        INNER JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
-        INNER JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
-    </select>
 
     <select id="getClientList" resultType="ClientVO">
         select * from client

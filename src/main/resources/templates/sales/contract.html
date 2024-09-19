@@ -86,7 +86,7 @@
         <div class="order-wrap">
             <div class="text-wrap">
                 <p>계약가격내역</p>
-                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
+                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요.</p>
             </div>
             <div class="order-title">
                 <div class="filter-content">
@@ -179,7 +179,7 @@
                 <tr th:each="vo : ${list}">
                     <td><input type="checkbox" class="checkbox"></td>
                     <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.clientName}"></td>
+                    <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
                     <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${vo.productName}"></td>
@@ -293,31 +293,31 @@
                                 <td>
                                     <p>고객사명</p>
                                 </td>
-                                <td><input type="text"></td>
+                                <td><input type="text" name="clientName"></td>
                                 <td>
                                     <p>계약시작일</p>
                                 </td>
-                                <td><input type="date"></td>
+                                <td><input type="date" name="contractSdate"></td>
                             </tr>
                             <tr>
                                 <td>
                                     <p>계약담당자</p>
                                 </td>
-                                <td><input type="text"></td>
+                                <td><input type="text" name="managerName"></td>
                                 <td>
                                     <p>계약종료일</p>
                                 </td>
-                                <td><input type="date"></td>
+                                <td><input type="date" name="contractEdate"></td>
                             </tr>
                             <tr>
                                 <td>
                                     <p>상품품목명</p>
                                 </td>
-                                <td><input type="text" name="product-name"></td>
+                                <td><input type="text" name="contractProductName[]"></td>
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
-                                <td><input type="text" name="price"></td>
+                                <td><input type="text" name="contractPrice[]"></td>
 
                                 <!-- <td><button type="button"
                                     id="add-item-btn">+</button></td> -->
