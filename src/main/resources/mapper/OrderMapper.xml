@@ -41,6 +41,20 @@
         </foreach>
     </insert>
 
+    <!-- 오더헤더가 같은 아이템 가져오기 -->
+    <select id="getOrderItemsByOrderHeaderNo" resultType="OrderItemVO">
+        SELECT *,
+            (SELECT COUNT(*) FROM order_item WHERE order_header_no = #{orderHeaderNo}) AS itemCount
+        FROM order_item
+        WHERE order_header_no = #{orderHeaderNo}
+    </select>
+
+    <select id="getOrderItemCount" resultType="int">
+        SELECT COUNT(*)
+        FROM order_item
+        WHERE order_header_no = #{orderHeaderNo}
+    </select>
+
 
 
 
@@ -85,6 +99,28 @@
         LEFT JOIN CLIENT CL ON H.CLIENT_NO = CL.CLIENT_NO
         LEFT JOIN EMPLOYEE E ON H.EMPLOYEE_NO = E.EMPLOYEE_NO
         LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
+        WHERE 1 = 1
+        <if test="orderSdate != null and orderSdate != ''">
+            and H.order_sdate = #{orderSdate}
+        </if>
+        <if test="clientNo != null and clientNo != ''">
+            and CL.client_no = #{clientNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            and P.product_name = #{productName}
+        </if>
+        <if test="employeeName != null and employeeName != ''">
+            and E.employee_name = #{employeeName}
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            and H.order_status like concat('%', #{orderStatus}, '%')
+        </if>
+        <if test="deliveryStatus != null and deliveryStatus != ''">
+            and H.delivery_status like concat('%', #{deliveryStatus}, '%')
+        </if>
+        <if test="deliveryDate != null and deliveryDate != ''">
+            and H.delivery = #{deliveryDate}
+        </if>
         GROUP BY
         H.ORDER_HEADER_NO,
         H.ORDER_SDATE,
@@ -96,26 +132,51 @@
         H.DELIVERY_STATUS,
         H.DELIVERY
         ORDER BY H.ORDER_HEADER_NO ASC
+        limit #{amount} offset #{pageStart}
     </select>
 
+    <select id="getItems" resultType="orderItemVO">
+        SELECT *
+        FROM order_item
+        WHERE order_header_no = #{orderHeaderNo}
+    </select>
 
-    <!-- 판매내역 누르면 상세에서 아이템 보여주기 -->
-<!--    <select id="getOrderItemsByHeaderNo" parameterType="int" resultMap="OrderItemResultMap">-->
-<!--        SELECT-->
-<!--        I.PRODUCT_NO,-->
-<!--        I.CONTRACT_PRICE,-->
-<!--        I.PRODUCT_QUANTITY,-->
-<!--        I.AMOUNT-->
-<!--        FROM ORDER_ITEM I-->
-<!--        WHERE I.ORDER_HEADER_NO = #{orderHeaderNo}-->
-<!--    </select>-->
-
-<!--    <resultMap id="OrderItemResultMap" type="OrderItemVO">-->
-<!--        <result property="productNo" column="PRODUCT_NO"/>-->
-<!--        <result property="contractPrice" column="CONTRACT_PRICE"/>-->
-<!--        <result property="productQuantity" column="PRODUCT_QUANTITY"/>-->
-<!--        <result property="amount" column="AMOUNT"/>-->
-<!--    </resultMap>-->
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM (
+        SELECT
+        H.ORDER_HEADER_NO
+        FROM ORDER_ITEM I
+        LEFT JOIN ORDER_HEADER H ON I.ORDER_HEADER_NO = H.ORDER_HEADER_NO
+        LEFT JOIN CLIENT CL ON H.CLIENT_NO = CL.CLIENT_NO
+        LEFT JOIN EMPLOYEE E ON H.EMPLOYEE_NO = E.EMPLOYEE_NO
+        LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
+        WHERE 1 = 1
+        <if test="orderSdate != null and orderSdate != ''">
+            AND H.order_sdate = #{orderSdate}
+        </if>
+        <if test="clientNo != null and clientNo != ''">
+            AND CL.client_no = #{clientNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            AND P.product_name = #{productName}
+        </if>
+        <if test="employeeName != null and employeeName != ''">
+            AND E.employee_name = #{employeeName}
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            AND H.order_status LIKE CONCAT('%', #{orderStatus}, '%')
+        </if>
+        <if test="deliveryStatus != null and deliveryStatus != ''">
+            AND H.delivery_status LIKE CONCAT('%', #{deliveryStatus}, '%')
+        </if>
+        <if test="deliveryDate != null and deliveryDate != ''">
+            AND H.delivery = #{deliveryDate}
+        </if>
+        GROUP BY
+        H.ORDER_HEADER_NO
+        ) AS subquery
+    </select>
 
     <!-- 사원리스트 조회하기 -->
     <select id="getEmployeeList" resultType="EmployeeVO">
