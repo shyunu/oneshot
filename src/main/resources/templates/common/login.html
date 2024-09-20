@@ -13,7 +13,7 @@
               <p class="logo"><img src="img/logo2.png" alt="#"></p>
                 <div class="input-group">
                     <label for="username">사원번호</label>
-                    <input type="text" id="username" name="employeeNo" placeholder="사원번호 입력" required>
+                    <input type="text" id="username" name="username" placeholder="사원번호 입력" required>
                 </div>
                 <div class="input-group">
                     <label for="password">비밀번호</label>
@@ -24,12 +24,14 @@
             </form>
         </div>
     </div>
-
     <script th:inline="javascript">
-        var errormsg = [[${msg}]];
-        if(errormsg != null && errormsg != '') {
-            alert(errormsg);
-        }
+        window.onload = function() {
+            var errormsg = [[${msg}]];
+            if (errormsg != null && errormsg != '') {
+                alert(errormsg);
+            }
+        };
     </script>
+
 </body>
 </html>

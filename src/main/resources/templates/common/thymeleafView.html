@@ -52,7 +52,7 @@
                     <span class="navlink">인사관리</span>
                         <i class="bx bx-chevron-right arrow-left"></i>
                     </div>
-
+dq
                     <ul class="submenu">
                         <a href="#" class="nav_link sublink">사원관리</a>
                         <a href="#" class="nav_link sublink">부서관리</a>
@@ -96,16 +96,26 @@
                     <span> Expand</span>
                 </div>
                 <div class="bottom collapse_sidebar">
-                    <span>로그아웃</span>
-                    <i class='bx bx-log-out'></i>
+                    <form action="/logout" method="post" style="display: inline;">
+                        <button type="submit">로그아웃</button>
+                        <i class='bx bx-log-out'></i>
+                    </form>
+
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="content">
+    <th:block th:if="${reactInclude == null}">
+        <div class="content">
             <th:block th:replace="${content}"></th:block>
         </div>
+    </th:block>
+    <th:block th:if="${reactInclude != null}">
+        <div class="content">
+            <div id="root" class="content"></div>
+        </div>
+    </th:block>
     </div>
 
 <script>
@@ -164,6 +174,10 @@
     }
 
 </script>
+
+<th:block th:if="${reactInclude != null}">
+    <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
+</th:block>
 </body>
 </th:block>
 </html>

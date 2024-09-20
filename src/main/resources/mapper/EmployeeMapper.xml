@@ -6,7 +6,7 @@
 <mapper namespace="com.project.oneshot.hr.employee.EmployeeMapper">
 
     <!-- 사원 리스트 -->
-    <select id="getAllEmployees" resultType="EmployeeVO">
+    <select id="getAllEmployees" parameterType="map" resultType="EmployeeVO">
         SELECT
             e.employee_no,
             e.department_no,
@@ -16,6 +16,7 @@
             e.employee_phone,
             e.emergency_phone,
             e.employee_address,
+            e.employee_address_detail,
             e.account_number,
             e.employee_hiredate,
             e.employee_status,
@@ -31,18 +32,111 @@
             department d ON e.department_no = d.department_no
                 LEFT JOIN
             position p ON e.position_no = p.position_no
-        where e.employee_status='y'
+        ORDER BY
+            e.employee_status,
+            e.employee_no
+        LIMIT  #{limit}
+        OFFSET #{offset}
     </select>
 
+    <!-- 사원 인원 -->
+    <select id="getTotalEmployeeCount" resultType="int">
+        SELECT COUNT(*) FROM employee
+    </select>
+
+    <!-- 사원 검색 -->
+    <select id="getSearchEmployees" parameterType="EmployeeVO" resultType="EmployeeVO">
+        SELECT
+        e.employee_no,
+        e.department_no,
+        e.position_no,
+        e.employee_name,
+        e.employee_birth,
+        e.employee_phone,
+        e.emergency_phone,
+        e.employee_address,
+        e.account_number,
+        e.employee_hiredate,
+        e.employee_status,
+        e.employee_email,
+        e.employee_photo_path,
+        e.bank_no,
+        e.account_holder,
+        d.department_name,
+        p.position_name
+        FROM
+        employee e
+        LEFT JOIN department d ON e.department_no = d.department_no
+        LEFT JOIN position p ON e.position_no = p.position_no
+        <where>
+            <if test="employeeNo != null">
+                e.employee_no = #{employeeNo}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                <choose>
+                    <when test="employeeNo != null">
+                        AND e.employee_name = #{employeeName}
+                    </when>
+                    <otherwise>
+                        e.employee_name = #{employeeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentNo != null and departmentNo != '' and departmentNo != '-1'">
+                <choose>
+                    <when test="employeeNo != null or employeeName != null">
+                        AND e.department_no = #{departmentNo}
+                    </when>
+                    <otherwise>
+                        e.department_no = #{departmentNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="employeePhone != null and employeePhone != ''">
+                <choose>
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null">
+                        AND e.employee_phone = #{employeePhone}
+                    </when>
+                    <otherwise>
+                        e.employee_phone = #{employeePhone}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="positionNo != null and positionNo != '' and positionNo !='-1'">
+                <choose>
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null or employeePhone != null">
+                        AND e.position_no = #{positionNo}
+                    </when>
+                    <otherwise>
+                        e.position_no = #{positionNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test='employeeStatus != null and employeeStatus != "" and employeeStatus != "a"'>
+                <choose>
+                    <when test="employeeNo != null or employeeName != null or departmentNo != null or employeePhone != null or positionNo != null">
+                        AND e.employee_status = #{employeeStatus}
+                    </when>
+                    <otherwise>
+                        e.employee_status = #{employeeStatus}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <!-- 은행목록 -->
     <select id="getAllBank" resultType="BankVO">
         SELECT * FROM bank
     </select>
+
+    <!-- 직급목록 -->
     <select id="getAllPosition" resultType="PositionVO">
         SELECT * FROM position order by position_no asc
     </select>
 
-    <!-- 사원 생성 및 업데이트 -->
-    <insert id="insertEmployee" parameterType="EmployeeVO">
+    <!-- 사원 생성 -->
+    <insert id="insertEmployee" parameterType="EmployeeVO" useGeneratedKeys="true" keyProperty="employeeNo">
         INSERT INTO employee (
         department_no,
         position_no,
@@ -51,12 +145,12 @@
         employee_phone,
         emergency_phone,
         employee_address,
+        employee_address_detail,
         account_number,
         employee_hiredate,
         employee_email,
         bank_no,
-        account_holder,
-        employee_photo_path
+        account_holder
         ) VALUES (
         #{departmentNo},
         #{positionNo},
@@ -65,16 +159,37 @@
         #{employeePhone},
         #{emergencyPhone},
         #{employeeAddress},
+        #{employeeAddressDetail},
         #{accountNumber},
         #{employeeHiredate},
         #{employeeEmail},
         #{bankNo},
-        #{accountHolder},
-        #{employeePhotoPath}
+        #{accountHolder}
         )
+        RETURNING employee_no;
     </insert>
 
-    <update id="updateEmployee" parameterType="list">
+    <!-- 사원 수정 -->
+    <update id="updateEmployee" parameterType="EmployeeVO">
+        UPDATE employee
+        SET
+            department_no = #{departmentNo},
+            employee_name = #{employeeName},
+            employee_birth = #{employeeBirth},
+            employee_phone = #{employeePhone},
+            emergency_phone = #{emergencyPhone},
+            employee_address = #{employeeAddress},
+            employee_address_detail=#{employeeAddressDetail},
+            account_number = #{accountNumber},
+            employee_hiredate = #{employeeHiredate},
+            employee_email = #{employeeEmail},
+            bank_no = #{bankNo},
+            account_holder = #{accountHolder},
+            position_no = #{positionNo}
+        WHERE employee_no = #{employeeNo}
+    </update>
+
+    <update id="updateResignEmployee" parameterType="list">
         UPDATE employee
         SET employee_status = 'n'
         WHERE employee_no IN

@@ -2,6 +2,7 @@ package com.project.oneshot.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hrm")
 public class HumanResourceController {
     @GetMapping("/{pageName}.do")
-    public String humanResource(@PathVariable String pageName) {
+    public String humanResource(@PathVariable String pageName, Model model) {
         System.out.println("뷰이름:" + pageName);
-        return "hr/view";
+        model.addAttribute("reactInclude", true);
+
+        return "common/thymeleafView";
     }
 }

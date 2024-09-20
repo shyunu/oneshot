@@ -1,15 +1,7 @@
-//1. 쿼리DSL
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.18'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' //2. 쿼리DSL 버전
 }
 
 group = 'com.example'
@@ -46,41 +38,19 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0' //마이바티스
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' //로그모듈
 
-	//쿼리DSL
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	implementation 'joda-time:joda-time:2.11.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//시큐리티 타임리프에서 사용
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	//시큐리티 테스트
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
 
 ///////////////4. 빌드시 테스트코드를 모두 실행하는데, 테스트 코드는 빌드 제외//////////////
 //tasks.withType(Test) {
 //	enabled = false
 //}
 
-///////////////4. 쿼리DSL Q클래스 위치지정////////////////
-def querydslDir = "$buildDir/generated/querydsl"
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
-
-sourceSets {
-	main.java.srcDir querydslDir
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
-////////////////////////////////////////

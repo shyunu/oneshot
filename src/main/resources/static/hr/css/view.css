@@ -53,7 +53,7 @@ button{
 /* 헤더 */
 header{
     border-bottom: 1px solid #aaaaaa;
-    height: 100px;
+    height: 60px;
     justify-content: space-between;
 }
 header .menu{

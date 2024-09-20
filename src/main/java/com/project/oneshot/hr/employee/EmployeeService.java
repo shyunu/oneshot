@@ -5,14 +5,17 @@ import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.PositionVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeService {
-    List<EmployeeVO> getAllEmployees(); // 사원목록
-
+    Map<String, Object> getAllEmployees(int page, int size); // 사원목록
+    List<EmployeeVO> getSearchEmployees(EmployeeVO vo);
 
     List<BankVO> getAllBank(); // 은행목록
     List<PositionVO> getAllPosition(); // 은행목록
 
-    int insertEmployee(EmployeeVO employeeVo); // 신규생성
-    public int updateEmployee(List<Integer> employeeNos); // 비활성
+    public int insertEmployee(EmployeeVO employeeVo); // 신규생성
+    public int updateResignEmployee(List<Integer> employeeNos); // 비활성
+    int updateEmployee(EmployeeVO employeeVo); //사원 수정
+
 }
