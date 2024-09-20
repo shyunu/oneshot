@@ -12,7 +12,13 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseMapper purchaseMapper;
 
     @Override
-    public List<PurchaseVO> getAllPurchase() {
-        return purchaseMapper.getAllPurchase();
+    public List<PurchaseVO> getAllPurchase(PurchaseCriteria cri) {
+        return purchaseMapper.getAllPurchase(cri);
+    }
+
+    @Override
+    public int getTotalPurchase(PurchaseCriteria cri) {
+        int TotalPosts = purchaseMapper.getTotalPurchase(cri);
+        return TotalPosts;
     }
 }

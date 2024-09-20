@@ -7,5 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface PurchaseMapper {
-    public List<PurchaseVO> getAllPurchase();
+    public List<PurchaseVO> getAllPurchase(PurchaseCriteria cri);
+    int getTotalPurchase(PurchaseCriteria cri);
 }

@@ -6,6 +6,27 @@
     <select id="getAllPurchase" resultType="PurchaseVO">
         select *
         from purchase
+        <where>
+            <if test="productNo != null and productNo != ''">
+                <![CDATA[ AND product_no LIKE CONCAT('%', #{product_no}, '%') ]]>
+            </if>
+            <if test="purchasePrice != null and purchasePrice != ''">
+                <![CDATA[ AND purchase_price LIKE CONCAT('%', #{purchase_price}, '%') ]]>
+            </if>
+            <if test="supplierNo != null and supplierNo != ''">
+                <![CDATA[ and product.supplier_no = #{supplierNo} ]]>
+            </if>
+            <if test="managerName != null and managerName != ''">
+                <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+            </if>
+            <if test="purchaseStatus != null and purchaseStatus != ''">
+                <![CDATA[ AND purchase_status LIKE CONCAT('%', #{purchase_status}, '%') ]]>
+            </if>
+            <if test="purchaseDate != null and purchaseDate != ''">
+                <![CDATA[ AND purchase_date LIKE CONCAT('%', #{purchase_date}, '%') ]]>
+            </if>
+        </where>
         ORDER BY purchase_list_no desc
+        limit #{amount} offset #{pageStart}
     </select>
 </mapper>
