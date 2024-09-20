@@ -6,6 +6,7 @@ import com.project.oneshot.command.PositionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public int insertEmployee(EmployeeVO vo) {
+        if (vo.getEmployeeBirth() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+            String setEmployeePassword = vo.getEmployeeBirth().format(formatter);
+            vo.setEmployeePassword(setEmployeePassword);
+        }
         return employeeMapper.insertEmployee(vo);
     }
 

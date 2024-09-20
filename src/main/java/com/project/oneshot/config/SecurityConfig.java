@@ -60,7 +60,11 @@ public class SecurityConfig {
         //	http.formLogin( Customizer.withDefaults() );
 
         //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
-        http.formLogin().loginPage("/login");
+        http
+                .formLogin()
+                .loginPage("/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
+                .loginProcessingUrl("/loginForm") //로그인 페이지를 가로채 시큐리티가 제공하는 클래스로 로그인을 연결합니다.
+		        .defaultSuccessUrl("/hello"); //
 
         return http.build();
     }
