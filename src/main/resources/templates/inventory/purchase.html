@@ -15,12 +15,17 @@
                         <form action="purchaseList" method="get" id="searchPurchase" enctype="multipart/form-data">
                             <table>
                                 <tr>
-                                    <td><p>구매내역번호</p></td>
-                                    <td><input type="text" name="purchaseListNo" th:value="${pageVO.cri.purchaseListNo}" ></td>
                                     <td><p>상품번호</p></td>
                                     <td><input type="text" name="productNo" th:value="${pageVO.cri.productNo}" ></td>
                                     <td><p>구매가격</p></td>
                                     <td><input type="text" name="purchasePrice" th:value="${pageVO.cri.purchasePrice}" ></td>
+                                    <td><p>공급업체</p></td>
+                                    <td>
+                                    <select name="supplierNo">
+                                        <option value="0">- 공급업체 -</option>
+                                        <option th:each="supplierVO : ${supplierList}" th:value="${supplierVO.supplierNo}" th:text="${supplierVO.supplierName}" th:selected="${supplierVO.supplierNo == pageVO.cri.supplierNo}"></option>
+                                    </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><p>담당자명</p></td>
@@ -49,8 +54,11 @@
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>구매내역번호</th>
                     <th>상품번호</th>
-                    <th>구매가격</th>
+                    <th>공급업체</th>
+                    <th>총재고수량</th>
+                    <th>안전재고수량</th>
                     <th>구매수량</th>
+                    <th>구매가격</th>
                     <th>담당자명</th>
                     <th>승인여부</th>
                     <th>구매일</th>
@@ -61,8 +69,11 @@
                     <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
                     <td th:onclick="'openModifyModal(' + ${purchase.purchaseListNo} + ')'" th:text="${purchase.purchaseListNo}"></td>
                     <td th:text="${purchase.productNo}"></td>
-                    <td th:text="${purchase.purchasePrice}"></td>
+                    <td th:text="${purchase.productNo}"></td>
+<!--                    <td th:text="${purchase.총재고수량}"></td>-->
                     <td th:text="${purchase.purchaseQuantity}"></td>
+<!--                    <td th:text="${purchase.구매수량}"></td>-->
+                    <td th:text="${purchase.purchasePrice}"></td>
                     <td th:text="${purchase.담당자명 ? ? ? ? ? ? ? ? --- 물어보기--- } "></td>
                     <td th:text="${purchase.purchaseStatus}"></td>
                     <td th:text="${purchase.purchaseDate}"></td>
