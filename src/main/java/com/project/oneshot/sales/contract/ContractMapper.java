@@ -19,5 +19,6 @@ public interface ContractMapper {
 
     public List<ProductVO> getContractProductList();
 
-
+    public Integer getContractPriceNo();
+    public List<ContractVO> getContractDetails(int contractPriceNo);
 }
