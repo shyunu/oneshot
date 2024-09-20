@@ -100,7 +100,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="productVO : ${productList}">
+          <tr th:each="productVO : ${productList}" class="product_list">
             <td th:text="${productVO.productNo}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.categoryName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
