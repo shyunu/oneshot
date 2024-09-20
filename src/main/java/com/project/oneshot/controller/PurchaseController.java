@@ -20,6 +20,7 @@ public class PurchaseController {
     @GetMapping("/purchaseList")
     public String purchase(Model model) {
         List<PurchaseVO> list = purchaseService.getAllPurchase();
+        System.out.println("list :" + list.toString());
         model.addAttribute("list", list);
         return "inventory/purchase";
     }

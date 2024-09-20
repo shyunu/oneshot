@@ -6,6 +6,6 @@
     <select id="getAllPurchase" resultType="PurchaseVO">
         select *
         from purchase
-        ORDER BY purchase_list_no
+        ORDER BY purchase_list_no desc
     </select>
 </mapper>
