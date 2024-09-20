@@ -325,6 +325,7 @@
                     <div class="button-left">
                         <button type="submit" class="approveButton" onclick="approveOrder()">승인</button>
                         <button type="submit" class="rejectButton" onclick="rejectOrder()">반려</button>
+                        <button type="button" class="deliveryInfoButton" onclick="deliveryInfoRegist()" style="display: none">배송정보입력</button>
                     </div>
                     <div class="button-right">
                         <button type="button" onclick="editButtonClick()" class="modifyButton">수정</button>
@@ -448,7 +449,7 @@
     const forPopup = document.querySelectorAll('.for-popup');
 
 
-    // 판매목록 각각에 해당하는 상세목록 팝업창 열기 ** 상세조회
+    // 판매목록 각각에 해당하는 상세목록 팝업창 열기 ** 상세조회 **
     function handleClick(row) {
         // 클릭된 요소가 checkbox인 경우, 함수 종료
         if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
@@ -543,12 +544,58 @@
             }
         });
 
-        //지윤작성
-        console.log(row.target);
-        console.log(1);
+        //승인인 조회의 행을 누르면 바로 나타날 화면
+        if(event.target.parentElement.children[7].innerText == '승인') {
+            $('.approveButton').css('display', 'none');
+            $('.rejectButton').css('display', 'none');
+            $('.modifyButton').css('display', 'none');
+            $('.deliveryInfoButton').css('display', 'inline-block'); //배송지정보입력버튼
+        } else if(event.target.parentElement.children[7].innerText == '반려') {
+            $('.deliveryInfoButton').css('display', 'none');
+        }
 
         popupModify.style.display = 'block';
     }
+
+    //판매등록일자 이후의 날짜로 배송일 지정할 수 있게 컨트롤하기
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const deliveryStatusSelect = document.querySelector('select[name="deliveryStatus"]');
+        const deliveryInput = document.querySelector('input[name="delivery"]');
+
+        //배송상태가 '배송완료'일 때에만 배송일 지정할 수 있도록하기
+        if(deliveryStatusSelect.value === "배송완료") {
+            const orderSdateInput = document.querySelector('input[name="orderSdate"]');
+            const orderSdate = new Date(orderSdateInput.value);
+            const deliveryDate = new Date(deliveryInput.value);
+
+            // orderSdate보다 이전 날짜인지 확인
+            if (deliveryDate < orderSdate) {
+                alert('배송일자는 판매등록일자 이후로 설정가능합니다!');
+                deliveryInput.value = '';
+            }
+
+            orderSdate.setDate(orderSdate.getDate() + 1); // 다음 날로 저장
+        }
+        orderSdateInput.addEventListener('change', function() {
+
+            const minDate = orderSdate.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
+            deliveryInput.setAttribute('min', minDate);
+        });
+
+        // 초기화 시 min 속성 설정
+        if (orderSdateInput.value) {
+            orderSdateInput.dispatchEvent(new Event('change'));
+        }
+
+        // delivery배송일자 유효성 검사
+        deliveryInput.addEventListener('input', function() {
+            const deliveryDate = new Date(deliveryInput.value);
+            const orderSdate = new Date(orderSdateInput.value);
+
+
+        });
+    });
 
     // 체크박스 누르면 누른 행 색상 변하게
     function toggleRow(checkbox) {
@@ -716,7 +763,7 @@
     }
 
     //판매내역 승인 기능
-    function approveYNOrder() {
+    function approveOrder() {
         const orderStatusInput = document.querySelector('input[name="orderStatus"]');
         orderStatusInput.value = "승인";
     }
@@ -725,6 +772,20 @@
     function rejectOrder() {
         const orderStatusInput = document.querySelector('input[name="orderStatus"]');
         orderStatusInput.value = "반려";
+    }
+
+    //배송정보입력 버튼 누르면 나타나는 기능
+    function deliveryInfoRegist() {
+        const deliveryStatusSelects = document.querySelectorAll('select[name="deliveryStatus"]'); //배송상태select활성화
+        deliveryStatusSelects.forEach(select => {
+            select.removeAttribute('disabled');
+        });
+
+        const deliveryInputs = document.querySelector('input[name="delivery"]'); //배송일input활성화
+        deliveryInputs.removeAttribute('readonly');
+
+        const modifySubmitButton = document.querySelector('.modifySubmitButton'); //수정내역저장하기버튼
+        modifySubmitButton.style.display = 'inline-block';
     }
 
     //수정버튼 누르면 작동할 기능
@@ -760,15 +821,17 @@
         const orderStatusInput = document.querySelector('input[name="orderStatus"]');
         const deliveryStatusSelect = document.querySelector('select[name="deliveryStatus"]');
         const deliveryInput = document.querySelector('input[name="delivery"]');
+        const deliveryInfoButton = document.querySelector('.deliveryInfoButton');
 
         if (orderStatusInput.value === '반려') {
             deliveryStatusSelect.setAttribute('disabled', true);
             deliveryInput.setAttribute('readonly', true);
-            $('.modifyButton').css('display', 'none');
-        } else {
+            deliveryInfoButton.style.display = 'none'; // 배송정보입력버튼 숨기기
+
+        } else  { //승인
             deliveryStatusSelect.removeAttribute('disabled');
             deliveryInput.removeAttribute('readonly');
-            $('.modifyButton').css('display', 'inline-block');
+            deliveryInfoButton.style.display = 'inline-block';
         }
     }
 

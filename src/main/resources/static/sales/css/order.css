@@ -153,6 +153,7 @@ td {
 
 .product_list:hover {
     background-color: #f7f5f2;
+    cursor: pointer;
 }
 
 /* //////////////////////////////////////////////////////////// */
