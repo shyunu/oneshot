@@ -106,9 +106,9 @@
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
             <!-- <td th:text="${vo.productContent}"></td> -->
-            <td th:text="${productVO.productPrice}"></td>
+            <td th:text="${productVO.productPrice}" onclick="handleClick(event)"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
-            <td th:text="${productVO.productRemark}"></td>
+            <td th:text="${productVO.productRemark}" onclick="handleClick(event)"></td>
           </tr>
         </tbody>
       </table>
