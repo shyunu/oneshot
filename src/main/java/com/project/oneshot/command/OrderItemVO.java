@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderItemVO {
     private Integer productNo;
+    private String productName;
     private Integer contractPrice;
     private Integer productQuantity;
     private Integer amount;
+    private Integer orderHeaderNo;
 }

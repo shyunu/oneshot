@@ -75,4 +75,14 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getTotalCount(cri);
     }
 
+    @Override
+    public void updateStatus(OrderVO vo) {
+        orderMapper.updateStatus(vo);
+    }
+
+    @Override
+    public void updateItem(OrderItemVO vo) {
+        orderMapper.updateItem(vo);
+    }
+
 }

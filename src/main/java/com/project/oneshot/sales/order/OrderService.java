@@ -23,5 +23,6 @@ public interface OrderService {
     public int getProductPrice(int clientNo, int productNo);
 
     public int getTotalCount(OrderCriteria cri);
-
+    public void updateStatus(OrderVO vo); //업데이트(상태)
+    public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 }
