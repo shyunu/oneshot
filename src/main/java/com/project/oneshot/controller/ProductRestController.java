@@ -61,9 +61,7 @@ public class ProductRestController {
 
     @GetMapping("getProductContent")
     public ProductVO getProductContent(@RequestParam("productNo") int productNo) {
-        System.out.println("ProductRestController.getProductContent");
         ProductVO vo = productService.getProductContent(productNo);
-        System.out.println("vo = " + vo);
         return vo;
     }
 }

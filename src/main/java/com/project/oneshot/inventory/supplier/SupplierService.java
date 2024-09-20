@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface SupplierService {
+    public List<SupplierVO> getAllSuppliers(SupplierCriteria cri);
+    int getTotalSupplier(SupplierCriteria cri);
     public void registerSupplier(SupplierVO supplier);
-    public List<SupplierVO> getAllSuppliers();
     public List<SupplierVO> searchSuppliers(Map<String, Object> parameters);
     SupplierVO getSupplierByNo(Long supplierNo);
     public boolean modifySupplier(SupplierVO supplierVO);

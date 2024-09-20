@@ -85,22 +85,27 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void putProduct(ProductVO vo, MultipartFile file) {
-        String filename = null;
-        try {
-            filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            String directoryPath = "D:/file_repo/";
-            File dir = new File(directoryPath);
+        if(vo.getProductImg() == null || vo.getProductImg() == "") {
+            ProductVO productVO = productMapper.getProductContent(vo.getProductNo());
+            vo.setProductImg(productVO.getProductImg());
+        } else {
+            String filename = null;
+            try {
+                filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                String directoryPath = "D:/file_repo/";
+                File dir = new File(directoryPath);
 
-            if (!dir.exists()) {
-                dir.mkdirs();
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                String filePath = directoryPath + filename;
+                file.transferTo(new File(filePath));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            String filePath = directoryPath + filename;
-            file.transferTo(new File(filePath));
-        } catch (Exception e) {
-            e.printStackTrace();
+            vo.setProductImg(filename);
         }
-        vo.setProductImg(filename);
         productMapper.putProduct(vo);
     }
 }

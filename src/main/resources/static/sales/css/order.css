@@ -33,6 +33,12 @@
 }
 
 /* //////////////////////////////////////////////////////////// */
+
+input[readonly],
+select[readonly] {
+    background-color: #f0f0f0;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -49,6 +55,8 @@ table, th, td {
 .left-row {
     text-align: left;
 }
+
+
 tr {
     font-size: 15px;
 }
@@ -141,6 +149,10 @@ td {
 
 .popup-list table p {
     margin: 0;
+}
+
+.product_list:hover {
+    background-color: #f7f5f2;
 }
 
 /* //////////////////////////////////////////////////////////// */
@@ -288,7 +300,9 @@ td {
     outline: none; /* 포커스 외곽선 제거 */
     box-shadow: none; /* 그림자 제거 */
 }
-
+.popup-modify .modifySubmitButton {
+    display: inline-block;
+}
 
 /* //////////////////////////////////////////////////////////// */
 /* button css (공통) */

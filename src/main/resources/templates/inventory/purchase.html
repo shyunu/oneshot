@@ -12,23 +12,35 @@
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button" type="submit" form="searchPurchase">검색하기</button>
-                        <form action="searchPurchase" method="post" id="searchPurchase" enctype="multipart/form-data">
+                        <form action="purchaseList" method="get" id="searchPurchase" enctype="multipart/form-data">
                             <table>
                                 <tr>
-                                    <td><p>구매내역번호</p></td>
-                                    <td><input type="text" name="supplierName"></td>
                                     <td><p>상품번호</p></td>
-                                    <td><input type="text" name="supplierAddress"></td>
+                                    <td><input type="text" name="productNo" th:value="${pageVO.cri.productNo}" ></td>
                                     <td><p>구매가격</p></td>
-                                    <td><input type="text" name="supplierBusinessNo"></td>
+                                    <td><input type="text" name="purchasePrice" th:value="${pageVO.cri.purchasePrice}" ></td>
+                                    <td><p>공급업체</p></td>
+                                    <td>
+                                    <select name="supplierNo">
+                                        <option value="0">- 공급업체 -</option>
+                                        <option th:each="supplierVO : ${supplierList}" th:value="${supplierVO.supplierNo}" th:text="${supplierVO.supplierName}" th:selected="${supplierVO.supplierNo == pageVO.cri.supplierNo}"></option>
+                                    </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName"></td>
+                                    <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}" ></td>
                                     <td><p>승인여부</p></td>
-                                    <td><input type="text" name="managerPhone"></td>
+                                    <td>
+                                        <select name="purchaseStatus">
+                                            <option value="">- 비고 -</option>
+                                            <option value="승인대기" th:selected="${pageVO.cri.purchaseStatus == '승인대기'}">승인대기</option>
+                                            <option value="승인완료" th:selected="${pageVO.cri.purchaseStatus == '승인완료'}">승인완료</option>
+                                            <option value="승인반려" th:selected="${pageVO.cri.purchaseStatus == '승인반려'}">승인반려</option>
+                                        </select>
+                                    </td>
                                     <td><p>구매일</p></td>
-                                    <td><input type="email" name="managerEmail"></td>
+                                    <td><input type="date" name="purchaseDate" th:value="${pageVO.cri.purchaseDate}"></td>
                                 </tr>
                             </table>
                         </form>
@@ -42,8 +54,11 @@
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>구매내역번호</th>
                     <th>상품번호</th>
-                    <th>구매가격</th>
+                    <th>공급업체</th>
+                    <th>총재고수량</th>
+                    <th>안전재고수량</th>
                     <th>구매수량</th>
+                    <th>구매가격</th>
                     <th>담당자명</th>
                     <th>승인여부</th>
                     <th>구매일</th>
@@ -54,8 +69,11 @@
                     <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
                     <td th:onclick="'openModifyModal(' + ${purchase.purchaseListNo} + ')'" th:text="${purchase.purchaseListNo}"></td>
                     <td th:text="${purchase.productNo}"></td>
-                    <td th:text="${purchase.purchasePrice}"></td>
+                    <td th:text="${purchase.productNo}"></td>
+<!--                    <td th:text="${purchase.총재고수량}"></td>-->
                     <td th:text="${purchase.purchaseQuantity}"></td>
+<!--                    <td th:text="${purchase.구매수량}"></td>-->
+                    <td th:text="${purchase.purchasePrice}"></td>
                     <td th:text="${purchase.담당자명 ? ? ? ? ? ? ? ? --- 물어보기--- } "></td>
                     <td th:text="${purchase.purchaseStatus}"></td>
                     <td th:text="${purchase.purchaseDate}"></td>
@@ -65,8 +83,8 @@
 
             <div class="buttons">
                 <div class="button-left">
-                    <button type="button" class="approval" onclick="approval()">구매 승인</button>
-                    <button type="button" class="back" onclick="back()">구매 반려</button>
+                    <button type="button" class="approval" onclick="handleApproval()">구매 승인</button>
+                    <button type="button" class="back" onclick="handleBack()">구매 반려</button>
                 </div>
                 <div class="button-right">
                     <button type="button" class="cancelPurchase" onclick="cancelPurchase()">구매취소</button>
@@ -74,20 +92,14 @@
             </div>
 
             <div class="center">
-                <div class="pagination">
-                    <a href="#">&laquo;</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">&raquo;</a>
+                <div class="page">
+                    <th:block th:replace="~{./inventory/purchasePagination::page(${pageVO})}"></th:block>
                 </div>
             </div>
         </div>
 
         <div id="popup-regist" class="popup-regist draggable-popup">
-            <form action="registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
+            <form action="registerPurchase" id="registerPurchase" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
                     <h2 class="drag-handle">공급업체 등록</h2>
                     <div class="popup-list">

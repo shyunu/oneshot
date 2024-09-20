@@ -114,6 +114,17 @@ create table supplier (
 	supplier_file	varchar(100)		null
 );
 
+create table supplier (
+	supplier_no	integer		not null,
+	supplier_name	varchar(20)		null,
+	supplier_business_no	varchar(20)		null,
+	supplier_address	varchar(50)		null,
+	manager_name	varchar(20)		null,
+	manager_phone	varchar(20)		null,
+	manager_email	varchar(30)		null,
+	supplier_file	varchar(100)		null
+);
+
 create table id_pw (
 	id	varchar(30)		not null,
 	pw	varchar(30)		null,

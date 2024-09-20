@@ -43,21 +43,18 @@ public class OrderRestController {
 
     @GetMapping("/getProductPrice")
     public int getProductPrice(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
-        System.out.println("clientNo = " + clientNo);
-        System.out.println("productNo = " + productNo);
         int result = orderService.getProductPrice(clientNo, productNo);
-        System.out.println("result = " + result);
         return result;
     }
 
-//    @PostMapping("/updateOrder")
-//    public ResponseEntity<String> updateOrder(@RequestBody OrderVO orderVO) {
-//        try {
-//            orderService.updateOrder(orderVO);  // 서비스에서 업데이트 로직 처리
-//            return ResponseEntity.ok("성공적으로 업데이트되었습니다.");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류 발생");
-//        }
-//    }
+    @GetMapping("/getOrderItems")
+    public List<OrderItemVO> getOrderItems(@RequestParam("orderHeaderNo") int orderHeaderNo) {
+        return orderService.getOrderItemsByOrderHeaderNo(orderHeaderNo);
+    }
+
+    @GetMapping("/getOrderItemCount")
+    public int getOrderItemCount(@RequestParam("orderHeaderNo") int orderHeaderNo) {
+        return orderService.getOrderItemCount(orderHeaderNo);
+    }
 
 }

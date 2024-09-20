@@ -15,46 +15,35 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void orderRegist(OrderVO vo) {
         orderMapper.orderHeader(vo);
-
-        // 주문 아이템을 삽입
         orderMapper.orderItem(vo);
     }
 
 
     @Override
-    public List<OrderVO> getList() {
-
-        List<OrderVO> list = orderMapper.getList();
-
-//        LocalDate currentDate = LocalDate.now();
-//        for (OrderVO vo : list) {
-//            LocalDate contractEdate = vo.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); //코드 분석 필요
-//            long daysBetween = ChronoUnit.DAYS.between(contractEdate, currentDate);
-//
-//            if(daysBetween > 0 || daysBetween == 0) {
-//                vo.setContractDday("계약만료");
-//            } else {
-//                vo.setContractDday("D" + daysBetween);
-//            }
-//        }
-
+    public List<OrderVO> getList(OrderCriteria cri) {
+        List<OrderVO> list = orderMapper.getList(cri);
         return list;
     }
 
     @Override
-    public List<OrderItemVO> getOrderItemsByHeaderNo(int orderHeaderNo) {
-        return orderMapper.getOrderItemsByHeaderNo(orderHeaderNo);
-    }
-
-    @Override
-    public void updateOrder(OrderVO orderVO) {
-        orderMapper.updateOrder(orderVO);
+    public List<OrderItemVO> getItems(int orderHeaderNo) {
+        return orderMapper.getItems(orderHeaderNo);
     }
 
     @Override
     public List<EmployeeVO> getEmployeeList() {
         List<EmployeeVO> list = orderMapper.getEmployeeList();
         return list;
+    }
+
+    @Override
+    public List<OrderItemVO> getOrderItemsByOrderHeaderNo(int orderHeaderNo) {
+        return orderMapper.getOrderItemsByOrderHeaderNo(orderHeaderNo);
+    }
+
+    @Override
+    public int getOrderItemCount(int orderHeaderNo) {
+        return orderMapper.getOrderItemCount(orderHeaderNo);
     }
 
     @Override
@@ -79,6 +68,21 @@ public class OrderServiceImpl implements OrderService {
     public int getProductPrice(int clientNo, int productNo) {
         int result = orderMapper.getProductPrice(clientNo, productNo);
         return result;
+    }
+
+    @Override
+    public int getTotalCount(OrderCriteria cri) {
+        return orderMapper.getTotalCount(cri);
+    }
+
+    @Override
+    public void updateStatus(OrderVO vo) {
+        orderMapper.updateStatus(vo);
+    }
+
+    @Override
+    public void updateItem(OrderItemVO vo) {
+        orderMapper.updateItem(vo);
     }
 
 }
