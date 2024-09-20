@@ -29,4 +29,7 @@ public interface OrderMapper {
     public int getProductPrice(@Param("clientNo") int clientNo, @Param("productNo") int productNo);
 
     public int getTotalCount(OrderCriteria cri);
+
+    public void updateStatus(OrderVO vo); //업데이트(상태)
+    public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 }

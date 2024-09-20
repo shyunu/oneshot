@@ -300,7 +300,9 @@ td {
     outline: none; /* 포커스 외곽선 제거 */
     box-shadow: none; /* 그림자 제거 */
 }
-
+.popup-modify .modifySubmitButton {
+    display: inline-block;
+}
 
 /* //////////////////////////////////////////////////////////// */
 /* button css (공통) */

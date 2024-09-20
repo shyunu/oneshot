@@ -28,6 +28,7 @@ public class OrderController {
     private OrderService orderService;
 
 
+    //조회하기
     @GetMapping("/order")
     public String orderList(OrderCriteria cri, Model model) {
         System.out.println("cri = " + cri);
@@ -44,14 +45,26 @@ public class OrderController {
         return "sales/order";
     }
 
-
+    //등록하기
     @PostMapping("/orderForm")
     public String orderForm(@ModelAttribute OrderVO vo, RedirectAttributes ra) {
         orderService.orderRegist(vo);
         return "redirect:/sales/order";
     }
 
+    //수정하기
+    @PostMapping("/updateOrder")
+    public String updateOrder(@ModelAttribute OrderVO vo) {
+        orderService.updateStatus(vo);
 
+        for(OrderItemVO item : vo.getOrderItems()) {
+            item.setOrderHeaderNo(vo.getOrderHeaderNo());
+            orderService.updateItem(item);
+        }
+        return "redirect:/sales/order";
+    }
+
+    //날짜변환
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
