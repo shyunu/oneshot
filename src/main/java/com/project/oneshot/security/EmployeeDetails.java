@@ -1,5 +1,6 @@
 package com.project.oneshot.security;
 
+import com.project.oneshot.command.EmployeeAuthVO;
 import com.project.oneshot.command.EmployeeVO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,17 +13,15 @@ import java.util.List;
 public class EmployeeDetails implements UserDetails {
 
     //멤버변수 선언
-    private EmployeeVO employeeVO;
+    private EmployeeAuthVO employeeAuthVO;
     //객체생성
-    public EmployeeDetails(EmployeeVO employeeVO) {
-        this.employeeVO = employeeVO;
+    public EmployeeDetails(EmployeeAuthVO employeeAuthVO) {
+        this.employeeAuthVO = employeeAuthVO;
     }
 
-    //유저의 role을 화면에서 사용하기 위해 getter생성
-    public String getRole() {
-        return employeeVO.getRole();
+    public int getPositionNo(){
+        return employeeAuthVO.getPositionNo();
     }
-
     //로그인시 권한을 리턴해주는 함수
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,21 +29,25 @@ public class EmployeeDetails implements UserDetails {
         List<GrantedAuthority> list = new ArrayList<>();
 
         // departmentName과 positionName을 권한으로 설정
-        list.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(employeeVO.getPositionNo())));
-        list.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(employeeVO.getDepartmentNo())));
+        list.add(new SimpleGrantedAuthority("ROLE_" + employeeAuthVO.getPositionNameEnglish()));
+        for(String menu:employeeAuthVO.getMenuNameEnglish()){
+            list.add(new SimpleGrantedAuthority("ROLE_" + menu));
+        }
 
         return list; // 권한 목록을 반환
     }
 
     @Override
     public String getPassword() {
-        return employeeVO.getEmployeePassword(); //유저의 비밀번호를 반환하는 자리입니다.
+        return employeeAuthVO.getEmployeePassword(); //유저의 비밀번호를 반환하는 자리입니다.
     }
 
     @Override
     public String getUsername() {
-        return String.valueOf(employeeVO.getEmployeeNo()); //유저의 아이디를 반환하는 자리입니다.
+        return String.valueOf(employeeAuthVO.getEmployeeNo()); //유저의 아이디를 반환하는 자리입니다.
     }
+
+
 
     @Override
     public boolean isAccountNonExpired() {

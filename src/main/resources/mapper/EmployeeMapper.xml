@@ -136,7 +136,7 @@
     </select>
 
     <!-- 사원 생성 -->
-    <insert id="insertEmployee" parameterType="EmployeeVO">
+    <insert id="insertEmployee" parameterType="EmployeeVO" useGeneratedKeys="true" keyProperty="employeeNo">
         INSERT INTO employee (
         department_no,
         position_no,
@@ -166,6 +166,7 @@
         #{bankNo},
         #{accountHolder}
         )
+        RETURNING employee_no;
     </insert>
 
     <!-- 사원 수정 -->

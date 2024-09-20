@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class EmployeeVO {
     private Integer employeeNo;           // 사원번호
     private String employeeName;          // 사원이름
-    private String employeePassword;      // 사원비밀번호 - 초기값 생년월일 YYMMDD
     private Integer departmentNo;         // 부서번호
     private String departmentName;        // 부서명
     private Integer positionNo;           // 직급번호

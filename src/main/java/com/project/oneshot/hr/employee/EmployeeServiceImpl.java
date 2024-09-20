@@ -49,11 +49,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public int insertEmployee(EmployeeVO vo) {
-        if (vo.getEmployeeBirth() != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
-            String setEmployeePassword = vo.getEmployeeBirth().format(formatter);
-            vo.setEmployeePassword(setEmployeePassword);
-        }
         return employeeMapper.insertEmployee(vo);
     }
 

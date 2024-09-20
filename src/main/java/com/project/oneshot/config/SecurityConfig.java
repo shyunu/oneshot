@@ -2,6 +2,7 @@ package com.project.oneshot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,48 +24,28 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //csrf토큰 사용x
         http.csrf().disable();
+        http.authorizeRequests(authorize -> authorize
+                .antMatchers("/","/common/login","/common/loginForm","/common/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
+                .antMatchers("/user/**").hasRole("USER") // /user/** 경로에 USER 권한 요구
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN") // USER or ADMIN중 한개만 있으면 됨
+                .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER") // /user/** 경로에 대한 POST 요청은 USER 권한 요구
+                .antMatchers(HttpMethod.POST, "/secure/**").access("hasRole('USER') and hasRole('ADMIN')") // USER와 ADMIN 권한 모두 필요
+                .anyRequest().authenticated() // 이외의 모든 요청에 대해 인증 요구(꼭 마지막에)
 
-        // /logout으로 로그아웃을 시도하고 URL주소를 확인하세요
-        //모든 요청에 대해 사용자 인증이 필요합니다.
-//		http.authorizeRequests( (authorize) -> authorize.anyRequest().authenticated() );
+        );
 
-        //user페이지에 대해서만 사용자 인증이 필요합니다.
-//		http.authorizeRequests( (authorize) -> authorize.antMatchers("/user/**").authenticated() );
-
-        //user페이지에 대해서 user권한이 필요합니다.
-//		http.authorizeRequests( (authorize) -> authorize.antMatchers("/user/**").hasRole("USER")  );
-
-        //user페이지에 대해서 user권한이 필요합니다. admin페이지에 대해서 admin권한이 필요합니다.
-//		http.authorizeRequests( (authorize) -> authorize.antMatchers("/user/**").hasRole("USER")
-//														.antMatchers("/admin/**").hasRole("ADMIN") );
-
-        //all페지이는 인증만되면 들어갑니다. user페이지에 대해서 user권한이 필요합니다. admin페이지에 대해서 admin권한이 필요합니다.
-        //나머지 모든 요청은 요청을 허용합니다.
-//		http.authorizeRequests( (authorize) -> authorize.antMatchers("/all").authenticated()
-//														.antMatchers("/user/**").hasRole("USER")
-//														.antMatchers("/admin/**").hasRole("ADMIN")
-//														.anyRequest().permitAll() );
-
-        //all페지이는 인증만되면 들어갑니다.
-        //user페이지에 대해서 user권한 or ADMIN 이필요합니다.
-        //admin페이지에 대해서 admin권한이 필요합니다.
-        //나머지 모든 요청은 요청을 허용합니다.
-        http.authorizeRequests( (authorize) -> authorize
-                .antMatchers("/all").authenticated()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().permitAll() );
-
-        //시큐리티가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
-        //이후 권한이 없으면 시큐리티는 낚아채서 기본 로그인을 보여줍니다.
-        //	http.formLogin( Customizer.withDefaults() );
-
-        //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
         http
                 .formLogin()
-                .loginPage("/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
-                .loginProcessingUrl("/loginForm") //로그인 페이지를 가로채 시큐리티가 제공하는 클래스로 로그인을 연결합니다.
-		        .defaultSuccessUrl("/hello"); //
+                .loginPage("/common/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
+                .loginProcessingUrl("/common/loginForm") //로그인 페이지를 가로채 시큐리티가 제공하는 클래스로 로그인을 연결합니다.
+                .failureUrl("/common/login?err=true") //로그인 실패시 이동페이지
+		        .defaultSuccessUrl("/common/loginTest"); //로그인후에 기본적으로 이동할 페이지
+
+        http.logout()
+                .logoutUrl("/logout") // 로그아웃을 위한 URL
+                .logoutSuccessUrl("/common/login") // 로그아웃 성공 후 리다이렉트할 URL
+                .invalidateHttpSession(true) // 세션 무효화
+                .deleteCookies("JSESSIONID"); // 쿠키 삭제
 
         return http.build();
     }
