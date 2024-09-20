@@ -69,23 +69,29 @@ td {
 .center {
     text-align: center;
 }
-.pagination {
+
+.page {
     display: inline-block;
 }
-.pagination a {
-    color: black;
+.page li {
     float: left;
     padding: 8px 16px;
-    text-decoration: none;
     transition: background-color .3s;
     border: 1px solid #ddd;
     margin: 0 4px;
+    list-style: none;
 }
-.pagination a.active {
+
+.page li.active {
     background-color: #e3e3e3;
 }
-.pagination a:hover:not(.active) {
+.page li:hover:not(.active) {
     background-color: #ddd;
+}
+
+.page li a {
+    text-decoration: none;
+    color: black;
 }
 
 /*---------------- List button ----------------*/

@@ -11,7 +11,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     private PurchaseMapper purchaseMapper;
 
-
     @Override
     public List<PurchaseVO> getAllPurchase() {
         return purchaseMapper.getAllPurchase();
