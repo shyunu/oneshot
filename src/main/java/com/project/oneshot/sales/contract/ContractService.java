@@ -14,4 +14,9 @@ public interface ContractService {
     public List<ClientVO> getClientList(); //거래등록시 고객사명(번호) 조회
     public ClientVO getContractUpdateList(int clientNo);
     public List<ProductVO> getContractProductList(); //상품조회
+
+    public Integer getContractPriceNo();
+
+
+    public List<ContractVO> getContractDetails(int contractPriceNo);
 }

@@ -27,6 +27,10 @@ public class ContractVO { //계약가격 테이블(DB기준)
     private String managerName;
     private String contractPriceStatus;
     private String contractDday;
+    private String employeeName;
+
+    private String managerPhone;
+    private String employeePhone;
 
 
 }

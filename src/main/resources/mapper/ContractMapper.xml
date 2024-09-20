@@ -7,7 +7,8 @@
 
     <!-- 계약 조회 기능 -->
     <select id="getList" resultType="ContractVO">
-        SELECT  CLIENT.CLIENT_NAME,
+        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO,
+                CLIENT.CLIENT_NAME,
                 CONTRACT_PRICE.CONTRACT_SDATE,
                 CONTRACT_PRICE.CONTRACT_EDATE,
                 CASE
@@ -22,18 +23,20 @@
                 MIN(PRODUCT.PRODUCT_NAME)
                 END AS PRODUCT_NAME,
                 CLIENT.MANAGER_NAME,
+                EMPLOYEE.EMPLOYEE_NAME,
                 CONTRACT_PRICE.CONTRACT_PRICE_STATUS
         FROM CONTRACT_PRICE
                  LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
                  LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
                  LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
-        GROUP BY CLIENT.CLIENT_NAME, CONTRACT_PRICE.CONTRACT_SDATE, CONTRACT_PRICE.CONTRACT_EDATE, CLIENT.MANAGER_NAME, CONTRACT_PRICE.CONTRACT_PRICE_STATUS
-
+        GROUP BY CONTRACT_PRICE.CONTRACT_PRICE_NO, CLIENT.CLIENT_NAME, EMPLOYEE.EMPLOYEE_NAME, CONTRACT_PRICE.CONTRACT_SDATE, CONTRACT_PRICE.CONTRACT_EDATE, CLIENT.MANAGER_NAME, CONTRACT_PRICE.CONTRACT_PRICE_STATUS
+        ORDER BY CONTRACT_PRICE.CONTRACT_PRICE_NO DESC
     </select>
 
     <!-- 계약 등록 기능 -->
     <insert id="getRegist" parameterType="java.util.List">
         INSERT INTO CONTRACT_PRICE (
+            CONTRACT_PRICE_NO,
             PRODUCT_NO,
             EMPLOYEE_NO,
             CLIENT_NO,
@@ -44,7 +47,8 @@
         VALUES
 
             <foreach collection="list" item="list" separator=",">
-                (#{list.productNo},
+                (#{list.contractPriceNo},
+                #{list.productNo},
                 #{list.employeeNo},
                 #{list.clientNo},
                 #{list.contractSdate},
@@ -63,5 +67,28 @@
 
     <select id="getContractProductList" resultType="ProductVO">
         SELECT * FROM PRODUCT
+    </select>
+
+    <select id="getContractPriceNo" resultType="Integer">
+        select contract_price_no from contract_price order by contract_price_no desc limit 1
+    </select>
+
+    <select id="getContractDetails" resultType="ContractVO">
+        select client.client_name,
+               client.manager_name,
+               client.manager_phone,
+               employee.employee_name,
+               employee.employee_phone,
+               contract_price.contract_sdate,
+               contract_price.contract_edate,
+               contract_price.contract_price,
+               product.product_name
+
+        from contract_price
+                 left join client on contract_price.client_no = client.client_no
+                 left join employee on contract_price.employee_no = employee.employee_no
+                 left join product on contract_price.product_no = product.product_no
+
+        where contract_price.contract_price_no = #{contractPriceNo}
     </select>
 </mapper>

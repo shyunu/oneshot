@@ -36,4 +36,11 @@ public class ContractRestController {
         return list;
     }
 
+    @GetMapping("/getContractDetails")
+    public List<ContractVO> getContractDetails(@RequestParam("contractPriceNo") int contractPriceNo) {
+
+        List<ContractVO> result = contractService.getContractDetails(contractPriceNo);
+        return result;
+    }
+
 }

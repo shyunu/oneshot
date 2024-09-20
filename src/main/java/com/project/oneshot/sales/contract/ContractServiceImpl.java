@@ -63,5 +63,15 @@ public class ContractServiceImpl implements ContractService {
         return list;
     }
 
+    @Override
+    public Integer getContractPriceNo() {
+        return contractMapper.getContractPriceNo();
+    }
+
+    @Override
+    public List<ContractVO> getContractDetails(int contractPriceNo) {
+        return contractMapper.getContractDetails(contractPriceNo);
+    }
+
 
 }
