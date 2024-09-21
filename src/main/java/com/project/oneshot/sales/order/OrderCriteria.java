@@ -2,6 +2,8 @@ package com.project.oneshot.sales.order;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class OrderCriteria {
     //화면에 전달할 값들을 가지고 다니는 클래스
