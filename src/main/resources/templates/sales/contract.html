@@ -169,7 +169,6 @@
 
 </script>
 
-
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
         <div class="order-wrap">
@@ -179,55 +178,58 @@
             </div>
             <div class="order-title">
                 <div class="filter-content">
-                    <div class="filter-main">
-                        <h3>상세내역검색</h3>
-                        <button class="filter-button">검색하기</button>
-                    </div>
+                    <form action="/sales/contract" method="get">
+                        <div class="filter-main">
+                            <h3>상세내역검색</h3>
+                            <button type="submit" class="filter-button">검색하기</button>
+                        </div>
 
-                    <table>
-                        <tr>
-                            <td>
-                                <p>고객사명</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                            <td>
-                                <p>계약시작일</p>
-                            </td>
-                            <td>
-                                <input type="date">
-                            </td>
-                            <td>
-                                <p>계약종료일</p>
-                            </td>
-                            <td>
-                                <input type="date">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>상품품목명</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                            <td>
-                                <p>담당자</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                            <td>
-                                <p>계약상태</p>
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        </tr>
-                    </table>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p>고객사명</p>
+                                </td>
+                                <td>
+                                    <input type="text" name="clientName">
+                                </td>
+                                <td>
+                                    <p>계약시작일</p>
+                                </td>
+                                <td>
+                                    <input type="date" name="contractSdate">
+                                </td>
+                                <td>
+                                    <p>계약종료일</p>
+                                </td>
+                                <td>
+                                    <input type="date" name="contractEdate">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>상품품목명</p>
+                                </td>
+                                <td>
+                                    <input type="text" name="productName">
+                                </td>
+                                <td>
+                                    <p>담당자</p>
+                                </td>
+                                <td>
+                                    <input type="text" name="managerName">
+                                </td>
+                                <td>
+                                    <p>계약상태</p>
+                                </td>
+                                <td>
+                                    <input type="text" name="contractPriceStatus">
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+                    </form>
+
                 </div>
 
             </div>
@@ -248,20 +250,20 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="vo : ${list}" class="product_list">
-                    <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"> </td>
-                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.managerName}"></td>
-                    <td th:text="${vo.productName}"></td>
-                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${vo.employeeName}"></td>
-                    <td th:text="승인대기"></td>
-                    <td th:text="${vo.contractDday}"></td>
+            <tr th:each="vo : ${list}" class="product_list">
+                <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"> </td>
+                <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
+                <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.contractPriceStatus}" onclick="handleClick(event)"></td>
+                <td th:text="${vo.contractDday}" onclick="handleClick(event)"></td>
 
-                </tr>
-                </tbody>
+            </tr>
+            </tbody>
             </table>
 
             <div class="buttons">
@@ -273,14 +275,8 @@
             </div>
 
             <div class="center">
-                <div class="pagination">
-                    <a href="#">&laquo;</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">&raquo;</a>
+                <div class="page">
+                    <th:block th:replace="~{./sales/contractPagination::page(${pageVO})}"></th:block>
                 </div>
             </div>
         </div>
@@ -366,7 +362,8 @@
 
         <!-- 수정 기능 -->
         <div id="popup-modify" class="popup-modify">
-            <form name="modifyForm" action="modifyForm" method="post">
+        <form name="modifyForm" action="modifyForm" method="post">
+            <input type="hidden" name="contractPriceNo" id="contractPriceNo">
                 <div class="popup-content">
                     <h2>계약 상세보기</h2>
                     <div class="popup-list">
@@ -376,16 +373,12 @@
                                 <td>
                                     <p>고객사명</p>
                                 </td>
-                                <td><input type="text" name="clientNo" id="clientName"></td>
+                                <td><input type="text" name="clientName" id="clientName"></td>
                                 <td class="contract-status">
-                                    <p>계약상태</p>
+                                    <p>판매승인상태 *</p>
                                 </td>
-                                <td>
-                                    <select name="contractPriceStatus">
-                                        <option>승인대기</option>
-                                        <option>승인</option>
-                                        <option>반려</option>
-                                    </select>
+                                <td colspan="2">
+                                    <input name="contractPriceStatus" readonly>
                                 </td>
                             </tr>
 
@@ -453,9 +446,11 @@
                     <div class="popup-button">
                         <div class="button-left">
                             <button>계약서 첨부</button>
+                            <button type="submit" class="approveButton" onclick="approveContract()">승인</button>
+                            <button type="submit" class="rejectButton" onclick="rejectContract()">반려</button>
                         </div>
                         <div class="button-right">
-                            <button type="submit">등록</button>
+                            <button type="submit">수정</button>
                             <button type="button" class="close-btn2">닫기</button>
                         </div>
                     </div>
@@ -584,6 +579,7 @@
                 $('#managerPhone').val(data[0].managerPhone);
                 $('#employeeName').val(data[0].employeeName);
                 $('#employeePhone').val(data[0].employeePhone);
+                $('#contractPriceNo').val(event.target.parentElement.children[1].innerText);
 
                 // 날짜형식 포맷
                 let contractSdate = new Date(data[0].contractSdate);
@@ -599,12 +595,10 @@
                 $.each(data, function(index, item) {
                     html += "<tr class='addList'>";
                     html += "<td><p>상품품목명</p></td>";
-                    html += "<td><input type='text' name='productName' id='productName' value='" + item.productName + "'></td>";
+                    html += "<td><input type='text' name='contractItems[" + index + "].productName[]' id='productName' value='" + item.productName + "'><input type='hidden' name='contractItems[" + index + "].productNo[]' value='" + item.productNo + "'></td>";
                     html += "<td class='product-price'><p>책정거래가</p></td>";
-                    html += "<td colspan='3' style='text-align: left;'><input type='text' name='contractPrice' id='contractPrice' value='" + item.contractPrice + "'></td>";
+                    html += "<td colspan='3' style='text-align: left;'><input type='text' name='contractItems[" + index + "].contractPrice[]' id='contractPrice' value='" + item.contractPrice + "'></td>";
                     html += "<input type='text' name='contractPrice' id='contractPrice'>";
-                    html += "<td><button type='button' className='add-button' onClick='addRow2()' style='width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;'>추가</button></td>"
-                    html += "<td><button type='button' className='remove-button' onClick='removeRow2(this)' style='width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;'>제거</button></td>"
                     html += "</tr>";
                 })
 
@@ -614,7 +608,33 @@
                 alert('계약 정보를 불러오는데 실패했습니다.');
             }
         });
+
+        //승인인 조회의 행을 누르면 바로 나타날 화면
+        if(event.target.parentElement.children[8].innerText == '승인') {
+            $('.approveButton').css('display', 'none');
+            $('.rejectButton').css('display', 'none');
+
+        } else if(event.target.parentElement.children[8].innerText == '반려') {
+            $('.approveButton').css('display', 'inline-block');
+            $('.rejectButton').css('display', 'inline-block');
+        }
+
         popupModify.style.display = 'block';
+
+    }
+
+    //판매내역 승인 기능
+    function approveContract() {
+        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        contractPriceStatusInput.value = "승인";
+
+    }
+
+    //판매내역 반려 기능
+    function rejectContract() {
+        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        contractPriceStatusInput.value = "반려";
+
     }
 
 
