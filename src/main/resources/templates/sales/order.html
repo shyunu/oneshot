@@ -176,17 +176,18 @@
                         <!-- ----- 여기에 조건별 검색기능 추가(검색 조건은 많을수록 좋습니다) -->
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
-                            <button type="submit" class="filter-button" onclick="filterTable()">검색하기</button>
-                            <button onclick="location.href='/sales/order'">전체보기</button>
+                            <button type="submit" class="filter-button">검색하기</button>
+                            <button type="button" onclick="location.href='/sales/order'">전체보기</button>
                         </div>
 
                         <table>
                             <tr class="left-row" style="white-space: nowrap;">
                                 <td><p>판매등록일자</p></td>
-                                <td><input type="date" id="saleDateInput"></td>
+                                <td><input type="date" name="orderSdate" id="saleDateInput" th:value="${pageVO.cri.orderSdate}"></td>
                                 <td><p>고객사명</p></td>
                                 <td>
                                     <select name="clientNo" id="clientNameInput" class="clientNo">
+                                        <option value="">-</option>
                                         <option th:each="clientVO : ${clientList}" th:value="${clientVO.clientNo}" th:text="${clientVO.clientName}" th:selected="${clientVO.clientNo == pageVO.cri.clientNo}"></option>
                                     </select>
                                 </td>
@@ -198,23 +199,23 @@
                                 <td><input type="text" name="employeeName" th:value="${pageVO.cri.employeeName}"></td>
                                 <td><p>판매승인상태</p></td>
                                 <td>
-                                    <select>
-                                        <option>-</option>
+                                    <select name="orderStatus">
+                                        <option value="">-</option>
                                         <option th:selected="${pageVO.cri.orderStatus == '승인'}">승인</option>
                                         <option th:selected="${pageVO.cri.orderStatus == '반려'}">반려</option>
                                     </select>
                                 </td>
                                 <td><p>배송상태</p></td>
                                 <td>
-                                    <select>
-                                        <option>-</option>
+                                    <select name="deliveryStatus">
+                                        <option value="">-</option>
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송대기'}">배송대기</option>
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송중'}">배송중</option>
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송완료'}">배송완료</option>
                                     </select>
                                 </td>
                                 <td><p>배송일</p></td>
-                                <td><input type="date" th:value="${pageVO.cri.deliveryDate}"></td>
+                                <td><input type="date" name="deliveryDate" th:value="${pageVO.cri.deliveryDate}"></td>
                             </tr>
                         </table>
                     </form>

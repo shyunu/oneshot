@@ -99,10 +99,10 @@
         LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         WHERE 1 = 1
         <if test="orderSdate != null and orderSdate != ''">
-            and H.order_sdate = #{orderSdate}
+            and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
         <if test="clientNo != null and clientNo != ''">
-            and CL.client_no = #{clientNo}
+            and H.client_no = #{clientNo}
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -117,7 +117,7 @@
             and H.delivery_status like concat('%', #{deliveryStatus}, '%')
         </if>
         <if test="deliveryDate != null and deliveryDate != ''">
-            and H.delivery = #{deliveryDate}
+            and H.delivery = CAST(#{deliveryDate} AS date)
         </if>
         GROUP BY
         H.ORDER_HEADER_NO,
@@ -151,10 +151,10 @@
         LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
         WHERE 1 = 1
         <if test="orderSdate != null and orderSdate != ''">
-            AND H.order_sdate = #{orderSdate}
+            and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
         <if test="clientNo != null and clientNo != ''">
-            AND CL.client_no = #{clientNo}
+            and H.client_no = #{clientNo}
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -163,13 +163,13 @@
             and E.employee_name like concat('%', #{employeeName}, '%')
         </if>
         <if test="orderStatus != null and orderStatus != ''">
-            AND H.order_status LIKE CONCAT('%', #{orderStatus}, '%')
+            and H.order_status like concat('%', #{orderStatus}, '%')
         </if>
         <if test="deliveryStatus != null and deliveryStatus != ''">
-            AND H.delivery_status LIKE CONCAT('%', #{deliveryStatus}, '%')
+            and H.delivery_status like concat('%', #{deliveryStatus}, '%')
         </if>
         <if test="deliveryDate != null and deliveryDate != ''">
-            AND H.delivery = #{deliveryDate}
+            and H.delivery = CAST(#{deliveryDate} AS date)
         </if>
         GROUP BY
         H.ORDER_HEADER_NO
