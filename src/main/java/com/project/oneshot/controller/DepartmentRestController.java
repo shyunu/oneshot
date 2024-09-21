@@ -1,6 +1,8 @@
 package com.project.oneshot.controller;
 
 import com.project.oneshot.command.DepartmentVO;
+import com.project.oneshot.command.EmployeeVO;
+import com.project.oneshot.command.MenuVO;
 import com.project.oneshot.hr.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,41 +17,74 @@ import java.util.List;
 public class DepartmentRestController {
 
     @Autowired
-    @Qualifier("humanResourceService")
+    @Qualifier("departmentService")
     private DepartmentService departmentService;
 
+    /**
+     * 부서 등록 API
+     */
     @PostMapping("/registDepartment")
-    public String registDepartment(@RequestBody DepartmentVO vo) {
-        System.out.println(vo.toString());
-        int result = departmentService.insertDepartment(vo);
-        return String.valueOf(result);
+    public ResponseEntity<String> registDepartment(@RequestBody DepartmentVO vo) {
+        if (departmentService.isDuplicateDepartment(vo.getDepartmentNo(), vo.getDepartmentName())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서번호 또는 부서명이 이미 존재합니다.");
+        }
+
+        int result = departmentService.insertDepartment(vo); // 서비스에 부서 등록을 요청
+        return result == 1 ? ResponseEntity.ok("부서 등록 성공") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서 등록 실패");
     }
 
+    /**
+     * 부서 목록 조회 API
+     */
     @GetMapping("/getDepartment")
     public List<DepartmentVO> getDepartment() {
-        System.out.println("실행");
-        List<DepartmentVO> list=departmentService.selectDepartment();
-        for(DepartmentVO vo:list){
-            System.out.println(vo.toString());
-        }
-        return list;
+        return departmentService.selectDepartment();
     }
 
-    // 삭제
-    @DeleteMapping("/deleteDepartments")
-    public ResponseEntity<String> deleteDepartments(@RequestBody List<Integer> departmentNos) {
-        try {
-            int result = departmentService.deleteDepartments(departmentNos);
-            if (result > 0) {
-                return ResponseEntity.ok("삭제 성공");
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제할 부서가 없습니다.");
+    /**
+     * 부서별 사원 목록 조회 API
+     */
+    @GetMapping("/getEmployees/{departmentNo}")
+    public ResponseEntity<List<EmployeeVO>> getEmployeesByDepartment(@PathVariable("departmentNo") int departmentNo) {
+        List<EmployeeVO> employees = departmentService.getEmployeesByDepartment(departmentNo);
+        if (employees.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+        return ResponseEntity.ok(employees);
+    }
+
+    /**
+     * 부서 활성화/비활성화 상태 업데이트
+     */
+    @PutMapping("/updateDepartmentState")
+    public ResponseEntity<String> updateDepartmentState(@RequestBody List<DepartmentVO> departments) {
+        for (DepartmentVO department : departments) {
+            boolean isUpdated = departmentService.updateDepartmentState(department.getDepartmentNo(), department.getDepartmentState());
+            if (!isUpdated) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서 상태 업데이트 실패");
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
         }
+        return ResponseEntity.ok("부서 상태가 업데이트되었습니다.");
     }
 
+    /**
+     * 부서 상세 정보 업데이트 (부서번호는 수정되지 않음)
+     */
+    @PutMapping("/updateDepartmentDetails")
+    public ResponseEntity<String> updateDepartmentDetails(@RequestBody DepartmentVO department) {
+        // 부서번호는 수정하지 않음
+        boolean isUpdated = departmentService.updateDepartmentDetails(department);
+        if (!isUpdated) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서 정보 업데이트 실패");
+        }
+        return ResponseEntity.ok("부서 정보가 업데이트되었습니다.");
+    }
 
-
+    /**
+     * 메뉴 목록 조회 API
+     */
+    @GetMapping("/getMenus")
+    public List<MenuVO> getMenus() {
+        return departmentService.selectMenus();
+    }
 }

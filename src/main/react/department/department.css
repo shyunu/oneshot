@@ -7,6 +7,7 @@
     font-size: 17px;
     margin-left: 5px;
     margin-right: 5px;
+    cursor: pointer;
 }
 .input-error {
     border: 1px solid red;
@@ -28,14 +29,24 @@
 }
 
 
-
 .wrapper .wrapper-footer {
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
-.wrapper .wrapper-footer .btns{
-    justify-content: space-between;
-    display: flex;
-    width: 200px;
+
+.wrapper-footer {
+    display: flex; /* 자식 요소들을 한 줄에 배치 */
+    justify-content: flex-start; /* 버튼을 왼쪽 정렬 */
+    align-items: center; /* 버튼을 세로 중앙 정렬 */
+}
+
+.btns {
+    display: flex; /* 버튼들을 한 줄에 배치 */
+    gap: 10px; /* 버튼들 사이 간격을 추가 */
+}
+
+.btn:disabled {
+    background-color: #ccc; /* 비활성화된 버튼의 배경색 */
+    cursor: not-allowed; /* 비활성화된 버튼의 커서 모양 */
 }

@@ -5,25 +5,64 @@
 
 <mapper namespace="com.project.oneshot.hr.department.DepartmentMapper">
 
+    <!-- 부서 등록 -->
     <insert id="insertDepartment" parameterType="DepartmentVO">
-        insert into department (department_no, department_name) values (#{departmentNo}, #{departmentName})
+        INSERT INTO department (department_no, department_name, department_state)
+        VALUES (#{departmentNo}, #{departmentName}, #{departmentState})
     </insert>
+
+    <!-- 중복 확인 -->
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)
         FROM department
+        WHERE department_no = #{departmentNo} OR department_name = #{departmentName}
+    </select>
+
+    <!-- 부서 목록 조회 -->
+    <select id="selectDepartment" resultType="DepartmentVO">
+        SELECT d.department_no, d.department_name, d.department_state
+        FROM department d
+        ORDER BY d.department_no ASC
+    </select>
+
+    <!-- 부서별 사원 목록 조회 -->
+    <select id="selectEmployeesByDepartment" parameterType="int" resultType="EmployeeVO">
+        SELECT e.employee_no, e.employee_name, p.position_name
+        FROM employee e
+        JOIN position p ON e.position_no = p.position_no
+        WHERE e.department_no = #{departmentNo}
+    </select>
+
+    <!-- 부서 상태 업데이트 -->
+    <update id="updateDepartmentState">
+        UPDATE department
+        SET department_state = #{departmentState}
         WHERE department_no = #{departmentNo}
-    </select>
+    </update>
 
-    <select id="selectDepartment" parameterType="DepartmentVO" resultType="DepartmentVO">
-        select * from department order by department_no asc
-    </select>
+    <!-- 부서 정보 업데이트 (부서번호 수정 제거) -->
+    <update id="updateDepartmentDetails" parameterType="DepartmentVO">
+        UPDATE department
+        SET department_name = #{departmentName},
+        department_state = #{departmentState}
+        WHERE department_no = #{departmentNo}
+    </update>
 
-    <delete id="deleteDepartments" parameterType="list">
-        DELETE FROM department
-        WHERE department_no IN
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+    <!-- 부서와 메뉴 간의 관계 저장 -->
+    <insert id="insertDepartmentMenu">
+        INSERT INTO department_menu (department_no, menu_no)
+        VALUES (#{departmentNo}, #{menuNo})
+    </insert>
+
+    <!-- 부서와 메뉴 관계 삭제 -->
+    <delete id="deleteDepartmentMenus">
+        DELETE FROM department_menu WHERE department_no = #{departmentNo}
     </delete>
+
+    <!-- 메뉴 목록 조회 -->
+    <select id="selectMenus" resultType="MenuVO">
+        SELECT menu_no, menu_name
+        FROM menu
+    </select>
 
 </mapper>
