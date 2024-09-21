@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import ReactDOM from 'react-dom/client';
 import './employee.css';
 import './one.css';
-import './delete.css';
 import Draggable from 'react-draggable';
 import axios from "axios";
 import DaumPostcode from 'react-daum-postcode';
@@ -133,8 +132,8 @@ function Employee() {
         transform: 'translate(-50%,-50%)',
         width: "600px",
         height: "600px",
-        padding: "7px",
-        border: "2px solid #666"
+        border: "2px solid #666",
+        zIndex: "999999"
     };
     const handleSearchChange = (e) => {
         const {name, value} = e.target;
@@ -263,7 +262,7 @@ function Employee() {
         }
     };
 
-    const fetchpositions = async () => {
+    const fetchPositions = async () => {
         try {
             const response = await fetch('/hrm/getPosition');
 
@@ -412,13 +411,15 @@ function Employee() {
         fetchEmployees();
     }, [currentPage]);
     useEffect(() => {
-        fetchpositions();
+        fetchPositions();
         fetchDepartments();
     }, []);
     // 디버깅: employees 상태 출력
     useEffect(() => {
         console.log('Employees:', employees);
     }, [employees]);
+
+
 
     return (
         <main className="wrapper">
@@ -430,8 +431,8 @@ function Employee() {
 
             <div class="order-title">
                 <div class="filter-content">
-                    <h3>상세내역검색</h3>
                     <div class="filter-main">
+                        <h3>상세내역검색</h3>
                         <button class="filter-button" onClick={handleSearchBtn}>검색하기</button>
                     </div>
 
@@ -518,34 +519,34 @@ function Employee() {
                             />
                             <label htmlFor="checkAll"></label>
                         </th>
-                        <th style={{width: '150px'}} onClick={() => requestSort('employeeHiredate')}>
+                        <th onClick={() => requestSort('employeeHiredate')}>
                             입사일자 {sortConfig.key === 'employeeHiredate' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '100px'}} onClick={() => requestSort('employeeNo')}>
+                        <th onClick={() => requestSort('employeeNo')}>
                             사원번호 {sortConfig.key === 'employeeNo' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '100px'}} onClick={() => requestSort('employeeName')}>
+                        <th onClick={() => requestSort('employeeName')}>
                             성명 {sortConfig.key === 'employeeName' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '200px'}} onClick={() => requestSort('departmentName')}>
+                        <th onClick={() => requestSort('departmentName')}>
                             부서명 {sortConfig.key === 'departmentName' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '100px'}} onClick={() => requestSort('positionNo')}>
+                        <th onClick={() => requestSort('positionNo')}>
                             직급 {sortConfig.key === 'positionNo' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '200px'}} onClick={() => requestSort('employeePhone')}>
+                        <th onClick={() => requestSort('employeePhone')}>
                             전화번호 {sortConfig.key === 'employeePhone' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '200px'}} onClick={() => requestSort('emergencyPhone')}>
+                        <th onClick={() => requestSort('emergencyPhone')}>
                             비상연락처 {sortConfig.key === 'emergencyPhone' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '250px'}} onClick={() => requestSort('employeeEmail')}>
+                        <th onClick={() => requestSort('employeeEmail')}>
                             이메일 {sortConfig.key === 'employeeEmail' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '250px'}} onClick={() => requestSort('accountNumber')}>
+                        <th onClick={() => requestSort('accountNumber')}>
                             계좌번호 {sortConfig.key === 'accountNumber' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
-                        <th style={{width: '250px'}} onClick={() => requestSort('employeeStatus')}>
+                        <th onClick={() => requestSort('employeeStatus')}>
                             재직여부 {sortConfig.key === 'employeeStatus' ? (sortConfig.direction === 'ascending' ? '▼' : '▲') : '▼'}
                         </th>
                     </tr>
@@ -553,7 +554,13 @@ function Employee() {
                     <tbody>
                     {employees && employees.length > 0 ? sortedEmployees.map(employee => (
                         employee ? (
-                            <tr key={employee.employeeNo} onClick={() => handleRowClick(employee)}>
+                            <tr key={employee.employeeNo} className="product_list" onClick={() => handleRowClick(employee)}
+                                style={
+                                    selectedEmployees.includes(employee.employeeNo)
+                                        ? { backgroundColor: '#f7f5f2' } // 선택된 경우에만 배경색
+                                        : undefined // 선택되지 않은 경우 스타일 적용 안 함
+                                }
+                            >
                                 <td onClick={(e) => e.stopPropagation()}>
                                     <input
                                         type="checkbox"
@@ -586,7 +593,7 @@ function Employee() {
 
             <div className="wrapper-footer flex">
                 <div>
-                    <button className="btn" style={{marginRight: "10px"}}
+                    <button className="btn" style={{marginRight: "6px"}}
                             onClick={() => handleEmployeeDelete()}>선택퇴직
                     </button>
                     <button className="btn" onClick={() => {
@@ -621,109 +628,171 @@ function Employee() {
                             <div className="popup-header" id="popupHeader">
                                 <span>{editMode ? '사원 수정' : '사원 등록'}</span>
                             </div>
-                            <form className="contract-form" onSubmit={handleFormSubmit}>
-                                <div className="formBox1">
-                                <div className="profile-picture-container">
-                                        <div className="profile-picture">
-                                            <img src={PhotoThumbnail} alt="Profile Picture" id="profileImg"/>
-                                        </div>
-                                        <div className="file-input-container">
-                                            <input type="file" id="fileInput" accept="image/*"
+                            <form onSubmit={handleFormSubmit} className="popup-form">
+                                <table>
+                                    <tbody>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <p>사원사진</p>
+                                            <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
                                             <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="employeeName">이름</label>
-                                        <input type="text" id="employeeName" name="employeeName" value={newEmployee.employeeName}
-                                               onChange={handleFormChange}/>
-                                    </div>
-                                    {editMode && (
-                                        <div>
-                                            <label htmlFor="employeeNo">사원번호</label>
-                                            <input type="text" id="employeeNo" name="employeeNo" value={newEmployee.employeeNo} onChange={handleFormChange} readOnly/>
-                                        </div>
-                                    )}
-                                    <div>
-                                        <label htmlFor="department">부서번호</label>
-                                        <button type="button" className="btn"
+                                        </td>
+                                        <td colSpan="2">
+                                            <div className="profile-picture">
+                                                <img src={PhotoThumbnail} alt="Profile Picture" id="profileImg"/>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="employeeName">이름</label>
+
+                                        </td>
+                                        <td colSpan="2">
+                                            <input type="text" id="employeeName" name="employeeName"
+                                                   value={newEmployee.employeeName}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="department">부서번호</label>
+                                        </td>
+                                        <td colSpan="3">
+                                            <input
+                                                type="text"
+                                                id="departmentName"
+                                                name="departmentName"
+                                                value={newEmployee.departmentName}
+                                                readOnly
                                                 onClick={() => {
                                                     fetchDepartments();
                                                     setCurrentPopup('department');
-                                                }}>부서선택
-                                        </button>
-                                        <input type="text" id="departmentName" name="departmentName"
-                                               value={newEmployee.departmentName} style={{marginTop: "4px"}}
-                                               readOnly/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="positionNo">직급</label>
-                                        <button type="button" className="btn" onClick={() => {
-                                            fetchpositions();
-                                            setCurrentPopup('position');
-                                        }
-                                        }>직급선택
-                                        </button>
-                                        <input type="text" id="positionName" name="positionNo"
-                                               value={newEmployee.positionName} onChange={handleFormChange} readOnly/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="employeeHiredate">입사일</label>
-                                        <input type="date" id="employeeHiredate" name="employeeHiredate"
-                                               value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="employeePhone">전화번호</label>
-                                        <input type="text" id="employeePhone" name="employeePhone" value={newEmployee.employeePhone}
-                                               onChange={handleFormChange}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="emergencyPhone">비상연락망</label>
-                                        <input type="text" id="emergencyPhone" name="emergencyPhone"
-                                               value={newEmployee.emergencyPhone} onChange={handleFormChange}/>
-                                    </div>
-                                </div>
-                                <div className="formBox2">
-                                    <div>
-                                        <label htmlFor="employeeBirth">생년월일</label>
-                                        <input type="date" id="employeeBirth" name="employeeBirth"
-                                               value={newEmployee.employeeBirth} onChange={handleFormChange}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="employeeEmail">이메일</label>
-                                        <input type="text" id="employeeEmail" name="employeeEmail" value={newEmployee.employeeEmail}
-                                               onChange={handleFormChange}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="accountNumber">은행/계좌번호/예금주</label>
-                                        <button type="button" className="btn attach-file" onClick={() => {
-                                            fetchBanks();
-                                            setCurrentPopup('bank');
-                                        }
-                                        }>은행선택
-                                        </button>
-                                        <input type="text" id="accountBank" name="bank" placeholder="은행 선택"
-                                               value={newEmployee.bankName} readOnly/>
-                                        <input type="text" id="accountNumber" name="accountNumber"
-                                               placeholder="계좌번호" value={newEmployee.accountNumber}
-                                               onChange={handleFormChange}/>
-                                        <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주"
-                                               value={newEmployee.accountHolder} onChange={handleFormChange}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="employeeAddress">주소</label>
-                                        <button type="button" id="searchAddressBtn" className="btn attach-file"
-                                                onClick={() => setShowMap(true)}>주소검색
-                                        </button>
-                                        <input type="text" id="employeeAddress" name="employeeAddress"
-                                               placeholder="주소를 입력하세요" value={newEmployee.employeeAddress} readOnly/>
-                                        <input type="text" id="employeeAddressDetail" name="employeeAddressDetail"
-                                               placeholder="상세주소를 입력하세요" value={newEmployee.employeeAddressDetail}
-                                               onChange={handleFormChange}/>
-                                    </div>
-                                </div>
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="positionNo">직급</label>
+
+                                        </td>
+                                        <td colSpan="2">
+                                            <input
+                                                type="text"
+                                                id="positionName"
+                                                name="positionNo"
+                                                value={newEmployee.positionName}
+                                                readOnly
+                                                onClick={() => {
+                                                    fetchPositions(); // 직급 목록 가져오기 함수
+                                                    setCurrentPopup('position'); // 팝업 상태 설정
+                                                }}
+                                                onChange={handleFormChange}
+
+                                            />
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="employeeHiredate">입사일</label>
+
+                                        </td>
+                                        <td colSpan="3">
+                                            <input type="date" id="employeeHiredate" name="employeeHiredate"
+                                                   value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="employeePhone">전화번호</label>
+
+                                        </td>
+                                        <td colSpan="2">
+                                            <input type="text" id="employeePhone" name="employeePhone"
+                                                   value={newEmployee.employeePhone}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="emergencyPhone">비상연락처</label>
+                                        </td>
+                                        <td colSpan="3">
+                                            <input type="text" id="emergencyPhone" name="emergencyPhone"
+                                                   value={newEmployee.emergencyPhone} onChange={handleFormChange}/>
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="employeeBirth">생년월일</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input type="date" id="employeeBirth" name="employeeBirth"
+                                                   value={newEmployee.employeeBirth} onChange={handleFormChange}/>
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="employeeEmail">이메일</label>
+                                        </td>
+                                        <td colSpan="3">
+                                            <input type="text" id="employeeEmail" name="employeeEmail"
+                                                   value={newEmployee.employeeEmail}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="accountBank">은행</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input
+                                                type="text"
+                                                id="accountBank"
+                                                name="bank"
+                                                placeholder="은행 선택"
+                                                value={newEmployee.bankName}
+                                                onClick={() => {
+                                                    fetchBanks(); // 은행 목록 가져오기 함수
+                                                    setCurrentPopup('bank'); // 팝업 상태 설정
+                                                }}
+                                                readOnly
+                                            />
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="employeeEmail">계좌번호</label>
+                                        </td>
+                                        <td colSpan="3">
+                                            <input type="text" id="accountNumber" name="accountNumber"
+                                                   placeholder="계좌번호" value={newEmployee.accountNumber}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="employeeAddress">주소</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input
+                                                type="text"
+                                                id="employeeAddress"
+                                                name="employeeAddress"
+                                                placeholder="주소를 입력하세요"
+                                                value={newEmployee.employeeAddress}
+                                                onClick={() => setShowMap(true)} // 주소 검색을 위한 지도 또는 검색창 표시
+                                                readOnly
+                                            />
+                                        </td>
+                                        <td colSpan="3">
+                                            <label htmlFor="employeeAddressDetail">상세주소</label>
+                                        </td>
+                                        <td colSpan="3">
+                                            <input type="text" id="employeeAddressDetail" name="employeeAddressDetail"
+                                                   placeholder="상세주소를 입력하세요" value={newEmployee.employeeAddressDetail}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
                                 <div className="popup-buttons">
-                                    <button type="submit" className="btn">저장</button>
+                                    <button type="submit" className="btn" style={{margin: "5px"}}>저장</button>
                                     <button type="button" className="btn close"
                                             onClick={() => {
                                                 setShowPopup(false);
