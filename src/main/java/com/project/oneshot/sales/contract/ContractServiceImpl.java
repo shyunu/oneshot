@@ -24,7 +24,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractVO> getList() {
+    public List<ContractVO> getList(ContractCriteria cri) {
 
         List<ContractVO> list = contractMapper.getList();
 
@@ -71,6 +71,17 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<ContractVO> getContractDetails(int contractPriceNo) {
         return contractMapper.getContractDetails(contractPriceNo);
+    }
+
+    @Override
+    public void contractModify(ContractVO vo) {
+        System.out.println("ContractServiceImpl.contractModify");
+        contractMapper.getContractModify(vo);
+    }
+
+    @Override
+    public int getTotalCount(ContractCriteria cri) {
+        return contractMapper.getTotalCount(cri);
     }
 
 

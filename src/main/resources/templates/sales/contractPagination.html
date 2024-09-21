@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="page(pageVO)">
+    <ul>
+        <!-- 3. 이전버튼-->
+        <th:block th:if="${pageVO.prev}">
+            <li style="margin-right:5px;">
+                <a th:href="@{contract(page = ${pageVO.start - 1},
+                                          amount = ${pageVO.amount},
+                                          clientName = ${pageVO.cri.clientName},
+                                          managerName = ${pageVO.cri.managerName},
+                                          productName = ${pageVO.cri.productName},
+                                          contractSdate = ${pageVO.cri.contractSdate},
+                                          contractEdate = ${pageVO.cri.contractEdate},
+                                          contractPriceStatus = ${pageVO.cri.contractPriceStatus}
+                                          )}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+
+        <!-- 1. 페이지네이션 -->
+        <th:block th:each="page : ${pageVO.pageList}">
+            <li th:class="${pageVO.page == page ? 'on' : '' }">
+                <a th:href="@{contract(page = ${page},
+                                          amount = ${pageVO.amount},
+                                          clientName = ${pageVO.cri.clientName},
+                                          managerName = ${pageVO.cri.managerName},
+                                          productName = ${pageVO.cri.productName},
+                                          contractSdate = ${pageVO.cri.contractSdate},
+                                          contractEdate = ${pageVO.cri.contractEdate},
+                                          contractPriceStatus = ${pageVO.cri.contractPriceStatus}
+                                          )}">[[${page}]]</a></li>
+        </th:block>
+
+        <!--2. 다음버튼 -->
+        <th:block th:if="${pageVO.next}">
+            <li style="margin-left:5px;">
+                <a th:href="@{contract(page = ${pageVO.end + 1},
+                                          amount = ${pageVO.amount},
+                                          clientName = ${pageVO.cri.clientName},
+                                          managerName = ${pageVO.cri.managerName},
+                                          productName = ${pageVO.cri.productName},
+                                          contractSdate = ${pageVO.cri.contractSdate},
+                                          contractEdate = ${pageVO.cri.contractEdate},
+                                          contractPriceStatus = ${pageVO.cri.contractPriceStatus}
+                                          )}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+    </ul>
+</th:block>

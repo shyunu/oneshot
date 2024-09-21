@@ -1,6 +1,10 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.command.ClientVO;
+import com.project.oneshot.command.ContractItemVO;
 import com.project.oneshot.command.ContractVO;
+import com.project.oneshot.sales.contract.ContractCriteria;
+import com.project.oneshot.sales.contract.ContractPageVO;
 import com.project.oneshot.sales.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,10 +29,14 @@ public class ContractController {
 
     // ----- 계약가격내역 ----- //
     @GetMapping("/contract")
-    public String contract(Model model) {
+    public String contract(ContractCriteria cri, Model model) {
 
-        List<ContractVO> list = contractService.getList();
+        List<ContractVO> list = contractService.getList(cri);
         model.addAttribute("list", list);
+
+        int totalCount = contractService.getTotalCount(cri);
+        ContractPageVO pageVO = new ContractPageVO(cri, totalCount);
+        model.addAttribute("pageVO", pageVO);
 
         return "sales/contract";
     }
@@ -40,10 +48,10 @@ public class ContractController {
                                  @RequestParam("contractSdate") Date contractSdate,
                                  @RequestParam("contractEdate") Date contractEdate,
                                  @RequestParam("contractPrice") List<Integer> contractPrice
-                                 ) {
+    ) {
         Integer no = contractService.getContractPriceNo();
         if(no == null) {
-            no = 0;
+            no = 1;
         } else {
             no = no + 1;
         }
@@ -54,18 +62,42 @@ public class ContractController {
             ContractVO vo = new ContractVO();
             vo.setContractPriceNo(no);
             vo.setProductNo(productNo.get(i));
-            System.out.println("productNo.get(i) = " + productNo.get(i));
             vo.setEmployeeNo(employeeNo);
             vo.setClientNo(clientNo);
             vo.setContractSdate(contractSdate);
             vo.setContractEdate(contractEdate);
             vo.setContractPrice(contractPrice.get(i));
-            System.out.println("contractPrice.get(i) = " + contractPrice.get(i));
             list.add(vo);
         }
 
         contractService.contractRegist(list);
         return "redirect:/sales/contract";
+    }
+
+    @PostMapping("/modifyForm") //--- 계약 수정
+    public String modifyForm(ContractVO vo) {
+
+        for(ContractItemVO item : vo.getContractItems()) {
+            System.out.println("ContractController.modifyForm");
+            ContractVO contractVO = new ContractVO();
+
+            contractVO.setContractPriceNo(vo.getContractPriceNo());
+            contractVO.setContractSdate(vo.getContractSdate());
+            contractVO.setContractEdate(vo.getContractEdate());
+            contractVO.setContractPriceStatus(vo.getContractPriceStatus());
+            contractVO.setProductNo(item.getProductNo());
+            contractVO.setProductName(item.getProductName());
+            contractVO.setContractPrice(item.getContractPrice());
+            contractVO.setContractPriceNo(vo.getContractPriceNo());
+
+            System.out.println("contractVO = " + contractVO);
+            
+            contractService.contractModify(contractVO);
+        }
+
+
+        return "redirect:/sales/contract";
+
     }
 
     // ----- 날짜 데이터 변환 ----- //
@@ -80,8 +112,6 @@ public class ContractController {
     public String submitForm(ContractVO contractVO) {
         return "result";
     }
-
-
 
 
 
