@@ -21,4 +21,8 @@ public interface ContractMapper {
 
     public Integer getContractPriceNo();
     public List<ContractVO> getContractDetails(int contractPriceNo);
+
+    public void getContractModify(ContractVO vo);
+
+    public int getTotalCount(ContractCriteria cri);
 }
