@@ -12,6 +12,7 @@
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button" type="submit" form="searchPurchase">검색하기</button>
+                        <button type="button" onclick="location.href='/inventory/purchaseList'" class="filter-button">초기화</button>
                         <form action="purchaseList" method="get" id="searchPurchase" enctype="multipart/form-data">
                             <table>
                                 <tr>
@@ -21,19 +22,19 @@
                                     <td><input type="text" name="purchasePrice" th:value="${pageVO.cri.purchasePrice}" ></td>
                                     <td><p>공급업체</p></td>
                                     <td>
-                                    <select name="supplierNo">
-                                        <option value="0">- 공급업체 -</option>
-                                        <option th:each="supplierVO : ${supplierList}" th:value="${supplierVO.supplierNo}" th:text="${supplierVO.supplierName}" th:selected="${supplierVO.supplierNo == pageVO.cri.supplierNo}"></option>
-                                    </select>
+                                        <select name="supplierNo">
+                                            <option value="0">- 공급업체 -</option>
+                                            <option th:each="supplierVO : ${supplierList}" th:value="${supplierVO.supplierNo}" th:text="${supplierVO.supplierName}" th:selected="${supplierVO.supplierNo == pageVO.cri.supplierNo}"></option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}" ></td>
+                                    <td><input type="text" name="employeeNo" th:value="${pageVO.cri.employeeNo}" ></td>
                                     <td><p>승인여부</p></td>
                                     <td>
                                         <select name="purchaseStatus">
-                                            <option value="">- 비고 -</option>
+                                            <option value="">- 승인여부 -</option>
                                             <option value="승인대기" th:selected="${pageVO.cri.purchaseStatus == '승인대기'}">승인대기</option>
                                             <option value="승인완료" th:selected="${pageVO.cri.purchaseStatus == '승인완료'}">승인완료</option>
                                             <option value="승인반려" th:selected="${pageVO.cri.purchaseStatus == '승인반려'}">승인반려</option>
@@ -51,10 +52,11 @@
             <table>
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
-                    <th>구매내역번호</th>
-                    <th>상품번호</th>
-                    <th>공급업체</th>
+                    <th>no</th>
+                    <th>구매번호</th>
+                    <th>카테고리</th>
+                    <th>상품명</th>
+                    <th>공급업체명</th>
                     <th>총재고수량</th>
                     <th>안전재고수량</th>
                     <th>구매수량</th>
@@ -65,28 +67,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="purchase : ${list}" th:data-purchase-no="${purchase.purchaseListNo}">
-                    <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
-                    <td th:onclick="'openModifyModal(' + ${purchase.purchaseListNo} + ')'" th:text="${purchase.purchaseListNo}"></td>
-                    <td th:text="${purchase.productNo}"></td>
-                    <td th:text="${purchase.productNo}"></td>
-<!--                    <td th:text="${purchase.총재고수량}"></td>-->
-                    <td th:text="${purchase.purchaseQuantity}"></td>
-<!--                    <td th:text="${purchase.구매수량}"></td>-->
-                    <td th:text="${purchase.purchasePrice}"></td>
-                    <td th:text="${purchase.담당자명 ? ? ? ? ? ? ? ? --- 물어보기--- } "></td>
-                    <td th:text="${purchase.purchaseStatus}"></td>
-                    <td th:text="${purchase.purchaseDate}"></td>
-                </tr>
+                    <tr th:each="purchase : ${list}" th:data-purchase-no="${purchase.purchaseListNo}">
+                        <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
+                        <td th:text="${purchase.purchaseListNo}"></td>
+                        <td th:text="${purchase.categoryName}"></td>
+                        <td th:text="${purchase.productName}"></td>
+                        <td th:text="${purchase.supplierName}"></td>
+                        <td th:text="${purchase.inventoryQuantity}"></td>
+                        <td th:text="${purchase.safetyQuantity}"></td>
+                        <td th:text="${purchase.purchaseQuantity}"></td>
+                        <td th:text="${purchase.purchasePrice}"></td>
+                        <td th:text="${purchase.employeeName} "></td>
+                        <td th:text="${purchase.purchaseStatus}"></td>
+                        <td th:text="${purchase.purchaseDate}"></td>
+                    </tr>
                 </tbody>
             </table>
 
             <div class="buttons">
                 <div class="button-left">
-                    <button type="button" class="approval" onclick="handleApproval()">구매 승인</button>
-                    <button type="button" class="back" onclick="handleBack()">구매 반려</button>
+                    <button type="button" class="approval" onclick="handleApproval()">승인</button>
+                    <button type="button" class="back" onclick="handleBack()">반려</button>
                 </div>
                 <div class="button-right">
+                    <button type="button" class="postPurchase" onclick="requestPurchase()">구매신청</button>
                     <button type="button" class="cancelPurchase" onclick="cancelPurchase()">구매취소</button>
                 </div>
             </div>
@@ -98,91 +102,114 @@
             </div>
         </div>
 
+        <!-- 등록 팝업 -->
         <div id="popup-regist" class="popup-regist draggable-popup">
             <form action="registerPurchase" id="registerPurchase" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
-                    <h2 class="drag-handle">공급업체 등록</h2>
+                    <h2 class="drag-handle">구매신청</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
-                            <tr>
-                                <td><p>구내역번호</p></td>
-                                <td><input type="text" name="supplierNo" required disabled></td>
-                                <td><p>담당자명</p></td>
-                                <td><input type="text" name="managerName" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체명</p></td>
-                                <td><input type="text" name="supplierName" required></td>
-                                <td><p>담당자 연락처</p></td>
-                                <td><input type="text" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체주소</p></td>
-                                <td><input type="text" name="supplierAddress" required></td>
-                                <td><p>담당자 이메일</p></td>
-                                <td><input type="email" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체 사업자등록번호</p></td>
-                                <td><input type="text" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
-                                <td><p>첨부파일</p></td>
-                                <td><input type="file" name="supplierFile" required></td>
-                            </tr>
+                                <tr>
+                                    <td colspan="2"><p>구매내역번호</p></td>
+                                    <td colspan="3"><input type="text" name="purchaseListNo" disabled></td>
+                                    <td colspan="1"><p>공급업체명</p></td>
+                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><p>총재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td colspan="2"><p>안전재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
+                                    <td colspan="1"><p>카테고리</p></td>
+                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr id="purchaseTable">
+                                    <td colspan="2"><p>상품명</p></td>
+                                    <td><select class="productNo" name="productNo" required></select></td>
+                                    <td colspan="2"><p>구매수량</p></td>
+                                    <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
+                                    <td><p>구매가격</p></td>
+                                    <td><input type="text" name="purchasePrice" required></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()"
+                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow()"
+                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>담당자명</p></td>
+                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
+                                    <td colspan="2"><p>구매 금액 합계 금액 </p></td>
+                                    <td colspan="3"><input type="text" id="totalPurchase" disabled></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="popup-button">
                         <div class="button-right">
-                            <button type="submit" class="save" onclick="saveSupplier()">등록</button>
-                            <button type="button" class="close" onclick="closeModal()">닫기</button>
+                            <button type="submit" class="save" onclick="postPurchase()">등록</button>
+                            <button type="button" class="close" onclick="closePopup()">닫기</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
 
+        <!-- 수정 팝업 -->
         <div id="popup-modify" class="popup-modify draggable-popup">
             <form action="modifySupplier" id="modifySupplier" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
-                    <h2 class="drag-handle">공급업체 수정</h2>
+                    <h2 class="drag-handle">구매내역 수정</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
-                            <tr>
-                                <td><p>공급업체번호</p></td>
-                                <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
-                                <td><p>담당자명</p></td>
-                                <td><input type="text" name="managerName" id="modifyManagerName" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체명</p></td>
-                                <td><input type="text" name="supplierName" id="modifySupplierName" required></td>
-                                <td><p>담당자 연락처</p></td>
-                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체주소</p></td>
-                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" required></td>
-                                <td><p>담당자 이메일</p></td>
-                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
-                            </tr>
-                            <tr>
-                                <td><p>공급업체 사업자등록번호</p></td>
-                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
-                                <td><p>첨부파일</p></td>
-                                <td>
-                                    <input type="file" name="supplierFile" id="modifySupplierFile">
-                                    <input type="hidden" name="existingFile" id="existingFile">
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="2"><p>구매내역번호</p></td>
+                                    <td colspan="3"><input type="text" name="purchaseListNo" disabled></td>
+                                    <td colspan="1"><p>공급업체명</p></td>
+                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><p>총재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td colspan="2"><p>안전재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
+                                    <td colspan="1"><p>카테고리</p></td>
+                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>상품명</p></td>
+                                    <td><select class="productNo" name="productNo" required></select></td>
+                                    <td colspan="2"><p>구매수량</p></td>
+                                    <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
+                                    <td><p>구매가격</p></td>
+                                    <td><input type="text" name="purchasePrice" required></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()"
+                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow()"
+                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>담당자명</p></td>
+                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
+                                    <td colspan="2"><p>구매 금액 합계 금액 </p></td>
+                                    <td colspan="3"><input type="text" disabled></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="popup-button">
                         <div class="button-right">
-                            <button type="button" class="modify" onclick="modifySupplier()">수정</button>
-                            <button type="button" class="close" onclick="closeModal()">닫기</button>
+                            <button type="button" class="modify" onclick="modifyPurchase()">수정</button>
+                            <button type="button" class="close" onclick="closePopup()">닫기</button>
                         </div>
                     </div>
                 </div>
@@ -193,6 +220,208 @@
 
 <script>
 
+    // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
+    function requestPurchase() {
+        const checkedPurchase = document.querySelector('input[name="purchase"]:checked');
+        if (checkedPurchase) {
+            alert('선택을 해제해주세요');
+        } else {
+            document.getElementById("popup-regist").style.display = "flex";
+        }
+    }
+
+    // 페이지 로드 시 초기 데이터 로드
+    document.addEventListener('DOMContentLoaded', function() {
+        loadInitialData();
+    });
+
+    function loadInitialData() {
+        changeSupplierNo();
+        changeCategoryNo();
+        changeEmployeeNo();
+    }
+
+    function changeSupplierNo() {
+        $.ajax({
+            url: '/inventory/getSuppliers',
+            type: 'get',
+            dataType: 'json',
+            success: function(data) {
+                var supplierSelect = $('select[name="supplierNo"]');
+                supplierSelect.empty().append('<option value="">- 공급업체 -</option>');
+                $.each(data, function(index, obj) {
+                    supplierSelect.append('<option value="' + obj.supplierNo + '">' + obj.supplierName + '</option>');
+                });
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    }
+
+    function changeCategoryNo(event) {
+        let categorySelect = document.querySelector('select[name="categoryNo"]');
+        let productSelect = document.querySelector('select[name="productNo"]');
+
+        // 카테고리 목록
+        if (!event) {
+            $.ajax({
+                type: 'GET',
+                url: '/inventory/getCategories',
+                dataType: 'json',
+                success: function(data) {
+                    categorySelect.innerHTML = '<option value="">- 카테고리를 선택하세요 -</option>';
+                    data.forEach(category => {
+                        let option = document.createElement('option');
+                        option.value = category.categoryNo;
+                        option.textContent = category.categoryName;
+                        categorySelect.appendChild(option);
+                    });
+                },
+                error: function() {
+                    alert('error');
+                }
+            });
+            return;
+        }
+
+        // 상품 목록 로드
+        const categoryNo = event.target.value;
+        productSelect.innerHTML = '<option value="">- 상품명을 선택하세요 -</option>';
+
+        if (categoryNo) {
+            $.ajax({
+                type: 'GET',
+                url: '/inventory/getProductsByCategory',
+                data: { categoryNo: categoryNo },
+                dataType: 'json',
+                success: function(data) {
+                    data.forEach(product => {
+                        let option = document.createElement('option');
+                        option.value = product.productNo;
+                        option.textContent = product.productName;
+                        productSelect.appendChild(option);
+                    });
+                    productSelect.disabled = false;
+                },
+                error: function() {
+                    alert('error');
+                }
+            });
+        } else {
+            productSelect.disabled = true;
+        }
+    }
+
+    function changeEmployeeNo() {
+        $.ajax({
+            type: 'GET',
+            url: '/inventory/getEmployees',
+            dataType: 'json',
+            success: function(data) {
+                let select = document.querySelector('select[name="employeeNo"]');
+                select.innerHTML = '<option value="">- 담당자를 선택하세요 -</option>';
+                data.forEach(employee => {
+                    let option = document.createElement('option');
+                    option.value = employee.employeeNo;
+                    option.textContent = employee.employeeName;
+                    select.appendChild(option);
+                });
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    }
+
+    function addRow() {
+        let rows = document.querySelectorAll('#purchaseTable tr');
+        let lastRow = rows[rows.length - 1];
+
+        let newRow = lastRow.insertRow();
+        newRow.innerHTML = `
+        <td><select name="productNo" onchange="changeProductNo(event)" disabled><option value="">- 상품명 -</option></select></td>
+        <td><input type="number" name="purchaseQuantity" oninput="calculateTotal()"></td>
+        <td><input type="number" name="purchasePrice" readonly></td>
+        `;
+        loadCategories();
+    }
+
+    function removeRow() {
+        let tbody = document.querySelector('#purchaseTable tbody');
+        if (tbody.rows.length > 1) {
+            tbody.deleteRow(-1);
+            calculateTotal();
+        }
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('#purchaseTable tbody tr').forEach(row => {
+            let quantity = row.querySelector('input[name="purchaseQuantity"]').value || 0;
+            let price = row.querySelector('input[name="purchasePrice"]').value || 0;
+            total += quantity * price;
+        });
+        document.querySelector('#totalPurchase').value = total;
+    }
+
+    // 구매 수량 입력 시 총액 계산
+    document.addEventListener('input', function(e) {
+        if (e.target.name === 'purchaseQuantity') {
+            calculateTotal();
+        }
+    });
+
+    // 팝업창 닫기
+    function closePopup() {
+        document.getElementById("popup-regist").style.display = "none";
+        document.getElementById("registerPurchase").reset();
+    }
+
+    // 닫기 버튼 클릭 시 팝업창 닫기
+    window.onclick = function(event) {
+        if (event.target === document.getElementById('popup-regist') || event.target === document.getElementById('popup-modify')) {
+            closePopup();
+        }
+    }
+
+    // 페이지 로드 시 이벤트 리스너 추가
+    document.addEventListener('DOMContentLoaded', function() {
+        // 드래그 기능을 위한 스크립트
+        ['popup-regist', 'popup-modify'].forEach(id => {
+            const popup = document.getElementById(id);
+            const dragHandle = popup.querySelector('h2');
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+
+            dragHandle.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', endDrag);
+
+            function startDrag(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startLeft = popup.offsetLeft;
+                startTop = popup.offsetTop;
+                popup.style.cursor = 'move';
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                let newX = startLeft + (e.clientX - startX);
+                let newY = startTop + (e.clientY - startY);
+                popup.style.left = newX + 'px';
+                popup.style.top = newY + 'px';
+            }
+
+            function endDrag() {
+                isDragging = false;
+                popup.style.cursor = 'default';
+            }
+        });
+    });
 </script>
 </body>
 </html>

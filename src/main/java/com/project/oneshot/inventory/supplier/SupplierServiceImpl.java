@@ -29,9 +29,9 @@ public class SupplierServiceImpl implements SupplierService {
         supplierMapper.registerSupplier(supplier);
     }
 
-    public List<SupplierVO> searchSuppliers(Map<String, Object> parameters) {
-        return supplierMapper.searchSuppliers((Map<String, Object>) parameters);
-    }
+//    public List<SupplierVO> searchSuppliers(Map<String, Object> parameters) {
+//        return supplierMapper.searchSuppliers((Map<String, Object>) parameters);
+//    }
 
     @Override
     public SupplierVO getSupplierByNo(Long supplierNo) {

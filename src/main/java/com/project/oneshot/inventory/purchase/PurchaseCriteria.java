@@ -13,9 +13,9 @@ public class PurchaseCriteria {
     // 검색 키워드
     private Integer productNo;
     private Integer purchasePrice;
+    private Integer employeeNo;
     private int supplierNo;
-    private Integer purchaseQuantity;
-    private Date purchaseDate;
+    private String purchaseDate;
     private String purchaseStatus;
 
 

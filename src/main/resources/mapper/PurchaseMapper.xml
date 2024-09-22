@@ -3,30 +3,101 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.inventory.purchase.PurchaseMapper">
+
+    <!-- 구매 신청 등록 -->
+    <insert id="registerPurchase" parameterType="PurchaseVO" useGeneratedKeys="true" keyProperty="purchaseListNo">
+        INSERT INTO purchase (
+        purchase_list_no, category_no, product_no, supplier_no, purchase_quantity, purchase_price, employee_no, purchase_status,  purchase_date
+        )
+        VALUES (
+        nextval('purchase_list_no_seq'), #{categoryNo}, #{productNo}, #{supplierNo}, #{purchaseQuantity}, #{purchasePrice}, #{employeeNo}, '승인대기', NOW()
+        )
+    </insert>
+
+
+    <!-- 구매 신청할 때 값 불러오기 -->
+    <select id="getAllSuppliers" resultType="SupplierVO">
+        SELECT * FROM supplier
+    </select>
+
+    <select id="getAllCategories" resultType="CategoryVO">
+        SELECT * FROM category
+    </select>
+
+    <select id="getProductsByCategory" resultType="ProductVO">
+        SELECT * FROM product WHERE category_no = #{categoryNo}
+    </select>
+
+    <select id="getAllEmployees" resultType="EmployeeVO">
+        SELECT * FROM employee
+    </select>
+
+
+    <!-- 목록 조회 -->
     <select id="getAllPurchase" resultType="PurchaseVO">
-        select *
-        from purchase
+        select pc.purchase_list_no, c.category_name, p.product_name, s.supplier_name, sum(purchase_quantity) as inventory_quantity, p.safety_quantity, pc.purchase_quantity, pc.purchase_price, e.employee_name, pc.purchase_status, pc.purchase_date
+        from purchase pc left join category c on pc.category_no = c.category_no
+                         left join supplier s on pc.supplier_no = s.supplier_no
+                         left join employee e on pc.employee_no = e.employee_no
+                         left join product p on pc.product_no = p.product_no
+
+        group by pc.purchase_list_no,
+                 c.category_name,
+                 p.product_no,
+                 s.supplier_name,
+                 p.safety_quantity,
+                 pc.purchase_quantity,
+                 pc.purchase_price,
+                 e.employee_name,
+                 pc.purchase_status,
+                 pc.purchase_date
         <where>
             <if test="productNo != null and productNo != ''">
-                <![CDATA[ AND product_no LIKE CONCAT('%', #{product_no}, '%') ]]>
+                AND p.product_no LIKE CONCAT('%', #{productNo}, '%')
             </if>
             <if test="purchasePrice != null and purchasePrice != ''">
-                <![CDATA[ AND purchase_price LIKE CONCAT('%', #{purchase_price}, '%') ]]>
+                AND pc.purchasePrice LIKE CONCAT('%', #{purchasePrice}, '%')
             </if>
             <if test="supplierNo != null and supplierNo != ''">
-                <![CDATA[ and product.supplier_no = #{supplierNo} ]]>
+                AND s.supplier_no = #{supplierNo}
             </if>
-            <if test="managerName != null and managerName != ''">
-                <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+            <if test="employeeNo != null and employeeNo != ''">
+                AND e.employee_no LIKE CONCAT('%', #{employeeNo}, '%')
             </if>
             <if test="purchaseStatus != null and purchaseStatus != ''">
-                <![CDATA[ AND purchase_status LIKE CONCAT('%', #{purchase_status}, '%') ]]>
+                AND pc.purchase_status = #{purchaseStatus}
             </if>
             <if test="purchaseDate != null and purchaseDate != ''">
-                <![CDATA[ AND purchase_date LIKE CONCAT('%', #{purchase_date}, '%') ]]>
+                AND pc.purchase_date = #{purchaseDate}
             </if>
         </where>
-        ORDER BY purchase_list_no desc
+        ORDER BY pc.purchase_list_no asc
         limit #{amount} offset #{pageStart}
     </select>
+
+    <!-- 전체 게시글 페이지네이션 -->
+    <select id="getTotalPurchase" resultType="int">
+        SELECT count(*)
+        FROM purchase
+        where 1 = 1
+        <if test="productNo != null and productNo != ''">
+            <![CDATA[ AND product_no LIKE CONCAT('%', #{product_no}, '%') ]]>
+        </if>
+        <if test="purchasePrice != null and purchasePrice != ''">
+            <![CDATA[ AND purchase_price LIKE CONCAT('%', #{purchase_price}, '%') ]]>
+        </if>
+        <if test="supplierNo != null and supplierNo != ''">
+            <![CDATA[ and product.supplier_no = #{supplierNo} ]]>
+        </if>
+        <if test="employeeNo != null and employeeNo != ''">
+            <![CDATA[ AND employee_no LIKE CONCAT('%', #{employeeNo}, '%') ]]>
+        </if>
+        <if test="purchaseStatus != null and purchaseStatus != ''">
+            <![CDATA[ AND purchase_status LIKE CONCAT('%', #{purchase_status}, '%') ]]>
+        </if>
+        <if test="purchaseDate != null and purchaseDate != ''">
+            <![CDATA[ AND purchase_date LIKE CONCAT('%', #{purchase_date}, '%') ]]>
+        </if>
+    </select>
+
 </mapper>

@@ -53,12 +53,12 @@
                 <tbody>
                 <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}">
                     <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierNo}"></td>
-                    <td th:text="${supplier.supplierName}"></td>
-                    <td th:text="${supplier.supplierAddress}"></td>
-                    <td th:text="${supplier.supplierBusinessNo}"></td>
-                    <td th:text="${supplier.managerName}"></td>
-                    <td th:text="${supplier.managerPhone}"></td>
-                    <td th:text="${supplier.managerEmail}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierName}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierAddress}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierBusinessNo}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerName}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerPhone}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerEmail}"></td>
                     <td>
                         <a th:if="${supplier.supplierFile != null}"
                            th:href="@{/inventory/viewFile/{fileName}(fileName=${supplier.supplierFile})}"
@@ -91,7 +91,7 @@
                             <tbody>
                                 <tr>
                                     <td><p>공급업체번호</p></td>
-                                    <td><input type="text" name="supplierNo" required disabled></td>
+                                    <td><input type="text" name="supplierNo" disabled></td>
                                     <td><p>담당자명</p></td>
                                     <td><input type="text" name="managerName" required></td>
                                 </tr>
@@ -165,7 +165,7 @@
                     </div>
                     <div class="popup-button">
                         <div class="button-right">
-                            <button type="button" class="modify" onclick="modifySupplier()">수정</button>
+                            <button type="button" class="modify" onclick="modifySupplier()">저장</button>
                             <button type="button" class="close" onclick="closeModal()">닫기</button>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
 </th:block>
 
 <script>
-    // 업체등록 모달 열기
+    // 업체등록 팝업 열기
     function checkRegister() {
         document.getElementById("popup-regist").style.display = "flex";
     }
