@@ -5,12 +5,12 @@
         <!-- 3. 이전버튼-->
         <th:block th:if="${pageVO.prev}">
             <li style="margin-right:5px;">
-                <a th:href="@{purcahseList(page = ${pageVO.start - 1},
+                <a th:href="@{purchaseList(page = ${pageVO.start - 1},
                                           amount = ${pageVO.amount},
-                                          purchaseListNo = ${pageVO.cri.purchaseListNo},
                                           productNo = ${pageVO.cri.productNo},
                                           purchasePrice = ${pageVO.cri.purchasePrice},
-                                          managerName = ${pageVO.cri.managerName},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          employeeNo = ${pageVO.cri.employeeNo},
                                           purchaseStatus = ${pageVO.cri.purchaseStatus},
                                           purchaseDate = ${pageVO.cri.purchaseDate}
                                           )}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
@@ -20,12 +20,12 @@
         <!-- 1. 페이지네이션 -->
         <th:block th:each="page : ${pageVO.pageList}">
             <li th:class="${pageVO.page == page ? 'on' : '' }">
-                <a th:href="@{purcahseList(page = ${page},
+                <a th:href="@{purchaseList(page = ${page},
                                           amount = ${pageVO.amount},
-                                          purchaseListNo = ${pageVO.cri.purchaseListNo},
                                           productNo = ${pageVO.cri.productNo},
                                           purchasePrice = ${pageVO.cri.purchasePrice},
-                                          managerName = ${pageVO.cri.managerName},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          employeeNo = ${pageVO.cri.employeeNo},
                                           purchaseStatus = ${pageVO.cri.purchaseStatus},
                                           purchaseDate = ${pageVO.cri.purchaseDate}
                                           )}">[[${page}]]</a></li>
@@ -34,12 +34,12 @@
         <!--2. 다음버튼 -->
         <th:block th:if="${pageVO.next}">
             <li style="margin-left:5px;">
-                <a th:href="@{supplierList(page = ${pageVO.end + 1},
+                <a th:href="@{purchaseList(page = ${pageVO.end + 1},
                                           amount = ${pageVO.amount},
-                                          purchaseListNo = ${pageVO.cri.purchaseListNo},
                                           productNo = ${pageVO.cri.productNo},
                                           purchasePrice = ${pageVO.cri.purchasePrice},
-                                          managerName = ${pageVO.cri.managerName},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          employeeNo = ${pageVO.cri.employeeNo},
                                           purchaseStatus = ${pageVO.cri.purchaseStatus},
                                           purchaseDate = ${pageVO.cri.purchaseDate}
                                           )}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
