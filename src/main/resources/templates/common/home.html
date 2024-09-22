@@ -9,22 +9,21 @@
             <div class="main-left">
                 <div id='calendar'></div>
             </div>
-
             <div class="main-right">
                 <div class="right1">
                     <div class="chart-container">
-                        <h3>월별판매량</h3>
+                        <h3>분기별 매출액</h3>
                         <canvas id="myChart"></canvas>
                     </div>
                     <div class="chart-container">
                         <h3>목표판매량도달률</h3>
-                        <canvas id="doughnut"></canvas>
+                        <canvas id="doughnut" style="height: 560px;"></canvas>
                     </div>
                 </div>
                 <div class="right2">
                     <div class="notice-wrap">
                         <div class="notice1">
-                        <p>공지사항</p>
+                        <h3>공지사항</h3>
                         <table>
                             <thead>
                                 <tr>
@@ -39,29 +38,29 @@
                                 <td>2024/09/01</td>
                                 <td>본사 전체 회의 소집</td>
                                 <td>원샷</td>
-                                <td>진행 중</td>
+                                <td>진행완료</td>
                             </tr>
                             <tr>
-                                <td>2024/09/01</td>
+                                <td>2024/09/03</td>
                                 <td>영업팀 신입사원 공개채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
                             <tr>
-                                <td>2024/09/01</td>
+                                <td>2024/09/11</td>
                                 <td>8월 우수영업사원 안내문</td>
                                 <td>원샷</td>
-                                <td>진행 중</td>
+                                <td>진행완료</td>
                             </tr>
                             <tr>
-                                <td>2024/09/01</td>
+                                <td>2024/09/16</td>
                                 <td>인사팀 신입사원 공개채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
                             <tr>
-                                <td>2024/09/01</td>
-                                <td>인사팀 신입사원 공개채용 일정</td>
+                                <td>2024/09/22</td>
+                                <td>영업팀 경력직 채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
@@ -72,35 +71,68 @@
                 </div>
             </div>
         </div>
+        <div class="side-wrap">
+            <div class="side-left">
+                <div class="side-left-1">
+                    <ul id="departmentList">
+                        <li data-department="hr">인사팀</li>
+                        <li data-department="inventory">재고팀</li>
+                        <li data-department="sales">영업팀</li>
+                    </ul>
+                </div>
+                <div class="side-left-2">
+                    <h3>부서별 사원 현황</h3>
+                    <canvas id="employeeChart"></canvas>
+                </div>
+            </div>
+            <div class="side-right">
+                <h3>업무 매뉴얼 및 문서 공유</h3>
+                <div class="document-list">
+                    <ul id="documentList">
+                        <li><a href="/common/img/manual.pdf" target="_blank">업무매뉴얼</a></li>
+                        <li><a href="/common/img/information.pdf" target="_blank">개인정보규정</a></li>
+                        <li><a href="/common/img/secure.pdf" target="_blank">보안규정</a></li>
+                        <li><a href="/common/img/system.pdf" target="_blank">사내조직도</a></li>
+                        <li><a href="/common/img/company.pdf" target="_blank">사내규정</a></li>
+                        <li><a href="/common/img/schedule.pdf" target="_blank">연간행사일정</a></li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <h3>문서 업로드</h3>
+                    <input type="file" id="fileUpload" />
+                    <button type="button" onclick="uploadDocument()" class="uploadButton">업로드</button>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 </th:block>
 
 <script>
 
     // ----- 세로막대 차트
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    // 첫 번째 차트 (매출액 차트)
+    const ctx1 = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels: ['1분기', '2분기', '3분기', '4분기', 'Purple', 'Orange'],
+            labels: ['1분기', '2분기', '3분기', '4분기'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: '원',
+                data: [30000000, 46000000, 120000000, 34000000],
                 backgroundColor: [
-                    '#468189',
-                    '#77aca2',
-                    '#9dbebb',
-                    '#708d81',
-                    '#6b9080',
-                    '#333d29'
+                    '#5DADE2',
+                    '#A4C8E1',
+                    '#B2E0E0',
+                    '#8FD6E1',
                 ],
                 borderColor: [
-                    '#468189',
-                    '#77aca2',
-                    '#9dbebb',
-                    '#708d81',
-                    '#6b9080',
-                    '#333d29'
+                    '#5DADE2',
+                    '#A4C8E1',
+                    '#B2E0E0',
+                    '#8FD6E1',
                 ],
                 borderWidth: 1
             }]
@@ -116,165 +148,129 @@
         }
     });
 
+    // 두 번째 차트 (사원 현황 차트)
+    // 부서별 사원수 데이터 (값 차이가 많이 나는 예시)
+    const departmentData = {
+        hr: [5, 15, 8, 6, 3, 1],        // 인사팀
+        inventory: [4, 11, 4, 2, 1, 1],  // 재고팀
+        sales: [8, 12, 4, 3, 2, 1]  // 영업팀
+    };
+
+    // 차트 설정
+    const ctx2 = document.getElementById('employeeChart').getContext('2d');
+    const employeeChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['인턴', '사원', '주임', '대리', '과장', '부서장'],
+            datasets: [{
+                label: '사원수',
+                data: departmentData['hr'], // 기본값으로 인사팀 데이터 설정
+                backgroundColor: [
+                    '#1D4E89',
+                    '#5DADE2',
+                    '#A4C8E1',
+                    '#4DA6D3',
+                    '#B2E0E0',
+                    '#8FD6E1'
+                ],
+                borderColor: [
+                    '#1D4E89',
+                    '#5DADE2',
+                    '#A4C8E1',
+                    '#4DA6D3',
+                    '#B2E0E0',
+                    '#8FD6E1'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // 부서 클릭 시 차트 업데이트
+    document.getElementById('departmentList').addEventListener('click', function(event) {
+        const department = event.target.getAttribute('data-department'); // 클릭된 부서 가져오기
+        if (department && departmentData[department]) {
+            // 차트 데이터 업데이트
+            employeeChart.data.datasets[0].data = departmentData[department];
+            employeeChart.update(); // 차트 새로고침
+        }
+    });
+
+
+
     // ----- 달력
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            // Tool Bar 목록 document : https://fullcalendar.io/docs/toolbar
+            initialView: 'dayGridMonth',
+            initialDate: '2024-09-01',
             headerToolbar: {
-                left: 'prevYear,prev,next,nextYear today',
+                left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-
-            selectable: true,
-            selectMirror: true,
-
-            navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            // Create new event
-            select: function (arg) {
-                Swal.fire({
-                    html: "<div class='mb-7'>Create new event?</div><div class='fw-bold mb-5'>Event Name:</div><input type='text' class='form-control' name='event_name' />",
-                    icon: "info",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, create it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        var title = document.querySelector("input[name=;event_name']").value;
-                        if (title) {
-                            calendar.addEvent({
-                                title: title,
-                                start: arg.start,
-                                end: arg.end,
-                                allDay: arg.allDay
-                            })
-                        }
-                        calendar.unselect()
-                    } else if (result.dismiss === "cancel") {
-                        Swal.fire({
-                            text: "Event creation was declined!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                });
-            },
-
-            // Delete event
-            eventClick: function (arg) {
-                Swal.fire({
-                    text: "Are you sure you want to delete this event?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        arg.event.remove()
-                    } else if (result.dismiss === "cancel") {
-                        Swal.fire({
-                            text: "Event was not deleted!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                });
-            },
-            dayMaxEvents: true, // allow "more" link when too many events
-            // 이벤트 객체 필드 document : https://fullcalendar.io/docs/event-object
             events: [
                 {
-                    title: 'All Day Event',
-                    start: '2022-07-01'
+                    title: '주간회의',
+                    start: '2024-09-02',
+                    backgroundColor: '#A4C8E1',
+                    borderColor: '#A4C8E1'
+
                 },
                 {
-                    title: 'Long Event',
-                    start: '2022-07-07',
-                    end: '2022-07-10'
+                    title: '주간회의',
+                    start: '2024-09-09',
+                    backgroundColor: '#A4C8E1',
+                    borderColor: '#A4C8E1'
                 },
                 {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-07-09T16:00:00'
+                    title: '주간회의',
+                    start: '2024-09-16',
+                    backgroundColor: '#A4C8E1',
+                    borderColor: '#A4C8E1'
                 },
                 {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-07-16T16:00:00'
+                    title: '주간회의',
+                    start: '2024-09-23',
+                    backgroundColor: '#A4C8E1',
+                    borderColor: '#A4C8E1'
                 },
                 {
-                    title: 'Conference',
-                    start: '2022-07-11',
-                    end: '2022-07-13'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2022-07-12T10:30:00',
-                    end: '2022-07-12T12:30:00'
-                },
-                {
-                    title: 'Lunch',
-                    start: '2022-07-12T12:00:00'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2022-07-12T14:30:00'
-                },
-                {
-                    title: 'Happy Hour',
-                    start: '2022-07-12T17:30:00'
-                },
-                {
-                    title: 'Dinner',
-                    start: '2022-07-12T20:00:00'
-                },
-                {
-                    title: 'Birthday Party',
-                    start: '2022-07-13T07:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2022-07-28'
+                    title: '주간회의',
+                    start: '2024-09-30',
+                    backgroundColor: '#A4C8E1',
+                    borderColor: '#A4C8E1'
                 }
+
             ]
         });
-
         calendar.render();
     });
 
     const canvas = document.getElementById("doughnut");
     const data = {
-        labels: ["도달1", "도달2", "도달2"],
+        labels: ["달성률(%)"],
         datasets: [
             {
                 label: "My First Dataset",
-                data: [200, 40, 90],
+                data: [200, 40],
                 backgroundColor: [
                     "#01497c",
-                    "#2a6f97",
-                    "#61a5c2",
+                    "#e3e3e3"
                 ],
+//                borderColor: [
+//                    "#777",
+//                    "#777"
+//                ],
                 hoverOffset: 4,
             },
         ],

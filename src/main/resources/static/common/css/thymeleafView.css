@@ -195,14 +195,16 @@ body.dark .navbar {
 .bottom i {
   font-size: 20px;
 }
-.bottom span {
-  font-size: 20px;
+.bottom a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #707070;
 }
 .sidebar.close .bottom_content {
   width: 50px;
   left: 15px;
 }
-.sidebar.close .bottom span {
+.sidebar.close .bottom a {
   display: none;
 }
 .sidebar.hoverable .collapse_sidebar {

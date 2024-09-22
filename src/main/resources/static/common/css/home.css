@@ -2,17 +2,22 @@
     padding: 0;
     box-sizing: border-box;
 }
+.content {
+    display: flex;
+    flex-direction: column;
+}
 
 .main-wrap {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 95.8%;
     height: 100vh;
 }
 
 .main-left {
     flex: 1;
     padding: 20px;
+    height: 50%;
 }
 
 .main-right {
@@ -23,7 +28,7 @@
 }
 .right1 {
     width: 100%;
-    height: 43%;
+    height: 27.5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,10 +46,69 @@
     text-align: center;
 }
 
-canvas {
+#myChart, #doughnut {
     max-width: 100%;
     max-height: 100%;
 }
+
+
+/* 달력 세부사항 배치조정 */
+.fc-day-sun a { /* 일요일 컬러 */
+    color: var(--mainColor1);
+}
+
+.fc-day-sat a { /* 토요일 컬러 */
+    color: var(--subColor1);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    font-size: 12px;
+    font-weight: 500;
+    background-color: var(--subColor2);
+
+    border-radius: 20px;
+}
+
+.fc .fc-button {
+    background-color: transparent;
+    color: var(--subColor1);
+    border: none;
+}
+
+.fc .fc-button:hover {
+    background-color: transparent;
+}
+
+/* 포커스된 상태 테두리 없앰 */
+.fc .fc-button-primary:focus {
+    border: none;
+    box-shadow: none;
+}
+
+/* today 버튼 - 이번 달에 위치할 때 */
+.fc .fc-today-button:disabled {
+    background-color: var(--subColor1);
+    color: #fff;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child),
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child),
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
+/*    background-image: linear-gradient(to bottom, #434343, #000) !important;*/
+    background-color: #fff !important;
+    color: #000 !important;
+/*    border: 0.5px solid #e3e3e3 !important;*/
+    border-style: none;
+    box-shadow: 0px 4px 8px #e3e3e3;
+    border-radius: 5px;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child):active,
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child):active,
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child):active {
+    background-color: #e3e3e3 !important;
+}
+
 
 /* 오른쪽 노티스 */
 .notice-wrap {
@@ -52,8 +116,8 @@ canvas {
     width: 500px;
 }
 .notice1 {
-    margin-top: 90px;
-    width: 650px;
+    margin-top: 42px;
+    width: 612px;
     margin-left : 13px;
 }
 .notice1 table {
@@ -69,7 +133,7 @@ canvas {
 .notice1 th, .notice1 td {
     padding: 2px;
     text-align: center;
-    height: 20px;
+    height: 30px;
     text-align: center;
     border: 1px solid #ddd;
 }
@@ -77,16 +141,112 @@ canvas {
     background-color: #e3e3e3;
 }
 
-
-
-.fc .fc-toolbar-title {
-    font-size: 1.4em;
-    marign-left: -55px;
+/* 아래본문 */
+.side-wrap {
+    border-top: 1px solid #e3e3e3;
+    margin: -420px 18px;
+    display: flex;
+    justify-content: space-between;
+    height: 315px;
+    width: 93.5%;
+}
+.side-left {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.side-left-1 {
+    text-decoration: none;
+    width: 105px;
 }
 
-.fc-button-group {
-    width: 60%;
+.fc-event {
+    border-radius: 0 !important; /* 이벤트의 모서리를 직각으로 */
 }
-.fc-button-group:nth-of-type {
-    width: 40%;
+#employeeChart {
+    width: 430px;
+    max-height: 275px;
 }
+
+.side-right {
+    width: 47.7%;
+    height: 275px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px #e3e3e3;
+    margin: 10px 0px;
+}
+.side-right h3 {
+    margin: 10px 0px 15px 0px;
+    border-bottom: 1px solid #e3e3e3;
+
+}
+
+.upload-section h3 {
+    margin-top: 20px;
+}
+
+#documentList {
+    display: flex;
+    flex-wrap: wrap; /* 내용이 넘칠 경우 자동으로 줄 바꿈 */
+    list-style-type: none; /* 기본 목록 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+}
+
+#documentList li {
+    width: 48%; /* 두 개의 열을 위해 적절한 너비 설정 */
+    margin: 1%; /* 열 간의 여백 추가 */
+    box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.side-right ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-right ul li {
+    margin: 5px 0;
+}
+
+.side-right a {
+    text-decoration: none;
+    color: #468189;
+}
+
+.upload-section input[type="file"] {
+    margin-top: 10px;
+}
+.uploadButton {
+    width: 100px;
+    background-image: linear-gradient(to bottom, #434343, #000) !important;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#departmentList {
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+#departmentList li {
+    box-shadow: 0px 4px 8px #e3e3e3;
+    border-radius: 10px;
+    width: 85px;
+    text-align: center;
+    color: #777;
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px 0;
+    text-decoration: none;
+}
+
+#departmentList li:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+
