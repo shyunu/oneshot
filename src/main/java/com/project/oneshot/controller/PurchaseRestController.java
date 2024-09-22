@@ -39,9 +39,4 @@ public class PurchaseRestController {
     public List<EmployeeVO> getEmployees() {
         return purchaseService.getAllEmployees();
     }
-
-//    @GetMapping("/getProducts")
-//    public List<ProductVO> getProducts() {
-//        return purchaseService.getAllProducts();
-//    }
 }
