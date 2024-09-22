@@ -17,14 +17,14 @@ function Employee() {
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
     const [currentPopup, setCurrentPopup] = useState(null); // 선택팝업 'bank', 'department', 'position'
-    const [PhotoThumbnail, setPhotoThumbnail] = useState(""); // 사진미리보기용
+    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/userCircle.png"); // 사진미리보기용
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
-    const [sortConfig, setSortConfig] = useState({ key: 'employeeNo', direction: 'ascending' }); //사원 정렬
+    const [sortConfig, setSortConfig] = useState({ key: '', direction: '' }); //사원 정렬
     const [editMode, setEditMode] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(2); //페이징
+    const [pageSize] = useState(10); //페이징
     const handleStart = (e) => {
         // 드래그 대상이 input인 경우 드래그를 막는다
         if (e.target.tagName === 'INPUT') {
@@ -433,7 +433,8 @@ function Employee() {
                 <div class="filter-content">
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
-                        <button class="filter-button" onClick={handleSearchBtn}>검색하기</button>
+                        <button className="filter-button" onClick={handleSearchBtn}>검색하기</button>
+                        <button className="filter-button" onClick={() => fetchEmployees()}>전체보기</button>
                     </div>
 
                     <table>
@@ -591,33 +592,37 @@ function Employee() {
                 </table>
             </article>
 
-            <div className="wrapper-footer flex">
-                <div>
-                    <button className="btn" style={{marginRight: "6px"}}
-                            onClick={() => handleEmployeeDelete()}>선택퇴직
-                    </button>
-                    <button className="btn" onClick={() => {
-                        setShowPopup(true);
-                        openRegistrationPopup();
-                    }}>신규등록
-                    </button>
-                    <div className="pagination">
-                        <button onClick={handlePrevPages} disabled={currentPage === 1}>
-                            &lt;&lt;
+            <div className="wrapper-footer">
+                <div className="flex" style={{justifyContent:"space-between"}}>
+                    <button>Excel로 내보내기</button>
+                    <div>
+                        <button className="btn" style={{marginRight: "6px"}}
+                                onClick={() => handleEmployeeDelete()}>선택퇴직
                         </button>
-                        {visiblePages.map(page => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                className={page === currentPage ? 'active' : ''}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                        <button onClick={handleNextPages} disabled={currentPage >= totalPages}>
-                            &gt;&gt;
+                        <button className="btn" onClick={() => {
+                            setShowPopup(true);
+                            openRegistrationPopup();
+                        }}>신규등록
                         </button>
                     </div>
+
+                </div>
+                <div className="flex" style={{justifyContent:"center"}}>
+                    <button onClick={handlePrevPages} disabled={currentPage === 1} className="page-btn">
+                        &lt;&lt;
+                    </button>
+                    {visiblePages.map(page => (
+                        <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`page-btn ${page === currentPage ? 'active' : ''}`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+                    <button onClick={handleNextPages} disabled={currentPage >= totalPages} className="page-btn">
+                        &gt;&gt;
+                    </button>
                 </div>
             </div>
 
@@ -632,20 +637,31 @@ function Employee() {
                                 <table>
                                     <tbody>
                                     <tr className="left-row">
-                                        <td colSpan="2">
-                                            <p>사원사진</p>
+                                        <td rowSpan="2" colSpan="2">
+                                        <p>사원사진</p>
                                             <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
                                             <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
                                         </td>
-                                        <td colSpan="2">
+                                        <td rowSpan="2" colSpan="2">
                                             <div className="profile-picture">
                                                 <img src={PhotoThumbnail} alt="Profile Picture" id="profileImg"/>
                                             </div>
+                                        </td>
+
+                                        <td colSpan="2">
+                                            <label htmlFor="employeeName">사원번호</label>
 
                                         </td>
-                                    </tr>
+                                        <td colSpan="2">
+                                            <input type="text" id="employeeNo" name="employeeNo"
+                                                   className="input-form"
+                                                   value={newEmployee.employeeNo}
+                                                   readOnly={!editMode}
+                                                   onChange={handleFormChange}/>
+                                        </td>
 
+                                    </tr>
                                     <tr className="left-row">
                                         <td colSpan="2">
                                             <label htmlFor="employeeName">이름</label>
@@ -653,18 +669,32 @@ function Employee() {
                                         </td>
                                         <td colSpan="2">
                                             <input type="text" id="employeeName" name="employeeName"
+                                                   className="input-form"
                                                    value={newEmployee.employeeName}
                                                    onChange={handleFormChange}/>
                                         </td>
-                                        <td colSpan="3">
+
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="employeeEmail">이메일</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input type="text" id="employeeEmail" name="employeeEmail"
+                                                   className="input-form"
+                                                   value={newEmployee.employeeEmail}
+                                                   onChange={handleFormChange}/>
+                                        </td>
+                                        <td colSpan="2">
                                             <label htmlFor="department">부서번호</label>
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <input
                                                 type="text"
                                                 id="departmentName"
                                                 name="departmentName"
                                                 value={newEmployee.departmentName}
+                                                className="select-input-form"
                                                 readOnly
                                                 onClick={() => {
                                                     fetchDepartments();
@@ -684,6 +714,7 @@ function Employee() {
                                                 id="positionName"
                                                 name="positionNo"
                                                 value={newEmployee.positionName}
+                                                className="select-input-form"
                                                 readOnly
                                                 onClick={() => {
                                                     fetchPositions(); // 직급 목록 가져오기 함수
@@ -693,12 +724,13 @@ function Employee() {
 
                                             />
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <label htmlFor="employeeHiredate">입사일</label>
 
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <input type="date" id="employeeHiredate" name="employeeHiredate"
+                                                   className="input-form"
                                                    value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
                                         </td>
                                     </tr>
@@ -709,14 +741,16 @@ function Employee() {
                                         </td>
                                         <td colSpan="2">
                                             <input type="text" id="employeePhone" name="employeePhone"
+                                                   className="input-form"
                                                    value={newEmployee.employeePhone}
                                                    onChange={handleFormChange}/>
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <input type="text" id="emergencyPhone" name="emergencyPhone"
+                                                   className="input-form"
                                                    value={newEmployee.emergencyPhone} onChange={handleFormChange}/>
                                         </td>
                                     </tr>
@@ -726,19 +760,19 @@ function Employee() {
                                         </td>
                                         <td colSpan="2">
                                             <input type="date" id="employeeBirth" name="employeeBirth"
+                                                   className="input-form"
                                                    value={newEmployee.employeeBirth} onChange={handleFormChange}/>
                                         </td>
-                                        <td colSpan="3">
-                                            <label htmlFor="employeeEmail">이메일</label>
+                                        <td colSpan="2">
+                                            <label htmlFor="accountHolder">계좌주</label>
                                         </td>
-                                        <td colSpan="3">
-                                            <input type="text" id="employeeEmail" name="employeeEmail"
-                                                   value={newEmployee.employeeEmail}
-                                                   onChange={handleFormChange}/>
+                                        <td colSpan="2">
+                                            <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주" className="input-form"
+                                                   value={newEmployee.accountHolder} onChange={handleFormChange}/>
                                         </td>
                                     </tr>
                                     <tr className="left-row">
-                                        <td colSpan="2">
+                                    <td colSpan="2">
                                             <label htmlFor="accountBank">은행</label>
                                         </td>
                                         <td colSpan="2">
@@ -748,6 +782,7 @@ function Employee() {
                                                 name="bank"
                                                 placeholder="은행 선택"
                                                 value={newEmployee.bankName}
+                                                className="select-input-form"
                                                 onClick={() => {
                                                     fetchBanks(); // 은행 목록 가져오기 함수
                                                     setCurrentPopup('bank'); // 팝업 상태 설정
@@ -755,11 +790,12 @@ function Employee() {
                                                 readOnly
                                             />
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <label htmlFor="employeeEmail">계좌번호</label>
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <input type="text" id="accountNumber" name="accountNumber"
+                                                   className="input-form"
                                                    placeholder="계좌번호" value={newEmployee.accountNumber}
                                                    onChange={handleFormChange}/>
                                         </td>
@@ -775,15 +811,17 @@ function Employee() {
                                                 name="employeeAddress"
                                                 placeholder="주소를 입력하세요"
                                                 value={newEmployee.employeeAddress}
+                                                className="select-input-form"
                                                 onClick={() => setShowMap(true)} // 주소 검색을 위한 지도 또는 검색창 표시
                                                 readOnly
                                             />
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <label htmlFor="employeeAddressDetail">상세주소</label>
                                         </td>
-                                        <td colSpan="3">
+                                        <td colSpan="2">
                                             <input type="text" id="employeeAddressDetail" name="employeeAddressDetail"
+                                                   className="input-form"
                                                    placeholder="상세주소를 입력하세요" value={newEmployee.employeeAddressDetail}
                                                    onChange={handleFormChange}/>
                                         </td>
@@ -869,6 +907,7 @@ function Employee() {
             {/* 도로명주소 입력 */}
             {showMap && (
                 <div>
+                    <button className="map-close-btn" onClick={() => setShowMap(false)}>닫기</button>
                     <DaumPostcode
                         onComplete={completeMap}
                         onClose={closeMap}

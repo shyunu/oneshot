@@ -446,7 +446,7 @@ function Department() {
                 <table>
                     <thead>
                         <tr id="attribute">
-                            <td>
+                            <th>
                                 <input
                                     type="checkbox"
                                     id="checkAll"
@@ -454,17 +454,17 @@ function Department() {
                                     onChange={handleAllCheckboxChange}
                                 />
                                 <label htmlFor="checkAll"></label>
-                            </td>
-                            <td onClick={() => requestSort('departmentNo')}>부서번호 {sortConfig.key === 'departmentNo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('departmentName')}>부서명 {sortConfig.key === 'departmentName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('menus')}>사용가능메뉴 {sortConfig.key === 'menus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('departmentState')}>사용여부 {sortConfig.key === 'departmentState' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
+                            </th>
+                            <th onClick={() => requestSort('departmentNo')}>부서번호 {sortConfig.key === 'departmentNo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('departmentName')}>부서명 {sortConfig.key === 'departmentName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('menus')}>사용가능메뉴 {sortConfig.key === 'menus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('departmentState')}>사용여부 {sortConfig.key === 'departmentState' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedDepartments.length > 0 ? (
                             sortedDepartments.map((department) => (
-                                <tr key={department.departmentNo}>
+                                <tr key={department.departmentNo} className="product_list">
                                     <td>
                                         <input
                                             type="checkbox"
@@ -499,16 +499,20 @@ function Department() {
                 </table>
             </article>
 
-            <div className="wrapper-footer flex">
-                <div className="btns">
-                    <button className="btn" onClick={() => setModalOpen(true)}>등록</button>
-                    <button
-                        className="btn"
-                        disabled={selectedDepartments.length === 0}
-                        onClick={handleStatusClick}
-                    >
-                        여부
-                    </button>
+            <div className="wrapper-footer">
+                <div className="flex" style={{justifyContent: "space-between"}}>
+                    <button>Excel로 내보내기</button>
+                    <div>
+                        <button className="btn" style={{marginRight: "6px"}} onClick={() => setModalOpen(true)}>등록</button>
+                        <button
+                            className="btn"
+                            disabled={selectedDepartments.length === 0}
+                            onClick={handleStatusClick}
+                        >
+                            여부
+                        </button>
+                    </div>
+
                 </div>
             </div>
             {statusPopupOpen && (

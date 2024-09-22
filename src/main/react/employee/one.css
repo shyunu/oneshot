@@ -49,7 +49,6 @@
     border: 1px solid #e3e3e3;
 }
 .popup-form > table td input{
-    border-width: 0;
     width: 100%;
 }
 
@@ -114,6 +113,17 @@
     cursor: pointer;
 }
 
+/* 페이지네이션 */
+.page-btn{
+    border-radius: 0;
+    height: auto;
+    width: auto;
+    border: 1px solid #ddd;
+    color: black;
+    background-image: none;
+    padding: 8px 16px;
+    margin: 0px -5px 0px 15px;
+}
 
 /* 선택 팝업 스타일 */
 #SelectPopup .popup-content {
@@ -216,34 +226,23 @@
     border-radius: 5px;
 }
 
-.account-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.input-form{
+    border: 1px solid #e3e3e3;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.select-input-form{
+    padding-left: 8px;
+    padding-right: 8px;
+    border-width: 0;
 }
 
-
-/* 주소 */
-#employeeAddress {
-    width: 90%;
-    margin-top: 5px;
-}
-
-
-/* 은행칸과 주소칸 간격 조정 */
-#accountBank {
-    margin-top: 3px;
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
-}
-
-#accountNumber {
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
-}
-
-#accountHolder {
-    margin-bottom: 20px; /* 마지막 필드는 margin-bottom을 설정하지 않음 */
-}
-
-#employeeAddress {
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
+/* 지도팝업닫기 */
+.map-close-btn{
+    position: absolute;
+    z-index: 999999999;
+    top: calc(50% - 330px);
+    left: calc(50% + 245px);
+    width: auto;
+    border-radius: 0;
 }
