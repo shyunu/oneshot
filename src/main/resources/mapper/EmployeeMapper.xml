@@ -37,7 +37,7 @@
             bank b ON e.bank_no = b.bank_no
         ORDER BY
             e.employee_status DESC,
-            e.employee_no
+            e.employee_no DESC
         LIMIT  #{limit}
         OFFSET #{offset}
     </select>
@@ -132,6 +132,9 @@
                 </choose>
             </if>
         </where>
+        ORDER BY
+        e.employee_status DESC,
+        e.employee_no DESC
     </select>
 
 
@@ -197,7 +200,8 @@
             employee_email = #{employeeEmail},
             bank_no = #{bankNo},
             account_holder = #{accountHolder},
-            position_no = #{positionNo}
+            position_no = #{positionNo},
+            employee_photo_path=#{employeePhotoPath}
         WHERE employee_no = #{employeeNo}
     </update>
 
