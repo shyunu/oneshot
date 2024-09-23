@@ -186,36 +186,50 @@
                         </div>
 
                         <table>
-                            <tr>
-                                <td><p>고객사명</p></td>
-                                <td><input type="text" name="clientName" th:value="${pageVO.cri.clientName}"></td>
-
-                                <td><p>계약시작일</p></td>
-                                <td><input type="date" name="contractSdate" id="contractSDateInput" th:value="${pageVO.cri.contractSdate}"></td>
-
-                                <td><p>계약종료일</p></td>
-                                <td><input type="date" name="contractEdate" id="contractEDateInput" th:value="${pageVO.cri.contractEdate}"></td>
-                            </tr>
-                            <tr>
-                                <td><p>상품명</p></td>
-                                <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
-
-                                <td><p>고객사담당자</p></td>
-                                <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
-
-                                <td><p>본사담당자</p></td>
-                                <td><input type="text" name="employeeName" th:value="${pageVO.cri.employeeName}"></td>
-                                <td><p>계약승인상태</p></td>
-                                <td>
-                                    <select name="contractPriceStatus">
-                                        <option value="">-</option>
-                                        <option th:selected="${pageVO.cri.contractPriceStatus == '승인'}">승인</option>
-                                        <option th:selected="${pageVO.cri.contractPriceStatus == '반려'}">반려</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p>고객사명</p>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="clientName">
+                                    </td>
+                                    <td>
+                                        <p>계약시작일</p>
+                                    </td>
+                                    <td>
+                                        <input type="date" name="contractSdate">
+                                    </td>
+                                    <td>
+                                        <p>계약종료일</p>
+                                    </td>
+                                    <td>
+                                        <input type="date" name="contractEdate">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>상품품목명</p>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="productName">
+                                    </td>
+                                    <td>
+                                        <p>담당자</p>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="managerName">
+                                    </td>
+                                    <td>
+                                        <p>계약상태</p>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="contractPriceStatus">
+                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </tbody>
                         </table>
                     </form>
 

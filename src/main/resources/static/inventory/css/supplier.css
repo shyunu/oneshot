@@ -1,9 +1,9 @@
-.supplier-wrap {
+.supplier-wrap, .purchase-wrap {
   width: 100%;
   height: 100vh;
 }
 
-.supplier-title {
+.supplier-title, .purchase-title {
   float: left;
   width: 100%;
   position: relative;
@@ -57,13 +57,11 @@
   margin-left: auto;
 }
 
-/* //////////////////////////////////////////////////////////// */
-/* 팝업 공통 디자인 */
 .close-btn {
   cursor: pointer;
 }
 
-.supplier_list:hover {
+.supplier_list:hover, .purchase_list:hover {
   background-color: #f7f5f2;
   cursor: pointer;
 }
