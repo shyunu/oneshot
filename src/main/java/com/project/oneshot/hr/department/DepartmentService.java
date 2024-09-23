@@ -14,4 +14,6 @@ public interface DepartmentService {
     List<EmployeeVO> getEmployeesByDepartment(int departmentNo); // 부서별 사원 목록 조회
     boolean updateDepartmentDetails(DepartmentVO department); // 부서 정보 및 메뉴 업데이트
     List<MenuVO> selectMenus(); // 메뉴 조회
+    boolean isDuplicateDepartmentName(String departmentName); // 부서명 중복
+
 }

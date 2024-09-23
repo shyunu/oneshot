@@ -292,6 +292,17 @@ function Department() {
         e.preventDefault();
         setSubmitted(true);
 
+        // 부서명 중복 확인 로직 추가
+        try {
+            const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
+            if (duplicateCheckResponse.data) {
+                alert('이미 중복된 부서명이 있습니다.');
+                return; // 중복된 경우 등록을 중지
+            }
+        } catch (error) {
+            console.error('부서명 중복 확인 중 오류 발생:', error);
+        }
+
         if (!formValues.departmentNo.trim() || !formValues.departmentName.trim()) {
             setErrors({
                 departmentNo: !formValues.departmentNo.trim(),
@@ -316,13 +327,9 @@ function Department() {
             resetForm();  // 등록 후 입력 필드 초기화
             setSubmitted(false);
         } catch (err) {
-            console.error('부서 등록중 오류:', err);
+            console.error('부서 등록 중 오류:', err);
         }
     };
-
-
-
-
 
     // 정렬 처리
     const requestSort = (key) => {
@@ -400,7 +407,7 @@ function Department() {
                                       {departments.length > 0 &&
                                         departments.map((department) => (
                                           <option key={department.departmentNo} value={department.departmentName}>
-                                            {department.departmentName} {/* key는 departmentNo로 설정 */}
+                                            {department.departmentName}
                                           </option>
                                         ))}
                                     </select>
@@ -422,7 +429,7 @@ function Department() {
                                       {menuList.length > 0 &&
                                         menuList.map((menu) => (
                                           <option key={menu.menu_no} value={menu.menu_no}>
-                                            {menu.menu_name} {/* key는 menu_no로 설정 */}
+                                            {menu.menu_name}
                                           </option>
                                         ))}
                                     </select>
@@ -437,7 +444,6 @@ function Department() {
                                 </td>
                             </tr>
                         </tbody>
-
                     </table>
                 </div>
             </div>
@@ -590,14 +596,14 @@ function Department() {
                                                 onChange={handleChange}
                                                 placeholder="부서명"
                                                 className={submitted && errors.departmentName ? 'input-error' : ''}
+                                                required
                                             />
-                                            {submitted && errors.departmentName && <div className="error-message">부서명을 입력하세요.</div>}
                                         </div>
                                         <div>
                                             <label>사용 가능 메뉴:</label>
                                             {menuList.length > 0 ? (
                                                 menuList.map((menu) => (
-                                                    <div key={menu.menuNo}> {/* key를 menuNo로 설정 */}
+                                                    <div key={menu.menuNo}>
                                                         <input
                                                             type="checkbox"
                                                             id={`menu-${menu.menuNo}`}
@@ -605,7 +611,7 @@ function Department() {
                                                             checked={formValues.menus.includes(menu.menuNo)}  // 선택된 상태를 반영
                                                             onChange={() => handleMenuChange(menu.menuNo)}  // 변경 시 상태 처리
                                                         />
-                                                        <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>  {/* 메뉴 이름 표시 */}
+                                                        <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
                                                     </div>
                                                 ))
                                             ) : (
