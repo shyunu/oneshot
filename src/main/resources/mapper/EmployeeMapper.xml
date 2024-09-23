@@ -23,6 +23,7 @@
             e.employee_email,
             e.employee_photo_path,
             e.bank_no,
+            b.bank_name,
             e.account_holder,
             d.department_name,
             p.position_name
@@ -32,8 +33,10 @@
             department d ON e.department_no = d.department_no
                 LEFT JOIN
             position p ON e.position_no = p.position_no
+                LEFT JOIN
+            bank b ON e.bank_no = b.bank_no
         ORDER BY
-            e.employee_status,
+            e.employee_status DESC,
             e.employee_no
         LIMIT  #{limit}
         OFFSET #{offset}
@@ -55,19 +58,25 @@
         e.employee_phone,
         e.emergency_phone,
         e.employee_address,
+        e.employee_address_detail,
         e.account_number,
         e.employee_hiredate,
         e.employee_status,
         e.employee_email,
         e.employee_photo_path,
         e.bank_no,
+        b.bank_name,
         e.account_holder,
         d.department_name,
         p.position_name
         FROM
         employee e
-        LEFT JOIN department d ON e.department_no = d.department_no
-        LEFT JOIN position p ON e.position_no = p.position_no
+        LEFT JOIN
+        department d ON e.department_no = d.department_no
+        LEFT JOIN
+        position p ON e.position_no = p.position_no
+        LEFT JOIN
+        bank b ON e.bank_no = b.bank_no
         <where>
             <if test="employeeNo != null">
                 e.employee_no = #{employeeNo}
