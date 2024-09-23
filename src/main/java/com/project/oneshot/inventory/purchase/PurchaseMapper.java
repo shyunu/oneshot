@@ -11,7 +11,7 @@ public interface PurchaseMapper {
 
     int getTotalPurchase(PurchaseCriteria cri); // 전체 게시글 수
 
-    public void registerPurchase(PurchaseVO purchase); // 구매신청
+    public void registerPurchase(List<PurchaseVO> list); // 구매신청
 
     List<SupplierVO> getAllSuppliers(); // 공급업체 목록
 
@@ -20,4 +20,6 @@ public interface PurchaseMapper {
     List<ProductVO> getProductsByCategory(Long categoryNo); // 카테고리별 상품 목록
 
     List<EmployeeVO> getAllEmployees(); // 사원 목록
+
+    Integer getPurchaseNo();
 }
