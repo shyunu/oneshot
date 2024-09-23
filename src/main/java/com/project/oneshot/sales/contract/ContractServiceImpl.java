@@ -1,8 +1,6 @@
 package com.project.oneshot.sales.contract;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.ProductVO;
+import com.project.oneshot.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

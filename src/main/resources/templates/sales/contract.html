@@ -182,7 +182,7 @@
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
                             <button type="submit" class="filter-button">검색하기</button>
-                            <button type="button" onclick="location.href='/sales/contract'">전체보기</button>
+                            <button type="button" class="filter-button" onclick="location.href='/sales/contract'">전체보기</button>
                         </div>
 
                         <table>
@@ -281,53 +281,47 @@
                             <tr>
                                 <td><p>고객사명(번호)</p></td>
                                 <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
-                                <td>
-                                    <p>사업자등록번호</p>
-                                </td>
-                                <td>
-                                    <input type="text" class="clientBusinessNo" disabled>
-                                </td>
+
+                                <td><p>사업자등록번호</p></td>
+                                <td><input type="text" class="clientBusinessNo" disabled></td>
+
+                                <td><p>고객사담당자</p></td>
+                                <td><input type="text" class="managerName" disabled></td>
+
+                                <td><p>고객사담당자 전화번호</p></td>
+                                <td><input type="text" class="managerPhone" disabled></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <p>고객사 담당자</p>
-                                </td>
-                                <td><input type="text" class="managerName" readonly></td>
-                                <td>
-                                    <p>고객사 담당자 전화번호</p>
-                                </td>
-                                <td>
-                                    <input type="text" class="managerPhone" disabled>
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td><p>계약시작일</p></td>
                                 <td><input type="date" name="contractSdate"></td>
-                                <td>
-                                    <p>계약종료일</p>
-                                </td>
+
+                                <td><p>계약종료일</p></td>
                                 <td><input type="date" name="contractEdate"></td>
+
+                                <td><p>본사담당자</p></td>
+                                <td><input type="text" class="employeeName" disabled></td>
+
+                                <td><p>본사담당자 전화번호</p></td>
+                                <td><input type="text" class="employeePhone" disabled></td>
                             </tr>
+
                             </tbody>
                             <tbody id="inputContainer" class="input-wrapper">
                             <tr class="addList">
+                                <td><p>상품품목명</p></td>
                                 <td>
-                                    <p>상품품목명</p>
-                                </td>
-
-                                <td>
-                                    <select class="productNo" name="productNo">
-                                        <option>상품을 선택하세요.</option>
+                                    <select colspan="3" class="productNo" name="productNo">
+                                        <option>-상품-</option>
                                     </select>
-                                    <!-- <input type="text" name="contractProductName[]"> -->
                                 </td>
 
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
 
-                                <td colspan="3" style="text-align: left;">
-                                    <input type="number" name="contractPrice">
+                                <td style="text-align: left;">
+                                    <input type="number" colspan="3" name="contractPrice">
                                 <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
                                 <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </td>
@@ -381,51 +375,31 @@
                                 <td><input type="text" name="managerPhone" id="managerPhone"></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <p>본사 담당자</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="employeeName" id="employeeName">
-                                </td>
-                                <td>
-                                    <p>본사 담당자 연락처</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="employeePhone" id="employeePhone">
-                                </td>
+                                <td><p>본사 담당자</p></td>
+                                <td><input type="text" name="employeeName" id="employeeName"></td>
+
+                                <td><p>본사 담당자 연락처</p></td>
+                                <td><input type="text" name="employeePhone" id="employeePhone"></td>
                             </tr>
 
                             <tr>
-                                <td>
-                                    <p>계약시작일</p>
-                                </td>
-                                <td>
-                                    <input type="date" name="contractSdate" id="contractSdate">
-                                </td>
-                                <td>
-                                    <p>계약종료일</p>
-                                </td>
+                                <td><p>계약시작일</p></td>
+                                <td><input type="date" name="contractSdate" id="contractSdate"></td>
+
+                                <td><p>계약종료일</p></td>
                                 <td><input type="date" name="contractEdate" id="contractEdate"></td>
+
                             </tr>
                             </tbody>
                             <tbody class="eachBox">
                             <tr class="addList">
-                                <td>
-                                    <p>상품품목명</p>
-                                </td>
 
-                                <td>
-                                    <input type="text" name="productName" id="productName">
-                                </td>
+                                <td><p>상품품목명</p></td>
+                                <td><input type="text" name="productName" id="productName"></td>
 
-                                <td class="product-price">
-                                    <p>책정거래가</p>
-                                </td>
-
-                                <td colspan="3" style="text-align: left;">
+                                <td class="product-price"><p>책정거래가</p></td>
+                                <td style="text-align: left;">
                                     <input type="text" name="contractPrice" id="contractPrice">
-                                    <!-- <td><button type="button" class="add-button" onclick="addRow2()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td> -->
-                                    <!-- <td><button type="button" class="remove-button" onclick="removeRow2(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td> -->
                                 </td>
                             </tr>
                             </tbody>
@@ -500,7 +474,7 @@
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var html = '<option>- 고객사명 -</option>';
+                var html = '<option>-고객사명-</option>';
                 $.each(data, function(index, obj) {
                     html += '<option value=' + obj.clientNo + '>' + obj.clientName + '</option>';
                 });
@@ -511,21 +485,21 @@
             }
         });
 
-        $.ajax({
-            url: '/sales/getContractProductList',
-            type: 'get',
-            dataType: 'json',
-            success: function(data2) {
-                var html = '<option>상품을 선택하세요.</option>';
-                $.each(data2, function(index2, obj2) {
-                    html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
-                });
-                $('.productNo').html(html);
-            },
-            error: function() {
-                $('.productNo').html('<option>상품 로드 실패</option>');
-            }
-        })
+        //로그인 직원 정보를 가져오는 ajax
+        // $.ajax({
+        //     url: '/sales/getLoginEmlployeeInfo',
+        //     type: 'get',
+        //     dataType: 'json',
+        //     success: function(data) {
+        //         $('.employeeName').val(data.employeeName);
+        //         $('.employeePhone').val(data.employeePhone);
+        //     },
+        //     error: function() {
+        //         alert('에러러러러');
+        //         // $('.employeeName').val('');
+        //         // $('.employeePhone').val('');
+        //     }
+        // });
 
         popupRegist.style.display = 'block';
     }
@@ -546,6 +520,22 @@
                 $('.clientBusinessNo').val('');
                 $('.managerName').val('');
                 $('.managerPhone').val('');
+            }
+        });
+
+        $.ajax({
+            url: '/sales/getContractProductList',
+            type: 'get',
+            dataType: 'json',
+            success: function(data2) {
+                var html = '<option>-상품-</option>';
+                $.each(data2, function(index2, obj2) {
+                    html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
+                });
+                $('.productNo').html(html);
+            },
+            error: function() {
+                $('.productNo').html('<option>상품 로드 실패</option>');
             }
         });
     }
@@ -623,7 +613,6 @@
 
     }
 
-
     // 팝업창 닫기
     function closePopupModify() {
         popupModify.style.display = 'none';
@@ -638,8 +627,6 @@
 
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
-
-
     // registBtn.addEventListener('click', openPopup);
 </script>
 
