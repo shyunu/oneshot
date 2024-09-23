@@ -145,7 +145,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #5c6f7f;
     padding: 10px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -181,7 +180,8 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+    width: 100%;
+    margin: 0 10px 0 10px;
 }
 
 .code-option {

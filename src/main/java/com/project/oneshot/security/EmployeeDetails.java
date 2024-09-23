@@ -48,6 +48,20 @@ public class EmployeeDetails implements UserDetails {
     }
 
 
+    public String getEmployeeName() {
+        return employeeAuthVO.getEmployeeName(); // employeeName 반환
+    }
+    public String getPositionName() {
+        return employeeAuthVO.getPositionName(); // positionName 반환
+    }
+
+    public int getDepartmentNo() {
+        return employeeAuthVO.getDepartmentNo(); // departmentNo 반환
+    }
+
+    public String getDepartmentName() {
+        return employeeAuthVO.getDepartmentName(); // departmentName 반환
+    }
 
     @Override
     public boolean isAccountNonExpired() {

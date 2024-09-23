@@ -179,17 +179,16 @@ function Department() {
             // 데이터가 제대로 오는지 확인하기 위한 로그
             console.log("Fetched menus:", response.data);
 
-            // 중복된 메뉴 번호 제거 (중복이 있을 경우에 대비)
-            const uniqueMenus = Array.from(new Set(response.data.map(menu => menu.menu_no)))
-                .map(no => response.data.find(menu => menu.menu_no === no));
+            setMenuList(response.data);
 
-            setMenuList(uniqueMenus.length > 0 ? uniqueMenus : []);
         } catch (err) {
             console.error('Error fetching menus:', err);
             setMenuList([]); // 에러 발생 시 빈 배열 설정
         }
     };
-
+    useEffect(() => {
+        console.log("Updated menuList:", menuList);
+    }, [menuList]);
     // 페이지가 로드될 때 메뉴 목록을 불러옵니다.
     useEffect(() => {
         fetchMenus();
@@ -428,8 +427,8 @@ function Department() {
                                       <option value="">선택</option>
                                       {menuList.length > 0 &&
                                         menuList.map((menu) => (
-                                          <option key={menu.menu_no} value={menu.menu_no}>
-                                            {menu.menu_name}
+                                          <option key={menu.menuNo} value={menu.menuNo}>
+                                            {menu.menuName}
                                           </option>
                                         ))}
                                     </select>

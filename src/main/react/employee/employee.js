@@ -789,6 +789,18 @@ function Employee() {
                                                 }}
                                                 readOnly
                                             />
+
+                                            <select name="bankNo" value={newEmployee.bankNo}
+                                                    onChange={handleSearchChange}>
+                                                <option value="" disabled hidden>부서 선택</option>
+                                                <option value="-1">전체</option>
+                                                {departments.map(department => (
+                                                    <option key={department.departmentNo}
+                                                            value={department.departmentNo}>
+                                                        {department.departmentName}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="employeeEmail">계좌번호</label>
@@ -877,14 +889,12 @@ function Employee() {
                             {currentPopup === 'bank' && banks.map(bank => (
                                 <div key={bank.bankNo} className="select-item"
                                      onClick={() => handleBankSelect(bank.bankNo, bank.bankName)}>
-                                    <button className="no-option">{bank.bankNo}</button>
                                     <button className="name-option">{bank.bankName}</button>
                                 </div>
                             ))}
                             {currentPopup === 'department' && departments.map(department => (
                                 <div key={department.departmentNo} className="select-item"
                                      onClick={() => handleDepartmentSelect(department.departmentNo, department.departmentName)}>
-                                    <button className="no-option">{department.departmentNo}</button>
                                     <button className="name-option">{department.departmentName}</button>
                                 </div>
                             ))}
@@ -895,7 +905,6 @@ function Employee() {
                                 .map(position => (
                                     <div key={position.positionNo} className="select-item"
                                          onClick={() => handlePositionSelect(position.positionNo, position.positionName)}>
-                                        <button className="no-option">{position.positionNo}</button>
                                         <button className="name-option">{position.positionName}</button>
                                     </div>
                                 ))
