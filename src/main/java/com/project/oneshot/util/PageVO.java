@@ -1,5 +1,6 @@
 package com.project.oneshot.util;
 
+import com.project.oneshot.inventory.product.ProductCriteria;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -67,5 +68,4 @@ public class PageVO {
         this.pageList = IntStream.rangeClosed(this.start, this.end).boxed().collect(Collectors.toList());
 
     }
-    
 }

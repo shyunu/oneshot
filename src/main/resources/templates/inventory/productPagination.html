@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="page(pageVO)">
+    <ul>
+        <!-- 3. 이전버튼-->
+        <th:block th:if="${pageVO.prev}">
+            <li style="margin-right:5px;">
+                <a th:href="@{productList(page = ${pageVO.start - 1},
+                                          amount = ${pageVO.amount},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          productName = ${pageVO.cri.productName},
+                                          startProductPrice = ${pageVO.cri.startProductPrice},
+                                          endProductPrice = ${pageVO.cri.endProductPrice},
+                                          productRemark = ${pageVO.cri.productRemark}
+                                          )}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+
+        <!-- 1. 페이지네이션 -->
+        <th:block th:each="page : ${pageVO.pageList}">
+            <li th:class="${pageVO.page == page ? 'on' : '' }">
+                <a th:href="@{productList(page = ${page},
+                                          amount = ${pageVO.amount},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          productName = ${pageVO.cri.productName},
+                                          startProductPrice = ${pageVO.cri.startProductPrice},
+                                          endProductPrice = ${pageVO.cri.endProductPrice},
+                                          productRemark = ${pageVO.cri.productRemark}
+                                          )}">[[${page}]]</a></li>
+        </th:block>
+
+        <!--2. 다음버튼 -->
+        <th:block th:if="${pageVO.next}">
+            <li style="margin-left:5px;">
+                <a th:href="@{productList(page = ${pageVO.end + 1},
+                                          amount = ${pageVO.amount},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          supplierNo = ${pageVO.cri.supplierNo},
+                                          productName = ${pageVO.cri.productName},
+                                          startProductPrice = ${pageVO.cri.startProductPrice},
+                                          endProductPrice = ${pageVO.cri.endProductPrice},
+                                          productRemark = ${pageVO.cri.productRemark}
+                                          )}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            </li>
+        </th:block>
+    </ul>
+</th:block>

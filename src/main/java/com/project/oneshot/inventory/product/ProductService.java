@@ -4,25 +4,27 @@ package com.project.oneshot.inventory.product;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
+import com.project.oneshot.util.Criteria;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
 
-    public List<SupplierVO> getAllSuppliers();
+    List<ProductVO> getProductList(ProductCriteria cri);
 
-    SupplierVO getSupplierDetails(Long supplierNo);
+    int getTotalProductCount(ProductCriteria cri);
 
-    void registerProduct(ProductVO vo);
+    List<SupplierVO> getSupplierList();
 
-    List<CategoryVO> getAllCategories();
+    SupplierVO getSupplierContent(int supplierNo);
 
-    List<ProductVO> getProductDetails(Long supplierNo);
+    List<CategoryVO> getCategoryList();
 
-    SupplierVO registerSupplier(SupplierVO supplier);
+    void postProduct(ProductVO vo, MultipartFile file);
 
-    Page<ProductVO> getAllProducts(int page, int size);
+    ProductVO getProductContent(int productNo);
 
-    CategoryVO getCategoryById(Long categoryNo);
+    void putProduct(ProductVO vo, MultipartFile file);
 }

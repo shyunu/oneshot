@@ -1,215 +1,289 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/common/css/home.css">
 
-</head>
-<body>
-<div th:replace="common/thymeleafView :: headerFragment"></div>
-<div class="home-wrap" style="float: right">
-    <div class="calendar-container">
-        <div class="calendar-controls">
-            <button onclick="prevMonth()">◀︎</button>
-            <span id="currentMonth"></span>
-            <button onclick="nextMonth()">▶︎</button>
+
+
+<th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
+    <div class="content">
+        <div class="main-wrap">
+            <div class="main-left">
+                <div id='calendar'></div>
+            </div>
+
+            <div class="main-right">
+                <div class="right1">
+                    <div class="chart-container">
+                        <h3>월별판매량</h3>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>목표판매량도달률</h3>
+                        <canvas id="doughnut"></canvas>
+                    </div>
+                </div>
+                <div class="right2">
+                    <div class="notice-wrap">
+                        <div class="notice1">
+                        <p>공지사항</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>작성일</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>진행상태</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024/09/01</td>
+                                <td>본사 전체 회의 소집</td>
+                                <td>원샷</td>
+                                <td>진행 중</td>
+                            </tr>
+                            <tr>
+                                <td>2024/09/01</td>
+                                <td>영업팀 신입사원 공개채용 일정</td>
+                                <td>원샷</td>
+                                <td>진행 중</td>
+                            </tr>
+                            <tr>
+                                <td>2024/09/01</td>
+                                <td>8월 우수영업사원 안내문</td>
+                                <td>원샷</td>
+                                <td>진행 중</td>
+                            </tr>
+                            <tr>
+                                <td>2024/09/01</td>
+                                <td>인사팀 신입사원 공개채용 일정</td>
+                                <td>원샷</td>
+                                <td>진행 중</td>
+                            </tr>
+                            <tr>
+                                <td>2024/09/01</td>
+                                <td>인사팀 신입사원 공개채용 일정</td>
+                                <td>원샷</td>
+                                <td>진행 중</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                </div>
+            </div>
         </div>
-        <table>
-            <thead>
-            <tr>
-                <th>일</th>
-                <th>월</th>
-                <th>화</th>
-                <th>수</th>
-                <th>목</th>
-                <th>금</th>
-                <th>토</th>
-            </tr>
-            </thead>
-            <tbody id="calendar-body">
-            </tbody>
-        </table>
     </div>
-    <div class="notice-wrap">
-        <div class="notice1">
-            <p>전자결재</p>
-            <table>
-                <thead>
-                <tr>
-                    <th>기간일자</th>
-                    <th>제목</th>
-                    <th>구분</th>
-                    <th>기안자</th>
-                    <th>결재자</th>
-                    <th>진행상태</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>김ㅇㅇ 휴가 신청서입니다</td>
-                    <td>휴가신청</td>
-                    <td>김ㅇㅇ</td>
-                    <td>팀장</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>김ㅇㅇ 휴가 신청서입니다</td>
-                    <td>휴가신청</td>
-                    <td>김ㅇㅇ</td>
-                    <td>팀장</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>김ㅇㅇ 휴가 신청서입니다</td>
-                    <td>휴가신청</td>
-                    <td>김ㅇㅇ</td>
-                    <td>팀장</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>김ㅇㅇ 휴가 신청서입니다</td>
-                    <td>휴가신청</td>
-                    <td>김ㅇㅇ</td>
-                    <td>팀장</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>김ㅇㅇ 휴가 신청서입니다</td>
-                    <td>휴가신청</td>
-                    <td>김ㅇㅇ</td>
-                    <td>팀장</td>
-                    <td>진행 중</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <div class="notice1">
-            <p>공지사항</p>
-            <table>
-                <thead>
-                <tr>
-                    <th>작성일</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>진행상태</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>본사 전체 회의 소집</td>
-                    <td>원샷</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>영업팀 신입사원 공개채용 일정</td>
-                    <td>원샷</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>8월 우수영업사원 안내문</td>
-                    <td>원샷</td>
-                    <td>진행 중</td>
-                </tr>
-                <tr>
-                    <td>2024/09/01</td>
-                    <td>인사팀 신입사원 공개채용 일정</td>
-                    <td>원샷</td>
-                    <td>진행 중</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-</div>
-
-</body>
+</th:block>
 
 <script>
-    const holidays = {
-        '2024-09-16': '추석 연휴',
-        '2024-09-17': '추석',
-        '2024-09-18': '추석 연휴',
-        '2024-10-01': '임시공휴일',
-        '2024-10-03': '개천절',
-        '2024-10-09': '한글날',
-        '2024-12-25': '크리스마스'
-        // 나머지 법정 공휴일 추가해도됨~~~
-    };
 
-    let currentYear = 2024;
-    let currentMonth = 8; // 0 = 1월, 8 = 9월
-
-    function generateCalendar(year, month) {
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-        const calendarBody = document.getElementById('calendar-body');
-        calendarBody.innerHTML = '';
-
-        let date = 1;
-        for (let i = 0; i < 6; i++) { // 6주까지 표현
-            const row = document.createElement('tr');
-
-            for (let j = 0; j < 7; j++) {
-                const cell = document.createElement('td');
-
-                if (i === 0 && j < firstDay) {
-                    cell.innerHTML = '';
-                } else if (date > lastDate) {
-                    break;
-                } else {
-                    const fullDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
-
-                    if (holidays[fullDate]) {
-                        cell.innerHTML = `<span class="red">${date}</span><br><span class="black">${holidays[fullDate]}</span>`;
-                    } else {
-                        cell.innerHTML = date;
-                    }
-
-                    date++;
+    // ----- 세로막대 차트
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['1분기', '2분기', '3분기', '4분기', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    '#468189',
+                    '#77aca2',
+                    '#9dbebb',
+                    '#708d81',
+                    '#6b9080',
+                    '#333d29'
+                ],
+                borderColor: [
+                    '#468189',
+                    '#77aca2',
+                    '#9dbebb',
+                    '#708d81',
+                    '#6b9080',
+                    '#333d29'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
-
-                row.appendChild(cell);
             }
-
-            calendarBody.appendChild(row);
         }
+    });
 
-        document.getElementById('currentMonth').innerText = `${year}년 ${(month + 1).toString().padStart(2, '0')}월`;
-    }
+    // ----- 달력
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            // Tool Bar 목록 document : https://fullcalendar.io/docs/toolbar
+            headerToolbar: {
+                left: 'prevYear,prev,next,nextYear today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+            },
 
-    function prevMonth() {
-        if (currentMonth === 0) {
-            currentMonth = 11;
-            currentYear--;
-        } else {
-            currentMonth--;
-        }
-        generateCalendar(currentYear, currentMonth);
-    }
+            selectable: true,
+            selectMirror: true,
 
-    function nextMonth() {
-        if (currentMonth === 11) {
-            currentMonth = 0;
-            currentYear++;
-        } else {
-            currentMonth++;
-        }
-        generateCalendar(currentYear, currentMonth);
-    }
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            // Create new event
+            select: function (arg) {
+                Swal.fire({
+                    html: "<div class='mb-7'>Create new event?</div><div class='fw-bold mb-5'>Event Name:</div><input type='text' class='form-control' name='event_name' />",
+                    icon: "info",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, create it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+                        var title = document.querySelector("input[name=;event_name']").value;
+                        if (title) {
+                            calendar.addEvent({
+                                title: title,
+                                start: arg.start,
+                                end: arg.end,
+                                allDay: arg.allDay
+                            })
+                        }
+                        calendar.unselect()
+                    } else if (result.dismiss === "cancel") {
+                        Swal.fire({
+                            text: "Event creation was declined!.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                            }
+                        });
+                    }
+                });
+            },
 
-    generateCalendar(currentYear, currentMonth);
+            // Delete event
+            eventClick: function (arg) {
+                Swal.fire({
+                    text: "Are you sure you want to delete this event?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+                        arg.event.remove()
+                    } else if (result.dismiss === "cancel") {
+                        Swal.fire({
+                            text: "Event was not deleted!.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                            }
+                        });
+                    }
+                });
+            },
+            dayMaxEvents: true, // allow "more" link when too many events
+            // 이벤트 객체 필드 document : https://fullcalendar.io/docs/event-object
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2022-07-01'
+                },
+                {
+                    title: 'Long Event',
+                    start: '2022-07-07',
+                    end: '2022-07-10'
+                },
+                {
+                    groupId: 999,
+                    title: 'Repeating Event',
+                    start: '2022-07-09T16:00:00'
+                },
+                {
+                    groupId: 999,
+                    title: 'Repeating Event',
+                    start: '2022-07-16T16:00:00'
+                },
+                {
+                    title: 'Conference',
+                    start: '2022-07-11',
+                    end: '2022-07-13'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2022-07-12T10:30:00',
+                    end: '2022-07-12T12:30:00'
+                },
+                {
+                    title: 'Lunch',
+                    start: '2022-07-12T12:00:00'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2022-07-12T14:30:00'
+                },
+                {
+                    title: 'Happy Hour',
+                    start: '2022-07-12T17:30:00'
+                },
+                {
+                    title: 'Dinner',
+                    start: '2022-07-12T20:00:00'
+                },
+                {
+                    title: 'Birthday Party',
+                    start: '2022-07-13T07:00:00'
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2022-07-28'
+                }
+            ]
+        });
+
+        calendar.render();
+    });
+
+    const canvas = document.getElementById("doughnut");
+    const data = {
+        labels: ["도달1", "도달2", "도달2"],
+        datasets: [
+            {
+                label: "My First Dataset",
+                data: [200, 40, 90],
+                backgroundColor: [
+                    "#01497c",
+                    "#2a6f97",
+                    "#61a5c2",
+                ],
+                hoverOffset: 4,
+            },
+        ],
+    };
+    new Chart(canvas, {
+        type: "doughnut",
+        data,
+    });
+
 </script>
+
 </html>

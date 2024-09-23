@@ -6,34 +6,50 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 9999;
 }
 
 /* 메인 팝업 내용 스타일 */
 .popup-content {
-    background-color: #f3f3f3;
+    margin: 0;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: absolute; /* 드래그 가능하도록 absolute 설정 */
-    width: 600px;
-    height: 750px;
-    left: 35%;
-    top: 5%;
+    left: 50%;
+    top: 50%;
 }
 
 /* 팝업 헤더 스타일 */
 .popup-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background-color: #5c6f7f;
-    padding: 10px;
+    background-color: #434343;
+    height: 50px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     color: white;
-    font-weight: bold;
+}
+.popup-header > span {
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.popup-form{
+    padding: 10px;
+}
+
+.popup-form > table{
+    border: 1px solid #e3e3e3;
+}
+.popup-form > table td{
+    border: 1px solid #e3e3e3;
+}
+.popup-form > table td input{
+    width: 100%;
 }
 
 /* 팝업 닫기 버튼 스타일 */
@@ -44,7 +60,6 @@
     gap: 5px;
     margin-top: auto;
     padding: 10px;
-    position: absolute;
     bottom: 10px;
     right: 15px;
 }
@@ -72,7 +87,7 @@
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 20px;
+    margin: 0 auto;
 }
 
 .profile-picture img {
@@ -98,11 +113,23 @@
     cursor: pointer;
 }
 
+/* 페이지네이션 */
+.page-btn{
+    border-radius: 0;
+    height: auto;
+    width: auto;
+    border: 1px solid #ddd;
+    color: black;
+    background-image: none;
+    padding: 8px 16px;
+    margin: 0px -5px 0px 15px;
+}
 
 /* 선택 팝업 스타일 */
 #SelectPopup .popup-content {
-    margin-left: 100px;
-    margin-top: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 400px;
     max-height: 600px; /* 최대 높이 설정 */
     padding: 0; /* 패딩 초기화 */
@@ -199,34 +226,23 @@
     border-radius: 5px;
 }
 
-.account-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.input-form{
+    border: 1px solid #e3e3e3;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.select-input-form{
+    padding-left: 8px;
+    padding-right: 8px;
+    border-width: 0;
 }
 
-
-/* 주소 */
-#employeeAddress {
-    width: 90%;
-    margin-top: 5px;
-}
-
-
-/* 은행칸과 주소칸 간격 조정 */
-#accountBank {
-    margin-top: 3px;
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
-}
-
-#accountNumber {
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
-}
-
-#accountHolder {
-    margin-bottom: 20px; /* 마지막 필드는 margin-bottom을 설정하지 않음 */
-}
-
-#employeeAddress {
-    margin-bottom: 3px; /* 간격을 줄이기 위해 margin-bottom을 설정 */
+/* 지도팝업닫기 */
+.map-close-btn{
+    position: absolute;
+    z-index: 999999999;
+    top: calc(50% - 330px);
+    left: calc(50% + 245px);
+    width: auto;
+    border-radius: 0;
 }

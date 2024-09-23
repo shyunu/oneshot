@@ -3,6 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.inventory.supplier.SupplierMapper">
+
+    <!-- 업체 등록 -->
     <insert id="registerSupplier" parameterType="SupplierVO" useGeneratedKeys="true" keyProperty="supplierNo">
         INSERT INTO supplier (
                                 supplier_no, supplier_name, supplier_address, supplier_business_no,
@@ -14,9 +16,77 @@
                 )
     </insert>
 
+    <!-- 목록 조회 -->
     <select id="getAllSuppliers" resultType="SupplierVO">
+        SELECT * FROM supplier
+        <where>
+            <if test="supplierName != null and supplierName != ''">
+                <![CDATA[ AND supplier_name LIKE CONCAT('%', #{supplierName}, '%') ]]>
+            </if>
+            <if test="supplierAddress != null and supplierAddress != ''">
+                <![CDATA[ AND supplier_address LIKE CONCAT('%', #{supplierAddress}, '%') ]]>
+            </if>
+            <if test="supplierBusinessNo != null and supplierBusinessNo != ''">
+                <![CDATA[ AND supplier_business_no LIKE CONCAT('%', #{supplierBusinessNo}, '%') ]]>
+            </if>
+            <if test="managerName != null and managerName != ''">
+                <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+            </if>
+            <if test="managerPhone != null and managerPhone != ''">
+                <![CDATA[ AND manager_phone LIKE CONCAT('%', #{managerPhone}, '%') ]]>
+            </if>
+            <if test="managerEmail != null and managerEmail != ''">
+                <![CDATA[ AND manager_email LIKE CONCAT('%', #{managerEmail}, '%') ]]>
+            </if>
+        </where>
+        ORDER BY supplier_no
+        limit #{amount} offset #{pageStart}
+    </select>
+
+    <!-- 전체 게시글 수 페이지네이션-->
+    <select id="getTotalSupplier" resultType="int">
+        SELECT count(*)
+        FROM supplier
+        where 1 = 1
+        <if test="supplierName != null and supplierName != ''">
+            <![CDATA[ AND supplier_name LIKE CONCAT('%', #{supplierName}, '%') ]]>
+        </if>
+        <if test="supplierAddress != null and supplierAddress != ''">
+            <![CDATA[ AND supplier_address LIKE CONCAT('%', #{supplierAddress}, '%') ]]>
+        </if>
+        <if test="supplierBusinessNo != null and supplierBusinessNo != ''">
+            <![CDATA[ AND supplier_business_no LIKE CONCAT('%', #{supplierBusinessNo}, '%') ]]>
+        </if>
+        <if test="managerName != null and managerName != ''">
+            <![CDATA[ AND manager_name LIKE CONCAT('%', #{managerName}, '%') ]]>
+        </if>
+        <if test="managerPhone != null and managerPhone != ''">
+            <![CDATA[ AND manager_phone LIKE CONCAT('%', #{managerPhone}, '%') ]]>
+        </if>
+        <if test="managerEmail != null and managerEmail != ''">
+            <![CDATA[ AND manager_email LIKE CONCAT('%', #{managerEmail}, '%') ]]>
+        </if>
+    </select>
+
+
+    <!-- 공급업체 번호로 수정 팝업창 내용 보기 -->
+    <select id="getSupplierByNo" parameterType="Long" resultType="SupplierVO">
         SELECT *
         FROM supplier
-        ORDER BY supplier_no
+        WHERE supplier_no = #{supplierNo}
     </select>
+
+
+    <!-- 등록업체 수정 -->
+    <update id="modifySupplier" parameterType="SupplierVO">
+        UPDATE supplier
+        SET supplier_name = #{supplierName},
+            supplier_address = #{supplierAddress},
+            supplier_business_no = #{supplierBusinessNo},
+            manager_name = #{managerName},
+            manager_phone = #{managerPhone},
+            manager_email = #{managerEmail},
+            supplier_file = #{supplierFile}
+        WHERE supplier_no = #{supplierNo}
+    </update>
 </mapper>

@@ -10,32 +10,52 @@
 .text-wrap {
     display: flex;
     justify-content: space-between;
+    margin-left: -8px;
+    padding: 5px
 }
 .order-title {
     float: left;
-    width: 40%;
+    width: 100%;
     position: relative;
-    margin-left: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-bottom: 1px solid #e3e3e3;
+    border-top: 1px solid #777;
 }
-.order-title p {
+.text-wrap p {
+    font-size: 30px;
+    line-height: 30px;
+}
+
+.text-wrap p:nth-of-type(2) {
     font-size: 13px;
     margin-bottom: 5px;
 }
 
-.order-title p:nth-of-type(1) {
-    font-size: 40px;
+/* //////////////////////////////////////////////////////////// */
+
+input[readonly],
+select[readonly] {
+    background-color: #f0f0f0;
 }
 
-/* //////////////////////////////////////////////////////////// */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
+table p {
+    white-space: nowrap;
+}
+
 
 table, th, td {
-    border: 1px solid #000;
+    border: 1px solid #777;
 }
+.left-row {
+    text-align: left;
+}
+
 
 tr {
     font-size: 15px;
@@ -51,6 +71,13 @@ td {
     padding: 5px;
     text-align: center;
     height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 체크박스 클릭 시 배경색과 투명도 변경 */
+.order-wrap table .tr-checked {
+    background-color: #e3e3e3;
+    opacity: 0.7;
 }
 
 
@@ -69,7 +96,6 @@ td {
     padding: 8px 16px;
     text-decoration: none;
     transition: background-color .3s;
-    border: 1px solid #ddd;
     margin: 0 4px;
 }
 
@@ -89,6 +115,7 @@ td {
     display: flex;
     justify-content: space-between;
 }
+
 .button-left {
     float: left;
 }
@@ -97,16 +124,6 @@ td {
     float: right;
 }
 
-/* //////////////////////////////////////////////////////////// */
-/* popup modify */
-.popup-modify {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
 
 /* tr td */
 .popup-list > table {
@@ -134,60 +151,13 @@ td {
     margin: 0;
 }
 
-
-.popup-modify .popup-content {
-    background-color: white;
-    margin: 10% auto;
-    width: 900px;
-    height: auto;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 8px 16px #e3e3e3;
+.product_list:hover {
+    background-color: #f7f5f2;
+    cursor: pointer;
 }
-
-.popup-modify .popup-content h2 {
-    color: #fff;
-    padding: 10px;
-    font-size: 25px; letter-spacing: 2px; font-weight: 400;
-    background-color: #434343;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 50px; line-height: 35px;
-}
-
-.popup-modify .popup-button button {
-    margin-top: 10px;
-    margin-right: 10px;
-}
-.popup-modify .popup-content .popup-button {
-    height: 50px;
-}
-
-.popup-modify .popup-list {
-    padding: 10px;
-}
-
-.popup-modify .popup-list p, input {
-    display: inline-block;
-    position: relative;
-    height: 30px;
-}
-.popup-modify .popup-list p {
-    line-height: 30px;
-    width: 100%;
-}
-
-.popup-modify .popup-list input, select {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    padding: 6px 12px;
-}
-
-
 
 /* //////////////////////////////////////////////////////////// */
-
+/* popup regist */
 .popup-regist {
     display: none;
     position: fixed;
@@ -233,6 +203,7 @@ td {
 .popup-regist .popup-list p {
     line-height: 30px;
     width: 100%;
+    white-space: nowrap;
 }
 .popup-regist .popup-list input {
     border: 1px solid #e3e3e3;
@@ -244,9 +215,7 @@ td {
     left: 2px;
 }
 
-.popup-regist .close-btn {
-    float: right;
-    font-size: 20px;
+.popup-regist .close-btn3 {
     cursor: pointer;
 }
 
@@ -255,7 +224,88 @@ td {
     margin-right: 10px;
 }
 
+.popup-regist td {
+    white-space: nowrap;
+}
 
+/* //////////////////////////////////////////////////////////// */
+/* popup modify */
+.popup-modify {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.popup-modify .popup-content {
+    background-color: white;
+    margin: 10% auto;
+    width: 900px;
+    height: auto;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 8px 16px #e3e3e3;
+}
+
+.popup-modify .popup-content h2 {
+    color: #fff;
+    padding: 10px;
+    font-size: 25px; letter-spacing: 2px; font-weight: 400;
+    background-color: #434343;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 50px; line-height: 35px;
+}
+
+.popup-modify .popup-button button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.popup-modify .popup-content .popup-button {
+    height: 50px;
+}
+.popup-modify .popup-list p {
+    line-height: 30px;
+    width: 100%;
+}
+.popup-modify .popup-list {
+    padding: 10px;
+}
+
+.popup-modify .popup-list p, input {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+}
+.popup-modify .popup-list p {
+    line-height: 30px;
+    width: 100%;
+}
+
+.popup-modify .popup-list input, select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+.popup-modify .close-btn2 {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.popup-modify input[readonly]:focus,
+.popup-modify select[readonly]:focus{
+    outline: none; /* 포커스 외곽선 제거 */
+    box-shadow: none; /* 그림자 제거 */
+}
+.popup-modify .modifySubmitButton {
+    display: inline-block;
+}
+
+/* //////////////////////////////////////////////////////////// */
 /* button css (공통) */
 
 button {
@@ -282,4 +332,53 @@ button:active {
     background-color: #F3F4F6;
     box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15), 0px 1px 1px rgba(81, 41, 10, 0.15);
     transform: translateY(0.125rem);
+}
+
+/* //////////////////////////////////////////////////////////// */
+/* filter table */
+.content .filter-content,
+.content .filter-content table {
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.content .filter-content table {
+    margin-bottom: 15px;
+}
+.content .filter-content td {
+    border: 1px solid #e3e3e3;
+    letter-spacing: 3px;
+}
+.content .filter-content input {
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+.content .filter-button {
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+.content .filter-main {
+    gap: 10px; /* input과 select 사이의 간격 */
+    margin: 0px 10px 15px 0px;
+    width: 100%;
+}
+.content .filter-main h3 {
+    float: left;
+}
+.content .filter-main button {
+    float: right;
+}
+
+
+.content .filter-main select {
+    flex: 1;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    height: 30px;
+    border-radius: 4px;
+    width: 100%;
 }

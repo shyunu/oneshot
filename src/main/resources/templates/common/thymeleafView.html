@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src='/common/css/main.js'></script>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/common/css/thymeleafView.css" />
-    <link rel="stylesheet" href="/inventory/css/supplier.css">
-    <link rel="stylesheet" href="/inventory/css/product.css" />
-    <link rel="stylesheet" href="/sales/css/contract.css">
-    <!--<link rel="stylesheet" href="/sales/css/order.css">-->
+    <link rel="stylesheet" href="/common/css/home.css" />
+    <link rel='stylesheet' href='/common/css/main.css' />
+    <link rel="stylesheet" href="/inventory/css/supplier.css" />
+    <link rel="stylesheet" href="/sales/css/contract.css" />
+    <link rel="stylesheet" href="/sales/css/order.css">
 </head>
 <body>
 <nav class="navbar">
@@ -33,10 +36,10 @@
                 <li class="item">
                     <div class="nav_link submenu_item">
                 <span class="navlink_icon">
-                  <i class="bx bx-home-alt"></i>
+                  <i class='bx bxs-home'></i>
                 </span>
-                        <span class="navlink">
-                  <a href="#"></a>홈
+                <span class="navlink">
+                  <a href="/common/home" style="text-decoration: none; color: #fff;">홈</a>
                 </span>
                     </div>
                 </li>
@@ -44,46 +47,46 @@
                 <li class="item">
                     <div class="nav_link submenu_item" id="mainCategory1">
                 <span class="navlink_icon">
-                  <i class="bx bx-grid-alt"></i>
+                  <i class='bx bxs-user'></i>
                 </span>
-                        <span class="navlink">인사관리</span>
+                    <span class="navlink">인사관리</span>
                         <i class="bx bx-chevron-right arrow-left"></i>
                     </div>
-
+dq
                     <ul class="submenu">
-                        <a href="#" class="nav_link sublink" id="subCategory1">사원관리</a>
-                        <a href="#" class="nav_link sublink" id="subCategory2">부서관리</a>
+                        <a href="#" class="nav_link sublink">사원관리</a>
+                        <a href="#" class="nav_link sublink">부서관리</a>
                     </ul>
                 </li>
 
                 <li class="item">
                     <div class="nav_link submenu_item" id="mainCategory2">
                 <span class="navlink_icon">
-                  <i class="bx bx-grid-alt"></i>
+                  <i class='bx bxs-archive'></i>
                 </span>
                         <span class="navlink">재고관리</span>
                         <i class="bx bx-chevron-right arrow-left"></i>
                     </div>
 
                     <ul class="submenu">
-                        <a href="#" class="nav_link sublink">재고내역관리</a>
-                        <a href="/product/productList" class="nav_link sublink" id="subCategory1">구매내역관리</a>
-                        <a href="/inventory/supplierList" class="nav_link sublink" id="subCategory2">공급업체관리</a>
+                        <a href="/inventory/supplierList" class="nav_link sublink">공급업체관리</a>
+                        <a href="/inventory/productList" class="nav_link sublink">상품관리</a>
+                        <a href="/inventory/purchaseList" class="nav_link sublink">재고관리</a>
                     </ul>
                 </li>
 
                 <li class="item">
                     <div class="nav_link submenu_item" id="mainCategory3">
                 <span class="navlink_icon">
-                  <i class="bx bx-grid-alt"></i>
+                  <i class='bx bxs-briefcase-alt'></i>
                 </span>
                         <span class="navlink">영업관리</span>
                         <i class="bx bx-chevron-right arrow-left"></i>
                     </div>
 
                     <ul class="submenu">
-                        <a href="/sales/contract" class="nav_link sublink" id="subCategory1">거래가격관리</a>
-                        <a href="/sales/order" class="nav_link sublink" id="subCategory2">판매내역관리</a>
+                        <a href="/sales/contract" class="nav_link sublink">계약관리</a>
+                        <a href="/sales/order" class="nav_link sublink">판매관리</a>
                     </ul>
                 </li>
             </ul>
@@ -93,8 +96,11 @@
                     <span> Expand</span>
                 </div>
                 <div class="bottom collapse_sidebar">
-                    <span>로그아웃</span>
-                    <i class='bx bx-log-out'></i>
+                    <form action="/logout" method="post" style="display: inline;">
+                        <button type="submit">로그아웃</button>
+                        <i class='bx bx-log-out'></i>
+                    </form>
+
                 </div>
             </div>
         </div>

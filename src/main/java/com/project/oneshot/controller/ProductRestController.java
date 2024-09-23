@@ -4,6 +4,7 @@ import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
 import com.project.oneshot.inventory.product.ProductService;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,40 +18,14 @@ import java.nio.file.Files;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/inventory")
 public class ProductRestController {
 
     @Autowired
     ProductService productService;
 
-    @GetMapping("suppliers")
-    public List<SupplierVO> getAllSuppliers() {
-        List<SupplierVO> list = productService.getAllSuppliers();
-        return list;
-    }
-
-    @GetMapping("supplier")
-    public SupplierVO getSupplierDetails(@RequestParam("supplierNo") Long supplierNo) {
-        SupplierVO vo = productService.getSupplierDetails(supplierNo);
-        return vo;
-    }
-
-    @GetMapping("categories")
-    public List<CategoryVO> getAllCategories() {
-        List<CategoryVO> list = productService.getAllCategories();
-        return list;
-    }
-
-    @GetMapping("product")
-    public List<ProductVO> getProductDetails(@RequestParam("supplierNo") Long supplierNo) {
-        List<ProductVO> list = productService.getProductDetails(supplierNo);
-        System.out.println("list = " + list);
-        return list;
-    }
-
-    @GetMapping("/display/{productImg}")
+    @GetMapping("/displayImg/{productImg}")
     public ResponseEntity<byte[]> display(@PathVariable("productImg") String productImg) {
-        System.out.println("productImg = " + productImg);
         ResponseEntity<byte[]> result = null;
         String path = "D:/file_repo/" + productImg;
         File file = new File(path);
@@ -61,8 +36,32 @@ public class ProductRestController {
             header.add("Content-type", Files.probeContentType(file.toPath() )); //해당 경로 파일에 mime타입을 구함
             result = new ResponseEntity<>(arr, header, HttpStatus.OK);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return result;
+    }
+
+    @GetMapping("getSupplierList")
+    public List<SupplierVO> getAllSuppliers() {
+        List<SupplierVO> list = productService.getSupplierList();
+        return list;
+    }
+
+    @GetMapping("getSupplierContent")
+    public SupplierVO getProductDetails(@RequestParam("supplierNo") int supplierNo) {
+        SupplierVO vo = productService.getSupplierContent(supplierNo);
+        return vo;
+    }
+
+    @GetMapping("getCategoryList")
+    public List<CategoryVO> getCategoryList() {
+        List<CategoryVO> list = productService.getCategoryList();
+        return list;
+    }
+
+    @GetMapping("getProductContent")
+    public ProductVO getProductContent(@RequestParam("productNo") int productNo) {
+        ProductVO vo = productService.getProductContent(productNo);
+        return vo;
     }
 }
