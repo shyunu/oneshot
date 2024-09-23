@@ -157,9 +157,6 @@ input {
   color: black;
 }
 
-/*.popup-list input:not([disabled]) {*/
-/*  pointer-events: auto;*/
-/*}*/
 
 .popup-list input:disabled {
   background-color: #f0f0f0;
@@ -176,6 +173,20 @@ input {
 }
 
 .close-btn {
+  cursor: pointer;
+}
+
+.popup-list>table,
+.popup-list td {
+  border: 1px solid #e3e3e3;
+}
+
+.popup-list table p {
+  margin: 0;
+}
+
+.supplier_list:hover {
+  background-color: #f7f5f2;
   cursor: pointer;
 }
 

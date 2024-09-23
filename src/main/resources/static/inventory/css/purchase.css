@@ -55,6 +55,12 @@ table, th, td {
 tr {
     font-size: 15px;
 }
+
+tbody tr:hover {
+    background-color: #e3e3e3;
+    opacity: 0.7;
+}
+
 th {
     padding: 5px;
     text-align: center;
@@ -165,9 +171,6 @@ input {
     color: black;
 }
 
-/*.popup-list input:not([disabled]) {*/
-/*  pointer-events: auto;*/
-/*}*/
 
 .popup-list input:disabled {
     background-color: #f0f0f0;
@@ -184,6 +187,20 @@ input {
 }
 
 .close-btn {
+    cursor: pointer;
+}
+
+.popup-list>table,
+.popup-list td {
+    border: 1px solid #e3e3e3;
+}
+
+.popup-list table p {
+    margin: 0;
+}
+
+.purchase_list:hover {
+    background-color: #f7f5f2;
     cursor: pointer;
 }
 
