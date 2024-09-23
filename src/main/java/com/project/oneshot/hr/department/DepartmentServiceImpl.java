@@ -85,4 +85,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.checkDuplicateDepartmentName(departmentName) > 0;
     }
 
+    // 부서번호 자동
+    @Override
+    public Integer getLastDepartmentNo() {
+        return departmentMapper.getLastDepartmentNo();
+    }
+
+
 }

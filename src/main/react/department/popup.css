@@ -13,8 +13,6 @@
 
 /* 메인 팝업 내용 스타일 */
 .popup-content {
-    top: 25%;
-    left: 32%;
     background-color: #f3f3f3;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

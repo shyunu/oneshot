@@ -43,6 +43,15 @@ public class DepartmentRestController {
     }
 
     /**
+     * 부서번호 자동
+     */
+    @GetMapping("/getLastDepartmentNo")
+    public ResponseEntity<Integer> getLastDepartmentNo() {
+        Integer lastDepartmentNo = departmentService.getLastDepartmentNo();
+        return ResponseEntity.ok(lastDepartmentNo != null ? lastDepartmentNo : 0);
+    }
+
+    /**
      * 부서 목록 조회 API
      */
     @GetMapping("/getDepartment")
