@@ -161,38 +161,43 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>구매내역번호</p></td>
-                                    <td colspan="3"><input type="text" name="purchaseNo" disabled></td>
-                                    <td colspan="1"><p>공급업체명</p></td>
-                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><p>총재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
-                                    <td colspan="2"><p>안전재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
-                                    <td colspan="1"><p>카테고리</p></td>
-                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                    <td><p>구매내역번호</p></td>
+                                    <td><input type="text" name="purchaseNo" disabled></td>
+                                    <td><p>담당자명</p></td>
+                                    <td><input type="text" name="employeeName" th:value="${#authentication.principal.username}" disabled></td>
                                 </tr>
                             </tbody>
+                        </table>
+                        <table>
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>상품명</p></td>
-                                    <td><select class="productNo" name="productNo" required></select></td>
-                                    <td colspan="2"><p>구매수량</p></td>
+                                    <td><p>공급업체명</p></td>
+                                    <td colspan="2"><select class="supplierNo" name="supplierNo" required></select></td>
+                                    <td><p>카테고리</p></td>
+                                    <td colspan="2"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                    <td><p>상품명</p></td>
+                                    <td colspan="3"><select class="productNo" name="productNo" required></select></td>
+                                    <td rowspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                                <tr>
+                                    <td><p>총재고수량</p></td>
+                                    <td><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td><p>안전재고수량</p></td>
+                                    <td><input type="text" name="safetyQuantity" disabled></td>
+                                    <td><p>구매수량</p></td>
                                     <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
                                     <td><p>구매가격</p></td>
                                     <td><input type="text" name="purchasePrice" required></td>
-                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                    <td><p>소계</p></td>
+                                    <td><input type="text" name="subtotalPrice" required></td>
                                 </tr>
                             </tbody>
+                        </table>
+                        <table>
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>담당자명</p></td>
-                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
-                                    <td colspan="2"><p>구매금액 합계</p></td>
-                                    <td colspan="3"><input type="text" disabled></td>
+                                    <td colspan="2"><p>구매 금액 합계 금액</p></td>
+                                    <td colspan="3"><input type="text" id="" disabled></td>
                                 </tr>
                             </tbody>
                         </table>
