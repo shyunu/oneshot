@@ -57,7 +57,8 @@ public class SupplierController {
         String filename = null;
         try {
             filename = System.currentTimeMillis() + "_" + supplierFile.getOriginalFilename();
-            String directoryPath = "/Users/narin/Desktop/첨부파일/"; // D:/file_repo/
+            //String directoryPath = "/Users/narin/Desktop/첨부파일/"; // D:/file_repo/
+            String directoryPath = "D:/file_repo/";
             File dir = new File(directoryPath);
 
             if (!dir.exists()) {
@@ -104,7 +105,8 @@ public class SupplierController {
         try {
             if (supplierFile != null && !supplierFile.isEmpty()) {
                 String filename = System.currentTimeMillis() + "_" + supplierFile.getOriginalFilename();
-                String directoryPath = "/Users/narin/Desktop/첨부파일/";
+                //String directoryPath = "/Users/narin/Desktop/첨부파일/";
+                String directoryPath = "D:/file_repo/";
                 File dir = new File(directoryPath);
 
                 if (!dir.exists()) {
@@ -140,7 +142,8 @@ public class SupplierController {
 
     @GetMapping("/viewFile/{fileName}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws IOException {
-        String filePath = "/Users/narin/Desktop/첨부파일/" + fileName;
+        //String filePath = "/Users/narin/Desktop/첨부파일/" + fileName;
+        String filePath = "D:/file_repo/" + fileName;
         File file = new File(filePath);
 
         if (file.exists()) {
