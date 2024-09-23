@@ -27,7 +27,7 @@
                 <![CDATA[ AND manager_email LIKE CONCAT('%', #{managerEmail}, '%') ]]>
             </if>
         </where>
-        ORDER BY supplier_no
+        ORDER BY supplier_no DESC
         limit #{amount} offset #{pageStart}
     </select>
 
