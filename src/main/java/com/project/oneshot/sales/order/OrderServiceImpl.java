@@ -65,8 +65,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<ContractVO> getProductList(int clientNo) {
-        List<ContractVO> list = orderMapper.getProductList(clientNo);
+    public List<ContractVO> getProductList(int clientNo, int categoryNo) {
+        List<ContractVO> list = orderMapper.getProductList(clientNo, categoryNo);
         return list;
     }
 
