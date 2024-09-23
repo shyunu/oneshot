@@ -34,6 +34,15 @@ public class DepartmentRestController {
     }
 
     /**
+     * 부서명 중복 확인 API
+     */
+    @GetMapping("/checkDuplicateDepartmentName/{departmentName}")
+    public ResponseEntity<Boolean> checkDuplicateDepartmentName(@PathVariable String departmentName) {
+        boolean isDuplicate = departmentService.isDuplicateDepartmentName(departmentName);
+        return ResponseEntity.ok(isDuplicate);
+    }
+
+    /**
      * 부서 목록 조회 API
      */
     @GetMapping("/getDepartment")
