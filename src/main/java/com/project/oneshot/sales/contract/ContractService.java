@@ -1,10 +1,7 @@
 package com.project.oneshot.sales.contract;
 
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.EmployeeVO;
-import com.project.oneshot.command.ProductVO;
+import com.project.oneshot.command.*;
 
 import java.util.List;
 
@@ -18,6 +15,5 @@ public interface ContractService {
     public List<ContractVO> getContractDetails(int contractPriceNo);
     public void contractModify(ContractVO vo);
     public int getTotalCount(ContractCriteria cri);
-
     public List<ClientVO> getClientList(); //거래등록시 고객사명(번호) 조회
 }

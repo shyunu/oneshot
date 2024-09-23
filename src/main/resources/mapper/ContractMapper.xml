@@ -108,6 +108,7 @@
         ORDER BY CLIENT_NO ASC
     </select>
 
+
     <select id="getContractUpdateList" resultType="ClientVO">
         select * from client where client_no = #{clientNo}
     </select>
@@ -187,4 +188,5 @@
         CONTRACT_PRICE.CONTRACT_PRICE_NO
         ) AS SUBQUERY
     </select>
+
 </mapper>
