@@ -9,11 +9,13 @@ public class ContractCriteria {
     private int amount; //조회하는 데이터개수
 
     //검색 키워드
+    private Integer clientNo;
     private String clientName;
     private String contractSdate; //판매등록일자
     private String contractEdate;
     private String managerName;
     private String productName; //상품명
+    private String employeeName;
     private String contractPriceStatus; //판매승인상태
 
     public ContractCriteria() {

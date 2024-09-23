@@ -13,7 +13,7 @@ public interface ContractMapper {
     public void getRegist(List<ContractVO> list); //계약등록
     public int contractItem(ContractVO vo);
 
-    public List<ContractVO> getList();
+    public List<ContractVO> getList(ContractCriteria cri);
     public List<ClientVO> getClientList();
     public ClientVO getContractUpdateList(int clientNo);
 
