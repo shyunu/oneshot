@@ -52,7 +52,7 @@
             <table>
                 <thead>
                 <tr>
-                    <th>no</th>
+                    <th><input type="checkbox" id="selectAll"></th>
                     <th>구매번호</th>
                     <th>카테고리</th>
                     <th>상품명</th>
@@ -67,7 +67,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="purchase : ${list}" th:data-purchase-no="${purchase.purchaseListNo}">
+                    <tr th:each="purchase : ${list}" th:data-purchase-no="${purchase.purchaseListNo}" class="purchase_list">
                         <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
                         <td th:text="${purchase.purchaseListNo}"></td>
                         <td th:text="${purchase.categoryName}"></td>
