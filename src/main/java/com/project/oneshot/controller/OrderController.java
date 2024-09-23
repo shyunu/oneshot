@@ -27,7 +27,6 @@ public class OrderController {
     @Qualifier("orderService") //서비스연결
     private OrderService orderService;
 
-
     //조회하기
     @GetMapping("/order")
     public String orderList(OrderCriteria cri, Model model) {

@@ -178,51 +178,40 @@
             </div>
             <div class="order-title">
                 <div class="filter-content">
-                    <form action="/sales/contract" method="get">
+                    <form action="contract" method="get">
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
                             <button type="submit" class="filter-button">검색하기</button>
+                            <button type="button" onclick="location.href='/sales/contract'">전체보기</button>
                         </div>
 
                         <table>
                             <tr>
-                                <td>
-                                    <p>고객사명</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="clientName">
-                                </td>
-                                <td>
-                                    <p>계약시작일</p>
-                                </td>
-                                <td>
-                                    <input type="date" name="contractSdate">
-                                </td>
-                                <td>
-                                    <p>계약종료일</p>
-                                </td>
-                                <td>
-                                    <input type="date" name="contractEdate">
-                                </td>
+                                <td><p>고객사명</p></td>
+                                <td><input type="text" name="clientName" th:value="${pageVO.cri.clientName}"></td>
+
+                                <td><p>계약시작일</p></td>
+                                <td><input type="date" name="contractSdate" id="contractSDateInput" th:value="${pageVO.cri.contractSdate}"></td>
+
+                                <td><p>계약종료일</p></td>
+                                <td><input type="date" name="contractEdate" id="contractEDateInput" th:value="${pageVO.cri.contractEdate}"></td>
                             </tr>
                             <tr>
+                                <td><p>상품명</p></td>
+                                <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
+
+                                <td><p>고객사담당자</p></td>
+                                <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
+
+                                <td><p>본사담당자</p></td>
+                                <td><input type="text" name="employeeName" th:value="${pageVO.cri.employeeName}"></td>
+                                <td><p>계약승인상태</p></td>
                                 <td>
-                                    <p>상품품목명</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="productName">
-                                </td>
-                                <td>
-                                    <p>담당자</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="managerName">
-                                </td>
-                                <td>
-                                    <p>계약상태</p>
-                                </td>
-                                <td>
-                                    <input type="text" name="contractPriceStatus">
+                                    <select name="contractPriceStatus">
+                                        <option value="">-</option>
+                                        <option th:selected="${pageVO.cri.contractPriceStatus == '승인'}">승인</option>
+                                        <option th:selected="${pageVO.cri.contractPriceStatus == '반려'}">반려</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -250,20 +239,19 @@
                 </thead>
 
                 <tbody>
-            <tr th:each="vo : ${list}" class="product_list">
-                <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"> </td>
-                <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
-                <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
-                <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.contractPriceStatus}" onclick="handleClick(event)"></td>
-                <td th:text="${vo.contractDday}" onclick="handleClick(event)"></td>
-
-            </tr>
-            </tbody>
+                <tr th:each="vo : ${list}" class="product_list">
+                    <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"> </td>
+                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
+                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.contractPriceStatus}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.contractDday}" onclick="handleClick(event)"></td>
+                </tr>
+                </tbody>
             </table>
 
             <div class="buttons">
@@ -340,8 +328,8 @@
 
                                 <td colspan="3" style="text-align: left;">
                                     <input type="number" name="contractPrice">
-                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </td>
                             </tr>
                             </tbody>
@@ -362,8 +350,8 @@
 
         <!-- 수정 기능 -->
         <div id="popup-modify" class="popup-modify">
-        <form name="modifyForm" action="modifyForm" method="post">
-            <input type="hidden" name="contractPriceNo" id="contractPriceNo">
+            <form name="modifyForm" action="modifyForm" method="post">
+                <input type="hidden" name="contractPriceNo" id="contractPriceNo">
                 <div class="popup-content">
                     <h2>계약 상세보기</h2>
                     <div class="popup-list">
@@ -615,8 +603,6 @@
             $('.rejectButton').css('display', 'none');
 
         } else if(event.target.parentElement.children[8].innerText == '반려') {
-            $('.approveButton').css('display', 'inline-block');
-            $('.rejectButton').css('display', 'inline-block');
         }
 
         popupModify.style.display = 'block';
@@ -652,13 +638,12 @@
 
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
-    registBtn.addEventListener('click', openPopup);
 
 
+    // registBtn.addEventListener('click', openPopup);
 </script>
 
 </html>
-
 
 </script>
 
