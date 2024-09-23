@@ -1,13 +1,24 @@
 .btn {
-    height: 40px;
-    width: 80px;
-    background-color: #023E7D;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 17px;
-    margin-left: 5px;
-    margin-right: 5px;
-    cursor: pointer;
+    height: 30px;
+    border-radius: 6px;
+    border-style: none;
+    background-color: #233047;
+    color : white;
+    width: 95px;
+    margin-right: -5px;
+    margin-left: 0px;
+}
+.btn:hover{
+     color: #233047;
+     background-color: #e3e3e3;
+     box-shadow: 0px 8px 16px #e3e3e3;
+     border-radius: 6px;
+     text-decoration: none;
+     cursor: pointer;
+ }
+
+.flex{
+    display: flex;
 }
 .input-error {
     border: 1px solid red;
@@ -15,11 +26,6 @@
 }
 
 /* 메인메뉴 */
-.wrapper{
-    overflow: auto;
-    padding: 20px;
-
-}
 
 .wrapper .wrapper-title{
     padding: 20px;
@@ -35,16 +41,7 @@
     width: 100%;
 }
 
-.wrapper-footer {
-    display: flex; /* 자식 요소들을 한 줄에 배치 */
-    justify-content: flex-start; /* 버튼을 왼쪽 정렬 */
-    align-items: center; /* 버튼을 세로 중앙 정렬 */
-}
 
-.btns {
-    display: flex; /* 버튼들을 한 줄에 배치 */
-    gap: 10px; /* 버튼들 사이 간격을 추가 */
-}
 
 .btn:disabled {
     background-color: #ccc; /* 비활성화된 버튼의 배경색 */

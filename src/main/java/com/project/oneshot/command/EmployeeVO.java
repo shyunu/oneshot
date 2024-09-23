@@ -27,6 +27,7 @@ public class EmployeeVO {
     private String employeeAddress;       // 사원집 주소
     private String employeeAddressDetail; // 사원집 상세주소
     private Integer bankNo;               // 은행코드
+    private String bankName;              // 은행이름
     private String accountNumber;         // 계좌번호
     private String accountHolder;         // 게좌주
 

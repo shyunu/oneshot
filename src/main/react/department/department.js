@@ -179,17 +179,16 @@ function Department() {
             // 데이터가 제대로 오는지 확인하기 위한 로그
             console.log("Fetched menus:", response.data);
 
-            // 중복된 메뉴 번호 제거 (중복이 있을 경우에 대비)
-            const uniqueMenus = Array.from(new Set(response.data.map(menu => menu.menu_no)))
-                .map(no => response.data.find(menu => menu.menu_no === no));
+            setMenuList(response.data);
 
-            setMenuList(uniqueMenus.length > 0 ? uniqueMenus : []);
         } catch (err) {
             console.error('Error fetching menus:', err);
             setMenuList([]); // 에러 발생 시 빈 배열 설정
         }
     };
-
+    useEffect(() => {
+        console.log("Updated menuList:", menuList);
+    }, [menuList]);
     // 페이지가 로드될 때 메뉴 목록을 불러옵니다.
     useEffect(() => {
         fetchMenus();
@@ -292,6 +291,17 @@ function Department() {
         e.preventDefault();
         setSubmitted(true);
 
+        // 부서명 중복 확인 로직 추가
+        try {
+            const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
+            if (duplicateCheckResponse.data) {
+                alert('이미 중복된 부서명이 있습니다.');
+                return; // 중복된 경우 등록을 중지
+            }
+        } catch (error) {
+            console.error('부서명 중복 확인 중 오류 발생:', error);
+        }
+
         if (!formValues.departmentNo.trim() || !formValues.departmentName.trim()) {
             setErrors({
                 departmentNo: !formValues.departmentNo.trim(),
@@ -316,13 +326,9 @@ function Department() {
             resetForm();  // 등록 후 입력 필드 초기화
             setSubmitted(false);
         } catch (err) {
-            console.error('부서 등록중 오류:', err);
+            console.error('부서 등록 중 오류:', err);
         }
     };
-
-
-
-
 
     // 정렬 처리
     const requestSort = (key) => {
@@ -400,7 +406,7 @@ function Department() {
                                       {departments.length > 0 &&
                                         departments.map((department) => (
                                           <option key={department.departmentNo} value={department.departmentName}>
-                                            {department.departmentName} {/* key는 departmentNo로 설정 */}
+                                            {department.departmentName}
                                           </option>
                                         ))}
                                     </select>
@@ -421,8 +427,8 @@ function Department() {
                                       <option value="">선택</option>
                                       {menuList.length > 0 &&
                                         menuList.map((menu) => (
-                                          <option key={menu.menu_no} value={menu.menu_no}>
-                                            {menu.menu_name} {/* key는 menu_no로 설정 */}
+                                          <option key={menu.menuNo} value={menu.menuNo}>
+                                            {menu.menuName}
                                           </option>
                                         ))}
                                     </select>
@@ -437,7 +443,6 @@ function Department() {
                                 </td>
                             </tr>
                         </tbody>
-
                     </table>
                 </div>
             </div>
@@ -446,7 +451,7 @@ function Department() {
                 <table>
                     <thead>
                         <tr id="attribute">
-                            <td>
+                            <th>
                                 <input
                                     type="checkbox"
                                     id="checkAll"
@@ -454,17 +459,17 @@ function Department() {
                                     onChange={handleAllCheckboxChange}
                                 />
                                 <label htmlFor="checkAll"></label>
-                            </td>
-                            <td onClick={() => requestSort('departmentNo')}>부서번호 {sortConfig.key === 'departmentNo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('departmentName')}>부서명 {sortConfig.key === 'departmentName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('menus')}>사용가능메뉴 {sortConfig.key === 'menus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
-                            <td onClick={() => requestSort('departmentState')}>사용여부 {sortConfig.key === 'departmentState' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</td>
+                            </th>
+                            <th onClick={() => requestSort('departmentNo')}>부서번호 {sortConfig.key === 'departmentNo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('departmentName')}>부서명 {sortConfig.key === 'departmentName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('menus')}>사용가능메뉴 {sortConfig.key === 'menus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+                            <th onClick={() => requestSort('departmentState')}>사용여부 {sortConfig.key === 'departmentState' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedDepartments.length > 0 ? (
                             sortedDepartments.map((department) => (
-                                <tr key={department.departmentNo}>
+                                <tr key={department.departmentNo} className="product_list">
                                     <td>
                                         <input
                                             type="checkbox"
@@ -499,16 +504,20 @@ function Department() {
                 </table>
             </article>
 
-            <div className="wrapper-footer flex">
-                <div className="btns">
-                    <button className="btn" onClick={() => setModalOpen(true)}>등록</button>
-                    <button
-                        className="btn"
-                        disabled={selectedDepartments.length === 0}
-                        onClick={handleStatusClick}
-                    >
-                        여부
-                    </button>
+            <div className="wrapper-footer">
+                <div className="flex" style={{justifyContent: "space-between"}}>
+                    <button>Excel로 내보내기</button>
+                    <div>
+                        <button className="btn" style={{marginRight: "6px"}} onClick={() => setModalOpen(true)}>등록</button>
+                        <button
+                            className="btn"
+                            disabled={selectedDepartments.length === 0}
+                            onClick={handleStatusClick}
+                        >
+                            여부
+                        </button>
+                    </div>
+
                 </div>
             </div>
             {statusPopupOpen && (
@@ -586,14 +595,14 @@ function Department() {
                                                 onChange={handleChange}
                                                 placeholder="부서명"
                                                 className={submitted && errors.departmentName ? 'input-error' : ''}
+                                                required
                                             />
-                                            {submitted && errors.departmentName && <div className="error-message">부서명을 입력하세요.</div>}
                                         </div>
                                         <div>
                                             <label>사용 가능 메뉴:</label>
                                             {menuList.length > 0 ? (
                                                 menuList.map((menu) => (
-                                                    <div key={menu.menuNo}> {/* key를 menuNo로 설정 */}
+                                                    <div key={menu.menuNo}>
                                                         <input
                                                             type="checkbox"
                                                             id={`menu-${menu.menuNo}`}
@@ -601,7 +610,7 @@ function Department() {
                                                             checked={formValues.menus.includes(menu.menuNo)}  // 선택된 상태를 반영
                                                             onChange={() => handleMenuChange(menu.menuNo)}  // 변경 시 상태 처리
                                                         />
-                                                        <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>  {/* 메뉴 이름 표시 */}
+                                                        <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
                                                     </div>
                                                 ))
                                             ) : (

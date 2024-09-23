@@ -86,14 +86,15 @@
         </div>
       </div>
 
-      <table>
+      <table id="productTable">
         <thead>
           <tr>
             <th>상품번호</th>
             <th>카테고리</th>
             <th>공급업체</th>
             <th>상품명</th>
-            <!-- <th>상품설명</th> -->
+            <th>총재고수량</th>
+            <th>안전재고수량</th>
             <th>판매가격</th>
             <th>상품이미지</th>
             <th>비고</th>
@@ -105,7 +106,8 @@
             <td th:text="${productVO.categoryName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
-            <!-- <td th:text="${vo.productContent}"></td> -->
+            <td th:text="${productVO.inventoryQuantity}" onclick="handleClick(event)"></td>
+            <td th:text="${productVO.safetyQuantity}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productPrice}" onclick="handleClick(event)"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
             <td th:text="${productVO.productRemark}" onclick="handleClick(event)"></td>

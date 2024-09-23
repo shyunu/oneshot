@@ -163,12 +163,11 @@
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
-    ${msg}
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
                 <p>판매내역</p>
-                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요.</p>
+                <p>❉ 조회 및 수정을 원하시면 항목을 클릭하세요.</p>
             </div>
             <div class="order-title">
                 <div class="filter-content">
@@ -177,7 +176,7 @@
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
                             <button type="submit" class="filter-button">검색하기</button>
-                            <button type="button" onclick="location.href='/sales/order'">전체보기</button>
+                            <button type="button" onclick="location.href='/sales/order'" class="filter-button">전체보기</button>
                         </div>
 
                         <table>
@@ -185,14 +184,12 @@
                                 <td><p>판매등록일자</p></td>
                                 <td><input type="date" name="orderSdate" id="saleDateInput" th:value="${pageVO.cri.orderSdate}"></td>
                                 <td><p>고객사명</p></td>
-                                <td>
-                                    <select name="clientNo" id="clientNameInput" class="clientNo">
-                                        <option value="">-</option>
-                                        <option th:each="clientVO : ${clientList}" th:value="${clientVO.clientNo}" th:text="${clientVO.clientName}" th:selected="${clientVO.clientNo == pageVO.cri.clientNo}"></option>
-                                    </select>
+                                <td><input type="text" name="clientNo" id="clientNameInput" class="clientNo"
+                                           th:value="${pageVO.cri.clientNo}">
                                 </td>
                                 <td><p>상품명</p></td>
                                 <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
+                                <td colspan="2"></td>
                             </tr>
                             <tr>
                                 <td><p>판매담당자</p></td>
@@ -289,7 +286,7 @@
                         <tbody class="order-items-tbody">
                             <tr style="white-space: nowrap;">
                                 <td><p>상품품목명</p></td>
-                                <td><input type="text" name="orderItems[0].productNo[]" readonly></td>
+                                <td><input type="text" name="orderItems[0].productName[]" class="productName" readonly></td>
                                 <td><p>책정거래가</p></td>
                                 <td><input type="text" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
                                 <td><p>개수</p></td>
@@ -303,14 +300,13 @@
                             <td colspan="2"><input type="text" name="employeeName" readonly></td>
                             <td colspan="2" class="contract-status"><p>판매승인상태 *</p></td>
                             <td colspan="2"><input name="orderStatus" readonly></td>
-                        </tr>
                         </tbody>
                         <tbody>
                         <tr>
                             <td colspan="2" class="deliveryStatus"><p>배송상태 *</p></td>
                             <td colspan="2">
                                 <select name="deliveryStatus" disabled>
-                                    <option>선택하세요.</option>
+                                    <option selected>선택하세요.</option>
                                     <option>배송대기</option>
                                     <option>배송중</option>
                                     <option>배송완료</option>
@@ -345,30 +341,38 @@
                     <table>
                         <tbody>
                             <tr class="left-row">
-                                <td colspan="2"><p>판매등록일자</p></td>
-                                <td colspan="2"><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
-                                <td colspan="3"><p>판매담당자</p></td>
-                                <td colspan="3"><select class="employeeNo" name="employeeNo" onchange="changeEmployeeName(event)" required></select></td>
+                                <td><p>판매등록일자</p></td>
+                                <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
+                                <td><p>판매담당자</p></td>
+                                <td><select class="employeeName" name="employeeNo" onchange="changeEmployeeName(event)" required></select></td>
+                                <td colspan="2"><p>판매담당자 연락처</p></td>
+                                <td colspan="2"><input type="text" class="employeePhone" disabled></td>
+                                <td colspan="2"><p>판매담당자 이메일</p></td>
+                                <td colspan="2"><input type="text" class="employeeEmail" disabled></td>
                             </tr>
                             <tr class="left-row">
-                                <td colspan="2"><p>고객사</p></td>
-                                <td colspan="2"><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
-                                <td colspan="3"><p>사업자등록번호</p></td>
-                                <td colspan="3"><input type="number" class="clientBusinessNo" disabled></td>
-                            </tr>
-                            <tr class="left-row">
+                                <td colspan="1"><p>고객사</p></td>
+                                <td colspan="1"><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
+                                <td colspan="1"><p>사업자등록번호</p></td>
+                                <td colspan="1"><input type="number" class="clientBusinessNo" disabled></td>
                                 <td colspan="2"><p>담당자</p></td>
                                 <td colspan="2"><input type="text" class="managerName" disabled></td>
-                                <td colspan="3"><p>담당자 연락처</p></td>
-                                <td colspan="3"><input type="text" class="managerPhone" disabled></td>
+                                <td colspan="2"><p>담당자 연락처</p></td>
+                                <td colspan="2"><input type="text" class="managerPhone" disabled></td>
                             </tr>
                         </tbody>
                         <tbody id="inputContainer" class="input-wrapper">
                             <tr id="dynamicRow" style="white-space: nowrap;">
+                                <td><p>카테고리명</p></td>
+                                <td>
+                                    <select class="categoryNo">
+                                        <option>-카테고리-</option>
+                                    </select>
+                                </td>
                                 <td><p>상품명</p></td>
                                 <td>
                                     <select name="orderItems[0].productNo[]" class="productNo" onchange="getPrice(event)">
-                                        <option value="" disabled selected>상품을 선택하세요</option>
+                                        <option value="" disabled selected>-상품-</option>
                                     </select>
                                 </td>
                                 <td><p>책정거래가</p></td>
@@ -485,11 +489,13 @@
                         inputField.value = matchingOption.value;
                     }
                 } else {
-                    // input인 경우 value를 설정
                     inputField.value = tdValue;
                 }
             }
         });
+
+        const employeeNameValue = tdElements[6].innerText || tdElements[6].textContent;
+        document.querySelector('input[name="employeeName"]').value = employeeNameValue;
 
         //오더헤더 위치 찾기
         const orderHeaderNo = tdElements[1].innerText || tdElements[1].textContent;
@@ -520,7 +526,7 @@
                             var newRow = `
                         <tr style="white-space: nowrap;">
                             <td><p>상품품목명</p></td>
-                            <td><input type="text" name="orderItems[${index}].productNo[]" value="${item.productNo}" readonly></td>
+                            <td><input type="text" name="orderItems[${index}].productName[]" value="${item.productName}" readonly></td>
                             <td><p>책정거래가</p></td>
                             <td><input type="text" name="orderItems[${index}].contractPrice[]" value="${item.contractPrice}" readonly></td>
                             <td><p>개수</p></td>
@@ -543,6 +549,7 @@
             error: function() {
                 alert('아이템 수를 가져오는 데 실패했습니다.');
             }
+
         });
 
         //승인인 조회의 행을 누르면 바로 나타날 화면
@@ -619,17 +626,17 @@
 
 
     function handleClick2(tdValue) { //등록페이지
-        //사원리스트 가져오기(판매담당자 선택) changeEmployeeName
+        //사원리스트 가져오기(판매담당자 선택)
         $.ajax({
             url: '/sales/getEmployeeList',
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var html = '<option>사원번호를 선택하세요</option>';
+                var html = '<option>-사원-</option>';
                 $.each(data, function(index, obj) {
-                    html += '<option value="' + obj.employeeNo + '">' + obj.employeeNo + '</option>';
+                    html += '<option value="' + obj.employeeNo + '">' + obj.employeeName + '</option>';
                 });
-                $('.employeeNo').html(html);
+                $('.employeeName').html(html);
             },
             error: function() {
                 alert('fail');
@@ -642,7 +649,7 @@
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var html = '<option>고객사번호를 선택하세요</option>';
+                var html = '<option>-고객사-</option>';
                 $.each(data, function(index, obj) {
                     html += '<option value="' + obj.clientNo + '">' + obj.clientName + '</option>';
                 });
@@ -652,15 +659,36 @@
                 alert('fail');
             }
         });
+
         popupRegist.style.display = 'block';
     }
 
+    function changeEmployeeName(event) {
+
+        $.ajax({
+            url: '/sales/getEmployeeContent',
+            type: 'get',
+            data: {employeeNo : event.target.value},
+            dataType: 'json',
+            success: function(data) {
+            //clientName이 변경되면 해당 고객사정보도 변경
+            $('.employeePhone').val(data.employeePhone);
+            $('.employeeEmail').val(data.employeeEmail);
+
+         },
+        error: function() {
+            $('.employeePhone').val('');
+            $('.employeeEmail').val('');
+             }
+        });
+    }
+
     function changeClientName(event) {
-
         var productSelect = document.querySelector('.productNo');
-
+        var categorySelect = document.querySelector('.categoryNo');
         // productNo select 기본옵션으로 초기화
-        productSelect.innerHTML = '<option value="" disabled selected>상품을 선택하세요</option>';
+        productSelect.innerHTML = '<option value="" disabled selected>-상품-</option>';
+        categorySelect.innerHTML = '<option value="" disabled selected>-카테고리-</option>';
 
         $.ajax({
             url: '/sales/getClientContent',
@@ -673,10 +701,28 @@
                 $('.managerName').val(data.managerName);
                 $('.managerPhone').val(data.managerPhone);
                 //clientName이 변경되면 해당 상품정보도 변경
-                $('.productNo').html('<option>상품을 선택하세요</option>');
+                $('.productNo').html('<option>-상품-</option>');
                 $('.contractPrice').val('');
                 $('.productQuantity').val('');
                 $('.amount').val('');
+
+                //카테고리 가져오기(카테고리 선택)
+                $.ajax({
+                    url: '/sales/getCategory',
+                    type: 'get',
+                    data: {productNo : event.target.value},
+                    dataType: 'json',
+                    success: function(data) {
+                        var html = '<option>-카테고리-</option>';
+                        $.each(data, function(index, obj) {
+                            html += '<option value="' + obj.categoryNo + '">' + obj.categoryName + '</option>';
+                        });
+                        $('.categoryNo').html(html);
+                    },
+                    error: function() {
+                        alert('fail');
+                    }
+                });
 
                 $.ajax({
                     url: '/sales/getProductList',
@@ -709,6 +755,28 @@
             }
         });
     }
+
+    // 카테고리가 변경될 때 해당 카테고리에 맞는 상품 목록 가져오기
+//    $('.categoryNo').on('change', function(event) {
+//        var categoryNo = event.target.value;
+//
+//        $.ajax({
+//            url: '/sales/getProductList',
+//            type: 'get',
+//            data: { categoryNo: categoryNo },
+//            dataType: 'json',
+//            success: function(data) {
+//                var productHtml = '<option value="" disabled selected>상품을 선택하세요</option>';
+//                $.each(data, function(index, obj) {
+//                    productHtml += '<option value="' + obj.productNo + '">' + obj.productName + '</option>';
+//                });
+//                $('.productNo').html(productHtml); // 상품 목록 업데이트
+//            },
+//            error: function() {
+//                $('.productNo').html('<option>상품 로드 실패</option>');
+//            }
+//        });
+//    });
 
 
     function updateAmount() {
@@ -840,6 +908,8 @@
         checkOrderStatus();
     })
 
+
+
     // 팝업창 닫기
     function closePopupModify() {
         popupModify.style.display = 'none'; //팝업창 닫기
@@ -851,6 +921,7 @@
     function closePopupRegist() {
         popupRegist.style.display = 'none';
     }
+
 
 </script>
 </html>

@@ -5,7 +5,6 @@
 
 <mapper namespace="com.project.oneshot.sales.order.OrderMapper">
 
-
     <!-- 판매등록  -->
     <insert id="orderHeader" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="orderHeaderNo">
         INSERT INTO ORDER_HEADER (
@@ -43,9 +42,11 @@
 
     <!-- 오더헤더가 같은 아이템 가져오기 -->
     <select id="getOrderItemsByOrderHeaderNo" resultType="OrderItemVO">
-        SELECT *,
-            (SELECT COUNT(*) FROM order_item WHERE order_header_no = #{orderHeaderNo}) AS itemCount
-        FROM order_item
+        SELECT OI.*,
+               P.PRODUCT_NAME,
+               (SELECT COUNT(*) FROM order_item WHERE order_header_no = #{orderHeaderNo}) AS itemCount
+        FROM order_item OI
+        JOIN PRODUCT P ON OI.PRODUCT_NO = P.PRODUCT_NO
         WHERE order_header_no = #{orderHeaderNo}
     </select>
 
@@ -101,7 +102,7 @@
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
         <if test="clientNo != null and clientNo != ''">
-            and H.client_no = #{clientNo}
+            and H.client_no like concat('%', #{clientNo}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -128,7 +129,7 @@
         H.ORDER_STATUS,
         H.DELIVERY_STATUS,
         H.DELIVERY
-        ORDER BY H.ORDER_HEADER_NO ASC
+        ORDER BY H.ORDER_HEADER_NO DESC
         limit #{amount} offset #{pageStart}
     </select>
 
@@ -153,7 +154,7 @@
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
         <if test="clientNo != null and clientNo != ''">
-            and H.client_no = #{clientNo}
+            and H.client_no like concat('%', #{clientNo}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -182,6 +183,11 @@
         ORDER BY EMPLOYEE_NO ASC
     </select>
 
+    <!-- 사원 정보 조회하기 -->
+    <select id="getEmployeeContent" parameterType="int" resultType="EmployeeVO">
+        select * from employee where employee_no = #{employeeNo}
+    </select>
+
     <!-- 고객사리스트 조회하기 -->
     <select id="getClientList" resultType="ClientVO">
         SELECT *
@@ -194,6 +200,17 @@
         select * from client where client_no = #{clientNo}
     </select>
 
+    <!-- 카테고리 조회하기 -->
+    <select id="getCategory" resultType="CategoryVO">
+        SELECT C.*
+        FROM CATEGORY C
+        INNER JOIN PRODUCT P
+        ON C.CATEGORY_NO = P.CATEGORY_NO
+        INNER JOIN CONTRACT_PRICE CP
+        ON P.PRODUCT_NO = CP.PRODUCT_NO
+        WHERE CP.CLIENT_NO = #{clientNo}
+    </select>
+
     <!-- 거래체결한 상품 조회하기 -->
     <select id="getProductList" resultType="ContractVO">
         SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
@@ -202,9 +219,24 @@
         ON C.CLIENT_NO = CP.CLIENT_NO
         INNER JOIN PRODUCT P
         ON CP.PRODUCT_NO = P.PRODUCT_NO
-        WHERE C.CLIENT_NO = #{clientNo}
+        INNER JOIN CATEGORY CG
+        ON P.CATEGORY_NO = CG.CATEGORY_NO
+        WHERE CP.CLIENT_NO = #{clientNo}
         AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
     </select>
+<!--    <select id="getProductList" resultType="ContractVO">-->
+<!--        SELECT P.PRODUCT_NO, PRODUCT_NAME-->
+<!--        FROM CONTRACT_PRICE CP-->
+<!--        INNER JOIN CLIENT C-->
+<!--        ON CP.CLIENT_NO = C.CLIENT_NO-->
+<!--        INNER JOIN PRODUCT P-->
+<!--        ON CP.PRODUCT_NO = P.PRODUCT_NO-->
+<!--        INNER JOIN CATEGORY CG-->
+<!--        ON P.CATEGORY_NO = CG.CATEGORY_NO-->
+<!--        WHERE CP.CLIENT_NO = #{clientNo}-->
+<!--            AND CG.CATEGORY_NO = #{categoryNo}-->
+<!--            AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE-->
+<!--    </select>-->
 
     <!-- 거래체결한 상품가격 조회하기 -->
     <select id="getProductPrice" resultType="int">
