@@ -40,5 +40,6 @@ public class EmployeeDetailsService implements UserDetailsService {
     public int insertEmployeeAuth(EmployeeAuthVO vo) {
         return employeeAuthMapper.insertEmployeeAuth(vo);
     }
+    public int updateEmployeeAuth(EmployeeAuthVO vo) {return employeeAuthMapper.updateEmployeeAuth(vo);}
 
 }

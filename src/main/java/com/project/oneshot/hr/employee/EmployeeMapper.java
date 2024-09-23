@@ -31,6 +31,6 @@ public interface EmployeeMapper {
     public List<PositionVO> getAllPosition();
 
     // 직원 비활성화
-    public int updateResignEmployee(List<Integer> employeeNos);
+    public int updateResignEmployee(List<EmployeeVO> employeeNos);
 
 }
