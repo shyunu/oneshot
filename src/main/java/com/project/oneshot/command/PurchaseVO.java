@@ -10,7 +10,7 @@ import java.util.Date;
 @Builder
 public class PurchaseVO {
 
-    private Integer purchaseListNo;
+    private Integer purchaseNo;
     private Integer productNo;
     private String productName;
     private Long categoryNo;
@@ -20,6 +20,7 @@ public class PurchaseVO {
     private Integer inventoryQuantity;
     private Integer safetyQuantity;
     private Integer purchasePrice;
+    private Integer totalPurchasePrice;
     private Integer purchaseQuantity;
     private Integer employeeNo;
     private String employeeName;

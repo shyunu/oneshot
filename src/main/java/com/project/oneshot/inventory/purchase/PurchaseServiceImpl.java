@@ -23,8 +23,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void registerPurchase(PurchaseVO purchase) {
-        purchaseMapper.registerPurchase(purchase);
+    public void registerPurchase(List<PurchaseVO> list) {
+        purchaseMapper.registerPurchase(list);
     }
 
     @Override
@@ -45,5 +45,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<EmployeeVO> getAllEmployees() {
         return purchaseMapper.getAllEmployees();
+    }
+
+    @Override
+    public Integer getPurchaseNo() {
+        return purchaseMapper.getPurchaseNo();
     }
 }
