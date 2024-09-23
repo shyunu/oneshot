@@ -133,7 +133,7 @@ public class EmployeeRestController {
             @RequestParam(value = "employeePhoto", required = false) MultipartFile employeePhoto) {
 
         // 파일을 저장할 경로
-        String uploadDir = "C:/Users/rkdgu/Desktop/IdeaProjects/oneshot/img/";
+        String uploadDir = "D:/file_repo/";
 
         // 폴더가 존재하지 않으면 생성
         File directory = new File(uploadDir);
@@ -142,7 +142,10 @@ public class EmployeeRestController {
         }
 
         // 파일 저장 경로를 설정
-        if (employeePhoto != null && !employeePhoto.isEmpty()) {
+        if(employeePhoto == null || employeePhoto.isEmpty() ||  employeeVO.getEmployeePhotoPath().equals("default")) {
+            System.out.println("사진없음");
+            employeeVO.setEmployeePhotoPath("default");
+        }else{
             try {
                 String fileName = UUID.randomUUID().toString() + "_" + employeePhoto.getOriginalFilename();
                 File file = new File(uploadDir + fileName);
@@ -169,7 +172,7 @@ public class EmployeeRestController {
                 String EmployeeBirthPassword = employeeVO.getEmployeeBirth().format(formatter);
                 employeeAuthVO.setEmployeePassword(bCryptPasswordEncoder.encode(EmployeeBirthPassword));
             }
-            if(employeeDetailsService.insertEmployeeAuth(employeeAuthVO)==0) {
+            if(employeeDetailsService.updateEmployeeAuth(employeeAuthVO)==0) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("비밀번호 등록이 정상적으로 되지 않았습니다.");
             }
             return ResponseEntity.ok("File and data uploaded successfully!");

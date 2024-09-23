@@ -40,4 +40,7 @@ public interface DepartmentMapper {
     // 부서명 중복 확인
     int checkDuplicateDepartmentName(String departmentName);
 
+    Integer getLastDepartmentNo();
+
+
 }

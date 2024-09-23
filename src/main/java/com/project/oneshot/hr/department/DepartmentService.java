@@ -16,4 +16,6 @@ public interface DepartmentService {
     List<MenuVO> selectMenus(); // 메뉴 조회
     boolean isDuplicateDepartmentName(String departmentName); // 부서명 중복
 
+    // 부서번호 자동
+    Integer getLastDepartmentNo();
 }

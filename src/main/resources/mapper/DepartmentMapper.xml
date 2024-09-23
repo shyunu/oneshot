@@ -11,6 +11,11 @@
         VALUES (#{departmentNo}, #{departmentName}, #{departmentState})
     </insert>
 
+    <!-- 부서 번호 자동 -->
+    <select id="getLastDepartmentNo" resultType="int">
+        SELECT MAX(department_no) FROM department
+    </select>
+
     <!-- 중복 확인 -->
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)

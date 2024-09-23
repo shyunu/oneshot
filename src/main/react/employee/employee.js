@@ -13,7 +13,7 @@ function Employee() {
     const [isAllChecked, setIsAllChecked] = useState(false); // 전체 선택 체크박스 상태
     const [departments, setDepartments] = useState([]); //가저온 부서목록
     const [banks, setBanks] = useState([]); //가져온 은행목록
-    const [positions, setPositions] = useState([]); //가져온 은행목록
+    const [positions, setPositions] = useState([]); //가져온 직급목록
     const nodeRef = useRef(null); //Draggable 오류수정
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
@@ -86,7 +86,7 @@ function Employee() {
         formData.append("bankNo", newEmployee.bankNo);
         formData.append("accountHolder", newEmployee.accountHolder);
         formData.append("positionNo", newEmployee.positionNo);
-
+        formData.append("employeePhotoPath",newEmployee.employeePhotoPath)
 
         const url = editMode
             ? "http://localhost:8181/hrm/updateEmployee"
@@ -199,7 +199,7 @@ function Employee() {
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-
+        console.log(newEmployee);
         // departmentNo가 변경될 경우 positionNo와 positionName을 빈 문자열로 설정
         if (name === "departmentNo") {
             setNewEmployee(prev => ({
@@ -247,6 +247,7 @@ function Employee() {
 
     const handleImageChange = (e) => { //사진 미리보기 
         const {files} = e.target;
+        setNewEmployee(prev => ({...prev, employeePhotoPath: "change"}));
         const thumbnail = files[0];
         setEmployeePhoto(thumbnail) //사진 전송용 설정
         const reader = new FileReader();
@@ -375,6 +376,9 @@ function Employee() {
         setEditMode(true);   // 수정 모드
         console.log(employee);
         setNewEmployee(employee); // 선택된 사원의 데이터로 초기화
+        if(employee.employeePhotoPath !=='default'){
+            setPhotoThumbnail(`http://localhost:8181/hrm/images/${employee.employeePhotoPath}`)
+        }
         setShowPopup(true);
     };
 
@@ -456,7 +460,7 @@ function Employee() {
         <main className="wrapper">
 
             <div class="text-wrap">
-                <p>계약가격내역</p>
+                <p>사원 목록</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
 
@@ -686,13 +690,7 @@ function Employee() {
                                         </td>
                                         <td rowSpan="2" colSpan="2">
                                             <div className="profile-picture">
-                                                <img src={
-                                                    editMode
-                                                        ? (newEmployee.employeePhotoPath && newEmployee.employeePhotoPath !== 'default')
-                                                            ? `http://localhost:8181/hrm/images/${newEmployee.employeePhotoPath}`
-                                                            : PhotoThumbnail
-                                                        : PhotoThumbnail
-                                                } alt="Profile Picture" id="profileImg"/>
+                                                <img src={PhotoThumbnail} alt="Profile Picture" id="profileImg"/>
                                             </div>
                                         </td>
 
@@ -704,7 +702,7 @@ function Employee() {
                                             <input type="text" id="employeeNo" name="employeeNo"
                                                    className="input-form"
                                                    value={newEmployee.employeeNo}
-                                                   readOnly={!editMode}
+                                                   readOnly
                                                    onChange={handleFormChange}/>
                                         </td>
 
@@ -970,7 +968,7 @@ function Employee() {
                                 <span>퇴직 확인</span>
                             </div>
                             <div className="popup-body">
-                                <p>선택한 정보를 정말로 삭제하시겠습니까?</p>
+                                <p>선택한 사원을 정말로 퇴직 처리하시겠습니까?</p>
                             </div>
                             <div className="popup-buttons">
                                 <button type="button" className="btn" style={{margin: "5px"}} onClick={() =>{
