@@ -365,7 +365,7 @@
                             <tr id="dynamicRow" style="white-space: nowrap;">
                                 <td><p>카테고리명</p></td>
                                 <td>
-                                    <select class="categoryNo">
+                                    <select class="categoryNo" onchange="changeCategoryNo(event)">
                                         <option>-카테고리-</option>
                                     </select>
                                 </td>
@@ -724,22 +724,22 @@
                     }
                 });
 
-                $.ajax({
-                    url: '/sales/getProductList',
-                    type: 'get',
-                    data: {clientNo : data.clientNo},
-                    dataType: 'json',
-                    success: function(data2) {
-                        var html = '<option>상품을 선택하세요</option>';
-                        $.each(data2, function(index2, obj2) {
-                            html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
-                        });
-                        $('.productNo').html(html);
-                    },
-                    error: function() {
-                        $('.productNo').html('<option>상품 로드 실패</option>');
-                    }
-                });
+//                $.ajax({
+//                    url: '/sales/getProductList',
+//                    type: 'get',
+//                    data: {clientNo : data.clientNo},
+//                    dataType: 'json',
+//                    success: function(data2) {
+//                        var html = '<option>상품을 선택하세요</option>';
+//                        $.each(data2, function(index2, obj2) {
+//                            html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
+//                        });
+//                        $('.productNo').html(html);
+//                    },
+//                    error: function() {
+//                        $('.productNo').html('<option>상품 로드 실패</option>');
+//                    }
+//                });
 
                 // 동적 행 제거(고객사 바뀌면 추가된 행들 제거)
                 var inputContainer = document.getElementById('inputContainer');
@@ -757,13 +757,15 @@
     }
 
     // 카테고리가 변경될 때 해당 카테고리에 맞는 상품 목록 가져오기
-//    $('.categoryNo').on('change', function(event) {
-//        var categoryNo = event.target.value;
-//
+    function changeCategoryNo(event) {
+        alert(event.target.parentElement); //지윤
+        //var clientNo = event.target.parentElement;
+        var categoryNo = event.target.value;
+
 //        $.ajax({
 //            url: '/sales/getProductList',
 //            type: 'get',
-//            data: { categoryNo: categoryNo },
+//            data: {clientNo: clientNo, categoryNo: categoryNo },
 //            dataType: 'json',
 //            success: function(data) {
 //                var productHtml = '<option value="" disabled selected>상품을 선택하세요</option>';
@@ -776,8 +778,7 @@
 //                $('.productNo').html('<option>상품 로드 실패</option>');
 //            }
 //        });
-//    });
-
+    }
 
     function updateAmount() {
         const rows = document.querySelectorAll('#dynamicRow');

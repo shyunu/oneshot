@@ -40,8 +40,9 @@ public class OrderRestController {
     }
 
     @GetMapping("/getProductList")
-    public List<ContractVO> getProductList(@RequestParam("clientNo") int clientNo) {
-        List<ContractVO> list = orderService.getProductList(clientNo);
+    public List<ContractVO> getProductList(@RequestParam("clientNo") int clientNo,
+                                           @RequestParam("categoryNo") int categoryNo) {
+        List<ContractVO> list = orderService.getProductList(clientNo, categoryNo);
         return list;
     }
 

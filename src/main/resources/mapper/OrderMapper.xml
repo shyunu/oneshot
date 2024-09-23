@@ -209,20 +209,16 @@
         INNER JOIN CONTRACT_PRICE CP
         ON P.PRODUCT_NO = CP.PRODUCT_NO
         WHERE CP.CLIENT_NO = #{clientNo}
+        GROUP BY C.CATEGORY_NO, C.CATEGORY_NAME
     </select>
 
     <!-- 거래체결한 상품 조회하기 -->
     <select id="getProductList" resultType="ContractVO">
-        SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
-        FROM CLIENT C
-        INNER JOIN CONTRACT_PRICE CP
-        ON C.CLIENT_NO = CP.CLIENT_NO
-        INNER JOIN PRODUCT P
-        ON CP.PRODUCT_NO = P.PRODUCT_NO
-        INNER JOIN CATEGORY CG
-        ON P.CATEGORY_NO = CG.CATEGORY_NO
-        WHERE CP.CLIENT_NO = #{clientNo}
-        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+        select product.product_name
+        from contract_price left join product
+        on contract_price.product_no = product.product_no
+        where client_no = #{clientNo} and product.category_no = #{categoryNo}
+        AND CURRENT_DATE BETWEEN contract_price.CONTRACT_SDATE AND contract_price.CONTRACT_EDATE
     </select>
 <!--    <select id="getProductList" resultType="ContractVO">-->
 <!--        SELECT P.PRODUCT_NO, PRODUCT_NAME-->
