@@ -15,12 +15,18 @@
         SELECT
             e.employee_no,
             e.position_no,
+            e.employee_name,
+            p.position_no,
+            p.position_name,
+            d.department_no,
+            d.department_name,
             ea.employee_password,
             ea.password_updated_at,
             p.position_name_english AS positionNameEnglish
         FROM public.employee_auth ea
                  JOIN public.employee e ON ea.employee_no = e.employee_no
                  JOIN public.position p ON e.position_no = p.position_no
+                 join department d on e.department_no = d.department_no
         WHERE e.employee_no = #{employeeNo};
     </select>
 
