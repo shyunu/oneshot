@@ -25,6 +25,6 @@ public class EmployeeAuthVO {
     private String positionName;          // 직급명  
     
     private String positionNameEnglish; //직급 권한
-    private List<String> menuNameEnglish; //소속한 부서에 해당하는 사용가능한 메뉴
+    private List<Integer> menuNo; //소속한 부서에 해당하는 사용가능한 메뉴
 
 }

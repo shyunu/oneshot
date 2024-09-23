@@ -25,6 +25,7 @@ public class DepartmentRestController {
      */
     @PostMapping("/registDepartment")
     public ResponseEntity<String> registDepartment(@RequestBody DepartmentVO vo) {
+        System.out.println(vo.toString());
         if (departmentService.isDuplicateDepartment(vo.getDepartmentNo(), vo.getDepartmentName())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서번호 또는 부서명이 이미 존재합니다.");
         }

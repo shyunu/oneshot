@@ -14,5 +14,5 @@ public interface EmployeeAuthMapper {
     //로그인
     public EmployeeAuthVO login(int username);
     //사용가능 메뉴 가져오기
-    public List<String> getMenuForEmployee(int username);
+    public List<Integer> getMenuForEmployee(int username);
 }

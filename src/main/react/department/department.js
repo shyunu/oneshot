@@ -389,7 +389,7 @@ useEffect(() => {
     const formSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
-
+        console.log(formValues);
         // 부서명 중복 확인 로직 추가
         try {
             const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
@@ -401,9 +401,9 @@ useEffect(() => {
             console.error('부서명 중복 확인 중 오류 발생:', error);
         }
 
-        if (!formValues.departmentNo.trim() || !formValues.departmentName.trim()) {
+        if (!formValues.departmentNo || !formValues.departmentName.trim()) {
             setErrors({
-                departmentNo: !formValues.departmentNo.trim(),
+                departmentNo: !formValues.departmentNo,
                 departmentName: !formValues.departmentName.trim(),
             });
             return;
@@ -412,9 +412,9 @@ useEffect(() => {
         const departmentVO = {
             departmentNo: parseInt(formValues.departmentNo),
             departmentName: formValues.departmentName,
-            menus: formValues.menus,
+            menus: formValues.menus
         };
-
+        console.log(departmentVO);
         try {
             const response = await axios.post("http://localhost:8181/hrm/registDepartment", departmentVO, {
                 headers: { 'Content-Type': 'application/json' },
@@ -478,7 +478,6 @@ useEffect(() => {
             setEmployees([]); // 에러 발생 시 빈 배열로 설정
         }
     };
-
 
 
     return (

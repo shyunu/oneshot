@@ -38,8 +38,8 @@
     </select>
 
     <!-- 로그인할때 메뉴 권한 조회 -->
-    <select id="getMenuForEmployee" parameterType="int" resultType="String">
-        SELECT m.menu_name_english
+    <select id="getMenuForEmployee" parameterType="int" resultType="Integer">
+        SELECT m.menu_no
         FROM public.department_menu dm
                  JOIN public.menu m ON dm.menu_no = m.menu_no
                  JOIN public.employee e ON dm.department_no = e.department_no
