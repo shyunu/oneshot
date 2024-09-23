@@ -9,7 +9,7 @@ public interface PurchaseService {
 
     int getTotalPurchase(PurchaseCriteria cri);
 
-    public void registerPurchase(PurchaseVO purchase);
+    public void registerPurchase(List<PurchaseVO> list);
 
     List<SupplierVO> getAllSuppliers();
 
@@ -18,4 +18,6 @@ public interface PurchaseService {
     List<ProductVO> getProductsByCategory(Long categoryNo);
 
     List<EmployeeVO> getAllEmployees();
+
+    Integer getPurchaseNo();
 }

@@ -15,6 +15,7 @@ public class ProductVO {
     private int supplierNo;
     private String productName;
     private String productContent;
+    private int inventoryQuantity;
     private int safetyQuantity;
     private int productPrice;
     private String productImg;

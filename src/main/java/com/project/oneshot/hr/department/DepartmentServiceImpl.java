@@ -78,4 +78,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<MenuVO> selectMenus() {
         return departmentMapper.selectMenus();
     }
+
+    // 부서명 중복
+    @Override
+    public boolean isDuplicateDepartmentName(String departmentName) {
+        return departmentMapper.checkDuplicateDepartmentName(departmentName) > 0;
+    }
+
 }

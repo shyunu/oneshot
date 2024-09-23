@@ -17,10 +17,14 @@ public class EmployeeAuthVO {
     private String employeePassword;  // 사원비밀번호 - 초기값 생년월일 YYMMDD
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate passwordUpdatedAt;
-
-    private int positionNo;
+    
+    private String employeeName;          // 사원이름
+    private Integer departmentNo;         // 부서번호
+    private String departmentName;        // 부서명
+    private int positionNo;               // 직급번호  
+    private String positionName;          // 직급명  
+    
     private String positionNameEnglish; //직급 권한
-
     private List<String> menuNameEnglish; //소속한 부서에 해당하는 사용가능한 메뉴
 
 }

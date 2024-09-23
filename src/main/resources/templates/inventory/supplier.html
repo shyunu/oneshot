@@ -29,7 +29,7 @@
                                     <td><p>담당자 연락처</p></td>
                                     <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
                                     <td><p>담당자 이메일</p></td>
-                                    <td><input type="text" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
+                                    <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
                                 </tr>
                             </table>
                         </form>
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <table>
+            <table id="supplierTable">
                 <thead>
                 <tr>
                     <th>공급업체번호</th>
@@ -109,7 +109,7 @@
                                 </tr>
                                 <tr>
                                     <td><p>공급업체 사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxxx" required></td>
+                                    <td><input type="text" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
                                     <td><p>첨부파일</p></td>
                                     <td><input type="file" name="supplierFile" required></td>
                                 </tr>
@@ -153,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <td><p>공급업체 사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxxx" required></td>
+                                    <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
                                     <td><p>첨부파일</p></td>
                                     <td>
                                         <input type="file" name="supplierFile" id="modifySupplierFile">
@@ -311,6 +311,7 @@
             }
         });
     });
+
 
 </script>
 

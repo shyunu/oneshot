@@ -52,46 +52,35 @@
             <table>
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
                     <th>구매번호</th>
-                    <th>카테고리</th>
                     <th>상품명</th>
                     <th>공급업체명</th>
-                    <th>총재고수량</th>
-                    <th>안전재고수량</th>
-                    <th>구매수량</th>
-                    <th>구매가격</th>
+                    <th>총구매가격</th>
                     <th>담당자명</th>
                     <th>승인여부</th>
                     <th>구매일</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="purchase : ${list}" th:data-purchase-no="${purchase.purchaseListNo}" class="purchase_list">
-                        <td><input type="checkbox" name="purchase" value="${purchase.purchaseListNo}"></td>
-                        <td th:text="${purchase.purchaseListNo}"></td>
-                        <td th:text="${purchase.categoryName}"></td>
-                        <td th:text="${purchase.productName}"></td>
-                        <td th:text="${purchase.supplierName}"></td>
-                        <td th:text="${purchase.inventoryQuantity}"></td>
-                        <td th:text="${purchase.safetyQuantity}"></td>
-                        <td th:text="${purchase.purchaseQuantity}"></td>
-                        <td th:text="${purchase.purchasePrice}"></td>
-                        <td th:text="${purchase.employeeName} "></td>
-                        <td th:text="${purchase.purchaseStatus}"></td>
-                        <td th:text="${purchase.purchaseDate}"></td>
+                    <tr th:each="purchase : ${list}">
+                        <td th:text="${purchase.purchaseNo}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.productName}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.supplierName}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.totalPurchasePrice}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.employeeName}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.purchaseStatus}" onclick="handleClick(event)"></td>
+                        <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="buttons">
                 <div class="button-left">
-                    <button type="button" class="approval" onclick="handleApproval()">승인</button>
-                    <button type="button" class="back" onclick="handleBack()">반려</button>
+                    <!-- <button type="button" class="approval" onclick="handleApproval()">승인</button> -->
+                    <!-- <button type="button" class="back" onclick="handleBack()">반려</button> -->
                 </div>
                 <div class="button-right">
                     <button type="button" class="postPurchase" onclick="requestPurchase()">구매신청</button>
-                    <button type="button" class="cancelPurchase" onclick="cancelPurchase()">구매취소</button>
                 </div>
             </div>
 
@@ -105,45 +94,49 @@
         <!-- 등록 팝업 -->
         <div id="popup-regist" class="popup-regist draggable-popup">
             <form action="registerPurchase" id="registerPurchase" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="employeeNo" value="1">
                 <div class="popup-content">
                     <h2 class="drag-handle">구매신청</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>구매내역번호</p></td>
-                                    <td colspan="3"><input type="text" name="purchaseListNo" disabled></td>
-                                    <td colspan="1"><p>공급업체명</p></td>
-                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><p>총재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
-                                    <td colspan="2"><p>안전재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
-                                    <td colspan="1"><p>카테고리</p></td>
-                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                    <td><p>구매내역번호</p></td>
+                                    <td><input type="text" name="purchaseNo" disabled></td>
+                                    <td><p>담당자명</p></td>
+                                    <td><input type="text" name="employeeName" th:value="${#authentication.principal.username}" disabled></td>
                                 </tr>
                             </tbody>
+                        </table>
+                        <table id="inputContainer">
                             <tbody>
-                                <tr id="purchaseTable">
-                                    <td colspan="2"><p>상품명</p></td>
-                                    <td><select class="productNo" name="productNo" required></select></td>
-                                    <td colspan="2"><p>구매수량</p></td>
+                                <tr>
+                                    <td><p>공급업체명</p></td>
+                                    <td colspan="2"><select class="supplierNo" name="supplierNo" required></select></td>
+                                    <td><p>카테고리</p></td>
+                                    <td colspan="2"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                    <td><p>상품명</p></td>
+                                    <td colspan="3"><select class="productNo" name="productNo" required></select></td>
+                                    <td rowspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                                <tr>
+                                    <td><p>총재고수량</p></td>
+                                    <td><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td><p>안전재고수량</p></td>
+                                    <td><input type="text" name="safetyQuantity" disabled></td>
+                                    <td><p>구매수량</p></td>
                                     <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
                                     <td><p>구매가격</p></td>
                                     <td><input type="text" name="purchasePrice" required></td>
-                                    <td><button type="button" class="add-button" onclick="addRow()"
-                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow()"
-                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                    <td><p>소계</p></td>
+                                    <td><input type="text" name="subtotalPrice" required></td>
                                 </tr>
                             </tbody>
+                        </table>
+                        <table>
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>담당자명</p></td>
-                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
-                                    <td colspan="2"><p>구매 금액 합계 금액 </p></td>
+                                    <td colspan="2"><p>구매 금액 합계 금액</p></td>
                                     <td colspan="3"><input type="text" id="totalPurchase" disabled></td>
                                 </tr>
                             </tbody>
@@ -169,7 +162,7 @@
                             <tbody>
                                 <tr>
                                     <td colspan="2"><p>구매내역번호</p></td>
-                                    <td colspan="3"><input type="text" name="purchaseListNo" disabled></td>
+                                    <td colspan="3"><input type="text" name="purchaseNo" disabled></td>
                                     <td colspan="1"><p>공급업체명</p></td>
                                     <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
                                 </tr>
@@ -190,17 +183,15 @@
                                     <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
                                     <td><p>구매가격</p></td>
                                     <td><input type="text" name="purchasePrice" required></td>
-                                    <td><button type="button" class="add-button" onclick="addRow()"
-                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow()"
-                                                style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </tr>
                             </tbody>
                             <tbody>
                                 <tr>
                                     <td colspan="2"><p>담당자명</p></td>
                                     <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
-                                    <td colspan="2"><p>구매 금액 합계 금액 </p></td>
+                                    <td colspan="2"><p>구매금액 합계</p></td>
                                     <td colspan="3"><input type="text" disabled></td>
                                 </tr>
                             </tbody>
@@ -270,7 +261,7 @@
                 url: '/inventory/getCategories',
                 dataType: 'json',
                 success: function(data) {
-                    categorySelect.innerHTML = '<option value="">- 카테고리를 선택하세요 -</option>';
+                    categorySelect.innerHTML = '<option value="">- 카테고리 -</option>';
                     data.forEach(category => {
                         let option = document.createElement('option');
                         option.value = category.categoryNo;
@@ -335,16 +326,55 @@
     }
 
     function addRow() {
-        let rows = document.querySelectorAll('#purchaseTable tr');
-        let lastRow = rows[rows.length - 1];
+        const rows = document.querySelectorAll('#inputContainer tbody');
+        const lastRow = rows[rows.length - 1];
 
-        let newRow = lastRow.insertRow();
-        newRow.innerHTML = `
-        <td><select name="productNo" onchange="changeProductNo(event)" disabled><option value="">- 상품명 -</option></select></td>
-        <td><input type="number" name="purchaseQuantity" oninput="calculateTotal()"></td>
-        <td><input type="number" name="purchasePrice" readonly></td>
-        `;
-        loadCategories();
+        // 새 행 생성
+        const newRow = lastRow.cloneNode(true);
+
+        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
+        const newRowInputs = newRow.querySelectorAll('input, select');
+        newRowInputs.forEach((element) => {
+            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
+        });
+
+        // 새 행의 값 초기화
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            input.readOnly = false; // 신규 행에서는 모든 input 필드를 활성화
+        });
+
+        // 새 행의 select 필드에 개별적으로 getPrice 연결
+        newRow.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0; // 기본 옵션으로 초기화
+            select.disabled = false; // 새 행의 select 필드 활성화
+            select.onchange = function(event) {
+                getPrice(event);
+            };
+        });
+
+        // 기존 행의 add-button 삭제
+        const addButton = lastRow.querySelector('.add-button');
+        if (addButton) {
+            addButton.remove();
+        }
+
+        // 새 행의 삭제 버튼에 이벤트 리스너 추가
+        const removeButton = newRow.querySelector('.remove-button');
+        if (removeButton) {
+            removeButton.addEventListener('click', function() {
+                removeRow(removeButton);
+            });
+        }
+
+        // 새 행의 입력 필드에 이벤트 리스너 추가
+        const productQuantityInput = newRow.querySelector('.productQuantity');
+        if (productQuantityInput) {
+            productQuantityInput.addEventListener('input', updateAmount);
+        }
+
+        // 새 행을 테이블에 추가
+        document.getElementById('inputContainer').appendChild(newRow);
     }
 
     function removeRow() {
@@ -375,6 +405,7 @@
     // 팝업창 닫기
     function closePopup() {
         document.getElementById("popup-regist").style.display = "none";
+        document.getElementById("popup-modify").style.display = "none";
         document.getElementById("registerPurchase").reset();
     }
 
@@ -422,6 +453,13 @@
             }
         });
     });
+
+    const modifyPopup = document.getElementById('popup-modify');
+    function handleClick(event) {
+
+
+        modifyPopup.style.display = 'block';
+    }
 </script>
 </body>
 </html>

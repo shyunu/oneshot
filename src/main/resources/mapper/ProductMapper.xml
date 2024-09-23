@@ -2,8 +2,11 @@
 
 <mapper namespace="com.project.oneshot.inventory.product.ProductMapper">
     <select id="getProductList" resultType="ProductVO">
-        select product_no, category_name, supplier_name, product_name, product_content, safety_quantity, product_price, product_img, product_remark
-        from product left join category on product.category_no = category.category_no left join supplier on product.supplier_no = supplier.supplier_no
+        select product.product_no, category_name, supplier_name, product_name, product_content, sum(purchase_quantity) as inventory_quantity, safety_quantity, product_price, product_img, product_remark
+        from product
+        left join category on product.category_no = category.category_no
+        left join supplier on product.supplier_no = supplier.supplier_no
+        left join purchase on product.product_no = purchase.product_no
         where 1 = 1
         <if test="categoryNo != null and categoryNo != ''">
             and product.category_no = #{categoryNo}
@@ -26,6 +29,7 @@
         <if test="productRemark != null and productRemark != ''">
             <![CDATA[ and product.product_remark = #{productRemark} ]]>
         </if>
+        group by product.product_no, category_name, supplier_name, product_name, product_content, purchase_quantity, safety_quantity, product_price, product_img, product_remark
         order by product_no desc
         limit #{amount} offset #{pageStart}
     </select>
@@ -66,7 +70,7 @@
     </select>
 
     <select id="getCategoryList" resultType="CategoryVO">
-        select * from category order by category_name
+        select * from category order by category_no
     </select>
 
     <insert id="postProduct" parameterType="ProductVO">
