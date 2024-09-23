@@ -37,6 +37,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public EmployeeVO getEmployeeContent(int employeeNo) {
+        EmployeeVO vo = orderMapper.getEmployeeContent(employeeNo);
+        return vo;
+    }
+
+    @Override
     public List<OrderItemVO> getOrderItemsByOrderHeaderNo(int orderHeaderNo) {
         return orderMapper.getOrderItemsByOrderHeaderNo(orderHeaderNo);
     }
@@ -68,6 +74,12 @@ public class OrderServiceImpl implements OrderService {
     public int getProductPrice(int clientNo, int productNo) {
         int result = orderMapper.getProductPrice(clientNo, productNo);
         return result;
+    }
+
+    @Override
+    public List<CategoryVO> getCategory(int productNo) {
+        List<CategoryVO> list = orderMapper.getCategory(productNo);
+        return list;
     }
 
     @Override

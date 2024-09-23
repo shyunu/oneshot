@@ -20,6 +20,11 @@ public class OrderRestController {
         return list;
     }
 
+    @GetMapping("/getEmployeeContent")
+    public EmployeeVO getEmployeeContent(@RequestParam("employeeNo") int employeeNo) {
+        EmployeeVO vo = orderService.getEmployeeContent(employeeNo);
+        return vo;
+    }
 
     @GetMapping("/getClientList")
     public List<ClientVO> getClientList() {
@@ -31,7 +36,6 @@ public class OrderRestController {
     @GetMapping("getClientContent")
     public ClientVO getClientContent(@RequestParam("clientNo") int clientNo) {
         ClientVO vo = orderService.getClientContent(clientNo);
-//        System.out.println("vo = " + vo);
         return vo;
     }
 
@@ -46,6 +50,13 @@ public class OrderRestController {
         int result = orderService.getProductPrice(clientNo, productNo);
         return result;
     }
+
+    @GetMapping("/getCategory")
+    public List<CategoryVO> getCategory(int productNo){
+        List<CategoryVO> list = orderService.getCategory(productNo);
+        return list;
+    }
+
 
     @GetMapping("/getOrderItems")
     public List<OrderItemVO> getOrderItems(@RequestParam("orderHeaderNo") int orderHeaderNo) {
