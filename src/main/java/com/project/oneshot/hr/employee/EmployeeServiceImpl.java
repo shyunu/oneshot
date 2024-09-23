@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public int updateResignEmployee(List<Integer> employeeNos) {
+    public int updateResignEmployee(List<EmployeeVO> employeeNos) {
         return employeeMapper.updateResignEmployee(employeeNos);
     }
 

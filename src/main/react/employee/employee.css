@@ -4,6 +4,10 @@
 .flex{
     display: flex;
 }
+a {
+    text-decoration: none;
+    color: white;
+}
 .btn {
     height: 30px;
     border-radius: 6px;
