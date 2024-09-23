@@ -36,4 +36,8 @@ public interface DepartmentMapper {
 
     // 부서별 사원 목록 조회
     List<EmployeeVO> selectEmployeesByDepartment(@Param("departmentNo") int departmentNo);
+
+    // 부서명 중복 확인
+    int checkDuplicateDepartmentName(String departmentName);
+
 }

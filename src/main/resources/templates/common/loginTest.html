@@ -12,7 +12,13 @@
     <h2>인증된 직원 정보</h2>
     <p>아이디: [[${#authentication.principal.username}]]</p>
     <p>비밀번호: [[${#authentication.principal.password}]]</p>
+    <p>사원명: [[${#authentication.principal.employeeName}]]</p>
     <p>직급번호: [[${#authentication.principal.positionNo}]]</p>
+    <p>직급명: [[${#authentication.principal.positionName}]]</p>
+    <p>부서번호: [[${#authentication.principal.departmentNo}]]</p>
+    <p>부서명: [[${#authentication.principal.departmentName}]]</p>
+
+
     <h3>권한 목록:</h3>
     <ul>
         <li th:each="authority : ${#authentication.principal.authorities}">
