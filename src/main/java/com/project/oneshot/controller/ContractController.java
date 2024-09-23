@@ -30,13 +30,16 @@ public class ContractController {
     // ----- 계약가격내역 ----- //
     @GetMapping("/contract")
     public String contract(ContractCriteria cri, Model model) {
-
+        System.out.println("cri = " + cri);
         List<ContractVO> list = contractService.getList(cri);
         model.addAttribute("list", list);
 
         int totalCount = contractService.getTotalCount(cri);
         ContractPageVO pageVO = new ContractPageVO(cri, totalCount);
         model.addAttribute("pageVO", pageVO);
+
+        List<ClientVO> clientList = contractService.getClientList();
+        model.addAttribute("clientList", clientList);
 
         return "sales/contract";
     }

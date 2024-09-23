@@ -5,51 +5,67 @@
 
 <mapper namespace="com.project.oneshot.sales.contract.ContractMapper">
 
+    <resultMap id="ContractResultMap" type="ContractVO">
+        <result property="clientNo" column="CLIENT_NO"/>
+        <result property="contractSdate" column="CONTRACT_SDATE"/>
+        <result property="contractEdate" column="CONTRACT_EDATE"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="managerName" column="MANAGER_NAME"/>
+        <result property="employeeName" column="EMPLOYEE_NAME"/>
+        <result property="contractPriceStatus" column="CONTRACT_PRICE_STATUS"/>
+    </resultMap>
+
     <!-- 계약 조회 기능 -->
-    <select id="getList" resultType="ContractVO">
-        SELECT  CONTRACT_PRICE.CONTRACT_PRICE_NO,
-                CLIENT.CLIENT_NAME,
-                CONTRACT_PRICE.CONTRACT_SDATE,
-                CONTRACT_PRICE.CONTRACT_EDATE,
-                CASE
-                WHEN COUNT(PRODUCT.PRODUCT_NAME) > 1 THEN
-                CONCAT(
-                MIN(PRODUCT.PRODUCT_NAME),
-                ' 외 ',
-                COUNT(PRODUCT.PRODUCT_NAME) -1,
-                '건'
-                )
-                ELSE
-                MIN(PRODUCT.PRODUCT_NAME)
-                END AS PRODUCT_NAME,
-                CLIENT.MANAGER_NAME,
-                EMPLOYEE.EMPLOYEE_NAME,
-                CONTRACT_PRICE.CONTRACT_PRICE_STATUS
+    <select id="getList" resultMap="ContractResultMap">
+        SELECT
+            CONTRACT_PRICE.CONTRACT_PRICE_NO,
+            CONTRACT_PRICE.CLIENT_NO,
+            CLIENT.CLIENT_NAME,
+            CONTRACT_PRICE.CONTRACT_SDATE,
+            CONTRACT_PRICE.CONTRACT_EDATE,
+            CASE
+            WHEN COUNT(PRODUCT.PRODUCT_NAME) > 1 THEN
+            CONCAT(
+            MIN(PRODUCT.PRODUCT_NAME),
+            ' 외 ',
+            COUNT(PRODUCT.PRODUCT_NAME) - 1,
+            '건'
+            )
+            ELSE
+            MIN(PRODUCT.PRODUCT_NAME)
+            END AS PRODUCT_NAME,
+            CLIENT.MANAGER_NAME,
+            EMPLOYEE.EMPLOYEE_NAME,
+            CONTRACT_PRICE.CONTRACT_PRICE_STATUS
         FROM CONTRACT_PRICE
-                 LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
-                 LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
-                 LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+        LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+        LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
+        LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
         WHERE 1 = 1
-        <if test="managerName != null and managerName != ''">
-            AND CLIENT.MANAGER_NAME = #{managerName}
-        </if>
-        <if test="productName != null and productName != ''">
-            AND PRODUCT.PRODUCT_NAME = #{productName}
-        </if>
         <if test="clientName != null and clientName != ''">
             AND CLIENT.CLIENT_NAME like concat('%', #{clientName}, '%')
         </if>
         <if test="contractSdate != null and contractSdate != ''">
-            AND CONTRACT_PRICE.CONTRACT_SDATE = #{contractSdate}
+            AND CONTRACT_PRICE.CONTRACT_SDATE = CAST(#{contractSdate} AS date)
         </if>
         <if test="contractEdate != null and contractEdate != ''">
-            AND CONTRACT_PRICE.CONTRACT_EDATE = #{contractEdate}
+            AND CONTRACT_PRICE.CONTRACT_EDATE = CAST(#{contractEdate} AS date)
         </if>
-        <if test="contractPriceStatus != null">
-            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS = #{contractPriceStatus}
+        <if test="productName != null and productName != ''">
+            AND PRODUCT.PRODUCT_NAME like concat('%', #{productName}, '%')
+        </if>
+        <if test="managerName != null and managerName != ''">
+            AND CLIENT.MANAGER_NAME like concat('%', #{managerName}, '%')
+        </if>
+        <if test="employeeName != null and employeeName != ''">
+            AND EMPLOYEE.EMPLOYEE_NAME like concat('%', #{employeeName}, '%')
+        </if>
+        <if test="contractPriceStatus != null and contractPriceStatus != ''">
+            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS like concat('%', #{contractPriceStatus}, '%')
         </if>
         GROUP BY
         CONTRACT_PRICE.CONTRACT_PRICE_NO,
+        CONTRACT_PRICE.CLIENT_NO,
         CLIENT.CLIENT_NAME,
         EMPLOYEE.EMPLOYEE_NAME,
         CONTRACT_PRICE.CONTRACT_SDATE,
@@ -57,36 +73,39 @@
         CLIENT.MANAGER_NAME,
         CONTRACT_PRICE.CONTRACT_PRICE_STATUS
         ORDER BY CONTRACT_PRICE.CONTRACT_PRICE_NO ASC
+        limit #{amount} offset #{pageStart}
     </select>
 
     <!-- 계약 등록 기능 -->
     <insert id="getRegist" parameterType="java.util.List">
         INSERT INTO CONTRACT_PRICE (
-            CONTRACT_PRICE_NO,
-            PRODUCT_NO,
-            EMPLOYEE_NO,
-            CLIENT_NO,
-            CONTRACT_SDATE,
-            CONTRACT_EDATE,
-            CONTRACT_PRICE,
-            CONTRACT_PRICE_STATUS
+        CONTRACT_PRICE_NO,
+        PRODUCT_NO,
+        EMPLOYEE_NO,
+        CLIENT_NO,
+        CONTRACT_SDATE,
+        CONTRACT_EDATE,
+        CONTRACT_PRICE,
+        CONTRACT_PRICE_STATUS
         )
         VALUES
 
-            <foreach collection="list" item="list" separator=",">
-                (#{list.contractPriceNo},
-                #{list.productNo},
-                #{list.employeeNo},
-                #{list.clientNo},
-                #{list.contractSdate},
-                #{list.contractEdate},
-                #{list.contractPrice},
-                '-')
-            </foreach>
+        <foreach collection="list" item="list" separator=",">
+            (#{list.contractPriceNo},
+            #{list.productNo},
+            #{list.employeeNo},
+            #{list.clientNo},
+            #{list.contractSdate},
+            #{list.contractEdate},
+            #{list.contractPrice},
+            '-')
+        </foreach>
     </insert>
 
     <select id="getClientList" resultType="ClientVO">
-        select * from client
+        SELECT *
+        FROM CLIENT
+        ORDER BY CLIENT_NO ASC
     </select>
 
     <select id="getContractUpdateList" resultType="ClientVO">
@@ -143,23 +162,26 @@
         LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
         LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
         WHERE 1 = 1
-        <if test="managerName != null and managerName != ''">
-            AND CLIENT.MANAGER_NAME = #{managerName}
-        </if>
-        <if test="productName != null and productName != ''">
-            AND PRODUCT.PRODUCT_NAME = #{productName}
-        </if>
         <if test="clientName != null and clientName != ''">
             AND CLIENT.CLIENT_NAME like concat('%', #{clientName}, '%')
         </if>
         <if test="contractSdate != null and contractSdate != ''">
-            AND CONTRACT_PRICE.CONTRACT_SDATE = #{contractSdate}
+            AND CONTRACT_PRICE.CONTRACT_SDATE = CAST(#{contractSdate} AS date)
         </if>
         <if test="contractEdate != null and contractEdate != ''">
-            AND CONTRACT_PRICE.CONTRACT_EDATE = #{contractEdate}
+            AND CONTRACT_PRICE.CONTRACT_EDATE = CAST(#{contractEdate} AS date)
+        </if>
+        <if test="productName != null and productName != ''">
+            AND PRODUCT.PRODUCT_NAME like concat('%', #{productName}, '%')
+        </if>
+        <if test="managerName != null and managerName != ''">
+            AND CLIENT.MANAGER_NAME like concat('%', #{managerName}, '%')
+        </if>
+        <if test="employeeName != null and employeeName != ''">
+            AND EMPLOYEE.EMPLOYEE_NAME like concat('%', #{employeeName}, '%')
         </if>
         <if test="contractPriceStatus != null and contractPriceStatus != ''">
-            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS = #{contractPriceStatus}
+            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS like concat('%', #{contractPriceStatus}, '%')
         </if>
         GROUP BY
         CONTRACT_PRICE.CONTRACT_PRICE_NO

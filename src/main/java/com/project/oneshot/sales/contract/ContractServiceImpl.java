@@ -26,7 +26,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<ContractVO> getList(ContractCriteria cri) {
 
-        List<ContractVO> list = contractMapper.getList();
+        List<ContractVO> list = contractMapper.getList(cri);
 
         LocalDate currentDate = LocalDate.now();
         for (ContractVO vo : list) {
