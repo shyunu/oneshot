@@ -87,7 +87,7 @@
             <form action="registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
                     <h2>공급업체등록</h2>
-                    <div class="popup-list">
+                    <div class="popup-list supplier-regist-table">
                         <table>
                             <tbody>
                                 <tr>
@@ -98,7 +98,9 @@
                                 </tr>
                                 <tr>
                                     <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" oninput="checkValue(this); checkSupplierName(event)" class="error-box" required><br><p class="error-text">※ 공급업체 입력은 필수입니다.</p><p id="checkSupplierName" class="error-text">※ 중복된 공급업체명입니다.</p></td>
+                                    <td><input type="text" name="supplierName" oninput="checkValue(this); checkSupplierName(event)" class="error-box" required><br>
+                                        <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
+                                        <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p></td>
                                     <td><p>담당자 연락처</p></td>
                                     <td><input type="text" name="managerPhone" oninput="checkValue(this)" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required><br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p></td>
                                 </tr>
