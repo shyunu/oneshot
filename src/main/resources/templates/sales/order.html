@@ -195,7 +195,7 @@
                             </tr>
                             <tr>
                                 <td><p>판매담당자</p></td>
-                                <td><input type="text" name="employeeName" th:value="${pageVO.cri.employeeName}"></td>
+                                <td><input type="text" name="employeeName" id="employeeName" th:value="${pageVO.cri.employeeName}"></td>
                                 <td><p>판매승인상태</p></td>
                                 <td>
                                     <select name="orderStatus">
@@ -279,7 +279,7 @@
                             <td><p>판매등록번호</p></td>
                             <td><input type="number" name="orderHeaderNo" readonly></td>
                             <td><p>판매등록일자</p></td>
-                            <td><input type="date" name="orderSdate"></td>
+                            <td><input type="date" name="orderSdate" id="modiOrderSdate"></td>
                             <td colspan="2"><p>고객사명</p></td>
                             <td colspan="2"><input type="text" name="clientName" readonly></td>
                         </tr>
@@ -300,9 +300,9 @@
                         <tbody>
                             <tr>
                                 <td colspan="2"><p>판매담당자</p></td>
-                                <td colspan="2"><input type="text" name="employeeName"></td>
+                                <td colspan="2"><input type="text" name="employeeName" id="modiEmployeeName"></td>
                                 <td colspan="2"><p>판매승인상태 *</p></td>
-                                <td colspan="2"><input name="orderStatus"></td>
+                                <td colspan="2"><input name="orderStatus" id="modiOrderStatus"></td>
                             </tr>
 
                             <tr>
@@ -338,6 +338,7 @@
         </div>
         <div id="popup-regist" class="popup-regist">
             <form name="orderForm" action="/sales/orderForm" method="post">
+                <input type="hidden" name="employeeNo" class="employeeNo">
                 <div class="popup-content" style="width: 1100px;">
                 <h2>판매 등록하기</h2>
                 <div class="popup-list">
@@ -347,7 +348,7 @@
                                 <td><p>판매등록일자</p></td>
                                 <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
                                 <td><p>판매담당자</p></td>
-                                <td><select class="employeeName" name="employeeNo" onchange="changeEmployeeName(event)" required></select></td>
+                                <td><input type="text" name="employeeName" th:value="${#authentication.principal.employeeName}" readonly></td>
                                 <td><p>판매담당자 연락처</p></td>
                                 <td><input type="text" class="employeePhone" disabled></td>
                                 <td colspan="2"><p>판매담당자 이메일</p></td>
@@ -414,7 +415,7 @@
         </div>
     </div>
 </th:block>
-<script>
+<script th:inline="javascript">
     // 전체 선택 체크박스
     const selectAllCheckbox = document.getElementById('selectAll');
 
@@ -451,6 +452,11 @@
             return;
         }
 
+        //지윤 추가
+        $('#modiOrderSdate').val(event.target.parentElement.children[2].innerText);
+        $('#modiEmployeeName').val(event.target.parentElement.children[6].innerText);
+        $('#modiOrderStatus').val(event.target.parentElement.children[7].innerText);
+
         // 클릭된 tr 안에 있는 td 요소들을 가져오기
         const tdElements = row.getElementsByTagName('td');
 
@@ -467,7 +473,7 @@
 
         mappings.forEach(mapping => {
             const tdValue = tdElements[mapping.index].innerText || tdElements[mapping.index].textContent;
-            console.log(`${mapping.name}:`, tdValue); // 값을 로그로 출력
+            //console.log(`${mapping.name}:`, tdValue); // 값을 로그로 출력
 
             const inputField = document.querySelector(`[name="${mapping.name}"]`);
 
@@ -609,10 +615,30 @@
             }
         });
 
+        $.ajax({
+            url: '/sales/getEmployeeContent',
+            type: 'get',
+            data: {employeeNo : [[${#authentication.principal.username}]]},
+            dataType: 'json',
+            success: function(data) {
+            //clientName이 변경되면 해당 고객사정보도 변경
+            $('.employeeNo').val(data.employeeNo);
+            $('.employeePhone').val(data.employeePhone);
+            $('.employeeEmail').val(data.employeeEmail);
+
+         },
+        error: function() {
+            $('.employeeNo').val('');
+            $('.employeePhone').val('');
+            $('.employeeEmail').val('');
+             }
+        });
+
         popupRegist.style.display = 'block';
     }
 
     //사원명 change event
+    /*
     function changeEmployeeName(event) {
 
         $.ajax({
@@ -632,6 +658,7 @@
              }
         });
     }
+    */
 
     // 고객사명 change event
     function changeClientName(event) {

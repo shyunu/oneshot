@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
-        <div class="purchase-wrap">
+        <div class="order-wrap">
             <div class="text-wrap">
-                <p>구매내역</p>
+                <p>구매조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
-            <div class="purchase-title">
+            <div class="order-title">
                 <div class="filter-content">
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button" type="submit" form="searchPurchase">검색하기</button>
-                        <button type="button" onclick="location.href='/inventory/purchaseList'" class="filter-button">초기화</button>
+                        <button type="button" onclick="location.href='/inventory/purchaseList'" class="filter-button">전체보기</button>
                         <form action="purchaseList" method="get" id="searchPurchase" enctype="multipart/form-data">
                             <table>
                                 <tr>
@@ -40,10 +40,10 @@
                 </div>
             </div>
 
-            <table>
+            <table id="purchaseTable">
                 <thead>
                 <tr>
-                    <th>구매번호</th>
+                    <th>no</th>
                     <th>공급업체</th>
                     <th>카테고리</th>
                     <th>상품명</th>
@@ -55,7 +55,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="purchase : ${list}">
+                    <tr th:each="purchase : ${list}" class="product_list">
                         <td th:text="${purchase.purchaseNo}"></td>
                         <td th:text="${purchase.supplierName}"></td>
                         <td th:text="${purchase.categoryName}"></td>

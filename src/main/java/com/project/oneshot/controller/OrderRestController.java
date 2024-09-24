@@ -22,6 +22,7 @@ public class OrderRestController {
 
     @GetMapping("/getEmployeeContent")
     public EmployeeVO getEmployeeContent(@RequestParam("employeeNo") int employeeNo) {
+        System.out.println("employeeNo = " + employeeNo);
         EmployeeVO vo = orderService.getEmployeeContent(employeeNo);
         return vo;
     }
