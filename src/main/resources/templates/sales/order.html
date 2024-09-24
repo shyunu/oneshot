@@ -86,10 +86,13 @@
         newRow.querySelectorAll('select').forEach(select => {
             select.selectedIndex = 0; // 기본 옵션으로 초기화
             select.disabled = false; // 새 행의 select 필드 활성화
-            select.onchange = function(event) {
-                getPrice(event); // 새로 추가된 행에 대해서만 getPrice 연결
-            };
+            select.addEventListener('change', function(event) {
+                const selectedRow = event.target.closest('tr'); // 선택된 select의 부모 tr 찾기
+                getPrice(selectedRow); // 선택된 행에 대해 getPrice 호출
+            });
         });
+
+
 
         // 기존 행의 add-button 삭제
         const addButton = lastRow.querySelector('.add-button');
@@ -116,31 +119,30 @@
     }
 
     function getPrice(event) {
+
         $.ajax({
             url: '/sales/getProductPrice',
             type: 'get',
-            data: {clientNo : event.target.value, productNo : event.target.parentElement.parentElement.parentElement.parentElement.querySelector('.clientNo').value},
+            data: {productNo : event.target.value, clientNo : event.target.parentElement.parentElement.parentElement.parentElement.querySelector('.clientNo').value},
             dataType: 'text',
             success: function(data) {
-                $('.contractPrice').val(data);
+
+                const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재행
+                const contractPriceInput = currentRow.querySelector('.contractPrice'); // 현재행의 contractPrice
+                const productQuantityInput = currentRow.querySelector('.productQuantity'); // 현재행의 productQuantity
+                const amountInput = currentRow.querySelector('.amount'); // 현재행의 amount
+
+                contractPriceInput.value = data;
+                productQuantityInput.value = '';
+                amountInput.value = '';
             },
             error: function() {
                 alert('error');
             }
         });
 
-        const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재 행 가져오기
-        const selectedValue = event.target.value;
-        const contractPriceInput = currentRow.querySelector('.contractPrice'); // 현재 행의 contractPrice 필드
-        const productQuantityInput = currentRow.querySelector('.productQuantity'); // 현재 행의 productQuantity 필드
-        const amountInput = currentRow.querySelector('.amount'); // 현재 행의 amount 필드
 
-        // 선택된 값으로 책정거래가 설정하기
-        contractPriceInput.value = selectedValue;
 
-        // 개수와 금액 초기화
-        productQuantityInput.value = ''; // 개수 초기화
-        amountInput.value = ''; // 금액 초기화
     }
 
 
@@ -257,6 +259,12 @@
                     <button>계약서 저장</button>
                 </div>
                 <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
+
+<!--                <div class="button-left">-->
+<!--                    <button>Excel로 내보내기</button>-->
+<!--                    <button>계약서 저장</button>-->
+<!--                </div>-->
+                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규판매 등록</button>
             </div>
 
             <div class="center">
@@ -276,8 +284,8 @@
                         <tr style="white-space: nowrap;">
                             <td><p>판매등록번호</p></td>
                             <td><input type="number" name="orderHeaderNo" readonly></td>
-                            <td colspan="1"><p>판매등록일자</p></td>
-                            <td colspan="1"><input type="date" name="orderSdate" readonly></td>
+                            <td><p>판매등록일자</p></td>
+                            <td><input type="date" name="orderSdate"></td>
                             <td colspan="2"><p>고객사명</p></td>
                             <td colspan="2"><input type="text" name="clientName" readonly></td>
                         </tr>
@@ -296,25 +304,26 @@
                             <tr>
                         </tbody>
                         <tbody>
-                            <td colspan="2"><p>판매담당자</p></td>
-                            <td colspan="2"><input type="text" name="employeeName" readonly></td>
-                            <td colspan="2" class="contract-status"><p>판매승인상태 *</p></td>
-                            <td colspan="2"><input name="orderStatus" readonly></td>
-                        </tbody>
-                        <tbody>
-                        <tr>
-                            <td colspan="2" class="deliveryStatus"><p>배송상태 *</p></td>
-                            <td colspan="2">
-                                <select name="deliveryStatus" disabled>
-                                    <option selected>선택하세요.</option>
-                                    <option>배송대기</option>
-                                    <option>배송중</option>
-                                    <option>배송완료</option>
-                                </select>
-                            </td>
-                            <td colspan="2"><p>배송일</p></td>
-                            <td colspan="2"><input type="date" name="delivery" readonly></td>
-                        </tr>
+                            <tr>
+                                <td colspan="2"><p>판매담당자</p></td>
+                                <td colspan="2"><input type="text" name="employeeName"></td>
+                                <td colspan="2"><p>판매승인상태 *</p></td>
+                                <td colspan="2"><input name="orderStatus"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="deliveryStatus"><p>배송상태 *</p></td>
+                                <td colspan="2">
+                                    <select name="deliveryStatus" disabled>
+                                        <option selected>선택하세요.</option>
+                                        <option>배송대기</option>
+                                        <option>배송중</option>
+                                        <option>배송완료</option>
+                                    </select>
+                                </td>
+                                <td colspan="2"><p>배송일</p></td>
+                                <td colspan="2"><input type="date" name="delivery" readonly></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -337,6 +346,8 @@
             <form name="orderForm" action="/sales/orderForm" method="post">
                 <div class="popup-content">
                 <h2>판매등록</h2>
+                <div class="popup-content" style="width: 1100px;">
+                <h2>판매 등록하기</h2>
                 <div class="popup-list">
                     <table>
                         <tbody>
@@ -345,30 +356,24 @@
                                 <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
                                 <td><p>판매담당자</p></td>
                                 <td><select class="employeeName" name="employeeNo" onchange="changeEmployeeName(event)" required></select></td>
-                                <td colspan="2"><p>판매담당자 연락처</p></td>
-                                <td colspan="2"><input type="text" class="employeePhone" disabled></td>
+                                <td><p>판매담당자 연락처</p></td>
+                                <td><input type="text" class="employeePhone" disabled></td>
                                 <td colspan="2"><p>판매담당자 이메일</p></td>
                                 <td colspan="2"><input type="text" class="employeeEmail" disabled></td>
                             </tr>
                             <tr class="left-row">
-                                <td colspan="1"><p>고객사</p></td>
-                                <td colspan="1"><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
-                                <td colspan="1"><p>사업자등록번호</p></td>
-                                <td colspan="1"><input type="number" class="clientBusinessNo" disabled></td>
-                                <td colspan="2"><p>담당자</p></td>
-                                <td colspan="2"><input type="text" class="managerName" disabled></td>
+                                <td><p>고객사</p></td>
+                                <td><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
+                                <td><p>사업자등록번호</p></td>
+                                <td><input type="text" class="clientBusinessNo" disabled></td>
+                                <td><p>담당자</p></td>
+                                <td><input type="text" class="managerName" disabled></td>
                                 <td colspan="2"><p>담당자 연락처</p></td>
                                 <td colspan="2"><input type="text" class="managerPhone" disabled></td>
                             </tr>
                         </tbody>
                         <tbody id="inputContainer" class="input-wrapper">
                             <tr id="dynamicRow" style="white-space: nowrap;">
-                                <td><p>카테고리명</p></td>
-                                <td>
-                                    <select class="categoryNo">
-                                        <option>-카테고리-</option>
-                                    </select>
-                                </td>
                                 <td><p>상품명</p></td>
                                 <td>
                                     <select name="orderItems[0].productNo[]" class="productNo" onchange="getPrice(event)">
@@ -390,24 +395,17 @@
 
                         <tbody>
                             <tr>
-                                <td colspan="2"><p>판매승인상태</p></td>
-                                <td colspan="1"><input type="text" name="orderStatus" placeholder="-" value="-" readonly style="text-align: center;"></td>
-                                <td colspan="2"><p>배송상태</p></td>
-                                <td colspan="2"><input type="text" name="deliveryStatus" placeholder="-" value="-"  readonly style="text-align: center;"></td>
-                                <td colspan="1"><p>배송일</p></td>
-                                <td colspan="2"><input type="date" name="delivery" readonly></td>
+                                <td><p>판매승인상태</p></td>
+                                <td><input type="text" name="orderStatus" placeholder="-" value="-" readonly style="text-align: center;"></td>
+                                <td><p>배송상태</p></td>
+                                <td><input type="text" name="deliveryStatus" placeholder="-" value="-"  readonly style="text-align: center;"></td>
+                                <td><p>배송일</p></td>
+                                <td><input type="date" name="delivery" readonly></td>
+                                <td colspan="2"><p>판매 상품 금액 합계</p></td>
+                                <td colspan="2"><input type="text" id="totalAmount" disabled></td>
                             </tr>
                         </tbody>
                     </table>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><p>판매 상품 금액 합계</p></td>
-                                <td><input type="text" id="totalAmount" disabled></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr style="border: 0; height: 1px; background-color: #e3e3e3;">
 
                 </div>
                 <div class="popup-button">
@@ -455,7 +453,7 @@
 
 
     // 판매목록 각각에 해당하는 상세목록 팝업창 열기 ** 상세조회 **
-    function handleClick(row) {
+    function handleClick(row, event) {
         // 클릭된 요소가 checkbox인 경우, 함수 종료
         if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
             return;
@@ -477,12 +475,13 @@
 
         mappings.forEach(mapping => {
             const tdValue = tdElements[mapping.index].innerText || tdElements[mapping.index].textContent;
+            console.log(`${mapping.name}:`, tdValue); // 값을 로그로 출력
+
             const inputField = document.querySelector(`[name="${mapping.name}"]`);
 
             // input이나 select에 값을 설정
             if (inputField) {
                 if (inputField.tagName === 'SELECT') {
-                    // SELECT 요소라면, 옵션 값을 맞춰 선택
                     const options = Array.from(inputField.options);
                     const matchingOption = options.find(option => option.text === tdValue);
                     if (matchingOption) {
@@ -493,9 +492,6 @@
                 }
             }
         });
-
-        const employeeNameValue = tdElements[6].innerText || tdElements[6].textContent;
-        document.querySelector('input[name="employeeName"]').value = employeeNameValue;
 
         //오더헤더 위치 찾기
         const orderHeaderNo = tdElements[1].innerText || tdElements[1].textContent;
@@ -553,57 +549,18 @@
         });
 
         //승인인 조회의 행을 누르면 바로 나타날 화면
-        if(event.target.parentElement.children[7].innerText == '승인') {
+        console.log(event.target.parentElement.children[7].innerText);
+        if(event.target.parentElement.children[7].innerText === '승인') {
             $('.approveButton').css('display', 'none');
             $('.rejectButton').css('display', 'none');
             $('.modifyButton').css('display', 'none');
             $('.deliveryInfoButton').css('display', 'inline-block'); //배송지정보입력버튼
-        } else if(event.target.parentElement.children[7].innerText == '반려') {
+        } else if(event.target.parentElement.children[7].innerText === '반려') {
             $('.deliveryInfoButton').css('display', 'none');
         }
 
         popupModify.style.display = 'block';
     }
-
-    //판매등록일자 이후의 날짜로 배송일 지정할 수 있게 컨트롤하기
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const deliveryStatusSelect = document.querySelector('select[name="deliveryStatus"]');
-        const deliveryInput = document.querySelector('input[name="delivery"]');
-
-        //배송상태가 '배송완료'일 때에만 배송일 지정할 수 있도록하기
-        if(deliveryStatusSelect.value === "배송완료") {
-            const orderSdateInput = document.querySelector('input[name="orderSdate"]');
-            const orderSdate = new Date(orderSdateInput.value);
-            const deliveryDate = new Date(deliveryInput.value);
-
-            // orderSdate보다 이전 날짜인지 확인
-            if (deliveryDate < orderSdate) {
-                alert('배송일자는 판매등록일자 이후로 설정가능합니다!');
-                deliveryInput.value = '';
-            }
-
-            orderSdate.setDate(orderSdate.getDate() + 1); // 다음 날로 저장
-        }
-        orderSdateInput.addEventListener('change', function() {
-
-            const minDate = orderSdate.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
-            deliveryInput.setAttribute('min', minDate);
-        });
-
-        // 초기화 시 min 속성 설정
-        if (orderSdateInput.value) {
-            orderSdateInput.dispatchEvent(new Event('change'));
-        }
-
-        // delivery배송일자 유효성 검사
-        deliveryInput.addEventListener('input', function() {
-            const deliveryDate = new Date(deliveryInput.value);
-            const orderSdate = new Date(orderSdateInput.value);
-
-
-        });
-    });
 
     // 체크박스 누르면 누른 행 색상 변하게
     function toggleRow(checkbox) {
@@ -663,6 +620,7 @@
         popupRegist.style.display = 'block';
     }
 
+    //사원명 change event
     function changeEmployeeName(event) {
 
         $.ajax({
@@ -683,12 +641,8 @@
         });
     }
 
+    // 고객사명 change event
     function changeClientName(event) {
-        var productSelect = document.querySelector('.productNo');
-        var categorySelect = document.querySelector('.categoryNo');
-        // productNo select 기본옵션으로 초기화
-        productSelect.innerHTML = '<option value="" disabled selected>-상품-</option>';
-        categorySelect.innerHTML = '<option value="" disabled selected>-카테고리-</option>';
 
         $.ajax({
             url: '/sales/getClientContent',
@@ -705,24 +659,6 @@
                 $('.contractPrice').val('');
                 $('.productQuantity').val('');
                 $('.amount').val('');
-
-                //카테고리 가져오기(카테고리 선택)
-                $.ajax({
-                    url: '/sales/getCategory',
-                    type: 'get',
-                    data: {productNo : event.target.value},
-                    dataType: 'json',
-                    success: function(data) {
-                        var html = '<option>-카테고리-</option>';
-                        $.each(data, function(index, obj) {
-                            html += '<option value="' + obj.categoryNo + '">' + obj.categoryName + '</option>';
-                        });
-                        $('.categoryNo').html(html);
-                    },
-                    error: function() {
-                        alert('fail');
-                    }
-                });
 
                 $.ajax({
                     url: '/sales/getProductList',
@@ -741,6 +677,24 @@
                     }
                 });
 
+                //카테고리 가져오기(카테고리 선택)
+//                $.ajax({
+//                    url: '/sales/getCategory',
+//                    type: 'get',
+//                    data: {productNo : event.target.value},
+//                    dataType: 'json',
+//                    success: function(data) {
+//                        var html = '<option>-카테고리-</option>';
+//                        $.each(data, function(index, obj) {
+//                            html += '<option value="' + obj.categoryNo + '">' + obj.categoryName + '</option>';
+//                        });
+//                        $('.categoryNo').html(html);
+//                    },
+//                    error: function() {
+//                        alert('fail');
+//                    }
+//                });
+
                 // 동적 행 제거(고객사 바뀌면 추가된 행들 제거)
                 var inputContainer = document.getElementById('inputContainer');
                 while (inputContainer.rows.length > 1) {
@@ -755,28 +709,6 @@
             }
         });
     }
-
-    // 카테고리가 변경될 때 해당 카테고리에 맞는 상품 목록 가져오기
-//    $('.categoryNo').on('change', function(event) {
-//        var categoryNo = event.target.value;
-//
-//        $.ajax({
-//            url: '/sales/getProductList',
-//            type: 'get',
-//            data: { categoryNo: categoryNo },
-//            dataType: 'json',
-//            success: function(data) {
-//                var productHtml = '<option value="" disabled selected>상품을 선택하세요</option>';
-//                $.each(data, function(index, obj) {
-//                    productHtml += '<option value="' + obj.productNo + '">' + obj.productName + '</option>';
-//                });
-//                $('.productNo').html(productHtml); // 상품 목록 업데이트
-//            },
-//            error: function() {
-//                $('.productNo').html('<option>상품 로드 실패</option>');
-//            }
-//        });
-//    });
 
 
     function updateAmount() {

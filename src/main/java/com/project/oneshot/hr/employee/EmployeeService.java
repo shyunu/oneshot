@@ -15,7 +15,7 @@ public interface EmployeeService {
     List<PositionVO> getAllPosition(); // 은행목록
 
     public int insertEmployee(EmployeeVO employeeVo); // 신규생성
-    public int updateResignEmployee(List<Integer> employeeNos); // 비활성
+    public int updateResignEmployee(List<EmployeeVO> employeeNos); // 비활성
     int updateEmployee(EmployeeVO employeeVo); //사원 수정
 
 }

@@ -39,23 +39,26 @@ public class OrderRestController {
         return vo;
     }
 
+
     @GetMapping("/getProductList")
-    public List<ContractVO> getProductList(@RequestParam("clientNo") int clientNo) {
+    public List<ContractVO> getProductList(int clientNo) {
         List<ContractVO> list = orderService.getProductList(clientNo);
         return list;
     }
 
     @GetMapping("/getProductPrice")
     public int getProductPrice(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
+
         int result = orderService.getProductPrice(clientNo, productNo);
         return result;
-    }
 
-    @GetMapping("/getCategory")
-    public List<CategoryVO> getCategory(int productNo){
-        List<CategoryVO> list = orderService.getCategory(productNo);
-        return list;
     }
+//
+//    @GetMapping("/getCategory")
+//    public List<CategoryVO> getCategory(int productNo){
+//        List<CategoryVO> list = orderService.getCategory(productNo);
+//        return list;
+//    }
 
 
     @GetMapping("/getOrderItems")

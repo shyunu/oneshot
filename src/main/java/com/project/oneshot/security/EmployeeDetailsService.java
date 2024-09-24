@@ -25,8 +25,8 @@ public class EmployeeDetailsService implements UserDetailsService {
 
         //로그인 성공
         if (vo != null) {
-            List<String> menuList = employeeAuthMapper.getMenuForEmployee(Integer.parseInt(username));
-            vo.setMenuNameEnglish(menuList);
+            List<Integer> menuList = employeeAuthMapper.getMenuForEmployee(Integer.parseInt(username));
+            vo.setMenuNo(menuList);
 
             return new EmployeeDetails(vo);
         }
@@ -40,5 +40,6 @@ public class EmployeeDetailsService implements UserDetailsService {
     public int insertEmployeeAuth(EmployeeAuthVO vo) {
         return employeeAuthMapper.insertEmployeeAuth(vo);
     }
+    public int updateEmployeeAuth(EmployeeAuthVO vo) {return employeeAuthMapper.updateEmployeeAuth(vo);}
 
 }

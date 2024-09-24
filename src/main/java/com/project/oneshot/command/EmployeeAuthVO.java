@@ -22,9 +22,10 @@ public class EmployeeAuthVO {
     private Integer departmentNo;         // 부서번호
     private String departmentName;        // 부서명
     private int positionNo;               // 직급번호  
-    private String positionName;          // 직급명  
+    private String positionName;          // 직급명
+    private String employeePhone;            // 휴대폰 번호
     
     private String positionNameEnglish; //직급 권한
-    private List<String> menuNameEnglish; //소속한 부서에 해당하는 사용가능한 메뉴
+    private List<Integer> menuNo; //소속한 부서에 해당하는 사용가능한 메뉴
 
 }

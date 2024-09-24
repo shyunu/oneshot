@@ -1,5 +1,6 @@
 package com.project.oneshot.hr.department;
 
+import com.project.oneshot.command.DepartmentMenuVO;
 import com.project.oneshot.command.DepartmentVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.MenuVO;
@@ -39,5 +40,10 @@ public interface DepartmentMapper {
 
     // 부서명 중복 확인
     int checkDuplicateDepartmentName(String departmentName);
+
+    Integer getLastDepartmentNo();
+
+    List<DepartmentMenuVO>getDepartmentMenus();
+
 
 }

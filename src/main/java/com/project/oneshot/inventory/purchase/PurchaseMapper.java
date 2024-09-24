@@ -2,6 +2,7 @@ package com.project.oneshot.inventory.purchase;
 
 import com.project.oneshot.command.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,11 +16,15 @@ public interface PurchaseMapper {
 
     List<SupplierVO> getAllSuppliers(); // 공급업체 목록
 
-    List<CategoryVO> getAllCategories(); // 카테고리 목록
+    List<CategoryVO> getCategories(int supplierNo);
+
+    List<ProductVO> getProducts(@Param("supplierNo") int supplierNo, @Param("categoryNo") int categoryNo);// 카테고리 목록
 
     List<ProductVO> getProductsByCategory(Long categoryNo); // 카테고리별 상품 목록
 
     List<EmployeeVO> getAllEmployees(); // 사원 목록
 
-    Integer getPurchaseNo();
+    ProductVO getQuantity(int productNo);
+
+    List<CategoryVO> getAllCategories();
 }

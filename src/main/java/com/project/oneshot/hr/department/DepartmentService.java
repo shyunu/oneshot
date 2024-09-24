@@ -1,5 +1,6 @@
 package com.project.oneshot.hr.department;
 
+import com.project.oneshot.command.DepartmentMenuVO;
 import com.project.oneshot.command.DepartmentVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.MenuVO;
@@ -16,4 +17,8 @@ public interface DepartmentService {
     List<MenuVO> selectMenus(); // 메뉴 조회
     boolean isDuplicateDepartmentName(String departmentName); // 부서명 중복
 
+    // 부서번호 자동
+    Integer getLastDepartmentNo();
+
+    List<DepartmentMenuVO>getDepartmentMenus();
 }

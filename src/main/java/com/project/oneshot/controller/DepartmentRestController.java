@@ -1,5 +1,6 @@
 package com.project.oneshot.controller;
 
+import com.project.oneshot.command.DepartmentMenuVO;
 import com.project.oneshot.command.DepartmentVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.MenuVO;
@@ -10,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/hrm")
@@ -25,6 +29,7 @@ public class DepartmentRestController {
      */
     @PostMapping("/registDepartment")
     public ResponseEntity<String> registDepartment(@RequestBody DepartmentVO vo) {
+        System.out.println(vo.toString());
         if (departmentService.isDuplicateDepartment(vo.getDepartmentNo(), vo.getDepartmentName())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("부서번호 또는 부서명이 이미 존재합니다.");
         }
@@ -43,11 +48,45 @@ public class DepartmentRestController {
     }
 
     /**
+     * 부서번호 자동
+     */
+    @GetMapping("/getLastDepartmentNo")
+    public ResponseEntity<Integer> getLastDepartmentNo() {
+        Integer lastDepartmentNo = departmentService.getLastDepartmentNo();
+        return ResponseEntity.ok(lastDepartmentNo != null ? lastDepartmentNo : 0);
+    }
+
+    /**
      * 부서 목록 조회 API
      */
     @GetMapping("/getDepartment")
     public List<DepartmentVO> getDepartment() {
-        return departmentService.selectDepartment();
+        List<DepartmentMenuVO> departmentMenuList = departmentService.getDepartmentMenus();
+        List<DepartmentVO> departmentList = departmentService.selectDepartment();
+
+        // DepartmentMenuVO 리스트를 departmentNo 기준으로 Map으로 변환 (groupingBy로 리스트를 만듦)
+        Map<Integer, List<Integer>> menuMap = departmentMenuList.stream()
+                .collect(Collectors.groupingBy(
+                        DepartmentMenuVO::getDepartmentNo,
+                        Collectors.mapping(DepartmentMenuVO::getMenuNo, Collectors.toList())
+                ));
+
+        // DepartmentVO 리스트를 순회하면서 매칭되는 departmentNo에 해당하는 menuNo 리스트 추가
+        departmentList.forEach(departmentVO -> {
+            Integer departmentNo = departmentVO.getDepartmentNo();
+            List<Integer> menuNos = menuMap.get(departmentNo); // 매칭되는 menuNo 리스트 가져오기
+
+            if (menuNos != null) {
+                departmentVO.setMenuNo(menuNos); // menuNo 리스트 추가
+            } else {
+                departmentVO.setMenuNo(List.of()); // 매칭되는 메뉴가 없으면 빈 리스트로 설정
+            }
+        });
+        // departmentList 출력
+        System.out.println("메뉴목록"+departmentMenuList);
+        System.out.println(" 부서 Department List: " + departmentList);
+
+        return departmentList;
     }
 
     /**

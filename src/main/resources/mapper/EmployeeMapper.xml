@@ -37,7 +37,7 @@
             bank b ON e.bank_no = b.bank_no
         ORDER BY
             e.employee_status DESC,
-            e.employee_no
+            e.employee_no DESC
         LIMIT  #{limit}
         OFFSET #{offset}
     </select>
@@ -84,10 +84,10 @@
             <if test="employeeName != null and employeeName != ''">
                 <choose>
                     <when test="employeeNo != null">
-                        AND e.employee_name = #{employeeName}
+                        AND e.employee_name LIKE CONCAT('%', #{employeeName}, '%')
                     </when>
                     <otherwise>
-                        e.employee_name = #{employeeName}
+                        e.employee_name LIKE CONCAT('%', #{employeeName}, '%')
                     </otherwise>
                 </choose>
             </if>
@@ -104,14 +104,14 @@
             <if test="employeePhone != null and employeePhone != ''">
                 <choose>
                     <when test="employeeNo != null or employeeName != null or departmentNo != null">
-                        AND e.employee_phone = #{employeePhone}
+                        AND e.employee_phone LIKE CONCAT('%', #{employeePhone}, '%')
                     </when>
                     <otherwise>
-                        e.employee_phone = #{employeePhone}
+                        e.employee_phone LIKE CONCAT('%', #{employeePhone}, '%')
                     </otherwise>
                 </choose>
             </if>
-            <if test="positionNo != null and positionNo != '' and positionNo !='-1'">
+            <if test="positionNo != null and positionNo != '' and positionNo != '-1'">
                 <choose>
                     <when test="employeeNo != null or employeeName != null or departmentNo != null or employeePhone != null">
                         AND e.position_no = #{positionNo}
@@ -132,7 +132,11 @@
                 </choose>
             </if>
         </where>
+        ORDER BY
+        e.employee_status DESC,
+        e.employee_no DESC
     </select>
+
 
     <!-- 은행목록 -->
     <select id="getAllBank" resultType="BankVO">
@@ -159,7 +163,8 @@
         employee_hiredate,
         employee_email,
         bank_no,
-        account_holder
+        account_holder,
+        employee_photo_path
         ) VALUES (
         #{departmentNo},
         #{positionNo},
@@ -173,7 +178,8 @@
         #{employeeHiredate},
         #{employeeEmail},
         #{bankNo},
-        #{accountHolder}
+        #{accountHolder},
+        #{employeePhotoPath}
         )
         RETURNING employee_no;
     </insert>
@@ -194,7 +200,8 @@
             employee_email = #{employeeEmail},
             bank_no = #{bankNo},
             account_holder = #{accountHolder},
-            position_no = #{positionNo}
+            position_no = #{positionNo},
+            employee_photo_path=#{employeePhotoPath}
         WHERE employee_no = #{employeeNo}
     </update>
 
@@ -203,7 +210,7 @@
         SET employee_status = 'n'
         WHERE employee_no IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-            #{item}
+            #{item.employeeNo}
         </foreach>
     </update>
 </mapper>

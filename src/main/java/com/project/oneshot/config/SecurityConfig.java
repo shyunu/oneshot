@@ -24,6 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //csrf토큰 사용x
         http.csrf().disable();
+
         http.authorizeRequests(authorize -> authorize
                 .antMatchers("/","/common/login","/common/loginForm","/common/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
                 .antMatchers("/user/**").hasRole("USER") // /user/** 경로에 USER 권한 요구
@@ -33,7 +34,6 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 이외의 모든 요청에 대해 인증 요구(꼭 마지막에)
 
         );
-
         http
                 .formLogin()
                 .loginPage("/common/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.

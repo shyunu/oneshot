@@ -11,6 +11,11 @@
         VALUES (#{departmentNo}, #{departmentName}, #{departmentState})
     </insert>
 
+    <!-- 부서 번호 자동 -->
+    <select id="getLastDepartmentNo" resultType="int">
+        SELECT MAX(department_no) FROM department
+    </select>
+
     <!-- 중복 확인 -->
     <select id="checkDuplicateDepartment" parameterType="DepartmentVO" resultType="int">
         SELECT COUNT(*)
@@ -71,6 +76,11 @@
     <select id="selectMenus" resultType="MenuVO">
         SELECT menu_no, menu_name
         FROM menu
+    </select>
+
+    <!-- 부서에서 사용가능한 메뉴 조회 -->
+    <select id="getDepartmentMenus" resultType="DepartmentMenuVO">
+        select department_no,menu_no from department_menu
     </select>
 
 </mapper>

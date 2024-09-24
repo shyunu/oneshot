@@ -10,12 +10,20 @@
         VALUES (#{employeeNo}, #{employeePassword})
     </insert>
 
+    <!-- 비밀번호 변경 -->
+    <update id="updateEmployeeAuth" parameterType="EmployeeAuthVO">
+        UPDATE employee_auth
+        SET
+            employee_password = #{employeePassword}
+        WHERE employee_no = #{employeeNo}
+    </update>
     <!-- 로그인 -->
     <select id="login" parameterType="int" resultType="EmployeeAuthVO">
         SELECT
             e.employee_no,
             e.position_no,
             e.employee_name,
+            e.employee_phone,
             p.position_no,
             p.position_name,
             d.department_no,
@@ -31,11 +39,13 @@
     </select>
 
     <!-- 로그인할때 메뉴 권한 조회 -->
-    <select id="getMenuForEmployee" parameterType="int" resultType="String">
-        SELECT m.menu_name_english
+    <select id="getMenuForEmployee" parameterType="int" resultType="Integer">
+        SELECT m.menu_no
         FROM public.department_menu dm
                  JOIN public.menu m ON dm.menu_no = m.menu_no
                  JOIN public.employee e ON dm.department_no = e.department_no
         WHERE e.employee_no = #{employeeNo};
     </select>
+
+
 </mapper>

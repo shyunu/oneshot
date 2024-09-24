@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,8 +77,11 @@ public class EmployeeRestController {
             @RequestParam(value = "employeePhoto", required = false) MultipartFile employeePhoto) {
 
         // 파일을 저장할 경로
-        String uploadDir = "C:/Users/rkdgu/Desktop/IdeaProjects/oneshot/img/";
-
+        String uploadDir = "D:/file_repo/";
+        if(employeePhoto == null || employeePhoto.isEmpty()) {
+            System.out.println("사진없음");
+            employeeVO.setEmployeePhotoPath("default");
+        }
 
         // 폴더가 존재하지 않으면 생성
         File directory = new File(uploadDir);
@@ -126,11 +130,11 @@ public class EmployeeRestController {
 
     @PostMapping("/updateEmployee")
     public ResponseEntity<String> updateEmployee(
-            @ModelAttribute EmployeeVO vo,
+            @ModelAttribute EmployeeVO employeeVO,
             @RequestParam(value = "employeePhoto", required = false) MultipartFile employeePhoto) {
 
         // 파일을 저장할 경로
-        String uploadDir = "C:/Users/rkdgu/Desktop/IdeaProjects/oneshot/img/";
+        String uploadDir = "D:/file_repo/";
 
         // 폴더가 존재하지 않으면 생성
         File directory = new File(uploadDir);
@@ -139,14 +143,17 @@ public class EmployeeRestController {
         }
 
         // 파일 저장 경로를 설정
-        if (employeePhoto != null && !employeePhoto.isEmpty()) {
+        if(employeePhoto == null || employeePhoto.isEmpty() ||  employeeVO.getEmployeePhotoPath().equals("default")) {
+            System.out.println("사진없음");
+            employeeVO.setEmployeePhotoPath("default");
+        }else{
             try {
                 String fileName = UUID.randomUUID().toString() + "_" + employeePhoto.getOriginalFilename();
                 File file = new File(uploadDir + fileName);
                 employeePhoto.transferTo(file);
 
                 // VO에 파일 경로를 설정
-                vo.setEmployeePhotoPath(fileName);
+                employeeVO.setEmployeePhotoPath(fileName);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -155,8 +162,19 @@ public class EmployeeRestController {
         }
 
         try {
-            if (employeeService.updateEmployee(vo) == 0) {
+            if (employeeService.updateEmployee(employeeVO) == 0) {
                 return ResponseEntity.ok("수정이 정상적으로 되지 않았습니다.");
+            }
+            //EmployeeAuth테이블에 비밀번호 넣기
+            EmployeeAuthVO employeeAuthVO = new EmployeeAuthVO();
+            employeeAuthVO.setEmployeeNo(employeeVO.getEmployeeNo());
+            if (employeeVO.getEmployeeBirth() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+                String EmployeeBirthPassword = employeeVO.getEmployeeBirth().format(formatter);
+                employeeAuthVO.setEmployeePassword(bCryptPasswordEncoder.encode(EmployeeBirthPassword));
+            }
+            if(employeeDetailsService.updateEmployeeAuth(employeeAuthVO)==0) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("비밀번호 등록이 정상적으로 되지 않았습니다.");
             }
             return ResponseEntity.ok("File and data uploaded successfully!");
         } catch (Exception e) {
@@ -167,8 +185,8 @@ public class EmployeeRestController {
 
 
     // 사원 비활성화
-    @DeleteMapping("/updateEmployee")
-    public ResponseEntity<String> updateEmployee(@RequestBody List<Integer> employeeNos) {
+    @DeleteMapping("/updateResignEmployee")
+    public ResponseEntity<String> updateResignEmployee(@RequestBody List<EmployeeVO> employeeNos) {
         try {
             int result = employeeService.updateResignEmployee(employeeNos);
             if (result > 0) {
@@ -186,7 +204,6 @@ public class EmployeeRestController {
     public ResponseEntity<?> performAction(Authentication authentication) {
         // 인증된 사용자 정보 가져오기
         EmployeeDetails userDetails = (EmployeeDetails) authentication.getPrincipal();
-
         // 비즈니스 로직
         return ResponseEntity.ok("Action performed by " + userDetails.getUsername());
     }

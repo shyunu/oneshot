@@ -51,7 +51,10 @@
 .popup-form > table td input{
     width: 100%;
 }
-
+.popup-body{
+    display: flex;
+    justify-content: center;
+}
 /* 팝업 닫기 버튼 스타일 */
 .popup-buttons {
     display: flex;
@@ -75,6 +78,9 @@
     background-color: #c0392b;
 }
 
+.employee-table{
+    margin: 12px;
+}
 /* 프로필 사진과 첨부파일 버튼 스타일 */
 .profile-picture-container {
     display: flex;

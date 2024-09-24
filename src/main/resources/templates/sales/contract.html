@@ -2,6 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
     window.onload = function () {
+
+        const employeeNo = document.getElementById('employeeNo').value;
+
+        // employee_no가 9보다 작으면 승인/반려 버튼 비활성화
+        if (employeeNo < 9) {
+            document.querySelector('.approveButton').disabled = true;
+            document.querySelector('.rejectButton').disabled = true;
+        }
+
         // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
@@ -182,7 +191,7 @@
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
                             <button type="submit" class="filter-button">검색하기</button>
-                            <button type="button" onclick="location.href='/sales/contract'">전체보기</button>
+                            <button type="button" class="filter-button" onclick="location.href='/sales/contract'">전체보기</button>
                         </div>
 
                         <table>
@@ -253,8 +262,8 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="vo : ${list}" class="product_list">
-                    <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"> </td>
+                <tr th:each="vo : ${list}" class="product_list" >
+                    <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"></td>
                     <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
@@ -270,8 +279,8 @@
 
             <div class="buttons">
                 <div class="button-left">
-                    <button>Excel로 내보내기</button>
-                    <button>계약서 저장</button>
+<!--                    <button>Excel로 내보내기</button>-->
+<!--                    <button>계약서 저장</button>-->
                 </div>
                 <button class="button-regist button-right" onclick="handleClick2(event)">거래등록</button>
             </div>
@@ -313,35 +322,48 @@
                                 <td>
                                     <input type="text" class="managerPhone" disabled>
                                 </td>
+                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo" required></select></td>
+
+                                <td><p>사업자등록번호</p></td>
+                                <td><input type="text" class="clientBusinessNo" disabled></td>
+
+                                <td><p>고객사담당자</p></td>
+                                <td><input type="text" class="managerName" disabled></td>
+
+                                <td><p>고객사담당자 전화번호</p></td>
+                                <td><input type="text" class="managerPhone" disabled></td>
                             </tr>
+
                             <tr>
                                 <td><p>계약시작일</p></td>
-                                <td><input type="date" name="contractSdate"></td>
-                                <td>
-                                    <p>계약종료일</p>
-                                </td>
-                                <td><input type="date" name="contractEdate"></td>
+                                <td><input type="date" name="contractSdate" required></td>
+
+                                <td><p>계약종료일</p></td>
+                                <td><input type="date" name="contractEdate" required></td>
+
+                                <td><p>본사담당자</p></td>
+                                <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
+
+                                <td><p>본사담당자 전화번호</p></td>
+                                <td><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
+
                             </tbody>
                             <tbody id="inputContainer" class="input-wrapper">
                             <tr class="addList">
+                                <td><p>상품품목명</p></td>
                                 <td>
-                                    <p>상품품목명</p>
-                                </td>
-
-                                <td>
-                                    <select class="productNo" name="productNo">
-                                        <option>상품을 선택하세요.</option>
+                                    <select colspan="3" class="productNo" name="productNo">
+                                        <option>-상품-</option>
                                     </select>
-                                    <!-- <input type="text" name="contractProductName[]"> -->
                                 </td>
 
                                 <td class="product-price">
                                     <p>책정거래가</p>
                                 </td>
 
-                                <td colspan="3" style="text-align: left;">
-                                    <input type="number" name="contractPrice">
+                                <td style="text-align: left;">
+                                    <input type="number" colspan="3" name="contractPrice">
                                 <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
                                 <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </td>
@@ -351,7 +373,7 @@
                     </div>
                     <div class="popup-button">
                         <div class="button-left">
-                            <button>계약서 첨부</button>
+<!--                            <button>계약서 첨부</button>-->
                         </div>
                         <div class="button-right">
                             <button type="submit">등록</button>
@@ -375,12 +397,12 @@
                                 <td>
                                     <p>고객사명</p>
                                 </td>
-                                <td><input type="text" name="clientName" id="clientName"></td>
+                                <td><input type="text" name="clientName" id="clientName" disabled></td>
                                 <td class="contract-status">
                                     <p>판매승인상태 *</p>
                                 </td>
                                 <td colspan="2">
-                                    <input name="contractPriceStatus" readonly>
+                                    <input id="contractPriceStatus" name="contractPriceStatus" readonly>
                                 </td>
                             </tr>
 
@@ -388,11 +410,11 @@
                                 <td>
                                     <p>고객사담당자</p>
                                 </td>
-                                <td><input type="text" name="managerName" id="managerName"></td>
+                                <td><input type="text" name="managerName" id="managerName" disabled></td>
                                 <td>
                                     <p>고객사담당자 연락처</p>
                                 </td>
-                                <td><input type="text" name="managerPhone" id="managerPhone"></td>
+                                <td><input type="text" name="managerPhone" id="managerPhone" disabled></td>
                             </tr>
                             <tr>
                                 <td>
@@ -407,39 +429,32 @@
                                 <td>
                                     <input type="text" name="employeePhone" id="employeePhone">
                                 </td>
+
+                                <td><p>본사 담당자</p></td>
+                                <td><input type="text" name="employeeName" id="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
+
+                                <td><p>본사 담당자 연락처</p></td>
+                                <td><input type="text" name="employeePhone" id="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             <tr>
-                                <td>
-                                    <p>계약시작일</p>
-                                </td>
-                                <td>
-                                    <input type="date" name="contractSdate" id="contractSdate">
-                                </td>
-                                <td>
-                                    <p>계약종료일</p>
-                                </td>
+                                <td><p>계약시작일</p></td>
+                                <td><input type="date" name="contractSdate" id="contractSdate"></td>
+
+                                <td><p>계약종료일</p></td>
                                 <td><input type="date" name="contractEdate" id="contractEdate"></td>
+
                             </tr>
                             </tbody>
                             <tbody class="eachBox">
                             <tr class="addList">
-                                <td>
-                                    <p>상품품목명</p>
-                                </td>
 
-                                <td>
-                                    <input type="text" name="productName" id="productName">
-                                </td>
+                                <td><p>상품품목명</p></td>
+                                <td><input type="text" name="productName" id="productName"></td>
 
-                                <td class="product-price">
-                                    <p>책정거래가</p>
-                                </td>
-
-                                <td colspan="3" style="text-align: left;">
+                                <td class="product-price"><p>책정거래가</p></td>
+                                <td style="text-align: left;">
                                     <input type="text" name="contractPrice" id="contractPrice">
-                                    <!-- <td><button type="button" class="add-button" onclick="addRow2()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td> -->
-                                    <!-- <td><button type="button" class="remove-button" onclick="removeRow2(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td> -->
                                 </td>
                             </tr>
                             </tbody>
@@ -447,7 +462,7 @@
                     </div>
                     <div class="popup-button">
                         <div class="button-left">
-                            <button>계약서 첨부</button>
+<!--                            <button>계약서 첨부</button>-->
                             <button type="submit" class="approveButton" onclick="approveContract()">승인</button>
                             <button type="submit" class="rejectButton" onclick="rejectContract()">반려</button>
                         </div>
@@ -514,7 +529,7 @@
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var html = '<option>- 고객사명 -</option>';
+                var html = '<option>-고객사명-</option>';
                 $.each(data, function(index, obj) {
                     html += '<option value=' + obj.clientNo + '>' + obj.clientName + '</option>';
                 });
@@ -525,21 +540,6 @@
             }
         });
 
-        $.ajax({
-            url: '/sales/getContractProductList',
-            type: 'get',
-            dataType: 'json',
-            success: function(data2) {
-                var html = '<option>상품을 선택하세요.</option>';
-                $.each(data2, function(index2, obj2) {
-                    html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
-                });
-                $('.productNo').html(html);
-            },
-            error: function() {
-                $('.productNo').html('<option>상품 로드 실패</option>');
-            }
-        })
 
         popupRegist.style.display = 'block';
     }
@@ -562,12 +562,26 @@
                 $('.managerPhone').val('');
             }
         });
+
+        $.ajax({
+            url: '/sales/getContractProductList',
+            type: 'get',
+            dataType: 'json',
+            success: function(data2) {
+                var html = '<option>-상품-</option>';
+                $.each(data2, function(index2, obj2) {
+                    html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
+                });
+                $('.productNo').html(html);
+            },
+            error: function() {
+                $('.productNo').html('<option>상품 로드 실패</option>');
+            }
+        });
     }
 
     // 클릭한 계약에 해당하는 계약정보 조회
     function handleClick(event) {
-        //console.log(event.target.innerText)
-        //console.log(event.target.parentElement.children[1].innerText)
 
         $.ajax({
             url: '/sales/getContractDetails',
@@ -617,26 +631,26 @@
             $('.rejectButton').css('display', 'none');
 
         } else if(event.target.parentElement.children[8].innerText == '반려') {
+
         }
 
         popupModify.style.display = 'block';
 
     }
 
-    //판매내역 승인 기능
+    // 판매내역 승인 기능
     function approveContract() {
-        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        const contractPriceStatusInput = document.querySelector('#contractPriceStatus'); //여기
         contractPriceStatusInput.value = "승인";
 
     }
 
-    //판매내역 반려 기능
+    // 판매내역 반려 기능
     function rejectContract() {
-        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        const contractPriceStatusInput = document.querySelector('#contractPriceStatus');
         contractPriceStatusInput.value = "반려";
 
     }
-
 
     // 팝업창 닫기
     function closePopupModify() {
@@ -652,8 +666,6 @@
 
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
-
-
     // registBtn.addEventListener('click', openPopup);
 </script>
 

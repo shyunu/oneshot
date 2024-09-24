@@ -76,11 +76,11 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-    @Override
-    public List<CategoryVO> getCategory(int productNo) {
-        List<CategoryVO> list = orderMapper.getCategory(productNo);
-        return list;
-    }
+//    @Override
+//    public List<CategoryVO> getCategory(int productNo) {
+//        List<CategoryVO> list = orderMapper.getCategory(productNo);
+//        return list;
+//    }
 
     @Override
     public int getTotalCount(OrderCriteria cri) {
