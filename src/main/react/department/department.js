@@ -639,6 +639,7 @@ useEffect(() => {
                                                         type="text"
                                                         id="departmentNo"
                                                         value={formValues.departmentNo}
+                                                        style={{textAlign:"center"}}
                                                         readOnly  // 부서번호는 수정 불가
                                                     />
                                                 </td>
@@ -652,6 +653,7 @@ useEffect(() => {
                                                         value={formValues.departmentName}
                                                         onChange={handleChange}
                                                         placeholder="부서명"
+                                                        style={{textAlign:"center"}}
                                                         className={submitted && errors.departmentName ? 'input-error' : ''}
                                                         required
                                                     />
@@ -707,69 +709,89 @@ useEffect(() => {
 
             {departmentDetailPopupOpen && (
                 <div className="popup" id="departmentDetailPopup">
-                    <Draggable>
+                    <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
                         <div className="popup-content">
                             <div className="popup-header">
                                 <span>부서 상세 정보 수정</span>
                             </div>
-                            <form className="popup-form" onSubmit={handleSave}>
+                            <form className="contract-form" onSubmit={handleSave}>
                                 <table className="popup-table">
                                     <tbody>
-                                        <tr>
-                                            <td><label htmlFor="departmentNo">부서번호</label></td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    id="departmentNo"
-                                                    value={formValues.departmentNo}
-                                                    readOnly // 부서번호는 수정 불가
-                                                />
-                                            </td>
-                                            <td><label htmlFor="departmentName">부서명</label></td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    id="departmentName"
-                                                    value={formValues.departmentName}
-                                                    onChange={(e) => setFormValues({ ...formValues, departmentName: e.target.value })}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>사용가능메뉴</label></td>
-                                            <td colSpan="3">
-                                                <div className="menu-list">
-                                                    {menuList.length > 0 && menuList.map((menu) => (
-                                                        <span key={menu.menuNo}>
+                                    <tr className="left-row">
+                                        <td colSpan="2">
+                                            <label htmlFor="departmentNo">부서번호</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input
+                                                type="text"
+                                                id="departmentNo"
+                                                value={formValues.departmentNo}
+                                                style={{textAlign:"center"}}
+                                                readOnly // 부서번호는 수정 불가
+                                            />
+                                        </td>
+                                        <td colSpan="2">
+                                            <label htmlFor="departmentName">부서명</label>
+                                        </td>
+                                        <td colSpan="2">
+                                            <input
+                                                type="text"
+                                                id="departmentName"
+                                                value={formValues.departmentName}
+                                                style={{textAlign:"center"}}
+                                                onChange={(e) => setFormValues({
+                                                    ...formValues,
+                                                    departmentName: e.target.value
+                                                })}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2"><label>사용가능메뉴</label></td>
+                                        <td colSpan="6">
+                                            <div className="menu-list flex" style={{justifyContent:"center" , alignItems:"center"}}>
+                                                {menuList.length > 0 && menuList.map((menu) => (
+                                                    <span key={menu.menuNo}>
                                                             <input
                                                                 type="checkbox"
                                                                 id={`menu-${menu.menuNo}`}
                                                                 checked={formValues.menuNo.includes(menu.menuNo)}
                                                                 onChange={() => handleMenuChange(menu.menuNo)}
+                                                                style={{height:"inherit"}}
                                                             />
-                                                            <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
+                                                            <label
+                                                                htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
                                                         </span>
-                                                    ))}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>사용 여부</label></td>
-                                            <td colSpan="3">
-                                                <select
-                                                    value={formValues.departmentState}
-                                                    onChange={(e) => setFormValues({ ...formValues, departmentState: e.target.value })}
-                                                >
-                                                    <option value="Y">활성</option>
-                                                    <option value="N">비활성</option>
-                                                </select>
-                                            </td>
-                                        </tr>
+                                                ))}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr className="left-row">
+                                        <td colSpan="2"><label>사용 여부</label></td>
+                                        <td colSpan="6">
+                                            <select
+                                                value={formValues.departmentState}
+                                                onChange={(e) => setFormValues({
+                                                    ...formValues,
+                                                    departmentState: e.target.value
+                                                })}
+                                            >
+                                                <option value="Y">활성</option>
+                                                <option value="N">비활성</option>
+                                            </select>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <div className="popup-buttons">
+                                    <button type="button" className="popup-btn employee" id="employeeListBtn"
+                                            onClick={handleEmployeePopup}>
+                                        직원
+                                    </button>
                                     <button type="submit" className="popup-btn modify">저장</button>
-                                    <button type="button" className="popup-btn close" onClick={() => setDepartmentDetailPopupOpen(false)}>닫기</button>
+                                    <button type="button" className="popup-btn close"
+                                            onClick={() => setDepartmentDetailPopupOpen(false)}>닫기
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -779,31 +801,50 @@ useEffect(() => {
             )}
 
             {employeePopupOpen && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <h2>부서 내 직원 목록</h2>
-                        {employees.length > 0 ? (
-                            <ul>
-                                {employees.map((employee) => (
-                                    <li key={employee.employeeNo}>
-                                        {employee.employeeName} - {employee.positionName}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>등록된 직원이 없습니다.</p>
-                        )}
-                        <button onClick={() => setEmployeePopupOpen(false)}>닫기</button>
-                    </div>
+                <div className="popup" style={{zIndex: "999"}}>
+                    <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
+                        <div className="popup-content">
+                            <div className="popup-header">
+                                <span>부서 내 직원 목록</span>
+                            </div>
+                            <form className="popup-form">
+                                <div className="popup-body">
+                                    {employees.length > 0 ? (
+                                        <table className="employee-table">
+                                            <thead>
+                                            <tr>
+                                                <th style={{minWidth: "155px"}}>이름</th>
+                                                <th style={{minWidth: "105px"}}>직급</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {employees.map((employee) => (
+                                                <tr key={employee.employeeNo}>
+                                                    <td>{employee.positionName}</td>
+                                                    <td>{employee.employeeName}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <p>등록된 직원이 없습니다.</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <button className="popup-btn close"
+                                            onClick={() => setEmployeePopupOpen(false)}>닫기
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </Draggable>
                 </div>
             )}
 
 
+                </main>
+            );
+            }
 
-
-        </main>
-    );
-}
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+            const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Department />);

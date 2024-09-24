@@ -40,7 +40,9 @@
     align-items: center;
     width: 100%;
 }
-
+.employee-table{
+    margin: 12px;
+}
 
 
 .btn:disabled {
