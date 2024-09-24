@@ -110,4 +110,8 @@
     <update id="putProduct" parameterType="ProductVO">
         update product set category_no = #{categoryNo}, supplier_no = #{supplierNo}, product_name = #{productName}, product_content = #{productContent}, safety_quantity = #{safetyQuantity}, product_price = #{productPrice}, product_img = #{productImg}, product_remark = #{productRemark} where product_no = #{productNo}
     </update>
+
+    <select id="checkProductName" resultType="int">
+        select count(*) from product where product_name = #{productName}
+    </select>
 </mapper>

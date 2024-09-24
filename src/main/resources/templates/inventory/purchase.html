@@ -98,20 +98,23 @@
                                 <tr>
                                     <td><p>구매내역번호</p></td>
                                     <td><input type="text" name="purchaseNo" disabled></td>
+                                    <td><p>공급업체명</p></td>
+                                    <td>
+                                        <select name="supplierNo" onchange="changeSupplierNo(event)" required>
+                                            <option th:each="categoryVO : ${categoryList}" th:value="${categoryVO.categoryNo}" th:text="${categoryVO.categoryName}">- 공급업체명 -</option>
+                                            <option></option>
+                                        </select>
+                                    </td>
                                     <td><p>담당자명</p></td>
-                                    <td><input type="text" name="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
-                                    <td><p>부서</p></td>
-                                    <td><input type="text" name="employeeName" th:value="${#authentication.principal.departmentName}" disabled></td>
-                                    <td><p>직급</p></td>
-                                    <td><input type="text" name="employeeName" th:value="${#authentication.principal.positionName}" disabled></td>
+                                    <td><input type="text" name="managerName" disabled></td>
+                                    <td><p>담당자 연락처</p></td>
+                                    <td><input type="text" name="managerPhone" disabled></td>
                                 </tr>
                             </tbody>
                         </table>
                         <table id="inputContainer" class="purchase-table">
                             <tbody>
                                 <tr>
-                                    <td><p>공급업체명</p></td>
-                                    <td colspan="2"><select class="supplierNo" name="supplierNo" onchange="changeSupplierNo(event)" required></select></td>
                                     <td><p>카테고리</p></td>
                                     <td colspan="2"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
                                     <td><p>상품명</p></td>
@@ -237,8 +240,22 @@
 
     // 공급업체 선택 시 카테고리 업데이트
     function changeSupplierNo(event) {
-        let categorySelect = event.target.closest('tr').querySelector('select[name="categoryNo"]');
+        $.ajax({
+            url: '/inventory/getSupplier',
+            type: 'get',
+            data: {'supplierNo' : event.target.value},
+            dataType: 'json',
+            success: function(data) {
+                $('input[name="managerName"]').val(data.managerName);
+                $('input[name="managerPhone"]').val(data.managerPhone);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
 
+        const selectedRow = event.target.closest('div'); // 현재 선택된 행 찾기
+        const categorySelect = selectedRow.querySelector('select[name="categoryNo"]'); // 해당 행의 카테고리 선택 필드 찾기
         $.ajax({
             type: 'GET',
             url: '/inventory/getCategories',
