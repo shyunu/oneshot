@@ -33,4 +33,6 @@ public interface OrderMapper {
 
     public void updateStatus(OrderVO vo); //업데이트(상태)
     public void updateItem(OrderItemVO vo); //업데이트(상품정보)
+
+    void changeProductStatus();
 }

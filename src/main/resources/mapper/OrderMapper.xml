@@ -256,4 +256,28 @@
         WHERE ORDER_HEADER_NO = #{orderHeaderNo}
         AND PRODUCT_NO = #{productNo}
     </update>
+
+    <update id="changeProductStatus">
+        WITH stock_data AS (
+        SELECT
+        p.product_no,
+        COALESCE(SUM(pur.purchase_quantity), 0) - COALESCE(SUM(ord.product_quantity), 0) AS stock_quantity
+        FROM
+        product p
+        LEFT JOIN
+        purchase pur ON p.product_no = pur.product_no
+        LEFT JOIN
+        order_item ord ON p.product_no = ord.product_no
+        GROUP BY
+        p.product_no
+        )
+        UPDATE product
+        SET product_remark = CASE
+        <![CDATA[ WHEN stock_data.stock_quantity < product.safety_quantity THEN '품절' ]]>
+        ELSE '판매중'
+        END
+        FROM stock_data
+        WHERE product.product_no = stock_data.product_no
+        <![CDATA[ AND product.product_remark <> '단종' ]]>  -- 기존 값이 '단종'이 아닌 경우에만 업데이트
+    </update>
 </mapper>

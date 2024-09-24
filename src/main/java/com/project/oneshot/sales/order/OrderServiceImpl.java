@@ -16,6 +16,7 @@ public class OrderServiceImpl implements OrderService {
     public void orderRegist(OrderVO vo) {
         orderMapper.orderHeader(vo);
         orderMapper.orderItem(vo);
+        orderMapper.changeProductStatus();
     }
 
 

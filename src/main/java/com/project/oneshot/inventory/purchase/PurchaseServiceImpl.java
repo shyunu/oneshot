@@ -25,6 +25,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public void registerPurchase(List<PurchaseVO> list) {
         purchaseMapper.registerPurchase(list);
+        purchaseMapper.changeProductStatus();
     }
 
     @Override
