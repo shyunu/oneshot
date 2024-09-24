@@ -23,6 +23,7 @@
             e.employee_no,
             e.position_no,
             e.employee_name,
+            e.employee_phone,
             p.position_no,
             p.position_name,
             d.department_no,

@@ -54,6 +54,10 @@ public class EmployeeDetails implements UserDetails {
     public String getPositionName() {
         return employeeAuthVO.getPositionName(); // positionName 반환
     }
+    public String getEmployeePhone() {
+        return employeeAuthVO.getEmployeePhone(); // positionName 반환
+    }
+
 
     public int getDepartmentNo() {
         return employeeAuthVO.getDepartmentNo(); // departmentNo 반환
