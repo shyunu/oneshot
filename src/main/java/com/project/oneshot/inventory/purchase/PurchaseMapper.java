@@ -27,4 +27,7 @@ public interface PurchaseMapper {
     ProductVO getQuantity(int productNo);
 
     List<CategoryVO> getAllCategories();
+
+    void changeProductStatus();
+
 }
