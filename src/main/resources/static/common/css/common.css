@@ -456,3 +456,8 @@ button:active {
     border-radius: 4px;
     width: 100%;
 }
+
+.purchase-table {
+    white-space: nowrap;
+    width: 10%;
+}
