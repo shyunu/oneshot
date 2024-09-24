@@ -19,7 +19,8 @@
     left: 50%;
     top: 50%;
     width: auto;
-    min-width: 500px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* 팝업 헤더 스타일 */
@@ -42,7 +43,8 @@
 /* 팝업 닫기 버튼 스타일 */
 .popup-buttons {
     display: flex;
-    align-items: center;
+    justify-content: end;
+    align-items: end;
     gap: 5px;
     margin-top: auto;
     padding: 10px;
@@ -102,9 +104,9 @@
 
 .popup-body{
     display: flex;
-    justify-content: center;
 }
-.popup-buttons{
-    display: flex;
-    justify-content: end;
+
+#employee-list-popup{
+    min-height: 300px;
+    min-width: 550px;
 }

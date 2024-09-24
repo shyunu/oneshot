@@ -13,13 +13,23 @@
     <link rel="stylesheet" href="/common/css/home.css" />
     <link rel='stylesheet' href='/common/css/main.css' />
     <link rel='stylesheet' href='/common/css/common.css' />
+    <link rel="stylesheet" href="/inventory/css/supplier.css" />
+    <link rel="stylesheet" href="/inventory/css/purchase.css" />
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error') && urlParams.get('error') === 'accessDenied') {
+                alert('권한이 없습니다'); // 알림창 띄우기
+            }
+        };
+    </script>
 </head>
 <body>
 <nav class="navbar">
     <div class="logo_item">
         <i class="sidebar" id="sidebarOpen"></i>
-        <img src="../../common/img/Logo.png"  alt="oneshot" style="width: 180px; border-radius: 0px;"></i>
-    </div>
+        <a href="/common/home"><img src="../../common/img/Logo.png" alt="oneshot" style="width: 180px; border-radius: 0px;"></i></a>
+  </div>
 
     <div class="navbar_content">
         <i class='bx bx-sun' id="darkLight"></i>
@@ -31,16 +41,18 @@
     <nav class="sidebar">
         <div class="menu_content">
             <ul class="menu_items">
+                <a href="/common/home">
                 <li class="item">
                     <div class="nav_link submenu_item">
                 <span class="navlink_icon">
                   <i class='bx bxs-home'></i>
                 </span>
-                <span class="navlink">
-                  <a href="/common/home" style="text-decoration: none; color: #fff;">홈</a>
+                <span >
+                  <a href="/common/home" class="navlink" style="text-decoration: none; color: #fff;">홈</a>
                 </span>
                     </div>
                 </li>
+                </a>
 
                 <li class="item">
                     <div class="nav_link submenu_item" data-category="hr">

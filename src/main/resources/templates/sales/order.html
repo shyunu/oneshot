@@ -23,8 +23,8 @@
         const popupRegist = document.getElementById('popup-regist');
 
         // 드래그 가능하게 만들기
-        makeDraggable(popupModify);
-        makeDraggable(popupRegist);
+        //makeDraggable(popupModify);
+        //makeDraggable(popupRegist);
 
         // + 버튼 클릭 시 새로운 상품 및 가격 행 추가
         //const addItemBtnRegist = document.getElementById('add-item-btn-regist');
@@ -141,12 +141,19 @@
             }
         });
 
-
-
+        $.ajax({
+            url: '/sales/getInventoryQuantity',
+            type: 'get',
+            data: {productNo : event.target.value},
+            dataType: 'text',
+            success: function(data) {
+                $('#inventoryQuantity').val(data);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
     }
-
-
-
 
     function removeRow(button) {
         // 버튼이 위치한 행을 찾는다
@@ -186,8 +193,8 @@
                                 <td><p>판매등록일자</p></td>
                                 <td><input type="date" name="orderSdate" id="saleDateInput" th:value="${pageVO.cri.orderSdate}"></td>
                                 <td><p>고객사명</p></td>
-                                <td><input type="text" name="clientNo" id="clientNameInput" class="clientNo"
-                                           th:value="${pageVO.cri.clientNo}">
+                                <td><input type="text" name="clientName" id="clientNameInput" class="clientNo"
+                                           th:value="${pageVO.cri.clientName}">
                                 </td>
                                 <td><p>상품명</p></td>
                                 <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
@@ -278,7 +285,7 @@
                 <div class="popup-content">
                 <h2>판매내역 상세보기</h2>
                 <div class="popup-list">
-                    <table>
+                    <table class="order-modify-table">
                         <tbody>
                         <tr style="white-space: nowrap;">
                             <td><p>판매등록번호</p></td>
@@ -286,7 +293,7 @@
                             <td><p>판매등록일자</p></td>
                             <td><input type="date" name="orderSdate" id="modiOrderSdate"></td>
                             <td colspan="2"><p>고객사명</p></td>
-                            <td colspan="2"><input type="text" name="clientName" readonly></td>
+                            <td colspan="2"><input type="text" name="clientName" id="modiClientName" readonly></td>
                         </tr>
                         </tbody>
 
@@ -345,30 +352,30 @@
 
         <div id="popup-regist" class="popup-regist">
             <form name="orderForm" action="/sales/orderForm" method="post">
-                <div class="popup-content" style="width: 1100px;">
+                <div class="popup-content" style="width: 1100px !important;">
                 <h2>판매등록</h2>
                 <div class="popup-list">
-                    <table>
+                    <table class="order-regist-table">
                         <tbody>
                             <tr class="left-row">
-                                <td><p>판매등록일자</p></td>
+                                <td><p>등록일자</p></td>
                                 <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
                                 <td><p>판매담당자</p></td>
                                 <td><input type="text" name="employeeName" th:value="${#authentication.principal.employeeName}" readonly></td>
-                                <td><p>판매담당자 연락처</p></td>
+                                <td><p>판매자연락처</p></td>
                                 <td><input type="text" class="employeePhone" disabled></td>
-                                <td colspan="2"><p>판매담당자 이메일</p></td>
-                                <td colspan="2"><input type="text" class="employeeEmail" disabled></td>
+                                <td colspan="2"><p>판매자이메일</p></td>
+                                <td colspan="4"><input type="text" class="employeeEmail" disabled></td>
                             </tr>
                             <tr class="left-row">
                                 <td><p>고객사</p></td>
                                 <td><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
-                                <td><p>사업자등록번호</p></td>
+                                <td><p>사업자번호</p></td>
                                 <td><input type="text" class="clientBusinessNo" disabled></td>
                                 <td><p>담당자</p></td>
                                 <td><input type="text" class="managerName" disabled></td>
                                 <td colspan="2"><p>담당자 연락처</p></td>
-                                <td colspan="2"><input type="text" class="managerPhone" disabled></td>
+                                <td colspan="4"><input type="text" class="managerPhone" disabled></td>
                             </tr>
                         </tbody>
                         <tbody id="inputContainer" class="input-wrapper">
@@ -381,27 +388,31 @@
                                 </td>
                                 <td><p>책정거래가</p></td>
                                 <td><input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
+                                <td><p>현재재고</p></td>
+                                <td><input type="text" name="inventoryQuantity" id="inventoryQuantity" readonly></td>
                                 <td><p>개수</p></td>
-                                <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount()"></td>
+                                <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount(event)"></td>
                                 <td><p>금액</p></td>
                                 <td><input type="number" name="orderItems[0].amount[]" class="amount" readonly></td>
-                                <td><button type="button" class="add-button" onclick="addRow()"
-                                            style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                <td><button type="button" class="remove-button" onclick="removeRow(this)"
-                                            style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                <td colspan="2">
+                                    <button type="button" class="add-button" onclick="addRow()"
+                                            style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button>
+                                    <button type="button" class="remove-button" onclick="removeRow(this)"
+                                            style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button>
+                                </td>
                             </tr>
                         </tbody>
 
                         <tbody>
                             <tr>
-                                <td><p>판매승인상태</p></td>
+                                <td><p>승인상태</p></td>
                                 <td><input type="text" name="orderStatus" placeholder="-" value="-" readonly style="text-align: center;"></td>
                                 <td><p>배송상태</p></td>
                                 <td><input type="text" name="deliveryStatus" placeholder="-" value="-"  readonly style="text-align: center;"></td>
                                 <td><p>배송일</p></td>
                                 <td><input type="date" name="delivery" readonly></td>
-                                <td colspan="2"><p>총계</p></td>
-                                <td colspan="2"><input type="text" id="totalAmount" disabled></td>
+<!--                                <td><p>총계</p></td>-->
+<!--                                <td><input type="text" id="totalAmount" disabled></td>-->
                             </tr>
                         </tbody>
                     </table>
@@ -459,6 +470,7 @@
 
         //지윤 추가
         $('#modiOrderSdate').val(event.target.parentElement.children[2].innerText);
+        $('#modiClientName').val(event.target.parentElement.children[3].innerText);
         $('#modiEmployeeName').val(event.target.parentElement.children[6].innerText);
         $('#modiOrderStatus').val(event.target.parentElement.children[7].innerText);
 
@@ -735,7 +747,14 @@
     }
 
 
-    function updateAmount() {
+    function updateAmount(event) {
+        console.dir(event.target.parentElement.parentElement.children[5].children[0].value);
+        console.log(event.target.value);
+        if(event.target.value > event.target.parentElement.parentElement.children[5].children[0].value) {
+            alert("현재재고보다 판매량이 많습니다.");
+            return;
+        }
+
         const rows = document.querySelectorAll('#dynamicRow');
 
         rows.forEach(row => {

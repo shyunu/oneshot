@@ -461,3 +461,47 @@ button:active {
     white-space: nowrap;
     width: 10%;
 }
+/* order개인 css */
+.order-regist-table td:nth-of-type(1) {
+    width: 5%;
+}
+.order-regist-table td:nth-of-type(2) {
+    width: 0%;
+}
+.order-regist-table td:nth-of-type(3) {
+    width: 5%;
+}
+.order-regist-table td:nth-of-type(4) {
+    width: 32%;
+}
+.order-regist-table td:nth-of-type(5) {
+    width: 5%;
+}
+.order-regist-table td:nth-of-type(6) {
+    width: 0%;
+}
+.order-regist-table td:nth-of-type(7) {
+    width: 5%;
+}
+.order-regist-table td:nth-of-type(8) {
+    width: 21%;
+}
+.order-regist-table td:nth-of-type(9) {
+    width: 6%;
+}
+.order-regist-table td:nth-of-type(10) {
+    width: 21%;
+}
+.order-regist-table td:nth-of-type(11) {
+    width: 21%;
+}
+.order-regist-table td:nth-of-type(12) {
+    width: 21%;
+}
+.order-modify-table td {
+    width: 10%;
+}
+
+.purchase-table td {
+    width: 8%;
+}

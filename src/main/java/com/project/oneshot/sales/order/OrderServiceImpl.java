@@ -98,4 +98,9 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateItem(vo);
     }
 
+    @Override
+    public int getInventoryQuantity(int productNo) {
+        return orderMapper.getInventoryQuantity(productNo);
+    }
+
 }

@@ -101,8 +101,8 @@
         <if test="orderSdate != null and orderSdate != ''">
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
-        <if test="clientNo != null and clientNo != ''">
-            and H.client_no like concat('%', #{clientNo}, '%')
+        <if test="clientName != null and clientName != ''">
+            and CL.client_name like concat('%', #{clientName}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -154,8 +154,8 @@
         <if test="orderSdate != null and orderSdate != ''">
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
-        <if test="clientNo != null and clientNo != ''">
-            and H.client_no like concat('%', #{clientNo}, '%')
+        <if test="clientName != null and clientName != ''">
+            and CL.client_name like concat('%', #{clientName}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -280,4 +280,14 @@
         WHERE product.product_no = stock_data.product_no
         <![CDATA[ AND product.product_remark <> '단종' ]]>  -- 기존 값이 '단종'이 아닌 경우에만 업데이트
     </update>
+
+    <select id="getInventoryQuantity" resultType="int">
+        SELECT
+        COALESCE(SUM(purchase.purchase_quantity), 0) - COALESCE(SUM(order_item.product_quantity), 0) AS stock
+        FROM product
+        LEFT JOIN purchase ON product.product_no = purchase.product_no
+        LEFT JOIN order_item ON product.product_no = order_item.product_no
+        where product.product_no = #{productNo}
+        GROUP BY product.product_no
+    </select>
 </mapper>

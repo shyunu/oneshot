@@ -496,7 +496,7 @@ function Employee() {
         <main className="wrapper">
 
             <div class="text-wrap">
-                <p>사원 목록</p>
+                <p>사원조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
 
@@ -505,7 +505,17 @@ function Employee() {
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button className="filter-button" onClick={handleSearchBtn}>검색하기</button>
-                        <button className="filter-button" onClick={() => fetchEmployees()}>전체보기</button>
+                        <button className="filter-button" onClick={() => {
+                            fetchEmployees();
+                            setSearch({ // 상태 초기화
+                                employeeNo: '',
+                                employeeName: '',
+                                departmentNo: '',
+                                employeePhone: '',
+                                positionNo: '',
+                                employeeStatus: ''
+                            });
+                        }}>전체보기</button>
                     </div>
 
                     <table>

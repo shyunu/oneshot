@@ -3,14 +3,6 @@
 <script>
     window.onload = function () {
 
-        const employeeNo = document.getElementById('employeeNo').value;
-
-        // employee_no가 9보다 작으면 승인/반려 버튼 비활성화
-        if (employeeNo < 9) {
-            document.querySelector('.approveButton').disabled = true;
-            document.querySelector('.rejectButton').disabled = true;
-        }
-
         // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
@@ -182,7 +174,7 @@
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
-                <p>계약가격조회</p>
+                <p>계약조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
             <div class="order-title">
@@ -224,7 +216,7 @@
                                         <input type="text" name="productName">
                                     </td>
                                     <td>
-                                        <p>담당자</p>
+                                        <p>고객사담당자</p>
                                     </td>
                                     <td>
                                         <input type="text" name="managerName">
@@ -233,10 +225,12 @@
                                         <p>계약상태</p>
                                     </td>
                                     <td>
-                                        <input type="text" name="contractPriceStatus">
+                                        <select name="contractPriceStatus">
+                                            <option>-</option>
+                                            <option>승인</option>
+                                            <option>반려</option>
+                                        </select>
                                     </td>
-                                </tr>
-                                <tr>
                                 </tr>
                             </tbody>
                         </table>
@@ -295,7 +289,7 @@
         <!-- 등록 기능 -->
         <div id="popup-regist" class="popup-regist">
             <form name="registForm" action="registForm" method="post">
-                <input type="hidden" name="employeeNo" value="1">
+                <input type="hidden" th:value="${#authentication.principal.username}" name="employeeNo">
                 <div class="popup-content">
                     <h2>계약등록</h2>
                     <div class="popup-list">
@@ -309,9 +303,17 @@
                             </tr>
                             <tr>
                                 <td><p>고객사담당자</p></td>
-                                <td><input type="text" class="managerName" readonly></td>
+                                <td><input type="text" class="managerName" readonly style="background-color: #f0f0f0; color: #777777"></td>
                                 <td><p>고객사담당자 전화번호</p></td>
                                 <td colspan="4"><input type="text" class="managerPhone" disabled></td>
+                            </tr>
+
+                            <tr>
+                                <td><p>본사담당자</p></td>
+                                <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" readonly style="background-color: #f0f0f0; color: #777777"></td>
+
+                                <td><p>본사담당자 전화번호</p></td>
+                                <td colspan="4"><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             <tr>
@@ -320,14 +322,6 @@
 
                                 <td><p>계약종료일</p></td>
                                 <td colspan="4"><input type="date" name="contractEdate" required></td>
-
-                            </tr>
-                            <tr>
-                                <td><p>본사담당자</p></td>
-                                <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
-
-                                <td><p>본사담당자 전화번호</p></td>
-                                <td colspan="4"><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             </tbody>
@@ -369,7 +363,7 @@
         <!-- 수정 기능 -->
         <div id="popup-modify" class="popup-modify">
             <form name="modifyForm" action="modifyForm" method="post">
-                <input type="hidden" name="contractPriceNo" id="contractPriceNo">
+               <input type="hidden" name="contractPriceNo" id="contractPriceNo">
                 <div class="popup-content">
                     <h2>계약 상세보기</h2>
                     <div class="popup-list">
@@ -404,6 +398,7 @@
 
                                 <td><p>본사 담당자 연락처</p></td>
                                 <td><input type="text" name="employeePhone" id="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
+
                             </tr>
 
                             <tr>
@@ -432,8 +427,10 @@
                     <div class="popup-button">
                         <div class="button-left">
 <!--                            <button>계약서 첨부</button>-->
+                            <th:block th:if="${#authentication.principal.positionNo <= 9}">
                             <button type="submit" class="approveButton" onclick="approveContract()">승인</button>
                             <button type="submit" class="rejectButton" onclick="rejectContract()">반려</button>
+                            </th:block>
                         </div>
                         <div class="button-right">
                             <button type="submit">수정</button>
@@ -447,6 +444,52 @@
 </th:block>
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // localStorage에서 값을 가져와서 폼 필드에 채우기
+        if (localStorage.getItem('clientName')) {
+            document.querySelector('input[name="clientName"]').value = localStorage.getItem('clientName');
+        }
+        if (localStorage.getItem('contractSdate')) {
+            document.querySelector('input[name="contractSdate"]').value = localStorage.getItem('contractSdate');
+        }
+        if (localStorage.getItem('contractEdate')) {
+            document.querySelector('input[name="contractEdate"]').value = localStorage.getItem('contractEdate');
+        }
+        if (localStorage.getItem('productName')) {
+            document.querySelector('input[name="productName"]').value = localStorage.getItem('productName');
+        }
+        if (localStorage.getItem('managerName')) {
+            document.querySelector('input[name="managerName"]').value = localStorage.getItem('managerName');
+        }
+        if (localStorage.getItem('contractPriceStatus')) {
+            document.querySelector('input[name="contractPriceStatus"]').value = localStorage.getItem('contractPriceStatus');
+        }
+    });
+
+
+    document.querySelector('.filter-button[type="submit"]').addEventListener('click', function() {
+        // 폼 필드 값들을 저장
+        localStorage.setItem('clientName', document.querySelector('input[name="clientName"]').value);
+        localStorage.setItem('contractSdate', document.querySelector('input[name="contractSdate"]').value);
+        localStorage.setItem('contractEdate', document.querySelector('input[name="contractEdate"]').value);
+        localStorage.setItem('productName', document.querySelector('input[name="productName"]').value);
+        localStorage.setItem('managerName', document.querySelector('input[name="managerName"]').value);
+        localStorage.setItem('contractPriceStatus', document.querySelector('input[name="contractPriceStatus"]').value);
+    });
+
+
+    document.querySelector('.filter-button[type="button"]').addEventListener('click', function() {
+        // localStorage 값 제거
+        localStorage.removeItem('clientName');
+        localStorage.removeItem('contractSdate');
+        localStorage.removeItem('contractEdate');
+        localStorage.removeItem('productName');
+        localStorage.removeItem('managerName');
+        localStorage.removeItem('contractPriceStatus');
+    });
+
+
 
     // 전체 선택 체크박스
     const selectAllCheckbox = document.getElementById('selectAll');
@@ -595,11 +638,11 @@
         });
 
         //승인인 조회의 행을 누르면 바로 나타날 화면
-        if(event.target.parentElement.children[8].innerText == '승인') {
+        if(event.target.parentElement.children[8].innerText === '승인') {
             $('.approveButton').css('display', 'none');
             $('.rejectButton').css('display', 'none');
 
-        } else if(event.target.parentElement.children[8].innerText == '반려') {
+        } else if(event.target.parentElement.children[8].innerText === '반려') {
 
         }
 
