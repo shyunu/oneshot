@@ -9,31 +9,32 @@
             </div>
             <div class="order-title">
                 <div class="filter-content">
-                    <div class="filter-main">
-                        <h3>상세내역검색</h3>
-                        <button class="filter-button" type="submit" form="searchSuppliers">검색하기</button>
-                        <button type="button" onclick="location.href='/inventory/supplierList'" class="filter-button">전체보기</button>
-                        <form action="supplierList" method="get" id="searchSuppliers" enctype="multipart/form-data">
-                            <table>
-                                <tr>
-                                    <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" th:value="${pageVO.cri.supplierName}"></td>
-                                    <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress" th:value="${pageVO.cri.supplierAddress}"></td>
-                                    <td><p>공급업체사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" th:value="${pageVO.cri.supplierBusinessNo}"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
-                                    <td><p>담당자연락처</p></td>
-                                    <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
-                                    <td><p>담당자이메일</p></td>
-                                    <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
+                    <form action="supplierList" method="get" id="searchSuppliers" enctype="multipart/form-data">
+                        <div class="filter-main">
+                            <h3>상세내역검색</h3>
+                            <button class="filter-button" type="submit" form="searchSuppliers">검색하기</button>
+                            <button type="button" onclick="location.href='/inventory/supplierList'" class="filter-button">전체보기</button>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td><p>공급업체명</p></td>
+                                <td><input type="text" name="supplierName" th:value="${pageVO.cri.supplierName}"></td>
+                                <td><p>공급업체주소</p></td>
+                                <td><input type="text" name="supplierAddress" th:value="${pageVO.cri.supplierAddress}"></td>
+                                <td><p>공급업체사업자등록번호</p></td>
+                                <td><input type="text" name="supplierBusinessNo" th:value="${pageVO.cri.supplierBusinessNo}"></td>
+                            </tr>
+                            <tr>
+                                <td><p>담당자명</p></td>
+                                <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
+                                <td><p>담당자연락처</p></td>
+                                <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
+                                <td><p>담당자이메일</p></td>
+                                <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
 
@@ -308,7 +309,6 @@
             isDragging = false;
         });
     }
-
 
 </script>
 

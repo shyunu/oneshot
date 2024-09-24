@@ -44,8 +44,7 @@
                 <thead>
                 <tr>
                     <th>no</th>
-                    <th>구매번호</th>
-                    <th>공급업체</th>
+                    <th>공급업체명</th>
                     <th>카테고리</th>
                     <th>상품명</th>
                     <th>구매수량</th>
@@ -57,13 +56,15 @@
                 </thead>
                 <tbody>
                     <tr th:each="purchase : ${list}" class="product_list">
-                        <td th:text="${purchase.purchaseNo}" onclick="handleClick(event)"></td>
-                        <td th:text="${purchase.productName}" onclick="handleClick(event)"></td>
-                        <td th:text="${purchase.supplierName}" onclick="handleClick(event)"></td>
-                        <td th:text="${purchase.totalPurchasePrice}" onclick="handleClick(event)"></td>
-                        <td th:text="${purchase.employeeName}" onclick="handleClick(event)"></td>
-                        <td th:text="${purchase.purchaseStatus}" onclick="handleClick(event)"></td>
-                        <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                        <td th:text="${purchase.purchaseNo}"></td>
+                        <td th:text="${purchase.supplierName}"></td>
+                        <td th:text="${purchase.categoryName}"></td>
+                        <td th:text="${purchase.productName}"></td>
+                        <td th:text="${purchase.purchaseQuantity}"></td>
+                        <td th:text="${purchase.purchasePrice} + 원"></td>
+                        <td th:text="(${purchase.purchaseQuantity} * ${purchase.purchasePrice}) + 원"></td>
+                        <td th:text="${purchase.employeeName}"></td>
+                        <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -391,43 +392,39 @@
         document.getElementById("registerPurchase").reset();
     }
 
-    // 페이지 로드 시 이벤트 리스너 추가
-    document.addEventListener('DOMContentLoaded', function() {
-        // 드래그 기능을 위한 스크립트
-        ['popup-regist'].forEach(id => {
-            const popup = document.getElementById(id);
-            const dragHandle = popup.querySelector('h2');
-            let isDragging = false;
-            let startX, startY, startLeft, startTop;
+    window.onload = function () {
+        // 드래그 기능을 추가할 팝업창 요소 선택
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
 
-            dragHandle.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', endDrag);
+        // 드래그 가능하게 만들기
+        makeDraggable(popupModify);
+        makeDraggable(popupRegist);
+    };
 
-            function startDrag(e) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                startLeft = popup.offsetLeft;
-                startTop = popup.offsetTop;
-                popup.style.cursor = 'move';
-            }
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+        const header = element.querySelector('.popup-content');
 
-            function drag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                let newX = startLeft + (e.clientX - startX);
-                let newY = startTop + (e.clientY - startY);
-                popup.style.left = newX + 'px';
-                popup.style.top = newY + 'px';
-            }
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
 
-            function endDrag() {
-                isDragging = false;
-                popup.style.cursor = 'default';
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
             }
         });
-    });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
 </script>
 </body>
 </html>

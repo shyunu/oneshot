@@ -86,10 +86,10 @@ td {
 
 /* 각 열의 기본 최소 너비 설정 */
 #dataTable th:nth-child(1), #dataTable td:nth-child(1) { width: 3%; }
-#dataTable th:nth-child(2), #dataTable td:nth-child(2) { width: 7%; }
-#dataTable th:nth-child(3), #dataTable td:nth-child(3) { width: 15%; }
+#dataTable th:nth-child(2), #dataTable td:nth-child(2) { width: 6%; }
+#dataTable th:nth-child(3), #dataTable td:nth-child(3) { width: 13%; }
 #dataTable th:nth-child(4), #dataTable td:nth-child(4) { width: 10%; }
-#dataTable th:nth-child(5), #dataTable td:nth-child(5) { width: 15%; }
+#dataTable th:nth-child(5), #dataTable td:nth-child(5) { width: 17%; }
 #dataTable th:nth-child(6), #dataTable td:nth-child(6) { width: 10%; }
 #dataTable th:nth-child(7), #dataTable td:nth-child(7) { width: 10%; }
 #dataTable th:nth-child(8), #dataTable td:nth-child(8) { width: 10%; }
@@ -137,8 +137,8 @@ td {
 #productTable th:nth-child(5), #productTable td:nth-child(5) { width: 10%; }  /* 총재고수량 */
 #productTable th:nth-child(6), #productTable td:nth-child(6) { width: 10%; }  /* 안전재고수량 */
 #productTable th:nth-child(7), #productTable td:nth-child(7) { width: 10%; }  /* 판매가격 */
-#productTable th:nth-child(7), #productTable td:nth-child(8) { width: 10%; }  /* 상품이미지 */
-#productTable th:nth-child(7), #productTable td:nth-child(9) { width: 10%; }  /* 비고 */
+#productTable th:nth-child(8), #productTable td:nth-child(8) { width: 10%; }  /* 상품이미지 */
+#productTable th:nth-child(9), #productTable td:nth-child(9) { width: 10%; }  /* 비고 */
 
 /* purchaseTable 안에 있는 th와 td에만 적용 */
 #purchaseTable th, #purchaseTable td {
@@ -152,13 +152,16 @@ td {
 }
 
 /* 각 열의 기본 최소 너비 설정 */
-#purchaseTable th:nth-child(1), #purchaseTable td:nth-child(1) { width: 7%; }  /* 구매내역번호 */
-#purchaseTable th:nth-child(2), #purchaseTable td:nth-child(2) { width: 20%; }  /* 상품명 */
-#purchaseTable th:nth-child(3), #purchaseTable td:nth-child(3) { width: 20%; }  /* 공급업체명 */
-#purchaseTable th:nth-child(4), #purchaseTable td:nth-child(4) { width: 10%; }  /* 총구매가격 */
-#purchaseTable th:nth-child(5), #purchaseTable td:nth-child(5) { width: 13%; }  /* 담당자명 */
-#purchaseTable th:nth-child(6), #purchaseTable td:nth-child(6) { width: 13%; }  /* 승인여부 */
-#purchaseTable th:nth-child(7), #purchaseTable td:nth-child(7) { width: 17%; }  /* 구매일 */
+#purchaseTable th:nth-child(1), #purchaseTable td:nth-child(1) { width: 6%; }  /* no */
+#purchaseTable th:nth-child(2), #purchaseTable td:nth-child(2) { width: 14%; }  /* 공급업체 */
+#purchaseTable th:nth-child(3), #purchaseTable td:nth-child(3) { width: 14%; }  /* 카테고리 */
+#purchaseTable th:nth-child(4), #purchaseTable td:nth-child(4) { width: 19%; }  /* 상품명 */
+#purchaseTable th:nth-child(5), #purchaseTable td:nth-child(5) { width: 8%; }  /* 구매수량 */
+#purchaseTable th:nth-child(6), #purchaseTable td:nth-child(6) { width: 9%; }  /* 구매단가 */
+#purchaseTable th:nth-child(7), #purchaseTable td:nth-child(7) { width: 9%; }  /* 총가격 */
+#purchaseTable th:nth-child(8), #purchaseTable td:nth-child(8) { width: 10%; }  /* 담당자 */
+#purchaseTable th:nth-child(9), #purchaseTable td:nth-child(9) { width: 15%; }  /* 구매일 */
+
 
 
 
@@ -219,6 +222,10 @@ td {
     margin-left: auto;
 }
 
+.button-regist {
+    margin-left: auto;
+}
+
 
 /* tr td */
 .popup-list > table {
@@ -251,12 +258,12 @@ td {
 /* 팝업 공통 디자인 */
 .popup-regist, .popup-modify {
     display: none;
-    position: fixed !important;
-    left: 0px !important;
-    top: 0px !important;
-    width: 100% !important;
-    height: 100% !important;
-    justify-content: center !important;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
     cursor: pointer; /* 드래그 가능한 영역에 커서 스타일 추가 */
     z-index: 9999;
     overflow: auto;
@@ -264,32 +271,32 @@ td {
 
 .popup-content {
     background-color: white;
-    margin: 5% auto !important;
-    width: 900px !important;
-    height: auto !important;
+    margin: 5% auto;
+    width: 900px;
+    height: auto;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 8px 16px #e3e3e3;
-    max-height: 90vh !important;
+    max-height: 90vh;
 }
 
 .popup-content h2 {
     color: #fff;
-    padding: 10px !important;
+    padding: 10px;
     font-size: 25px;
-    letter-spacing: 2px !important;
+    letter-spacing: 2px;
     font-weight: 400;
     background-color: #434343;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    height: 50px !important;
-    line-height: 35px !important;
+    height: 50px;
+    line-height: 35px;
 }
 
 .popup-list {
-    padding: 10px !important;
-    overflow-y: auto !important;
-    flex-grow: 1 !important;
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 .popup-list p, input {
