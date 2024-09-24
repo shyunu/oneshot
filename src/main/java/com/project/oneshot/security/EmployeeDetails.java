@@ -30,7 +30,7 @@ public class EmployeeDetails implements UserDetails {
 
         // departmentName과 positionName을 권한으로 설정
         list.add(new SimpleGrantedAuthority("ROLE_" + employeeAuthVO.getPositionNameEnglish()));
-        for(String menu:employeeAuthVO.getMenuNameEnglish()){
+        for (Integer menu : employeeAuthVO.getMenuNo()) {
             list.add(new SimpleGrantedAuthority("ROLE_" + menu));
         }
 
@@ -54,6 +54,10 @@ public class EmployeeDetails implements UserDetails {
     public String getPositionName() {
         return employeeAuthVO.getPositionName(); // positionName 반환
     }
+    public String getEmployeePhone() {
+        return employeeAuthVO.getEmployeePhone(); // positionName 반환
+    }
+
 
     public int getDepartmentNo() {
         return employeeAuthVO.getDepartmentNo(); // departmentNo 반환

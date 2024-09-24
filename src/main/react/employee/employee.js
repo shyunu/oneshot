@@ -21,6 +21,7 @@ function Employee() {
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
+    const [errors, setErrors] = useState({}); //유효성검사 에러메세지
     const [deletePopup1Open, setDeletePopup1Open ] =useState(false);
     const [deletePopup2Open, setDeletePopup2Open ] =useState(false);
 
@@ -67,6 +68,22 @@ function Employee() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        //유효성검사
+        const newErrors = {};
+        Object.keys(validators).forEach(field => {
+            const errorMessage = validators[field](newEmployee[field]);
+            if (errorMessage) {
+                newErrors[field] = errorMessage;
+            }
+        });
+
+        // 유효성 검사 통과 여부에 따라 폼 제출
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors); // 오류가 있을 경우 상태 업데이트
+            return; // 폼 제출 중단
+        }
+
         console.log(newEmployee);
         const formData = new FormData();
         if(employeePhoto){
@@ -197,9 +214,28 @@ function Employee() {
         }
     };
 
+
+    // 유효성 검사 함수들
+    const validators = {
+        employeeEmail: (value) => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(value) ? '' : '유효한 이메일 주소를 입력해주세요.';
+        }
+    };
+
+    //사원 제출및 수정 값 변경
     const handleFormChange = (e) => {
         const { name, value } = e.target;
         console.log(newEmployee);
+
+        // 해당 필드의 유효성 검사를 실행
+        const errorMessage = validators[name] ? validators[name](value) : '';
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [name]: errorMessage
+        }));
+
+
         // departmentNo가 변경될 경우 positionNo와 positionName을 빈 문자열로 설정
         if (name === "departmentNo") {
             setNewEmployee(prev => ({
@@ -716,7 +752,10 @@ function Employee() {
                                             <input type="text" id="employeeName" name="employeeName"
                                                    className="input-form"
                                                    value={newEmployee.employeeName}
-                                                   onChange={handleFormChange}/>
+                                                   onChange={handleFormChange}
+                                                   autoComplete="off"
+                                                   required
+                                            />
                                         </td>
 
                                     </tr>
@@ -725,16 +764,25 @@ function Employee() {
                                             <label htmlFor="employeeEmail">이메일</label>
                                         </td>
                                         <td colSpan="2">
-                                            <input type="text" id="employeeEmail" name="employeeEmail"
-                                                   className="input-form"
-                                                   value={newEmployee.employeeEmail}
-                                                   onChange={handleFormChange}/>
+                                            <input
+                                                type="text"
+                                                id="employeeEmail"
+                                                name="employeeEmail"
+                                                className="input-form"
+                                                value={newEmployee.employeeEmail}
+                                                onChange={handleFormChange}
+                                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                                required
+                                                autoComplete="off"
+                                                title="유효한 이메일 주소를 입력해주세요."
+                                            />
+                                            {errors.employeeEmail && <p style={{ color: 'red' }}>{errors.employeeEmail}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="department">부서번호</label>
                                         </td>
                                         <td colSpan="2">
-                                            <select name="departmentNo" value={newEmployee.departmentNo}
+                                            <select name="departmentNo" value={newEmployee.departmentNo} required
                                                     onChange={(e) => handleDepartmentSelect(e.target.value, e.target.selectedOptions[0].text)}>
                                                 <option value="" disabled hidden>부서 선택</option>
                                                 {departments.map(department => (
@@ -752,7 +800,7 @@ function Employee() {
 
                                         </td>
                                         <td colSpan="2">
-                                            <select name="positionNo" value={newEmployee.positionNo}
+                                            <select name="positionNo" value={newEmployee.positionNo} required
                                                     onChange={(e) => handlePositionSelect(e.target.value, e.target.selectedOptions[0].text)}>
                                                 <option value="" disabled hidden>직급 선택</option>
                                                 {positions
@@ -773,7 +821,7 @@ function Employee() {
                                         </td>
                                         <td colSpan="2">
                                             <input type="date" id="employeeHiredate" name="employeeHiredate"
-                                                   className="input-form"
+                                                   className="input-form" required
                                                    value={newEmployee.employeeHiredate} onChange={handleFormChange}/>
                                         </td>
                                     </tr>
@@ -786,15 +834,25 @@ function Employee() {
                                             <input type="text" id="employeePhone" name="employeePhone"
                                                    className="input-form"
                                                    value={newEmployee.employeePhone}
-                                                   onChange={handleFormChange}/>
+                                                   onChange={handleFormChange}
+                                                   pattern="01[016789][0-9]{3,4}[0-9]{4}"
+                                                   required
+                                                   autoComplete="off"
+                                                   title="올바른 휴대폰 번호 형식이 아닙니다. (예: 01012345678)"
+                                            />
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
                                         </td>
                                         <td colSpan="2">
-                                            <input type="text" id="emergencyPhone" name="emergencyPhone"
+                                            <input type="tel" id="emergencyPhone" name="emergencyPhone"
                                                    className="input-form"
-                                                   value={newEmployee.emergencyPhone} onChange={handleFormChange}/>
+                                                   value={newEmployee.emergencyPhone} onChange={handleFormChange}
+                                                   pattern="01[016789][0-9]{3,4}[0-9]{4}"
+                                                   required
+                                                   autoComplete="off"
+                                                   title="올바른 휴대폰 번호 형식이 아닙니다. (예: 01012345678)"
+                                            />
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -804,14 +862,19 @@ function Employee() {
                                         <td colSpan="2">
                                             <input type="date" id="employeeBirth" name="employeeBirth"
                                                    className="input-form"
-                                                   value={newEmployee.employeeBirth} onChange={handleFormChange}/>
+                                                   value={newEmployee.employeeBirth} onChange={handleFormChange}
+                                                   required
+                                            />
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="accountHolder">계좌주</label>
                                         </td>
                                         <td colSpan="2">
                                             <input type="text" id="accountHolder" name="accountHolder" placeholder="계좌주" className="input-form"
-                                                   value={newEmployee.accountHolder} onChange={handleFormChange}/>
+                                                   value={newEmployee.accountHolder} onChange={handleFormChange}
+                                                   autoComplete="off"
+                                                   required
+                                            />
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -819,7 +882,7 @@ function Employee() {
                                             <label htmlFor="accountBank">은행</label>
                                         </td>
                                         <td colSpan="2">
-                                            <select name="bankNo" value={newEmployee.bankNo}
+                                            <select name="bankNo" value={newEmployee.bankNo} required
                                                     onChange={(e) => handleBankSelect(e.target.value, e.target.selectedOptions[0].text)}>
                                                 <option value="" disabled hidden>은행 선택</option>
                                                 {banks.map(bank => (
@@ -837,7 +900,10 @@ function Employee() {
                                             <input type="text" id="accountNumber" name="accountNumber"
                                                    className="input-form"
                                                    placeholder="계좌번호" value={newEmployee.accountNumber}
-                                                   onChange={handleFormChange}/>
+                                                   onChange={handleFormChange}
+                                                   autoComplete="off"
+                                                   required
+                                            />
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -854,6 +920,7 @@ function Employee() {
                                                 className="select-input-form"
                                                 onClick={() => setShowMap(true)} // 주소 검색을 위한 지도 또는 검색창 표시
                                                 readOnly
+                                                required
                                             />
                                         </td>
                                         <td colSpan="2">
@@ -863,7 +930,10 @@ function Employee() {
                                             <input type="text" id="employeeAddressDetail" name="employeeAddressDetail"
                                                    className="input-form"
                                                    placeholder="상세주소를 입력하세요" value={newEmployee.employeeAddressDetail}
-                                                   onChange={handleFormChange}/>
+                                                   onChange={handleFormChange}
+                                                   autoComplete="off"
+                                                   required
+                                            />
                                         </td>
                                     </tr>
                                     </tbody>

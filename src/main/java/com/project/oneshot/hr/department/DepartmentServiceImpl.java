@@ -26,8 +26,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentMapper.insertDepartment(vo);
 
         // 선택된 메뉴 등록
-        if (vo.getMenus() != null && !vo.getMenus().isEmpty()) {
-            for (Integer menuNo : vo.getMenus()) {
+        if (vo.getMenuNo() != null && !vo.getMenuNo().isEmpty()) {
+            for (Integer menuNo : vo.getMenuNo()) {
                 departmentMapper.insertDepartmentMenu(vo.getDepartmentNo(), menuNo); // 메뉴 추가
             }
         }
@@ -65,8 +65,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         // 메뉴가 존재하는지 체크 후 관계 업데이트
         departmentMapper.deleteDepartmentMenus(department.getDepartmentNo());
-        if (department.getMenus() != null && !department.getMenus().isEmpty()) {
-            for (Integer menuNo : department.getMenus()) {
+        if (department.getMenuNo() != null && !department.getMenuNo().isEmpty()) {
+            for (Integer menuNo : department.getMenuNo()) {
                 departmentMapper.insertDepartmentMenu(department.getDepartmentNo(), menuNo);
             }
         }

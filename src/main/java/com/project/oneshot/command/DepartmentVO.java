@@ -25,6 +25,6 @@ public class DepartmentVO {
     private String departmentState = "Y"; // 활성 기본값 Y
 
     // 선택된 메뉴 번호 리스트
-    private List<Integer> menus;
+    private List<Integer> menuNo;
 
 }
