@@ -191,10 +191,10 @@
                                 </td>
                                 <td><p>상품명</p></td>
                                 <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
-                                <td colspan="2"></td>
+<!--                                <td colspan="2"></td>-->
                             </tr>
                             <tr>
-                                <td><p>판매담당자</p></td>
+                                <td><p>판매담당자명</p></td>
                                 <td><input type="text" name="employeeName" id="employeeName" th:value="${pageVO.cri.employeeName}"></td>
                                 <td><p>판매승인상태</p></td>
                                 <td>
@@ -213,8 +213,8 @@
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송완료'}">배송완료</option>
                                     </select>
                                 </td>
-                                <td><p>배송일</p></td>
-                                <td><input type="date" name="deliveryDate" th:value="${pageVO.cri.deliveryDate}"></td>
+<!--                                <td><p>배송일</p></td>-->
+<!--                                <td><input type="date" name="deliveryDate" th:value="${pageVO.cri.deliveryDate}"></td>-->
                             </tr>
                         </table>
                     </form>
@@ -229,7 +229,7 @@
                     <th>고객사명</th>
                     <th>상품리스트</th>
                     <th>총거래가</th>
-                    <th>판매담당자</th>
+                    <th>판매담당자명</th>
                     <th>판매승인상태</th>
                     <th>배송상태</th>
                     <th>배송일</th>
@@ -254,17 +254,16 @@
             </table>
 
             <div class="buttons">
-                <div class="button-left">
-                    <button>Excel로 내보내기</button>
-                    <button>계약서 저장</button>
-                </div>
+<!--                <div class="button-left">-->
+<!--                    <button>Excel로 내보내기</button>-->
+<!--                    <button>계약서 저장</button>-->
+<!--                </div>-->
                 <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
 
 <!--                <div class="button-left">-->
 <!--                    <button>Excel로 내보내기</button>-->
 <!--                    <button>계약서 저장</button>-->
 <!--                </div>-->
-                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규판매 등록</button>
             </div>
 
             <div class="center">
@@ -329,9 +328,9 @@
                 </div>
                 <div class="popup-button">
                     <div class="button-left">
-                        <button type="submit" class="approveButton" onclick="approveOrder()">승인</button>
-                        <button type="submit" class="rejectButton" onclick="rejectOrder()">반려</button>
-                        <button type="button" class="deliveryInfoButton" onclick="deliveryInfoRegist()" style="display: none">배송정보입력</button>
+<!--                        <button type="submit" class="approveButton" onclick="approveOrder()">승인</button>-->
+<!--                        <button type="submit" class="rejectButton" onclick="rejectOrder()">반려</button>-->
+<!--                        <button type="button" class="deliveryInfoButton" onclick="deliveryInfoRegist()" style="display: none">배송정보입력</button>-->
                     </div>
                     <div class="button-right">
                         <button type="button" onclick="editButtonClick()" class="modifyButton">수정</button>
@@ -342,10 +341,11 @@
             </div>
             </form>
         </div>
+
+
         <div id="popup-regist" class="popup-regist">
             <form name="orderForm" action="/sales/orderForm" method="post">
-                <input type="hidden" name="employeeNo" class="employeeNo">
-                <div class="popup-content">
+                <div class="popup-content" style="width: 1100px;">
                 <h2>판매등록</h2>
                 <div class="popup-list">
                     <table>
@@ -400,23 +400,22 @@
                                 <td><input type="text" name="deliveryStatus" placeholder="-" value="-"  readonly style="text-align: center;"></td>
                                 <td><p>배송일</p></td>
                                 <td><input type="date" name="delivery" readonly></td>
-                                <td colspan="2"><p>판매 상품 금액 합계</p></td>
+                                <td colspan="2"><p>총계</p></td>
                                 <td colspan="2"><input type="text" id="totalAmount" disabled></td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
+
                 <div class="popup-button">
-                    <div class="button-left">
-                        <button>계약서 첨부</button>
-                    </div>
+<!--                    <div class="button-left">-->
+<!--                        <button>계약서 첨부</button>-->
+<!--                    </div>-->
                     <div class="button-right">
                         <button type="submit" onclick="handleSubmit()">등록</button>
                         <button type="button" class="close-btn3" onclick="closePopupRegist()">닫기</button>
                     </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>

@@ -302,36 +302,16 @@
                         <table>
                             <tbody>
                             <tr>
-                                <td><p>고객사명(번호)</p></td>
+                                <td><p>고객사명</p></td>
                                 <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
-                                <td>
-                                    <p>사업자등록번호</p>
-                                </td>
-                                <td>
-                                    <input type="text" class="clientBusinessNo" disabled>
-                                </td>
+                                <td><p>사업자등록번호</p></td>
+                                <td colspan="4"><input type="text" class="clientBusinessNo" disabled></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <p>고객사담당자</p>
-                                </td>
-                                <td><input type="text" class="managerName" readonly></td>
-                                <td>
-                                    <p>고객사담당자 전화번호</p>
-                                </td>
-                                <td>
-                                    <input type="text" class="managerPhone" disabled>
-                                </td>
-                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo" required></select></td>
-
-                                <td><p>사업자등록번호</p></td>
-                                <td><input type="text" class="clientBusinessNo" disabled></td>
-
                                 <td><p>고객사담당자</p></td>
-                                <td><input type="text" class="managerName" disabled></td>
-
+                                <td><input type="text" class="managerName" readonly></td>
                                 <td><p>고객사담당자 전화번호</p></td>
-                                <td><input type="text" class="managerPhone" disabled></td>
+                                <td colspan="4"><input type="text" class="managerPhone" disabled></td>
                             </tr>
 
                             <tr>
@@ -339,13 +319,15 @@
                                 <td><input type="date" name="contractSdate" required></td>
 
                                 <td><p>계약종료일</p></td>
-                                <td><input type="date" name="contractEdate" required></td>
+                                <td colspan="4"><input type="date" name="contractEdate" required></td>
 
+                            </tr>
+                            <tr>
                                 <td><p>본사담당자</p></td>
                                 <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
 
                                 <td><p>본사담당자 전화번호</p></td>
-                                <td><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
+                                <td colspan="4"><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             </tbody>
