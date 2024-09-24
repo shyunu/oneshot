@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -203,7 +204,6 @@ public class EmployeeRestController {
     public ResponseEntity<?> performAction(Authentication authentication) {
         // 인증된 사용자 정보 가져오기
         EmployeeDetails userDetails = (EmployeeDetails) authentication.getPrincipal();
-
         // 비즈니스 로직
         return ResponseEntity.ok("Action performed by " + userDetails.getUsername());
     }
