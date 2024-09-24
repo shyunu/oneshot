@@ -461,6 +461,8 @@ button:active {
     white-space: nowrap;
     width: 10%;
 }
+
+/* ----------------------------------------------------- */
 /* order개인 css */
 .order-regist-table td:nth-of-type(1) {
     width: 5%;
@@ -511,4 +513,21 @@ button:active {
     color: red;
     text-align: left;
     display: none;
+}
+/* ----------------------------------------------------- */
+/* supplier */
+.supplier-regist-table table p {
+    height: 20px;
+}
+.supplier-regist-table td:nth-of-type(1) {
+    width: 0%;
+}
+.supplier-regist-table td:nth-of-type(2) {
+    width: 0%;
+}
+.supplier-regist-table td:nth-of-type(3) {
+    width: 3%;
+}
+.supplier-regist-table td:nth-of-type(4) {
+    width: 20%;
 }
