@@ -257,6 +257,7 @@
         AND PRODUCT_NO = #{productNo}
     </update>
 
+    <!-- 승인상태 변경 -->
     <update id="changeProductStatus">
         WITH stock_data AS (
         SELECT
@@ -281,6 +282,7 @@
         <![CDATA[ AND product.product_remark <> '단종' ]]>  -- 기존 값이 '단종'이 아닌 경우에만 업데이트
     </update>
 
+    <!-- 재고확인 -->
     <select id="getInventoryQuantity" resultType="int">
         SELECT
         COALESCE(SUM(purchase.purchase_quantity), 0) - COALESCE(SUM(order_item.product_quantity), 0) AS stock
