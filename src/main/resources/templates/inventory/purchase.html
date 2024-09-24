@@ -88,7 +88,7 @@
 
         <!-- 등록 팝업 -->
         <div id="popup-regist" class="popup-regist">
-            <form action="registerPurchase" id="registerPurchase" method="post" enctype="multipart/form-data">
+            <form action="registerPurchase" id="registerPurchase" method="post">
                 <input type="hidden" name="employeeNo" value="1">
                 <div class="popup-content">
                     <h2>구매신청</h2>
@@ -101,9 +101,10 @@
                                     <td><p>공급업체명</p></td>
                                     <td>
                                         <select name="supplierNo" onchange="changeSupplierNo(event)" required>
-                                            <option th:each="categoryVO : ${categoryList}" th:value="${categoryVO.categoryNo}" th:text="${categoryVO.categoryName}">- 공급업체명 -</option>
-                                            <option></option>
+                                            <option>- 공급업체명 -</option>
+                                            <option th:each="categoryVO : ${categoryList}" th:value="${categoryVO.categoryNo}" th:text="${categoryVO.categoryName}"></option>
                                         </select>
+                                        <br><p id="supplierErrorText" class="error-text">※ 공급업체 선택은 필수입니다.</p>
                                     </td>
                                     <td><p>담당자명</p></td>
                                     <td><input type="text" name="managerName" disabled></td>
@@ -116,30 +117,36 @@
                             <tbody>
                                 <tr>
                                     <td><p>카테고리</p></td>
-                                    <td colspan="2"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                    <td colspan="2">
+                                        <select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select>
+                                        <br><p id="categoryErrorText" class="error-text">※ 카테고리 선택은 필수입니다.</p>
+                                    </td>
                                     <td><p>상품명</p></td>
-                                    <td colspan="3"><select class="productNo" name="productNo" onchange="changeProductNo(event)" required></select></td>
-                                    <td rowspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow(event)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
-                                </tr>
-                                <tr>
+                                    <td colspan="3">
+                                        <select class="productNo" name="productNo" onchange="changeProductNo(event)" required></select>
+                                        <br><p id="productErrorText" class="error-text">※ 상품명 선택은 필수입니다.</p>
+                                    </td>
                                     <td><p>총재고수량</p></td>
                                     <td><input type="text" name="inventoryQuantity" disabled></td>
                                     <td><p>안전재고수량</p></td>
                                     <td><input type="text" name="safetyQuantity" disabled></td>
+                                    <td rowspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow(event)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                                <tr>
                                     <td><p>구매수량</p></td>
-                                    <td><input type="number" name="purchaseQuantity" required oninput="calculateSubtotal(this)"></td>
+                                    <td colspan="3"><input type="number" name="purchaseQuantity" required oninput="calculateSubtotal(this)"><br><p class="error-text">※ 구매수량 입력은 필수입니다.</p></td>
                                     <td><p>구매가격</p></td>
-                                    <td><input type="text" name="purchasePrice" required oninput="calculateSubtotal(this)"></td>
+                                    <td colspan="3"><input type="text" name="purchasePrice" required oninput="calculateSubtotal(this)"><br><p class="error-text">※ 구매가격 입력은 필수입니다.</p></td>
                                     <td><p>소계</p></td>
-                                    <td><input type="text" name="subtotalPrice" disabled></td>
+                                    <td colspan="2"><input type="text" name="subtotalPrice" disabled></td>
                                 </tr>
                             </tbody>
                         </table>
                         <table class="purchase-table">
                             <tbody>
                                 <tr>
-                                    <td colspan="2"><p>총계</p></td>
-                                    <td colspan="3"><input type="text" id="totalPurchase" disabled></td>
+                                    <td><p>총계</p></td>
+                                    <td><input type="text" id="totalPurchase" disabled></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -147,61 +154,6 @@
                     <div class="popup-button">
                         <div class="button-right">
                             <button type="submit" class="save" onclick="postPurchase()">등록</button>
-                            <button type="button" class="close" onclick="closePopup()">닫기</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-  
-        <!-- 수정 팝업 -->
-        <div id="popup-modify" class="popup-modify draggable-popup">
-            <form action="modifySupplier" id="modifySupplier" method="post" enctype="multipart/form-data">
-                <div class="popup-content">
-                    <h2 class="drag-handle">구매내역 수정</h2>
-                    <div class="popup-list">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2"><p>구매내역번호</p></td>
-                                    <td colspan="3"><input type="text" name="purchaseNo" disabled></td>
-                                    <td colspan="1"><p>공급업체명</p></td>
-                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><p>총재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
-                                    <td colspan="2"><p>안전재고수량</p></td>
-                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
-                                    <td colspan="1"><p>카테고리</p></td>
-                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2"><p>상품명</p></td>
-                                    <td><select class="productNo" name="productNo" required></select></td>
-                                    <td colspan="2"><p>구매수량</p></td>
-                                    <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
-                                    <td><p>구매가격</p></td>
-                                    <td><input type="text" name="purchasePrice" required></td>
-                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                    <td><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2"><p>담당자명</p></td>
-                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
-                                    <td colspan="2"><p>구매금액 합계</p></td>
-                                    <td colspan="3"><input type="text" disabled></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="popup-button">
-                        <div class="button-right">
-                            <button type="button" class="modify" onclick="modifyPurchase()">저장</button>
                             <button type="button" class="close" onclick="closePopup()">닫기</button>
                         </div>
                     </div>
@@ -248,9 +200,11 @@
             success: function(data) {
                 $('input[name="managerName"]').val(data.managerName);
                 $('input[name="managerPhone"]').val(data.managerPhone);
+
+                $('#supplierErrorText').css('display', 'none');
             },
             error: function() {
-                alert('error');
+                $('#supplierErrorText').css('display', 'block');
             }
         });
 
@@ -277,51 +231,93 @@
     }
 
     function changeCategoryNo(event) {
-        const selectedRow = event.target.closest('tr'); // 현재 선택된 행
-        const supplierSelect = selectedRow.querySelector('select[name="supplierNo"]'); // 해당 행의 공급업체 선택 필드
-        const productSelect = selectedRow.querySelector('select[name="productNo"]'); // 해당 행의 상품 선택 필드
+        const selectedRow = event.target.closest('tr');
+        let supplierSelect = document.querySelector('select[name="supplierNo"]'); // 페이지 전체에서 찾기
+        if (!supplierSelect) {
+            supplierSelect = selectedRow.closest('table').querySelector('select[name="supplierNo"]'); // 상위 테이블에서 찾기
+        }
 
-        const supplierNo = supplierSelect.value; // 선택된 공급업체 번호
-        const categoryNo = event.target.value; // 선택한 카테고리 값
+        if (!supplierSelect) {
+            alert("공급업체 선택 필드를 찾을 수 없습니다.");
+            return;
+        }
+
+        const productSelect = selectedRow.querySelector('select[name="productNo"]');
+        const supplierNo = supplierSelect.value;
+        const categoryNo = event.target.value;
 
         $.ajax({
             type: 'GET',
             url: '/inventory/getProducts',
-            data: {'supplierNo' : supplierNo, 'categoryNo' : categoryNo},
+            data: {
+                supplierNo: supplierNo,
+                categoryNo: categoryNo
+            },
             dataType: 'json',
             success: function(data) {
-                productSelect.innerHTML = '<option value="">- 상품명 -</option>';
+                productSelect.innerHTML = '<option value="">- 상품 선택 -</option>';
                 data.forEach(product => {
-                    let option = document.createElement('option');
+                    const option = document.createElement('option');
                     option.value = product.productNo;
                     option.textContent = product.productName;
                     productSelect.appendChild(option);
+
+                    $('#categoryErrorText').css('display', 'none');
                 });
             },
             error: function() {
-                alert('/inventory/getProducts error');
+                $('#categoryErrorText').css('display', 'block');
             }
         });
     }
 
+    // 중복 선택을 방지하기 위한 함수
+    function disableSelectedProducts() {
+        // 모든 상품명 select 필드를 가져옴
+        const productSelects = document.querySelectorAll('select[name="productNo"]');
+
+        // 모든 선택된 값을 배열로 저장
+        const selectedValues = Array.from(productSelects).map(select => select.value).filter(value => value);
+
+        // 각 select에서 이미 선택된 값을 비활성화
+        productSelects.forEach(select => {
+            Array.from(select.options).forEach(option => {
+                if (selectedValues.includes(option.value) && option.value !== select.value) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+        });
+    }
+
+    // 상품 선택 시마다 호출하여 중복된 상품 선택을 방지
     function changeProductNo(event) {
-        let row = event.target.closest('tbody'); // 현재 선택된 행
+        const row = event.target.closest('tr');
+        const productNo = event.target.value;
+
         let inventoryQuantity = row.querySelector('input[name="inventoryQuantity"]');
         let safetyQuantity = row.querySelector('input[name="safetyQuantity"]');
 
+        // 상품 수량을 가져오는 AJAX 호출
         $.ajax({
             type: 'GET',
             url: '/inventory/getQuantity',
-            data: {'productNo' : event.target.value},
+            data: { 'productNo': productNo },
             dataType: 'json',
             success: function(data) {
                 inventoryQuantity.value = data.inventoryQuantity;
                 safetyQuantity.value = data.safetyQuantity;
+
+                $('#productErrorText').css('display', 'none');
             },
             error: function() {
-                alert('/inventory/getQuantity error');
+                $('#productErrorText').css('display', 'block');
             }
         });
+
+        // 중복 상품 선택 방지
+        disableSelectedProducts();
     }
 
     function calculateTotal() {
@@ -337,6 +333,13 @@
     }
 
     function calculateSubtotal(element) {
+        const errorText = element.nextElementSibling.nextElementSibling;
+        if(element.value.trim() !== "") {
+          errorText.style.display = "none";
+        } else {
+          errorText.style.display = "block";
+        }
+
         const row = element.closest('tr');  // 해당 요소가 포함된 행을 찾음
         const quantity = parseFloat(row.querySelector('input[name="purchaseQuantity"]').value) || 0;  // 구매 수량
         const price = parseFloat(row.querySelector('input[name="purchasePrice"]').value) || 0;  // 구매 가격
@@ -347,7 +350,7 @@
         calculateTotal();  // 총계를 업데이트
     }
 
-    // 새 행을 추가하는 함수
+    // 새 행 추가 함수
     function addRow() {
         const rows = document.querySelectorAll('#inputContainer tbody');
         const lastRow = rows[rows.length - 1];
@@ -355,41 +358,47 @@
         // 새 행 생성
         const newRow = lastRow.cloneNode(true);
 
-        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
-        const newRowInputs = newRow.querySelectorAll('input, select');
-        newRowInputs.forEach((element) => {
-            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
-        });
+        // 새 행의 입력 필드 초기화
+        newRow.querySelectorAll('input').forEach(input => input.value = '');
 
-        // 새 행의 값 초기화
-        newRow.querySelectorAll('input').forEach(input => {
-            input.value = '';
-            input.readOnly = false; // 신규 행에서는 모든 input 필드를 활성화
-        });
-
-        // 새 행의 select 필드에 이벤트 리스너 연결
+        // 새 행의 이벤트 리스너 재설정 및 초기화
         const supplierSelect = newRow.querySelector('select[name="supplierNo"]');
-        supplierSelect.selectedIndex = 0; // 기본 옵션으로 초기화
-        supplierSelect.onchange = function(event) {
-            changeSupplierNo(event);  // 새 행의 select 필드에 이벤트 리스너 추가
-        };
+        if (supplierSelect) {
+            supplierSelect.selectedIndex = 0; // 기본 옵션으로 초기화
+            supplierSelect.onchange = function(event) {
+                changeSupplierNo(event); // 이벤트 리스너 추가
+            };
+        }
 
         const categorySelect = newRow.querySelector('select[name="categoryNo"]');
-        categorySelect.selectedIndex = 0; // 기본 옵션으로 초기화
-        categorySelect.onchange = function(event) {
-            changeCategoryNo(event);  // 새 행의 카테고리 선택시 이벤트 리스너 추가
-        };
+        if (categorySelect) {
+            categorySelect.selectedIndex = 0; // 기본 옵션으로 초기화
+            categorySelect.onchange = function(event) {
+                changeCategoryNo(event); // 이벤트 리스너 추가
+            };
+        }
 
         const productSelect = newRow.querySelector('select[name="productNo"]');
-        productSelect.selectedIndex = 0; // 기본 옵션으로 초기화
-        productSelect.onchange = function(event) {
-            changeProductNo(event);  // 새 행의 상품 선택시 이벤트 리스너 추가
-        };
+        if (productSelect) {
+            productSelect.selectedIndex = 0; // 기본 옵션으로 초기화
+            productSelect.onchange = function(event) {
+                changeProductNo(event); // 이벤트 리스너 추가
+            };
+        }
 
         // 새 행을 테이블에 추가
         document.getElementById('inputContainer').appendChild(newRow);
+
+        // 새 행 추가 후 중복 선택 방지 처리
+        disableSelectedProducts();
     }
 
+    // 기존 행에서도 중복 선택을 방지하기 위한 초기화
+    window.onload = function () {
+        disableSelectedProducts();
+    };
+
+    // 행 삭제 함수
     function removeRow(event) {
         const row = event.target.closest('tbody'); // 현재 클릭한 버튼이 포함된 행을 찾음
         const inputContainer = document.getElementById('inputContainer');
@@ -397,6 +406,7 @@
         // 제거할 행이 하나 이상일 경우에만 제거
         if (inputContainer.querySelectorAll('tbody').length > 1) {
             inputContainer.removeChild(row); // 해당 행 제거
+            disableSelectedProducts(); // 중복 선택 방지 갱신
             calculateTotal(); // 총계 업데이트
         } else {
             alert("더 이상 제거할 수 있는 행이 없습니다.");
@@ -443,5 +453,4 @@
         });
     }
 </script>
-</body>
 </html>

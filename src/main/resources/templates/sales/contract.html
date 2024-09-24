@@ -655,13 +655,17 @@ window.onload = function () {
     }
 
     $('#registerButton').on('click', function(event) {
-        //event.preventDefault();
+        event.preventDefault();
 
         // 폼에서 입력된 데이터를 가져옴
         let contractSdate = $('#registContractSdate').val();
+        console.log("contractSdate = " + contractSdate);
         let contractEdate = $('#registContractEdate').val();
+        console.log("contractEdate = " + contractEdate);
         let clientNo = $('select[name="clientNo"]').val();
+        console.log("clientNo = " + clientNo);
         let productNo = $('select[name="productNo"]').val();
+        console.log("productNo = " + productNo);
 
         // 날짜 중복 확인 함수 호출
         contractDateUpdate(contractSdate, contractEdate, clientNo, productNo).done(function(response) {

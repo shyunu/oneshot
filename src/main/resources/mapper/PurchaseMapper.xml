@@ -116,10 +116,6 @@
         </if>
     </select>
 
-    <select id="getPurchaseNo" resultType="Integer">
-        select purchase_no from purchase order by purchase_no desc limit 1
-    </select>
-
     <select id="getAllCategories" resultType="CategoryVO">
         select * from category
     </select>
