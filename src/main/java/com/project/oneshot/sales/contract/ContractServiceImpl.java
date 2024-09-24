@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Service("contractService")
@@ -83,5 +84,14 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.getTotalCount(cri);
     }
 
+    @Override
+    public List<ContractVO> updateContract(int clientNo, int productNo, String contractSdate, Date contractEdate) {
+        return contractMapper.updateContract(clientNo, productNo, contractSdate, contractEdate);
+    }
+
+    @Override
+    public int updateContractDate(int clientNo, int productNo, Date contractSdate, Date contractEdate) {
+        return contractMapper.updateContractDate(clientNo, productNo, contractSdate, contractEdate);
+    }
 
 }
