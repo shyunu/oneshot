@@ -11,12 +11,12 @@ public class PurchaseCriteria {
     private int amount; // 조회하는 데이터개수
 
     // 검색 키워드
-    private Integer productNo;
-    private Integer purchasePrice;
-    private Integer employeeNo;
-    private int supplierNo;
-    private String purchaseDate;
-    private String purchaseStatus;
+    private String supplierName;
+    private Integer categoryNo;
+    private String productName;
+    private String employeeName;
+    private String purchaseSdate;
+    private String purchaseEdate;
 
 
     public PurchaseCriteria() {
