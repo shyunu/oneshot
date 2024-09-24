@@ -150,7 +150,62 @@
                 </div>
             </form>
         </div>
-    </div>
+  
+        <!-- 수정 팝업 -->
+        <div id="popup-modify" class="popup-modify draggable-popup">
+            <form action="modifySupplier" id="modifySupplier" method="post" enctype="multipart/form-data">
+                <div class="popup-content">
+                    <h2 class="drag-handle">구매내역 수정</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>구매내역번호</p></td>
+                                    <td colspan="3"><input type="text" name="purchaseNo" disabled></td>
+                                    <td colspan="1"><p>공급업체명</p></td>
+                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><p>총재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td colspan="2"><p>안전재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
+                                    <td colspan="1"><p>카테고리</p></td>
+                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>상품명</p></td>
+                                    <td><select class="productNo" name="productNo" required></select></td>
+                                    <td colspan="2"><p>구매수량</p></td>
+                                    <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
+                                    <td><p>구매가격</p></td>
+                                    <td><input type="text" name="purchasePrice" required></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>담당자명</p></td>
+                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
+                                    <td colspan="2"><p>구매금액 합계</p></td>
+                                    <td colspan="3"><input type="text" disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <div class="button-right">
+                            <button type="button" class="modify" onclick="modifyPurchase()">저장</button>
+                            <button type="button" class="close" onclick="closePopup()">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+  </div>
 </th:block>
 
 <script>

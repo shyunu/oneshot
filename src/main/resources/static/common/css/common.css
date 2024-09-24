@@ -63,7 +63,6 @@ th {
     background-color: #e3e3e3;
     font-family: 'NanumBarunGothicBold'; /* 볼드체 */
     border: 1px solid #777;
-
 }
 
 td {
@@ -98,6 +97,70 @@ td {
 #dataTable th:nth-child(8), #dataTable td:nth-child(8) { width: 10%; }
 
 
+/* supplierTable 안에 있는 th와 td에만 적용 */
+#supplierTable th, #supplierTable td {
+    text-align: center;
+    height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #777;
+    padding: 10px;
+}
+
+/* 각 열의 기본 최소 너비 설정 */
+#supplierTable th:nth-child(1), #supplierTable td:nth-child(1) { width: 7%; }  /* 공급업체번호 */
+#supplierTable th:nth-child(2), #supplierTable td:nth-child(2) { width: 13%; }  /* 공급업체명 */
+#supplierTable th:nth-child(3), #supplierTable td:nth-child(3) { width: 20%; }  /* 공급업체주소 */
+#supplierTable th:nth-child(4), #supplierTable td:nth-child(4) { width: 13%; }  /* 사업자등록번호 */
+#supplierTable th:nth-child(5), #supplierTable td:nth-child(5) { width: 10%; }  /* 담당자명 */
+#supplierTable th:nth-child(6), #supplierTable td:nth-child(6) { width: 12%; }  /* 담당자 연락처 */
+#supplierTable th:nth-child(7), #supplierTable td:nth-child(7) { width: 19%; }  /* 담당자 이메일 */
+#supplierTable th:nth-child(8), #supplierTable td:nth-child(8) { width: 8%; }  /* 첨부파일 */
+
+/* productTable 안에 있는 th와 td에만 적용 */
+#productTable th, #productTable td {
+    text-align: center;
+    height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #777;
+    padding: 10px;
+}
+
+/* 각 열의 기본 최소 너비 설정 */
+#productTable th:nth-child(1), #productTable td:nth-child(1) { width: 5%; }  /* 상품번호 */
+#productTable th:nth-child(2), #productTable td:nth-child(2) { width: 14%; }  /* 카테고리 */
+#productTable th:nth-child(3), #productTable td:nth-child(3) { width: 15%; }  /* 공급업체 */
+#productTable th:nth-child(4), #productTable td:nth-child(4) { width: 16%; }  /* 상품명 */
+#productTable th:nth-child(5), #productTable td:nth-child(5) { width: 10%; }  /* 총재고수량 */
+#productTable th:nth-child(6), #productTable td:nth-child(6) { width: 10%; }  /* 안전재고수량 */
+#productTable th:nth-child(7), #productTable td:nth-child(7) { width: 10%; }  /* 판매가격 */
+#productTable th:nth-child(7), #productTable td:nth-child(8) { width: 10%; }  /* 상품이미지 */
+#productTable th:nth-child(7), #productTable td:nth-child(9) { width: 10%; }  /* 비고 */
+
+/* purchaseTable 안에 있는 th와 td에만 적용 */
+#purchaseTable th, #purchaseTable td {
+    text-align: center;
+    height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #777;
+    padding: 10px;
+}
+
+/* 각 열의 기본 최소 너비 설정 */
+#purchaseTable th:nth-child(1), #purchaseTable td:nth-child(1) { width: 7%; }  /* 구매내역번호 */
+#purchaseTable th:nth-child(2), #purchaseTable td:nth-child(2) { width: 20%; }  /* 상품명 */
+#purchaseTable th:nth-child(3), #purchaseTable td:nth-child(3) { width: 20%; }  /* 공급업체명 */
+#purchaseTable th:nth-child(4), #purchaseTable td:nth-child(4) { width: 10%; }  /* 총구매가격 */
+#purchaseTable th:nth-child(5), #purchaseTable td:nth-child(5) { width: 13%; }  /* 담당자명 */
+#purchaseTable th:nth-child(6), #purchaseTable td:nth-child(6) { width: 13%; }  /* 승인여부 */
+#purchaseTable th:nth-child(7), #purchaseTable td:nth-child(7) { width: 17%; }  /* 구매일 */
+
+
 
 /* 체크박스 클릭 시 배경색과 투명도 변경 */
 .order-wrap table .tr-checked {
@@ -126,7 +189,7 @@ td {
     background-color: #e3e3e3;
 }
 .page li:hover:not(.active) {
-    background-color: #ddd;
+    background-color: #e3e3e3;
 }
 
 .page li a {
@@ -152,6 +215,10 @@ td {
     float: right;
 }
 
+.regist-right {
+    margin-left: auto;
+}
+
 
 /* tr td */
 .popup-list > table {
@@ -162,7 +229,6 @@ td {
 
 .popup-list td {
     padding: 5px;
-    vertical-align: top;
     border: 1px solid #e3e3e3;
 }
 
@@ -185,47 +251,52 @@ td {
 /* 팝업 공통 디자인 */
 .popup-regist, .popup-modify {
     display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
+    position: fixed !important;
+    left: 0px !important;
+    top: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    justify-content: center !important;
     cursor: pointer; /* 드래그 가능한 영역에 커서 스타일 추가 */
     z-index: 9999;
+    overflow: auto;
 }
 
 .popup-content {
     background-color: white;
-    margin: 10% auto;
-    width: 900px;
-    height: auto;
+    margin: 5% auto !important;
+    width: 900px !important;
+    height: auto !important;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 8px 16px #e3e3e3;
+    max-height: 90vh !important;
 }
 
 .popup-content h2 {
     color: #fff;
-    padding: 10px;
+    padding: 10px !important;
     font-size: 25px;
-    letter-spacing: 2px;
+    letter-spacing: 2px !important;
     font-weight: 400;
     background-color: #434343;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    height: 50px;
-    line-height: 35px;
+    height: 50px !important;
+    line-height: 35px !important;
 }
 
 .popup-list {
-    padding: 10px;
+    padding: 10px !important;
+    overflow-y: auto !important;
+    flex-grow: 1 !important;
 }
 
 .popup-list p, input {
     display: inline-block;
     position: relative;
     height: 30px;
+    width: 50%;
 }
 
 .popup-list p {
@@ -263,12 +334,13 @@ td {
     left: 2px;
 }
 
-.popup-regist .close-btn3 {
+.close-btn, .close-btn3 {
     cursor: pointer;
 }
 
-.popup-regist td {
+.popup-regist td, .popup-modify td {
     white-space: nowrap;
+    width: 25%;
 }
 
 
