@@ -166,8 +166,8 @@
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
-                <p>판매내역</p>
-                <p>❉ 조회 및 수정을 원하시면 항목을 클릭하세요.</p>
+                <p>판매조회</p>
+                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
             <div class="order-title">
                 <div class="filter-content">
@@ -226,7 +226,7 @@
                     <th>판매등록일자</th>
                     <th>고객사명</th>
                     <th>상품리스트</th>
-                    <th>총 거래가</th>
+                    <th>총거래가</th>
                     <th>판매담당자</th>
                     <th>판매승인상태</th>
                     <th>배송상태</th>
@@ -256,7 +256,7 @@
                     <button>Excel로 내보내기</button>
                     <button>계약서 저장</button>
                 </div>
-                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">신규판매 등록</button>
+                <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
             </div>
 
             <div class="center">
@@ -326,7 +326,7 @@
                     </div>
                     <div class="button-right">
                         <button type="button" onclick="editButtonClick()" class="modifyButton">수정</button>
-                        <button type="submit" class="modifySubmitButton" style="display: none">저장하기</button>
+                        <button type="submit" class="modifySubmitButton" style="display: none">저장</button>
                         <button type="button" onclick="closePopupModify()">닫기</button>
                     </div>
                 </div>
@@ -336,7 +336,7 @@
         <div id="popup-regist" class="popup-regist">
             <form name="orderForm" action="/sales/orderForm" method="post">
                 <div class="popup-content">
-                <h2>판매 등록하기</h2>
+                <h2>판매등록</h2>
                 <div class="popup-list">
                     <table>
                         <tbody>

@@ -48,7 +48,7 @@
             <div class="filter-main">
               <h3>상세내역검색</h3>
               <button type="submit" class="filter-button">검색하기</button>
-              <button type="button" onclick="location.href='/inventory/productList'" class="filter-button">초기화</button>
+              <button type="button" onclick="location.href='/inventory/productList'" class="filter-button">전체보기</button>
             </div>
             <table>
               <tr>
@@ -59,7 +59,7 @@
                     <option th:each="categoryVO : ${categoryList}" th:value="${categoryVO.categoryNo}" th:text="${categoryVO.categoryName}" th:selected="${categoryVO.categoryNo == pageVO.cri.categoryNo}"></option>
                   </select>
                 </td>
-                <td><p>공급업체</p></td>
+                <td><p>공급업체명</p></td>
                 <td>
                   <select name="supplierNo">
                     <option value="0">- 공급업체 -</option>
@@ -89,9 +89,9 @@
       <table id="productTable">
         <thead>
           <tr>
-            <th>상품번호</th>
+            <th>no</th>
             <th>카테고리</th>
-            <th>공급업체</th>
+            <th>공급업체명</th>
             <th>상품명</th>
             <th>총재고수량</th>
             <th>안전재고수량</th>
@@ -117,7 +117,7 @@
 
       <div class="buttons">
         <div class="button-left"></div>
-        <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">상품 등록</button>
+        <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">상품등록</button>
       </div>
 
       <div class="center">
@@ -140,13 +140,13 @@
                   <td><p>공급업체</p></td>
                   <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)"></select></td>
                   <td><p>사업자번호</p></td>
-                  <td><input type="text" id="postSupplierBusinessNo" disabled style="background-color: #e3e3e3;"></td>
+                  <td><input type="text" id="postSupplierBusinessNo" disabled></td>
                 </tr>
                 <tr>
                   <td><p>담당자</p></td>
-                  <td><input type="text" id="postManagerName" disabled style="background-color: #e3e3e3;"></td>
+                  <td><input type="text" id="postManagerName" disabled ></td>
                   <td><p>담당자 연락처</p></td>
-                  <td><input type="text" id="postManagerPhone" disabled style="background-color: #e3e3e3;"></td>
+                  <td><input type="text" id="postManagerPhone" disabled></td>
                 </tr>
                 <tr>
                   <td><p>카테고리</p></td>
@@ -174,7 +174,7 @@
                 </tr>
                 <tr>
                   <td><p>상품설명</p></td>
-                  <td colspan="3"><textarea rows="4" name="productContent" id="postProductContent"></textarea></td>
+                  <td colspan="3"><textarea rows="4" name="productContent" id="postProductContent" style="width: 100%; border: 1px solid #e3e3e3;"></textarea></td>
                 </tr>
               </tbody>
             </table>
@@ -204,15 +204,15 @@
               <tbody>
               <tr>
                 <td><p>공급업체</p></td>
-                <td><input type="text" id="putSupplierName" disabled style="background-color: #e3e3e3;"></td>
+                <td><input type="text" id="putSupplierName" disabled ></td>
                 <td><p>사업자번호</p></td>
-                <td><input type="text" id="putSupplierBusinessNo" disabled style="background-color: #e3e3e3;"></td>
+                <td><input type="text" id="putSupplierBusinessNo" disabled ></td>
               </tr>
               <tr>
                 <td><p>담당자</p></td>
-                <td><input type="text" id="putManagerName" disabled style="background-color: #e3e3e3;"></td>
+                <td><input type="text" id="putManagerName" disabled></td>
                 <td><p>담당자 연락처</p></td>
-                <td><input type="text" id="putManagerPhone" disabled style="background-color: #e3e3e3;"></td>
+                <td><input type="text" id="putManagerPhone" disabled></td>
               </tr>
               <tr>
                 <td><p>카테고리</p></td>
@@ -240,7 +240,7 @@
               </tr>
               <tr>
                 <td><p>상품설명</p></td>
-                <td colspan="3"><textarea rows="4" name="productContent" id="putProductContent"></textarea></td>
+                <td colspan="3"><textarea rows="4" name="productContent" id="putProductContent" style="width: 100%; border: 1px solid #e3e3e3;"></textarea></td>
               </tr>
               </tbody>
             </table>
@@ -249,7 +249,7 @@
             <div class="button-left">
             </div>
             <div class="button-right">
-              <button type="submit">수정</button>
+              <button type="submit">저장</button>
               <button type="button" class="close-btn3">닫기</button>
             </div>
           </div>

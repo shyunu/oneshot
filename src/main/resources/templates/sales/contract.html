@@ -173,8 +173,8 @@
     <div class="content">
         <div class="order-wrap">
             <div class="text-wrap">
-                <p>계약가격내역</p>
-                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요.</p>
+                <p>계약가격조회</p>
+                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
             <div class="order-title">
                 <div class="filter-content">
@@ -242,11 +242,11 @@
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>no</th>
                     <th>고객사명</th>
-                    <th>고객사 담당자</th>
+                    <th>고객사담당자</th>
                     <th>상품품목명</th>
                     <th>계약시작일</th>
                     <th>계약종료일</th>
-                    <th>본사 담당자</th>
+                    <th>본사담당자</th>
                     <th>계약상태</th>
                     <th>계약만료예정</th>
                 </tr>
@@ -273,7 +273,7 @@
                     <button>Excel로 내보내기</button>
                     <button>계약서 저장</button>
                 </div>
-                <button class="button-regist button-right" onclick="handleClick2(event)">신규거래 등록</button>
+                <button class="button-regist button-right" onclick="handleClick2(event)">거래등록</button>
             </div>
 
             <div class="center">
@@ -288,7 +288,7 @@
             <form name="registForm" action="registForm" method="post">
                 <input type="hidden" name="employeeNo" value="1">
                 <div class="popup-content">
-                    <h2>계약 등록하기</h2>
+                    <h2>계약등록</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
@@ -304,11 +304,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>고객사 담당자</p>
+                                    <p>고객사담당자</p>
                                 </td>
                                 <td><input type="text" class="managerName" readonly></td>
                                 <td>
-                                    <p>고객사 담당자 전화번호</p>
+                                    <p>고객사담당자 전화번호</p>
                                 </td>
                                 <td>
                                     <input type="text" class="managerPhone" disabled>
@@ -386,23 +386,23 @@
 
                             <tr>
                                 <td>
-                                    <p>고객사 담당자</p>
+                                    <p>고객사담당자</p>
                                 </td>
                                 <td><input type="text" name="managerName" id="managerName"></td>
                                 <td>
-                                    <p>고객사 담당자 연락처</p>
+                                    <p>고객사담당자 연락처</p>
                                 </td>
                                 <td><input type="text" name="managerPhone" id="managerPhone"></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>본사 담당자</p>
+                                    <p>본사담당자</p>
                                 </td>
                                 <td>
                                     <input type="text" name="employeeName" id="employeeName">
                                 </td>
                                 <td>
-                                    <p>본사 담당자 연락처</p>
+                                    <p>본사담당자 연락처</p>
                                 </td>
                                 <td>
                                     <input type="text" name="employeePhone" id="employeePhone">
