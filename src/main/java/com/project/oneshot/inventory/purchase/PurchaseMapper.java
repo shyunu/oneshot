@@ -30,4 +30,5 @@ public interface PurchaseMapper {
 
     void changeProductStatus();
 
+    SupplierVO getSupplier(int supplierNo);
 }

@@ -34,6 +34,11 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    public SupplierVO getSupplier(int supplierNo) {
+        return purchaseMapper.getSupplier(supplierNo);
+    }
+
+    @Override
     public List<CategoryVO> getCategories(int supplierNo) {
         return purchaseMapper.getCategories(supplierNo);
     }
