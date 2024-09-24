@@ -42,4 +42,9 @@ public class SupplierServiceImpl implements SupplierService {
     public boolean modifySupplier(SupplierVO supplierVO) {
          return supplierMapper.modifySupplier(supplierVO) > 0;
     }
+
+    @Override
+    public int checkSupplierName(String supplierName) {
+        return supplierMapper.checkSupplierName(supplierName);
+    }
 }

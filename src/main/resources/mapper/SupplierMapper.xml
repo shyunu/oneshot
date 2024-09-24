@@ -89,4 +89,8 @@
             supplier_file = #{supplierFile}
         WHERE supplier_no = #{supplierNo}
     </update>
+
+    <select id="checkSupplierName" resultType="int">
+        select count(*) from supplier where supplier_name = #{supplierName}
+    </select>
 </mapper>

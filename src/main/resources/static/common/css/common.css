@@ -505,3 +505,10 @@ button:active {
 .purchase-table td {
     width: 8%;
 }
+
+.error-text {
+    font-size: 13px;
+    color: red;
+    text-align: left;
+    display: none;
+}
