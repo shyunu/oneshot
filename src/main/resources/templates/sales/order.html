@@ -23,8 +23,8 @@
         const popupRegist = document.getElementById('popup-regist');
 
         // 드래그 가능하게 만들기
-        makeDraggable(popupModify);
-        makeDraggable(popupRegist);
+        //makeDraggable(popupModify);
+        //makeDraggable(popupRegist);
 
         // + 버튼 클릭 시 새로운 상품 및 가격 행 추가
         //const addItemBtnRegist = document.getElementById('add-item-btn-regist');
@@ -141,12 +141,19 @@
             }
         });
 
-
-
+        $.ajax({
+            url: '/sales/getInventoryQuantity',
+            type: 'get',
+            data: {productNo : event.target.value},
+            dataType: 'text',
+            success: function(data) {
+                $('#inventoryQuantity').val(data);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
     }
-
-
-
 
     function removeRow(button) {
         // 버튼이 위치한 행을 찾는다
@@ -382,9 +389,9 @@
                                 <td><p>책정거래가</p></td>
                                 <td><input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
                                 <td><p>현재재고</p></td>
-                                <td><input type="text"></td>
+                                <td><input type="text" name="inventoryQuantity" id="inventoryQuantity" readonly></td>
                                 <td><p>개수</p></td>
-                                <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount()"></td>
+                                <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount(event)"></td>
                                 <td><p>금액</p></td>
                                 <td><input type="number" name="orderItems[0].amount[]" class="amount" readonly></td>
                                 <td><button type="button" class="add-button" onclick="addRow()"
@@ -737,7 +744,14 @@
     }
 
 
-    function updateAmount() {
+    function updateAmount(event) {
+        console.dir(event.target.parentElement.parentElement.children[5].children[0].value);
+        console.log(event.target.value);
+        if(event.target.value > event.target.parentElement.parentElement.children[5].children[0].value) {
+            alert("현재재고보다 판매량이 많습니다.");
+            return;
+        }
+
         const rows = document.querySelectorAll('#dynamicRow');
 
         rows.forEach(row => {
