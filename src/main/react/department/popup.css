@@ -19,6 +19,7 @@
     left: 50%;
     top: 50%;
     width: auto;
+    min-width: 500px;
 }
 
 /* 팝업 헤더 스타일 */
@@ -97,6 +98,11 @@
 .contract-form > table td input[type="text"] {
     width: 100%;
     border: 1px solid #e3e3e3;
+}
+
+.popup-body{
+    display: flex;
+    justify-content: center;
 }
 .popup-buttons{
     display: flex;
