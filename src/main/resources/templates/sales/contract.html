@@ -2,6 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
     window.onload = function () {
+
+        const employeeNo = document.getElementById('employeeNo').value;
+
+        // employee_no가 9보다 작으면 승인/반려 버튼 비활성화
+        if (employeeNo < 9) {
+            document.querySelector('.approveButton').disabled = true;
+            document.querySelector('.rejectButton').disabled = true;
+        }
+
         // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
@@ -294,7 +303,7 @@
                             <tbody>
                             <tr>
                                 <td><p>고객사명(번호)</p></td>
-                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
+                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo" required></select></td>
 
                                 <td><p>사업자등록번호</p></td>
                                 <td><input type="text" class="clientBusinessNo" disabled></td>
@@ -308,16 +317,16 @@
 
                             <tr>
                                 <td><p>계약시작일</p></td>
-                                <td><input type="date" name="contractSdate"></td>
+                                <td><input type="date" name="contractSdate" required></td>
 
                                 <td><p>계약종료일</p></td>
-                                <td><input type="date" name="contractEdate"></td>
+                                <td><input type="date" name="contractEdate" required></td>
 
                                 <td><p>본사담당자</p></td>
                                 <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
 
                                 <td><p>본사담당자 전화번호</p></td>
-                                <td><input type="text" class="employeePhone" disabled></td>
+                                <td><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             </tbody>
@@ -374,7 +383,7 @@
                                     <p>판매승인상태 *</p>
                                 </td>
                                 <td colspan="2">
-                                    <input name="contractPriceStatus" readonly>
+                                    <input id="contractPriceStatus" name="contractPriceStatus" readonly>
                                 </td>
                             </tr>
 
@@ -393,7 +402,7 @@
                                 <td><input type="text" name="employeeName" id="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
 
                                 <td><p>본사 담당자 연락처</p></td>
-                                <td><input type="text" name="employeePhone" id="employeePhone" disabled></td>
+                                <td><input type="text" name="employeePhone" id="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
                             </tr>
 
                             <tr>
@@ -585,11 +594,11 @@
         });
 
         //승인인 조회의 행을 누르면 바로 나타날 화면
-        if(event.target.parentElement.children[8].innerText === '승인') {
+        if(event.target.parentElement.children[8].innerText == '승인') {
             $('.approveButton').css('display', 'none');
             $('.rejectButton').css('display', 'none');
 
-        } else if(event.target.parentElement.children[8].innerText === '반려') {
+        } else if(event.target.parentElement.children[8].innerText == '반려') {
 
         }
 
@@ -599,14 +608,14 @@
 
     // 판매내역 승인 기능
     function approveContract() {
-        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        const contractPriceStatusInput = document.querySelector('#contractPriceStatus'); //여기
         contractPriceStatusInput.value = "승인";
 
     }
 
     // 판매내역 반려 기능
     function rejectContract() {
-        const contractPriceStatusInput = document.querySelector('input[name="contractPriceStatus"]');
+        const contractPriceStatusInput = document.querySelector('#contractPriceStatus');
         contractPriceStatusInput.value = "반려";
 
     }
