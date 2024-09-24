@@ -24,18 +24,12 @@ public class PurchaseController {
 
     @GetMapping("/purchaseList")
     public String purchase(Model model, PurchaseCriteria cri) {
+        System.out.println("cri = " + cri);
         List<PurchaseVO> list = purchaseService.getAllPurchase(cri);
-        System.out.println("list :" + list.toString());
         model.addAttribute("list", list);
-
-        List<SupplierVO> supplierList = purchaseService.getAllSuppliers();
-        model.addAttribute("supplierList", supplierList);
 
         List<CategoryVO> categoryList = purchaseService.getAllCategories();
         model.addAttribute("categoryList", categoryList);
-
-        List<EmployeeVO> employeeList = purchaseService.getAllEmployees();
-        model.addAttribute("employeeList", employeeList);
 
         int totalPurchase = purchaseService.getTotalPurchase(cri);
         PurchasePageVO pageVO = new PurchasePageVO(cri, totalPurchase);
@@ -49,18 +43,9 @@ public class PurchaseController {
                                    @RequestParam("purchasePrice") List<Integer> purchasePrice,
                                    @RequestParam("purchaseQuantity") List<Integer> purchaseQuantity,
                                    @RequestParam("employeeNo") int employeeNo) {
-        Integer purchaseNo = purchaseService.getPurchaseNo();
-        System.out.println("purchaseNo = " + purchaseNo);
-        if(purchaseNo == null) {
-            purchaseNo = 1;
-        } else {
-            purchaseNo += 1;
-        }
-
         List<PurchaseVO> list = new ArrayList<>();
         for(int i = 0; i < productNo.size(); i++) {
             PurchaseVO vo = new PurchaseVO();
-            vo.setPurchaseNo(purchaseNo);
             vo.setProductNo(productNo.get(i));
             vo.setPurchasePrice(purchasePrice.get(i));
             vo.setPurchaseQuantity(purchaseQuantity.get(i));

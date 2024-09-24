@@ -33,8 +33,18 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<CategoryVO> getAllCategories() {
-        return purchaseMapper.getAllCategories();
+    public List<CategoryVO> getCategories(int supplierNo) {
+        return purchaseMapper.getCategories(supplierNo);
+    }
+
+    @Override
+    public List<ProductVO> getProducts(int supplierNo, int categoryNo) {
+        return purchaseMapper.getProducts(supplierNo, categoryNo);
+    }
+
+    @Override
+    public ProductVO getQuantity(int productNo) {
+        return purchaseMapper.getQuantity(productNo);
     }
 
     @Override
@@ -48,7 +58,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Integer getPurchaseNo() {
-        return purchaseMapper.getPurchaseNo();
+    public List<CategoryVO> getAllCategories() {
+        return purchaseMapper.getAllCategories();
     }
 }

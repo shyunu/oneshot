@@ -13,11 +13,15 @@ public interface PurchaseService {
 
     List<SupplierVO> getAllSuppliers();
 
-    List<CategoryVO> getAllCategories();
+    List<CategoryVO> getCategories(int supplierNo);
+
+    List<ProductVO> getProducts(int supplierNo, int categoryNo);
+
+    ProductVO getQuantity(int productNo);
 
     List<ProductVO> getProductsByCategory(Long categoryNo);
 
     List<EmployeeVO> getAllEmployees();
 
-    Integer getPurchaseNo();
+    List<CategoryVO> getAllCategories();
 }

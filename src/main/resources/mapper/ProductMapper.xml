@@ -2,12 +2,27 @@
 
 <mapper namespace="com.project.oneshot.inventory.product.ProductMapper">
     <select id="getProductList" resultType="ProductVO">
-        select product.product_no, category_name, supplier_name, product_name, product_content, sum(purchase_quantity) as inventory_quantity, safety_quantity, product_price, product_img, product_remark
-        from product
-        left join category on product.category_no = category.category_no
-        left join supplier on product.supplier_no = supplier.supplier_no
-        left join purchase on product.product_no = purchase.product_no
-        where 1 = 1
+        SELECT
+        product.product_no,
+        category.category_name,
+        supplier.supplier_name,
+        product.product_name,
+        COALESCE(SUM(purchase.purchase_quantity), 0) - COALESCE(SUM(order_item.product_quantity), 0) AS inventory_quantity,
+        product.safety_quantity,
+        product.product_price,
+        product.product_img,
+        product.product_remark
+        FROM
+        product
+        LEFT JOIN
+        category ON product.category_no = category.category_no
+        LEFT JOIN
+        supplier ON product.supplier_no = supplier.supplier_no
+        LEFT JOIN
+        purchase ON product.product_no = purchase.product_no
+        LEFT JOIN
+        order_item ON product.product_no = order_item.product_no
+        WHERE 1 = 1
         <if test="categoryNo != null and categoryNo != ''">
             and product.category_no = #{categoryNo}
         </if>
@@ -29,9 +44,18 @@
         <if test="productRemark != null and productRemark != ''">
             <![CDATA[ and product.product_remark = #{productRemark} ]]>
         </if>
-        group by product.product_no, category_name, supplier_name, product_name, product_content, purchase_quantity, safety_quantity, product_price, product_img, product_remark
-        order by product_no desc
-        limit #{amount} offset #{pageStart}
+        GROUP BY
+        product.product_no,
+        category.category_name,
+        supplier.supplier_name,
+        product.product_name,
+        product.safety_quantity,
+        product.product_price,
+        product.product_img,
+        product.product_remark
+        ORDER BY
+        product.product_no DESC
+        LIMIT #{amount} OFFSET #{pageStart}
     </select>
 
     <select id="getTotalProductCount" resultType="int">

@@ -7,12 +7,12 @@
             <li style="margin-right:5px;">
                 <a th:href="@{purchaseList(page = ${pageVO.start - 1},
                                           amount = ${pageVO.amount},
-                                          productNo = ${pageVO.cri.productNo},
-                                          purchasePrice = ${pageVO.cri.purchasePrice},
-                                          supplierNo = ${pageVO.cri.supplierNo},
-                                          employeeNo = ${pageVO.cri.employeeNo},
-                                          purchaseStatus = ${pageVO.cri.purchaseStatus},
-                                          purchaseDate = ${pageVO.cri.purchaseDate}
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          productName = ${pageVO.cri.productName},
+                                          employeeName = ${pageVO.cri.employeeName},
+                                          purchaseSdate = ${pageVO.cri.purchaseSdate},
+                                          purchaseEdate = ${pageVO.cri.purchaseEdate}
                                           )}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
             </li>
         </th:block>
@@ -22,12 +22,12 @@
             <li th:class="${pageVO.page == page ? 'on' : '' }">
                 <a th:href="@{purchaseList(page = ${page},
                                           amount = ${pageVO.amount},
-                                          productNo = ${pageVO.cri.productNo},
-                                          purchasePrice = ${pageVO.cri.purchasePrice},
-                                          supplierNo = ${pageVO.cri.supplierNo},
-                                          employeeNo = ${pageVO.cri.employeeNo},
-                                          purchaseStatus = ${pageVO.cri.purchaseStatus},
-                                          purchaseDate = ${pageVO.cri.purchaseDate}
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          productName = ${pageVO.cri.productName},
+                                          employeeName = ${pageVO.cri.employeeName},
+                                          purchaseSdate = ${pageVO.cri.purchaseSdate},
+                                          purchaseEdate = ${pageVO.cri.purchaseEdate}
                                           )}">[[${page}]]</a></li>
         </th:block>
 
@@ -36,12 +36,12 @@
             <li style="margin-left:5px;">
                 <a th:href="@{purchaseList(page = ${pageVO.end + 1},
                                           amount = ${pageVO.amount},
-                                          productNo = ${pageVO.cri.productNo},
-                                          purchasePrice = ${pageVO.cri.purchasePrice},
-                                          supplierNo = ${pageVO.cri.supplierNo},
-                                          employeeNo = ${pageVO.cri.employeeNo},
-                                          purchaseStatus = ${pageVO.cri.purchaseStatus},
-                                          purchaseDate = ${pageVO.cri.purchaseDate}
+                                          supplierName = ${pageVO.cri.supplierName},
+                                          categoryNo = ${pageVO.cri.categoryNo},
+                                          productName = ${pageVO.cri.productName},
+                                          employeeName = ${pageVO.cri.employeeName},
+                                          purchaseSdate = ${pageVO.cri.purchaseSdate},
+                                          purchaseEdate = ${pageVO.cri.purchaseEdate}
                                           )}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
             </li>
         </th:block>

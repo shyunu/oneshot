@@ -26,8 +26,21 @@ public class PurchaseRestController {
     }
 
     @GetMapping("/getCategories")
-    public List<CategoryVO> getCategories() {
-        return purchaseService.getAllCategories();
+    public List<CategoryVO> getCategories(@RequestParam("supplierNo") int supplierNo) {
+        return purchaseService.getCategories(supplierNo);
+    }
+
+    @GetMapping("/getProducts")
+    public List<ProductVO> getProducts(@RequestParam("supplierNo") int supplierNo, @RequestParam("categoryNo") int categoryNo) {
+        return purchaseService.getProducts(supplierNo, categoryNo);
+    }
+
+    @GetMapping("/getQuantity")
+    public ProductVO getQuantity(@RequestParam("productNo") int productNo) {
+        System.out.println("productNo = " + productNo);
+        ProductVO quantity = purchaseService.getQuantity(productNo);
+        System.out.println("quantity = " + quantity);
+        return quantity;
     }
 
     @GetMapping("/getProductsByCategory")

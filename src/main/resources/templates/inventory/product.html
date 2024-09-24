@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<style>
+  .warning {
+    color: red;
+  }
+
+  .disabled {
+    background-color: #e3e3e3;
+  }
+</style>
 <script>
   window.onload = function () {
     // 드래그 기능을 추가할 팝업창 요소 선택
@@ -78,6 +87,7 @@
                     <option value="">- 비고 -</option>
                     <option value="판매중" th:selected="${pageVO.cri.productRemark == '판매중'}">판매중</option>
                     <option value="품절" th:selected="${pageVO.cri.productRemark == '품절'}">품절</option>
+                    <option value="단종" th:selected="${pageVO.cri.productRemark == '단종'}">단종</option>
                   </select>
                 </td>
               </tr>
@@ -101,14 +111,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="productVO : ${productList}" class="product_list">
+          <tr th:each="productVO : ${productList}" th:classappend="${productVO.productRemark == '단종'} ? 'disabled' : ''" class="product_list">
             <td th:text="${productVO.productNo}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.categoryName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
-            <td th:text="${productVO.inventoryQuantity}" onclick="handleClick(event)"></td>
+            <td th:text="${productVO.inventoryQuantity}" th:classappend="${productVO.inventoryQuantity < productVO.safetyQuantity} ? 'warning' : ''" onclick="handleClick(event)"></td>
             <td th:text="${productVO.safetyQuantity}" onclick="handleClick(event)"></td>
-            <td th:text="${productVO.productPrice}" onclick="handleClick(event)"></td>
+            <td th:text="${productVO.productPrice} + 원" onclick="handleClick(event)"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
             <td th:text="${productVO.productRemark}" onclick="handleClick(event)"></td>
           </tr>
@@ -157,6 +167,7 @@
                       <option value="">- 판매상태 -</option>
                       <option value="판매중">판매중</option>
                       <option value="품절">품절</option>
+                      <option value="단종">단종</option>
                     </select>
                   </td>
                 </tr>
@@ -223,6 +234,7 @@
                     <option value="">- 판매상태 -</option>
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
+                    <option value="단종">단종</option>
                   </select>
                 </td>
               </tr>
