@@ -12,7 +12,7 @@ public class OrderCriteria {
 
     //검색 키워드
     private String orderSdate; //판매등록일자
-    private Integer clientNo; //고객사명
+    private String clientName; //고객사명
     private String productName; //상품명
     private String employeeName; //판매담당자
     private String orderStatus; //판매승인상태

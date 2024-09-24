@@ -186,8 +186,8 @@
                                 <td><p>판매등록일자</p></td>
                                 <td><input type="date" name="orderSdate" id="saleDateInput" th:value="${pageVO.cri.orderSdate}"></td>
                                 <td><p>고객사명</p></td>
-                                <td><input type="text" name="clientNo" id="clientNameInput" class="clientNo"
-                                           th:value="${pageVO.cri.clientNo}">
+                                <td><input type="text" name="clientName" id="clientNameInput" class="clientNo"
+                                           th:value="${pageVO.cri.clientName}">
                                 </td>
                                 <td><p>상품명</p></td>
                                 <td><input type="text" name="productName" th:value="${pageVO.cri.productName}"></td>
@@ -345,7 +345,7 @@
 
         <div id="popup-regist" class="popup-regist">
             <form name="orderForm" action="/sales/orderForm" method="post">
-                <div class="popup-content" style="width: 1100px;">
+                <div class="popup-content" style="width: 1100px !important;">
                 <h2>판매등록</h2>
                 <div class="popup-list">
                     <table>
@@ -381,6 +381,8 @@
                                 </td>
                                 <td><p>책정거래가</p></td>
                                 <td><input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
+                                <td><p>현재재고</p></td>
+                                <td><input type="text"></td>
                                 <td><p>개수</p></td>
                                 <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount()"></td>
                                 <td><p>금액</p></td>

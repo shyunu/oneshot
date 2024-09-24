@@ -101,8 +101,8 @@
         <if test="orderSdate != null and orderSdate != ''">
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
-        <if test="clientNo != null and clientNo != ''">
-            and H.client_no like concat('%', #{clientNo}, '%')
+        <if test="clientName != null and clientName != ''">
+            and CL.client_name like concat('%', #{clientName}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
@@ -154,8 +154,8 @@
         <if test="orderSdate != null and orderSdate != ''">
             and H.order_sdate = CAST(#{orderSdate} AS date)
         </if>
-        <if test="clientNo != null and clientNo != ''">
-            and H.client_no like concat('%', #{clientNo}, '%')
+        <if test="clientName != null and clientName != ''">
+            and CL.client_name like concat('%', #{clientName}, '%')
         </if>
         <if test="productName != null and productName != ''">
             and P.product_name like concat('%', #{productName}, '%')
