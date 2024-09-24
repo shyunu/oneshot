@@ -1,5 +1,6 @@
 package com.project.oneshot.hr.department;
 
+import com.project.oneshot.command.DepartmentMenuVO;
 import com.project.oneshot.command.DepartmentVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.MenuVO;
@@ -63,9 +64,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         // 부서명과 상태 업데이트
         departmentMapper.updateDepartmentDetails(department);
 
-        // 메뉴가 존재하는지 체크 후 관계 업데이트
-        departmentMapper.deleteDepartmentMenus(department.getDepartmentNo());
+
         if (department.getMenuNo() != null && !department.getMenuNo().isEmpty()) {
+            // 메뉴가 존재하는지 체크 후 관계 업데이트
+            departmentMapper.deleteDepartmentMenus(department.getDepartmentNo());
             for (Integer menuNo : department.getMenuNo()) {
                 departmentMapper.insertDepartmentMenu(department.getDepartmentNo(), menuNo);
             }
@@ -90,6 +92,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Integer getLastDepartmentNo() {
         return departmentMapper.getLastDepartmentNo();
     }
-
-
+    
+    //부서별 사용가능 메뉴 불러오기
+    @Override
+    public List<DepartmentMenuVO> getDepartmentMenus() {
+        return departmentMapper.getDepartmentMenus();
+    }
 }

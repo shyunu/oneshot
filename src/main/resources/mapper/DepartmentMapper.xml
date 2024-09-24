@@ -78,5 +78,9 @@
         FROM menu
     </select>
 
+    <!-- 부서에서 사용가능한 메뉴 조회 -->
+    <select id="getDepartmentMenus" resultType="DepartmentMenuVO">
+        select department_no,menu_no from department_menu
+    </select>
 
 </mapper>
