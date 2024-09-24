@@ -124,14 +124,15 @@
         H.ORDER_SDATE,
         H.CLIENT_NO,
         CL.CLIENT_NAME,
-        E.EMPLOYEE_NAME,
         H.EMPLOYEE_NO,
+        E.EMPLOYEE_NAME,
         H.ORDER_STATUS,
         H.DELIVERY_STATUS,
         H.DELIVERY
         ORDER BY H.ORDER_HEADER_NO DESC
         limit #{amount} offset #{pageStart}
     </select>
+
 
     <select id="getItems" resultType="orderItemVO">
         SELECT *
@@ -201,38 +202,29 @@
     </select>
 
     <!-- 카테고리 조회하기 -->
-    <select id="getCategory" resultType="CategoryVO">
-        SELECT C.*
-        FROM CATEGORY C
-        INNER JOIN PRODUCT P
-        ON C.CATEGORY_NO = P.CATEGORY_NO
-        INNER JOIN CONTRACT_PRICE CP
-        ON P.PRODUCT_NO = CP.PRODUCT_NO
-        WHERE CP.CLIENT_NO = #{clientNo}
-        GROUP BY C.CATEGORY_NO, C.CATEGORY_NAME
-    </select>
+<!--    <select id="getCategory" resultType="CategoryVO">-->
+<!--        SELECT C.*-->
+<!--        FROM CATEGORY C-->
+<!--        INNER JOIN PRODUCT P-->
+<!--        ON C.CATEGORY_NO = P.CATEGORY_NO-->
+<!--        INNER JOIN CONTRACT_PRICE CP-->
+<!--        ON P.PRODUCT_NO = CP.PRODUCT_NO-->
+<!--        WHERE CP.CLIENT_NO = #{clientNo}-->
+<!--        GROUP BY C.CATEGORY_NO, C.CATEGORY_NAME-->
+<!--    </select>-->
 
     <!-- 거래체결한 상품 조회하기 -->
     <select id="getProductList" resultType="ContractVO">
-        select product.product_name
-        from contract_price left join product
-        on contract_price.product_no = product.product_no
-        where client_no = #{clientNo} and product.category_no = #{categoryNo}
-        AND CURRENT_DATE BETWEEN contract_price.CONTRACT_SDATE AND contract_price.CONTRACT_EDATE
+        SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
     </select>
-<!--    <select id="getProductList" resultType="ContractVO">-->
-<!--        SELECT P.PRODUCT_NO, PRODUCT_NAME-->
-<!--        FROM CONTRACT_PRICE CP-->
-<!--        INNER JOIN CLIENT C-->
-<!--        ON CP.CLIENT_NO = C.CLIENT_NO-->
-<!--        INNER JOIN PRODUCT P-->
-<!--        ON CP.PRODUCT_NO = P.PRODUCT_NO-->
-<!--        INNER JOIN CATEGORY CG-->
-<!--        ON P.CATEGORY_NO = CG.CATEGORY_NO-->
-<!--        WHERE CP.CLIENT_NO = #{clientNo}-->
-<!--            AND CG.CATEGORY_NO = #{categoryNo}-->
-<!--            AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE-->
-<!--    </select>-->
+
 
     <!-- 거래체결한 상품가격 조회하기 -->
     <select id="getProductPrice" resultType="int">
@@ -262,6 +254,6 @@
         PRODUCT_QUANTITY = #{productQuantity},
         AMOUNT = #{amount}
         WHERE ORDER_HEADER_NO = #{orderHeaderNo}
-              AND PRODUCT_NO = #{productNo}
+        AND PRODUCT_NO = #{productNo}
     </update>
 </mapper>
