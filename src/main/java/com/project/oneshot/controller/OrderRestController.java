@@ -52,8 +52,13 @@ public class OrderRestController {
 
         int result = orderService.getProductPrice(clientNo, productNo);
         return result;
-
     }
+
+    @GetMapping("/getInventoryQuantity")
+    public int getInventoryQuantity(@RequestParam("productNo") int productNo) {
+        return orderService.getInventoryQuantity(productNo);
+    }
+
 //
 //    @GetMapping("/getCategory")
 //    public List<CategoryVO> getCategory(int productNo){
