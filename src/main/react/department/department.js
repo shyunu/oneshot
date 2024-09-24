@@ -345,20 +345,27 @@ useEffect(() => {
     const handleSave = async (e) => {
         e.preventDefault();
 
-        const departmentNo = parseInt(formValues.departmentNo); // 기존 부서 번호는 읽기 전용이므로 수정 불가
+        const departmentNo = parseInt(formValues.departmentNo);
         if (isNaN(departmentNo)) {
             alert("부서번호는 숫자여야 합니다.");
             return;
         }
 
         try {
+            // 부서명 중복 확인 로직 추가
+            const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
+            if (duplicateCheckResponse.data && formValues.departmentName !== selectedDepartment.departmentName) {
+                alert('이미 중복된 부서명이 있습니다.');
+                return;  // 중복된 경우 저장 중지
+            }
+
             const requestData = {
-                departmentNo, // 읽기 전용이므로 변경되지 않음
-                departmentName: formValues.departmentName.trim(), // 부서명
-                departmentState: formValues.departmentState, // 활성/비활성 여부
-                menuNo: formValues.menuNo, // 선택된 메뉴 리스트
+                departmentNo,
+                departmentName: formValues.departmentName.trim(),
+                departmentState: formValues.departmentState,
+                menuNo: formValues.menuNo,
             };
-            console.log(requestData);
+
             const response = await axios.put("http://localhost:8181/hrm/updateDepartmentDetails", requestData, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -368,7 +375,7 @@ useEffect(() => {
             if (response.status === 200) {
                 alert("부서 정보가 수정되었습니다.");
                 setDepartmentDetailPopupOpen(false);
-                fetchDepartments(); // 수정 후 부서 목록 새로고침
+                fetchDepartments();  // 수정 후 부서 목록 새로고침
             } else {
                 alert("부서 정보 수정에 실패했습니다.");
             }
@@ -484,7 +491,7 @@ useEffect(() => {
     return (
         <main className="wrapper">
             <div className="text-wrap">
-                <p>부서리스트</p>
+                <p>부서조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 부서명을 선택해주세요. </p>
             </div>
 
@@ -803,12 +810,11 @@ useEffect(() => {
             {employeePopupOpen && (
                 <div className="popup" style={{zIndex: "999"}}>
                     <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
-                        <div className="popup-content">
+                        <div className="popup-content" style={{minWidth:"550", minHeight:"300" }} id="employee-list-popup">
                             <div className="popup-header">
                                 <span>부서 내 직원 목록</span>
                             </div>
-                            <form className="popup-form">
-                                <div className="popup-body">
+                            <div className="popup-body">
                                     {employees.length > 0 ? (
                                         <table className="employee-table">
                                             <thead>
@@ -829,22 +835,21 @@ useEffect(() => {
                                     ) : (
                                         <p>등록된 직원이 없습니다.</p>
                                     )}
-                                </div>
-                                <div>
-                                    <button className="popup-btn close"
-                                            onClick={() => setEmployeePopupOpen(false)}>닫기
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
+                            <div style={{ marginTop: "auto", display:"flex", justifyContent:"end", marginBottom:"10px"}}>
+                                <button className="popup-btn close" style={{marginRight:"10px"}}
+                                        onClick={() => setEmployeePopupOpen(false)}>닫기
+                                </button>
+                            </div>
                         </div>
                     </Draggable>
                 </div>
             )}
 
 
-                </main>
-            );
-            }
+        </main>
+    );
+}
 
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Department />);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Department/>);

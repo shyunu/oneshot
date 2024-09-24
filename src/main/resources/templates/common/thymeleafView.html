@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="/common/css/home.css" />
     <link rel='stylesheet' href='/common/css/main.css' />
     <link rel='stylesheet' href='/common/css/common.css' />
+    <link rel="stylesheet" href="/inventory/css/supplier.css" />
+    <link rel="stylesheet" href="/inventory/css/purchase.css" />
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error') && urlParams.get('error') === 'accessDenied') {
+                alert('권한이 없습니다'); // 알림창 띄우기
+            }
+        };
+    </script>
 </head>
 <body>
 <nav class="navbar">
