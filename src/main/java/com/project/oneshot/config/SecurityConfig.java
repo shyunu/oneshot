@@ -25,7 +25,15 @@ public class SecurityConfig {
         //csrf토큰 사용x
         http.csrf().disable();
 
+        http.authorizeRequests(authorize -> authorize
+                .antMatchers("/","/common/login","/common/loginForm","/common/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
+                .antMatchers("/user/**").hasRole("USER") // /user/** 경로에 USER 권한 요구
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN") // USER or ADMIN중 한개만 있으면 됨
+                .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER") // /user/** 경로에 대한 POST 요청은 USER 권한 요구
+                .antMatchers(HttpMethod.POST, "/secure/**").access("hasRole('USER') and hasRole('ADMIN')") // USER와 ADMIN 권한 모두 필요
+                .anyRequest().authenticated() // 이외의 모든 요청에 대해 인증 요구(꼭 마지막에)
 
+        );
         http
                 .formLogin()
                 .loginPage("/common/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
