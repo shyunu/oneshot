@@ -153,4 +153,10 @@ public class SupplierController {
         }
         return null;
     }
+
+    @GetMapping("checkSupplierName")
+    @ResponseBody
+    public int checkSupplierName(@RequestParam("supplierName") String supplierName) {
+        return supplierService.checkSupplierName(supplierName);
+    }
 }

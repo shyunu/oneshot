@@ -94,32 +94,32 @@
                                     <td><p>공급업체번호</p></td>
                                     <td><input type="text" name="supplierNo" disabled></td>
                                     <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" required></td>
+                                    <td><input type="text" name="managerName" oninput="checkValue(this)" required><br><p class="error-text">※ 담당자명 입력은 필수입니다.</p></td>
                                 </tr>
                                 <tr>
                                     <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" required></td>
+                                    <td><input type="text" name="supplierName" oninput="checkValue(this); checkSupplierName(event)" class="error-box" required><br><p class="error-text">※ 공급업체 입력은 필수입니다.</p><p id="checkSupplierName" class="error-text">※ 중복된 공급업체명입니다.</p></td>
                                     <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
+                                    <td><input type="text" name="managerPhone" oninput="checkValue(this)" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required><br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p></td>
                                 </tr>
                                 <tr>
                                     <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress" required></td>
+                                    <td><input type="text" name="supplierAddress" oninput="checkValue(this)" required><br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
                                     <td><p>담당자 이메일</p></td>
-                                    <td><input type="email" name="managerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                                    <td><input type="email" name="managerEmail" oninput="checkValue(this)" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><p class="error-text">※ 담당자 이메일 입력은 필수입니다.</p></td>
                                 </tr>
                                 <tr>
                                     <td><p>공급업체 사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                    <td><input type="text" name="supplierBusinessNo" oninput="checkValue(this)" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><p class="error-text">※ 공급업체 사업자등록번호 입력은 필수입니다.</p></td>
                                     <td><p>첨부파일</p></td>
-                                    <td><input type="file" name="supplierFile" required></td>
+                                    <td><input type="file" name="supplierFile" oninput="checkValue(this)" required><br><p class="error-text">※ 파일첨부는 필수입니다.</p></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="popup-button">
                         <div class="button-right">
-                            <button type="submit" class="save" onclick="saveSupplier()">등록</button>
+                            <button type="button" class="save" onclick="saveSupplier()">등록</button>
                             <button type="button" class="close" onclick="closeModal()">닫기</button>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                                     <td><p>공급업체명</p></td>
                                     <td><input type="text" name="supplierName" id="modifySupplierName" required></td>
                                     <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx" required></td>
+                                    <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required></td>
                                 </tr>
                                 <tr>
                                     <td><p>공급업체주소</p></td>
@@ -175,11 +175,47 @@
         </div>
     </div>
 </th:block>
-
 <script>
     // 업체등록 팝업 열기
     function checkRegister() {
         document.getElementById("popup-regist").style.display = "flex";
+    }
+
+    function checkValue(input) {
+        const errorText = input.nextElementSibling.nextElementSibling;
+        console.log(errorText);
+        if(input.value.trim() !== "") {
+            errorText.style.display = "none";
+        } else {
+            errorText.style.display = "block";
+        }
+    }
+
+    function checkSupplierName(event) {
+        const supplierName = event.target.value;
+        $.ajax({
+            url: '/inventory/checkSupplierName',
+            type: 'get',
+            data: {supplierName, supplierName},
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                if(data >= 1) {
+                    $("#checkSupplierName").css("display", "block");
+                } else {
+                    $("#checkSupplierName").css("display", "none");
+                }
+            },
+            error: function() {
+                console.log('/inventory/checkSupplierName error');
+            }
+        });
+    }
+
+    function saveSupplier() {
+        if($("#checkSupplierName").css("display") === "none") {
+            $("#registerSupplier").submit();
+        }
     }
 
     // 공급업체의 정보 조회 후 수정 모달에 표시
@@ -309,8 +345,5 @@
             isDragging = false;
         });
     }
-
 </script>
-
-</body>
 </html>

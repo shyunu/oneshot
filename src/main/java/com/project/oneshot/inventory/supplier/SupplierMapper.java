@@ -13,6 +13,8 @@ public interface SupplierMapper {
     int getTotalSupplier(SupplierCriteria cri); // 전체 게시글 수
     SupplierVO getSupplierByNo(Long supplierNo); // 수정 모달 내용
     int modifySupplier(SupplierVO supplierVO); // 업체 수정
+
+    int checkSupplierName(String supplierName);
 }
 
 

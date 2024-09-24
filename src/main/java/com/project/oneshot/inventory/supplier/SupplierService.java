@@ -12,4 +12,6 @@ public interface SupplierService {
 //    public List<SupplierVO> searchSuppliers(Map<String, Object> parameters);
     SupplierVO getSupplierByNo(Long supplierNo);
     public boolean modifySupplier(SupplierVO supplierVO);
+
+    int checkSupplierName(String supplierName);
 }
