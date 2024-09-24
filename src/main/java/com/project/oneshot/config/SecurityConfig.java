@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .loginPage("/common/login") //사용자가 제공하는 폼기반 로그인 기능을 사용할 수 있습니다.
                 .loginProcessingUrl("/common/loginForm") //로그인 페이지를 가로채 시큐리티가 제공하는 클래스로 로그인을 연결합니다.
                 .failureUrl("/common/login?err=true") //로그인 실패시 이동페이지
-		        .defaultSuccessUrl("/common/loginTest"); //로그인후에 기본적으로 이동할 페이지
+                .defaultSuccessUrl("/common/home"); //로그인후에 기본적으로 이동할 페이지
 
         http.logout()
                 .logoutUrl("/logout") // 로그아웃을 위한 URL

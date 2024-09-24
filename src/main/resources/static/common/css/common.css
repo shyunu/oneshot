@@ -497,3 +497,7 @@ button:active {
 .order-modify-table td {
     width: 10%;
 }
+
+.purchase-table td {
+    width: 8%;
+}
