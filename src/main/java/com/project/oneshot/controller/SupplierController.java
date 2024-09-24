@@ -133,13 +133,6 @@ public class SupplierController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/searchSuppliers")
-//    public String searchSuppliers(@RequestParam Map<String, Object> params, Model model) {
-//        List<SupplierVO> list = supplierService.searchSuppliers(params);
-//        model.addAttribute("list", list);
-//        return "inventory/supplier";
-//    }
-
     @GetMapping("/viewFile/{fileName}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws IOException {
         //String filePath = "/Users/narin/Desktop/첨부파일/" + fileName;

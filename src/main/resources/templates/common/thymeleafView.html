@@ -53,7 +53,7 @@
                 </li>
 
                 <li class="item">
-                    <div class="nav_link submenu_item" id="mainCategory1">
+                    <div class="nav_link submenu_item" data-category="hr">
                       <span class="navlink_icon">
                         <i class='bx bxs-user'></i>
                       </span>
@@ -61,13 +61,13 @@
                       <i class="bx bx-chevron-right arrow-left"></i>
                     </div>
                     <ul class="submenu">
-                        <a href="#" class="nav_link sublink">사원관리</a>
-                        <a href="#" class="nav_link sublink">부서관리</a>
+                        <a href="/hrm/employee.do" class="nav_link sublink" data-subcategory="employee" style="margin-bottom: 3px;">사원관리</a>
+                        <a href="/hrm/department.do" class="nav_link sublink" data-subcategory="department" style="margin-bottom: 3px;">부서관리</a>
                     </ul>
                 </li>
 
                 <li class="item">
-                    <div class="nav_link submenu_item" id="mainCategory2">
+                    <div class="nav_link submenu_item" data-category="inventory">
                 <span class="navlink_icon">
                   <i class='bx bxs-archive'></i>
                 </span>
@@ -76,24 +76,24 @@
                     </div>
 
                     <ul class="submenu">
-                        <a href="/inventory/supplierList" class="nav_link sublink">공급업체관리</a>
-                        <a href="/inventory/productList" class="nav_link sublink">상품관리</a>
-                        <a href="/inventory/purchaseList" class="nav_link sublink">재고관리</a>
+                        <a href="/inventory/supplierList" class="nav_link sublink" data-subcategory="supplier" style="margin-bottom: 3px;">공급업체관리</a>
+                        <a href="/inventory/productList" class="nav_link sublink" data-subcategory="product" style="margin-bottom: 3px;">상품관리</a>
+                        <a href="/inventory/purchaseList" class="nav_link sublink" data-subcategory="purchase" style="margin-bottom: 3px;">구매관리</a>
                     </ul>
                 </li>
 
                 <li class="item">
-                    <div class="nav_link submenu_item" id="mainCategory3">
+                    <div class="nav_link submenu_item" data-category="sales">
                 <span class="navlink_icon">
                   <i class='bx bxs-briefcase-alt'></i>
                 </span>
                         <span class="navlink">영업관리</span>
-                        <i class="bx bx-chevron-right arrow-left"></i>
+                        <i class="bx bx-chevron-right arrow-left" ></i>
                     </div>
 
                     <ul class="submenu">
-                        <a href="/sales/contract" class="nav_link sublink">계약관리</a>
-                        <a href="/sales/order" class="nav_link sublink">판매관리</a>
+                        <a href="/sales/contract" class="nav_link sublink" data-subcategory="contract" style="margin-bottom: 3px;">계약관리</a>
+                        <a href="/sales/order" class="nav_link sublink" data-subcategory="order" style="margin-bottom: 3px;">판매관리</a>
                     </ul>
                 </li>
             </ul>
@@ -177,6 +177,61 @@
       sidebar.classList.remove("close");
     }
 
+
+    // 사이드바 메뉴탭 호버, 액티브 고정
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname;
+
+        // 특정 요소에 active 및 show_submenu 상태 추가
+        function setActiveState(element) {
+            element.classList.add('active');
+            if (element.classList.contains('submenu_item')) {
+                element.classList.add('show_submenu');
+            }
+        }
+
+        // 모든 메뉴 항목에서 active 및 show_submenu 상태 제거
+        function removeAllActiveStates() {
+            document.querySelectorAll('.nav_link, .sublink, .submenu_item').forEach(el => {
+                el.classList.remove('active', 'show_submenu');
+            });
+        }
+
+        // 페이지 로드 시, 현재 URL에 맞는 항목 활성화
+        function setInitialActiveState() {
+            const allLinks = document.querySelectorAll('.submenu_item, .sublink');
+            allLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && currentPage.includes(href)) {
+                    setActiveState(link);
+                    if (link.classList.contains('sublink')) {
+                        setActiveState(link.closest('.item').querySelector('.submenu_item'));
+                    }
+                }
+            });
+        }
+
+        // 메인 메뉴 클릭 시 다른 활성 상태 제거 및 해당 메뉴 활성화
+        document.querySelectorAll('.submenu_item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                removeAllActiveStates();  // 모든 활성화 상태 제거
+                setActiveState(this);  // 현재 클릭한 메인 메뉴 활성화
+                e.preventDefault();   // 서브 메뉴 표시만 표시
+            });
+        });
+
+        // 서브 메뉴 클릭 시 메인 메뉴는 유지하고, 서브 메뉴 활성화
+        document.querySelectorAll('.sublink').forEach(link => {
+            link.addEventListener('click', function() {
+                removeAllActiveStates();  // 모든 활성화 상태 제거
+                setActiveState(this);     // 클릭한 서브 메뉴 활성화
+                setActiveState(this.closest('.item').querySelector('.submenu_item')); // 해당하는 메인 메뉴 유지
+            });
+        });
+
+        // 페이지 로드 시 활성 상태 설정
+        setInitialActiveState();
+    });
 </script>
 
 <th:block th:if="${reactInclude != null}">

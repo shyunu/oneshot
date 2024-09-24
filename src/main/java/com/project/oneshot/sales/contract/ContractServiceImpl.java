@@ -74,6 +74,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void contractModify(ContractVO vo) {
         System.out.println("ContractServiceImpl.contractModify");
+        System.out.println("vo = " + vo);
         contractMapper.getContractModify(vo);
     }
 

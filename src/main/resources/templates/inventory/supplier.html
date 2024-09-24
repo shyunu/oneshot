@@ -2,45 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
-        <div class="supplier-wrap">
+        <div class="order-wrap">
             <div class="text-wrap">
-                <p>공급업체내역</p>
+                <p>공급업체조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
-            <div class="supplier-title">
+            <div class="order-title">
                 <div class="filter-content">
-                    <div class="filter-main">
-                        <h3>상세내역검색</h3>
-                        <button class="filter-button" type="submit" form="searchSuppliers">검색하기</button>
-                        <button type="button" onclick="location.href='/inventory/supplierList'" class="filter-button">초기화</button>
-                        <form action="supplierList" method="get" id="searchSuppliers" enctype="multipart/form-data">
-                            <table>
-                                <tr>
-                                    <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" th:value="${pageVO.cri.supplierName}"></td>
-                                    <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress" th:value="${pageVO.cri.supplierAddress}"></td>
-                                    <td><p>공급업체사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" th:value="${pageVO.cri.supplierBusinessNo}"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
-                                    <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
-                                    <td><p>담당자 이메일</p></td>
-                                    <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
+                    <form action="supplierList" method="get" id="searchSuppliers" enctype="multipart/form-data">
+                        <div class="filter-main">
+                            <h3>상세내역검색</h3>
+                            <button class="filter-button" type="submit" form="searchSuppliers">검색하기</button>
+                            <button type="button" onclick="location.href='/inventory/supplierList'" class="filter-button">전체보기</button>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td><p>공급업체명</p></td>
+                                <td><input type="text" name="supplierName" th:value="${pageVO.cri.supplierName}"></td>
+                                <td><p>공급업체주소</p></td>
+                                <td><input type="text" name="supplierAddress" th:value="${pageVO.cri.supplierAddress}"></td>
+                                <td><p>공급업체사업자등록번호</p></td>
+                                <td><input type="text" name="supplierBusinessNo" th:value="${pageVO.cri.supplierBusinessNo}"></td>
+                            </tr>
+                            <tr>
+                                <td><p>담당자명</p></td>
+                                <td><input type="text" name="managerName" th:value="${pageVO.cri.managerName}"></td>
+                                <td><p>담당자연락처</p></td>
+                                <td><input type="text" name="managerPhone" th:value="${pageVO.cri.managerPhone}"></td>
+                                <td><p>담당자이메일</p></td>
+                                <td><input type="email" name="managerEmail" th:value="${pageVO.cri.managerEmail}"></td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
 
             <table id="supplierTable">
                 <thead>
                 <tr>
-                    <th>공급업체번호</th>
+                    <th>no</th>
                     <th>공급업체명</th>
                     <th>공급업체주소</th>
                     <th>공급업체 사업자등록번호</th>
@@ -51,7 +52,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}" class="supplier_list">
+                    <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}" class="product_list">
                         <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierNo}"></td>
                         <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierName}"></td>
                         <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierAddress}"></td>
@@ -70,7 +71,7 @@
             </table>
 
             <div class="buttons">
-                <div class="button-right">
+                <div class="regist-right">
                     <button type="button" class="register" onclick="checkRegister()">업체등록</button>
                 </div>
             </div>
@@ -82,10 +83,10 @@
             </div>
         </div>
 
-        <div id="popup-regist" class="popup-regist draggable-popup">
+        <div id="popup-regist" class="popup-regist">
             <form action="registerSupplier" id="registerSupplier" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
-                    <h2 class="drag-handle">공급업체 등록</h2>
+                    <h2>공급업체등록</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
@@ -126,10 +127,10 @@
             </form>
         </div>
 
-        <div id="popup-modify" class="popup-modify draggable-popup">
+        <div id="popup-modify" class="popup-modify">
             <form action="modifySupplier" id="modifySupplier" method="post" enctype="multipart/form-data">
                 <div class="popup-content">
-                    <h2 class="drag-handle">공급업체 수정</h2>
+                    <h2>공급업체수정</h2>
                     <div class="popup-list">
                         <table>
                             <tbody>
@@ -274,44 +275,40 @@
         }
     };
 
-    // 페이지 로드 시 이벤트 리스너 추가
-    document.addEventListener('DOMContentLoaded', function() {
-        // 드래그 기능을 위한 스크립트
-        ['popup-regist', 'popup-modify'].forEach(id => {
-            const popup = document.getElementById(id);
-            const dragHandle = popup.querySelector('h2');
-            let isDragging = false;
-            let startX, startY, startLeft, startTop;
 
-            dragHandle.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', endDrag);
+    window.onload = function () {
+        // 드래그 기능을 추가할 팝업창 요소 선택
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
 
-            function startDrag(e) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                startLeft = popup.offsetLeft;
-                startTop = popup.offsetTop;
-                popup.style.cursor = 'move';
-            }
+        // 드래그 가능하게 만들기
+        makeDraggable(popupModify);
+        makeDraggable(popupRegist);
+    };
 
-            function drag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                let newX = startLeft + (e.clientX - startX);
-                let newY = startTop + (e.clientY - startY);
-                popup.style.left = newX + 'px';
-                popup.style.top = newY + 'px';
-            }
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+        const header = element.querySelector('.popup-content');
 
-            function endDrag() {
-                isDragging = false;
-                popup.style.cursor = 'default';
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
             }
         });
-    });
 
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
 
 </script>
 

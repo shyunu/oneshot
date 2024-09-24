@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
-        <div class="purchase-wrap">
+        <div class="order-wrap">
             <div class="text-wrap">
-                <p>구매내역</p>
+                <p>구매조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
-            <div class="purchase-title">
+            <div class="order-title">
                 <div class="filter-content">
                     <div class="filter-main">
                         <h3>상세내역검색</h3>
                         <button class="filter-button" type="submit" form="searchPurchase">검색하기</button>
-                        <button type="button" onclick="location.href='/inventory/purchaseList'" class="filter-button">초기화</button>
+                        <button type="button" onclick="location.href='/inventory/purchaseList'" class="filter-button">전체보기</button>
                         <form action="purchaseList" method="get" id="searchPurchase" enctype="multipart/form-data">
                             <table>
                                 <tr>
@@ -40,11 +40,11 @@
                 </div>
             </div>
 
-            <table>
+            <table id="purchaseTable">
                 <thead>
                 <tr>
-                    <th>구매번호</th>
-                    <th>공급업체</th>
+                    <th>no</th>
+                    <th>공급업체명</th>
                     <th>카테고리</th>
                     <th>상품명</th>
                     <th>구매수량</th>
@@ -55,7 +55,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="purchase : ${list}">
+                    <tr th:each="purchase : ${list}" class="product_list">
                         <td th:text="${purchase.purchaseNo}"></td>
                         <td th:text="${purchase.supplierName}"></td>
                         <td th:text="${purchase.categoryName}"></td>
@@ -150,7 +150,62 @@
                 </div>
             </form>
         </div>
-    </div>
+  
+        <!-- 수정 팝업 -->
+        <div id="popup-modify" class="popup-modify draggable-popup">
+            <form action="modifySupplier" id="modifySupplier" method="post" enctype="multipart/form-data">
+                <div class="popup-content">
+                    <h2 class="drag-handle">구매내역 수정</h2>
+                    <div class="popup-list">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>구매내역번호</p></td>
+                                    <td colspan="3"><input type="text" name="purchaseNo" disabled></td>
+                                    <td colspan="1"><p>공급업체명</p></td>
+                                    <td colspan="4"><select class="supplierNo" name="supplierNo" required></select></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><p>총재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="inventoryQuantity" disabled></td>
+                                    <td colspan="2"><p>안전재고수량</p></td>
+                                    <td colspan="1"><input type="text" name="safetyQuantity" disabled></td>
+                                    <td colspan="1"><p>카테고리</p></td>
+                                    <td colspan="3"><select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>상품명</p></td>
+                                    <td><select class="productNo" name="productNo" required></select></td>
+                                    <td colspan="2"><p>구매수량</p></td>
+                                    <td><input type="text" name="purchaseQuantity" required oninput="calculateTotal()"></td>
+                                    <td><p>구매가격</p></td>
+                                    <td><input type="text" name="purchasePrice" required></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><p>담당자명</p></td>
+                                    <td colspan="3"><select class="employeeNo" name="employeeNo" required></select></td>
+                                    <td colspan="2"><p>구매금액 합계</p></td>
+                                    <td colspan="3"><input type="text" disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="popup-button">
+                        <div class="button-right">
+                            <button type="button" class="modify" onclick="modifyPurchase()">저장</button>
+                            <button type="button" class="close" onclick="closePopup()">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+  </div>
 </th:block>
 
 <script>
@@ -337,43 +392,39 @@
         document.getElementById("registerPurchase").reset();
     }
 
-    // 페이지 로드 시 이벤트 리스너 추가
-    document.addEventListener('DOMContentLoaded', function() {
-        // 드래그 기능을 위한 스크립트
-        ['popup-regist'].forEach(id => {
-            const popup = document.getElementById(id);
-            const dragHandle = popup.querySelector('h2');
-            let isDragging = false;
-            let startX, startY, startLeft, startTop;
+    window.onload = function () {
+        // 드래그 기능을 추가할 팝업창 요소 선택
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
 
-            dragHandle.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', endDrag);
+        // 드래그 가능하게 만들기
+        makeDraggable(popupModify);
+        makeDraggable(popupRegist);
+    };
 
-            function startDrag(e) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                startLeft = popup.offsetLeft;
-                startTop = popup.offsetTop;
-                popup.style.cursor = 'move';
-            }
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+        const header = element.querySelector('.popup-content');
 
-            function drag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                let newX = startLeft + (e.clientX - startX);
-                let newY = startTop + (e.clientY - startY);
-                popup.style.left = newX + 'px';
-                popup.style.top = newY + 'px';
-            }
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
 
-            function endDrag() {
-                isDragging = false;
-                popup.style.cursor = 'default';
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
             }
         });
-    });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
 </script>
 </body>
 </html>

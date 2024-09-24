@@ -79,6 +79,7 @@ public class ContractController {
 
     @PostMapping("/modifyForm") //--- 계약 수정
     public String modifyForm(ContractVO vo) {
+        System.out.println("vo = " + vo);
 
         for(ContractItemVO item : vo.getContractItems()) {
             System.out.println("ContractController.modifyForm");
