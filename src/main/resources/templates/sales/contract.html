@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
-    window.onload = function () {
+
+
+window.onload = function () {
 
         // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
@@ -318,10 +320,13 @@
 
                             <tr>
                                 <td><p>계약시작일</p></td>
-                                <td><input type="date" name="contractSdate" required></td>
+                                <td><input type="date" id="registContractSdate" name="contractSdate" required></td>
 
                                 <td><p>계약종료일</p></td>
-                                <td colspan="4"><input type="date" name="contractEdate" required></td>
+                                <td colspan="4">
+                                    <input type="date" id="registContractEdate" name="contractEdate" required>
+                                    <p id="dateError" style="color: red; font-size: 12px;"></p>
+                                </td>
                             </tr>
 
                             </tbody>
@@ -349,10 +354,10 @@
                     </div>
                     <div class="popup-button">
                         <div class="button-left">
-<!--                            <button>계약서 첨부</button>-->
+                    <!--<button>계약서 첨부</button>-->
                         </div>
                         <div class="button-right">
-                            <button type="submit">등록</button>
+                            <button type="submit" id="registerButton">등록</button>
                             <button type="button" class="close-btn3">닫기</button>
                         </div>
                     </div>
@@ -488,7 +493,6 @@
         localStorage.removeItem('managerName');
         localStorage.removeItem('contractPriceStatus');
     });
-
 
 
     // 전체 선택 체크박스
@@ -649,6 +653,47 @@
         popupModify.style.display = 'block';
 
     }
+
+    $('#registerButton').on('click', function(event) {
+        //event.preventDefault();
+
+        // 폼에서 입력된 데이터를 가져옴
+        let contractSdate = $('#registContractSdate').val();
+        let contractEdate = $('#registContractEdate').val();
+        let clientNo = $('select[name="clientNo"]').val();
+        let productNo = $('select[name="productNo"]').val();
+
+        // 날짜 중복 확인 함수 호출
+        contractDateUpdate(contractSdate, contractEdate, clientNo, productNo).done(function(response) {
+            if (response.overlap) {
+                // 날짜가 겹치면 기존 계약 업데이트 처리
+                alert('기존 계약과 날짜가 겹칩니다. 기존 계약의 시작 날짜를 업데이트합니다.');
+
+                // 서버에 기존 계약을 업데이트하는 AJAX 요청
+                $.ajax({
+                    url: '/updateContract',
+                    method: 'POST',
+                    data: {
+                        contractSdate: contractSdate,
+                        contractEdate: contractEdate,
+                        clientNo: clientNo,
+                        productNo: productNo
+                    },
+                    success: function() {
+                        // 기존 계약 업데이트 후 새 계약 등록
+                        $('form[name="registForm"]').submit();
+                    },
+                    error: function(error) {
+                        console.error('Error updating existing contract:', error);
+                    }
+                });
+            } else {
+                // 겹치는 계약이 없으면 바로 새로운 계약 등록
+                $('form[name="registForm"]').submit();
+            }
+        });
+    });
+
 
     // 판매내역 승인 기능
     function approveContract() {

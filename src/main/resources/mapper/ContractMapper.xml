@@ -102,6 +102,26 @@
         </foreach>
     </insert>
 
+    <!-- 겹치는 계약을 조회하는 SQL -->
+    <select id="findOverlappingContracts" resultType="ContractVO">
+        SELECT *
+        FROM contract_price
+        WHERE client_no = #{clientNo}
+          AND product_no = #{productNo}
+          AND contract_sdate &lt;= #{contractEdate}
+          AND contract_edate &gt;= #{contractSdate}
+    </select>
+
+    <!-- 기존 계약의 시작 날짜를 업데이트하는 SQL -->
+    <update id="updateExistingContract">
+        UPDATE contract_price
+        SET contract_sdate = DATE_ADD(#{contractEdate}, INTERVAL 1 DAY)
+        WHERE client_no = #{clientNo}
+        AND product_no = #{productNo}
+        AND contract_sdate &lt;= #{contractEdate}
+        AND contract_edate &gt;= #{contractSdate}
+    </update>
+
     <select id="getClientList" resultType="ClientVO">
         SELECT *
         FROM CLIENT

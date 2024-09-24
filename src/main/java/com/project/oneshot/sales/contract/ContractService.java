@@ -3,6 +3,7 @@ package com.project.oneshot.sales.contract;
 
 import com.project.oneshot.command.*;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ContractService {
@@ -16,4 +17,8 @@ public interface ContractService {
     public void contractModify(ContractVO vo);
     public int getTotalCount(ContractCriteria cri);
     public List<ClientVO> getClientList(); //거래등록시 고객사명(번호) 조회
+
+    public List<ContractVO> updateContract(int clientNo, int productNo, String contractSdate, Date contractEdate);
+
+    public int updateContractDate(int clientNo, int productNo, Date contractSdate, Date contractEdate);
 }

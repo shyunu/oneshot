@@ -3,10 +3,10 @@ package com.project.oneshot.controller;
 import com.project.oneshot.command.*;
 import com.project.oneshot.sales.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +42,24 @@ public class ContractRestController {
 
         List<ContractVO> result = contractService.getContractDetails(contractPriceNo);
         return result;
+    }
+
+    @PostMapping("/updateContract")
+    public ResponseEntity<?> checkContractOverlap(@RequestParam String contractSdate,
+                                                  @RequestParam Date contractEdate,
+                                                  @RequestParam int clientNo,
+                                                  @RequestParam int productNo) {
+        // 기존 계약과 날짜가 겹치는지 확인
+        ContractVO ContractVO;
+        List<ContractVO> contractDate = contractService.updateContract(clientNo, productNo, contractSdate, contractEdate);
+
+        if (!contractDate.isEmpty()) {
+            return ResponseEntity.ok(Map.of("overlap", true, "contracts", contractDate));
+        }
+
+        else {
+            return ResponseEntity.ok(Map.of("overlap", false));
+        }
     }
 
 }
