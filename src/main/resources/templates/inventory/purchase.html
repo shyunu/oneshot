@@ -134,9 +134,11 @@
                                 </tr>
                                 <tr>
                                     <td><p>구매수량</p></td>
-                                    <td colspan="3"><input type="number" name="purchaseQuantity" required oninput="calculateSubtotal(this)"><br><p class="error-text">※ 구매수량 입력은 필수입니다.</p></td>
+                                    <td colspan="3"><input type="text" name="purchaseQuantity" required oninput="calculateSubtotal(this); productcalculateSubTotal(this)">
+                                        <br><p class="error-text">※ 구매수량 입력은 필수입니다.</p><p class="error-text" id="productcalculateSubTotalResult" style="display: none">※ 구매수량은 숫자만 입력 가능합니다.</p></td>
                                     <td><p>구매가격</p></td>
-                                    <td colspan="3"><input type="text" name="purchasePrice" required oninput="calculateSubtotal(this)"><br><p class="error-text">※ 구매가격 입력은 필수입니다.</p></td>
+                                    <td colspan="3"><input type="text" name="purchasePrice" required oninput="calculateSubtotal(this); productPurchaseQuantity(this)">
+                                        <br><p class="error-text">※ 구매가격 입력은 필수입니다.</p><p class="error-text" id="productPurchaseQuantityResult" style="display: none">※ 구매가격은 숫자만 입력 가능합니다.</p></td>
                                     <td><p>소계</p></td>
                                     <td colspan="2"><input type="text" name="subtotalPrice" disabled></td>
                                 </tr>
@@ -162,8 +164,66 @@
         </div>
   </div>
 </th:block>
-
 <script>
+
+    window.onload = function () {
+        const popupRegist = document.getElementById('popup-regist');
+        makeDraggable(popupRegist);
+    };
+
+    // 드래그 가능하게 하는 함수
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // 팝업의 헤더 부분을 드래그 핸들로 설정합니다.
+        const header = element.querySelector('.popup-content');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+    }
+
+    function productPurchaseQuantity(input) {
+        var regex = /^\d+$/;
+        if(input.value.trim() === "") {
+            $('#productPurchaseQuantityResult').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#productPurchaseQuantityResult').css("display", "block");
+        } else {
+            $('#productPurchaseQuantityResult').css("display", "none");
+        }
+    }
+
+    function productcalculateSubTotal(input) {
+        var regex = /^\d+$/;
+        if(input.value.trim() === "") {
+            $('#productcalculateSubTotalResult').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#productcalculateSubTotalResult').css("display", "block");
+        } else {
+            $('#productcalculateSubTotalResult').css("display", "none");
+        }
+    }
+
     // 업체등록 버튼 클릭 시 체크박스가 선택되지 않았을 때만 모달 열기
     function requestPurchase() {
         const checkedPurchase = document.querySelector('input[name="purchase"]:checked');
@@ -434,38 +494,5 @@
         document.getElementById("registerPurchase").reset();
     }
 
-    window.onload = function () {
-        // 드래그 기능을 추가할 팝업창 요소 선택
-        const popupModify = document.getElementById('popup-modify');
-        const popupRegist = document.getElementById('popup-regist');
-
-        // 드래그 가능하게 만들기
-        makeDraggable(popupModify);
-        makeDraggable(popupRegist);
-    };
-
-    // 드래그 가능하게 하는 함수
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-        const header = element.querySelector('.popup-content');
-
-        header.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                element.style.left = `${e.clientX - offsetX}px`;
-                element.style.top = `${e.clientY - offsetY}px`;
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-    }
 </script>
 </html>

@@ -9,41 +9,6 @@
     background-color: #e3e3e3;
   }
 </style>
-<script>
-  window.onload = function () {
-    // 드래그 기능을 추가할 팝업창 요소 선택
-    const popupModify = document.getElementById('popup-modify');
-    const popupRegist = document.getElementById('popup-regist');
-
-    // 드래그 가능하게 만들기
-    makeDraggable(popupModify);
-    makeDraggable(popupRegist);
-  };
-
-  // 드래그 가능하게 하는 함수
-  function makeDraggable(element) {
-    let isDragging = false;
-    let offsetX, offsetY;
-    const header = element.querySelector('.popup-content');
-
-    header.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - element.getBoundingClientRect().left;
-      offsetY = e.clientY - element.getBoundingClientRect().top;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        element.style.left = `${e.clientX - offsetX}px`;
-        element.style.top = `${e.clientY - offsetY}px`;
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-  }
-</script>
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
   <div class="content">
     <div class="order-wrap">
@@ -148,7 +113,8 @@
               <tbody>
                 <tr>
                   <td><p>공급업체</p></td>
-                  <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)" required></select><br><p id="supplierErrorText" class="error-text">※ 공급업체 선택은 필수입니다.</p></td>
+                  <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)" required></select>
+                    <br><p id="supplierErrorText" class="error-text">※ 공급업체 선택은 필수입니다.</p></td>
                   <td><p>사업자번호</p></td>
                   <td><input type="text" id="postSupplierBusinessNo" disabled></td>
                 </tr>
@@ -174,8 +140,8 @@
                 </tr>
                 <tr>
                   <td><p>상품명</p></td>
-                  <td><input type="text" name="productName" id="postProductName" oninput="checkValue(this); checkProductName(event)" required><br>
-                    <p class="error-text">※ 상품명 입력은 필수입니다.</p>
+                  <td><input type="text" name="productName" id="postProductName" oninput="checkValue(this); checkProductName(event)" required>
+                    <br><p class="error-text">※ 상품명 입력은 필수입니다.</p>
                     <p id="checkProductName" class="error-text" style="display: none;">※ 중복된 상품명입니다.</p>
                   </td>
                   <td><p>판매정가</p></td>
@@ -276,6 +242,40 @@
 </th:block>
 
 <script>
+  window.onload = function () {
+    // 드래그 기능을 추가할 팝업창 요소 선택
+    const popupModify = document.getElementById('popup-modify');
+    const popupRegist = document.getElementById('popup-regist');
+
+    // 드래그 가능하게 만들기
+    makeDraggable(popupModify);
+    makeDraggable(popupRegist);
+  };
+
+  // 드래그 가능하게 하는 함수
+  function makeDraggable(element) {
+    let isDragging = false;
+    let offsetX, offsetY;
+    const header = element.querySelector('.popup-content');
+
+    header.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - element.getBoundingClientRect().left;
+      offsetY = e.clientY - element.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        element.style.left = `${e.clientX - offsetX}px`;
+        element.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  }
+
   //팝업창 열기 및 닫기 기능
   const resistPopup = document.getElementById('popup-regist');
   const modifyPopup = document.getElementById('popup-modify');
@@ -461,7 +461,6 @@
       $("#postProductForm").submit();  // 에러가 없을 때만 폼 제출
     }
   }
-
 
   //팝업창 닫기
   function closePopupRegist() {
