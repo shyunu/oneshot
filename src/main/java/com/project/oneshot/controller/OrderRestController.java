@@ -3,9 +3,12 @@ package com.project.oneshot.controller;
 import com.project.oneshot.command.*;
 import com.project.oneshot.sales.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sales")
@@ -40,7 +43,6 @@ public class OrderRestController {
         return vo;
     }
 
-
     @GetMapping("/getProductList")
     public List<ContractVO> getProductList(int clientNo) {
         List<ContractVO> list = orderService.getProductList(clientNo);
@@ -48,24 +50,27 @@ public class OrderRestController {
     }
 
     @GetMapping("/getProductPrice")
-    public int getProductPrice(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
+    public ResponseEntity<Map<String, Object>> getProductPrice(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
+        Map<String, Object> response = new HashMap<>();
 
-        int result = orderService.getProductPrice(clientNo, productNo);
-        return result;
+        // 가격 정보 가져오기
+        int contractPrice = orderService.getProductPrice(clientNo, productNo);
+
+        // 재고 정보 가져오기 (새로 추가된 로직이라고 가정)
+        int inventoryQuantity = orderService.getInventoryQuantity(productNo);
+
+        // 결과를 Map에 담아서 반환
+        response.put("contractPrice", contractPrice);
+        response.put("inventoryQuantity", inventoryQuantity);
+
+        return ResponseEntity.ok(response);  // JSON 형식으로 가격과 재고 정보 반환
     }
+
 
     @GetMapping("/getInventoryQuantity")
     public int getInventoryQuantity(@RequestParam("productNo") int productNo) {
         return orderService.getInventoryQuantity(productNo);
     }
-
-//
-//    @GetMapping("/getCategory")
-//    public List<CategoryVO> getCategory(int productNo){
-//        List<CategoryVO> list = orderService.getCategory(productNo);
-//        return list;
-//    }
-
 
     @GetMapping("/getOrderItems")
     public List<OrderItemVO> getOrderItems(@RequestParam("orderHeaderNo") int orderHeaderNo) {

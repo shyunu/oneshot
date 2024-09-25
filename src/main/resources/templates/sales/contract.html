@@ -1,39 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<script>
-    window.onload = function () {
-        // 드래그 가능하게 만들기
-        const popupModify = document.getElementById('popup-modify');
-        const popupRegist = document.getElementById('popup-regist');
-
-        makeDraggable(popupModify);
-        makeDraggable(popupRegist);
-    };
-
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-        const header = element.querySelector('.popup-content');
-
-        header.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                element.style.left = `${e.clientX - offsetX}px`;
-                element.style.top = `${e.clientY - offsetY}px`;
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-    }
-</script>
-
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
     <div class="content">
         <div class="order-wrap">
@@ -53,91 +19,71 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <p>고객사명</p>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="clientName">
-                                    </td>
-                                    <td>
-                                        <p>계약시작일</p>
-                                    </td>
-                                    <td>
-                                        <input type="date" name="contractSdate">
-                                    </td>
-                                    <td>
-                                        <p>계약종료일</p>
-                                    </td>
-                                    <td>
-                                        <input type="date" name="contractEdate">
-                                    </td>
+                                    <td><p>고객사명</p></td>
+                                    <td><input type="text" name="clientName"></td>
+                                    <td><p>계약시작일</p></td>
+                                    <td><input type="date" name="contractSdate"></td>
+                                    <td><p>계약종료일</p></td>
+                                    <td><input type="date" name="contractEdate"></td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <p>상품품목명</p>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="productName">
-                                    </td>
-                                    <td>
-                                        <p>고객사담당자</p>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="managerName">
-                                    </td>
-                                    <td>
-                                        <p>계약상태</p>
-                                    </td>
+                                    <td><p>상품품목명</p></td>
+                                    <td><input type="text" name="productName"></td>
+                                    <td><p>고객사담당자</p></td>
+                                    <td><input type="text" name="managerName"></td>
+                                    <td><p>계약상태</p></td>
                                     <td>
                                         <select name="contractPriceStatus">
-                                            <option>-</option>
-                                            <option>승인</option>
-                                            <option>반려</option>
+                                            <option value="승인" th:selected="${'승인' == pageVO.cri.contractPriceStatus}">승인</option>
+                                            <option value="승인대기" th:selected="${'승인대기' == pageVO.cri.contractPriceStatus}">승인대기</option>
+                                            <option value="반려" th:selected="${'반려' == pageVO.cri.contractPriceStatus}">반려</option>
                                         </select>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </form>
-
                 </div>
-
             </div>
             <table id="dataTable">
                 <thead>
-                <tr>
-                    <th>no</th>
-                    <th>고객사명</th>
-                    <th>고객사담당자</th>
-                    <th>상품명</th>
-                    <th>계약가격</th>
-                    <th>계약시작일</th>
-                    <th>계약종료일</th>
-                    <th>본사담당자</th>
-                    <th>계약상태</th>
-                    <th>계약만료일</th>
-                </tr>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>no</th>
+                        <th>고객사명</th>
+                        <th>고객사담당자</th>
+                        <th>상품명</th>
+                        <th>계약가격</th>
+                        <th>계약시작일</th>
+                        <th>계약종료일</th>
+                        <th>본사담당자</th>
+                        <th>계약상태</th>
+                        <th>계약만료일</th>
+                    </tr>
                 </thead>
-
                 <tbody>
-                <tr th:each="vo : ${list}" class="product_list" >
-                    <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.contractPrice} + 원" onclick="handleClick(event)"></td>
-                    <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
-                    <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.contractPriceStatus}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.contractDday}" onclick="handleClick(event)"></td>
-                </tr>
+                    <tr th:each="vo : ${list}" class="product_list" >
+                        <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"></td>
+                        <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.contractPrice} + 원" onclick="handleClick(event)"></td>
+                        <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                        <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.contractPriceStatus}" onclick="handleClick(event)"></td>
+                        <td th:text="${vo.contractDday}" onclick="handleClick(event)"></td>
+                    </tr>
                 </tbody>
             </table>
 
             <div class="buttons">
-                <div class="button-left"></div>
-                <button class="button-regist button-right" onclick="handleClick2(event)">거래등록</button>
+                <div class="button-left">
+                    <button id="approveButton" class="button-right" onclick="rejectContract()">계약반려</button>
+                    <button id="rejectButton" class="button-right" onclick="approveContract()" style="margin-right: 3px !important;">계약승인</button>
+                </div>
+                <button class="button-right" onclick="handleClick2(event)">거래등록</button>
             </div>
 
             <div class="center">
@@ -212,92 +158,119 @@
                 </div>
             </form>
         </div>
-
-        <!-- 수정 기능 -->
-        <div id="popup-modify" class="popup-modify">
-            <form name="modifyForm" action="modifyForm" method="post">
-               <input type="hidden" name="contractPriceNo" id="contractPriceNo">
-                <div class="popup-content">
-                    <h2>계약 상세보기</h2>
-                    <div class="popup-list">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <p>고객사명</p>
-                                </td>
-                                <td><input type="text" name="clientName" id="clientName" disabled></td>
-                                <td class="contract-status">
-                                    <p>판매승인상태 *</p>
-                                </td>
-                                <td colspan="2">
-                                    <input id="contractPriceStatus" name="contractPriceStatus" readonly>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p>고객사담당자</p>
-                                </td>
-                                <td><input type="text" name="managerName" id="managerName" disabled></td>
-                                <td>
-                                    <p>고객사담당자 연락처</p>
-                                </td>
-                                <td><input type="text" name="managerPhone" id="managerPhone" disabled></td>
-                            </tr>
-                            <tr>
-                                <td><p>본사 담당자</p></td>
-                                <td><input type="text" name="employeeName" id="employeeName" th:value="${#authentication.principal.employeeName}" disabled></td>
-
-                                <td><p>본사 담당자 연락처</p></td>
-                                <td><input type="text" name="employeePhone" id="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
-
-                            </tr>
-
-                            <tr>
-                                <td><p>계약시작일</p></td>
-                                <td><input type="date" name="contractSdate" id="contractSdate"></td>
-
-                                <td><p>계약종료일</p></td>
-                                <td><input type="date" name="contractEdate" id="contractEdate"></td>
-
-                            </tr>
-                            </tbody>
-                            <tbody class="eachBox">
-                            <tr class="addList">
-
-                                <td><p>상품품목명</p></td>
-                                <td><input type="text" name="productName" id="productName"></td>
-
-                                <td class="product-price"><p>책정거래가</p></td>
-                                <td style="text-align: left;">
-                                    <input type="text" name="contractPrice" id="contractPrice">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="popup-button">
-                        <div class="button-left">
-<!--                            <button>계약서 첨부</button>-->
-                            <th:block th:if="${#authentication.principal.positionNo <= 9}">
-                            <button type="submit" class="approveButton" onclick="approveContract()">승인</button>
-                            <button type="submit" class="rejectButton" onclick="rejectContract()">반려</button>
-                            </th:block>
-                        </div>
-                        <div class="button-right">
-                            <button type="submit">수정</button>
-                            <button type="button" class="close-btn2">닫기</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
     </div>
 </th:block>
 <script>
+    window.onload = function () {
+        // 드래그 가능하게 만들기
+        const popupRegist = document.getElementById('popup-regist');
+
+        makeDraggable(popupRegist);
+    };
+
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+        const header = element.querySelector('.popup-content');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+
+    // 전체 선택 체크박스
+    const selectAllCheckbox = document.getElementById('selectAll');
+
+    // 각 체크박스들
+    const checkboxes = document.querySelectorAll('.checkbox');
+
+    // '전체 선택' 체크박스를 클릭
+    selectAllCheckbox.addEventListener('change', function() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+
+            // 배경색 지정
+            const td = checkbox.closest('tr').querySelectorAll('td'); // 체크박스가 있는 모든 <td>
+            td.forEach(function(cell) {
+                cell.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+            });
+        });
+    });
+
+    // 체크박스 누르면 누른 행 색상 변하게
+    function toggleRow(checkbox) {
+        const row = checkbox.closest('tr'); // 체크박스가 속한 tr 요소를 찾음
+        const tds = row.getElementsByTagName('td'); // 해당 tr의 모든 td 요소를 가져옴
+
+        // 모든 td의 배경색과 투명도를 설정
+        for (const td of tds) {
+            td.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+        }
+    }
+
+    // 체크박스 클릭 시 toggleRow 함수 호출
+    document.querySelectorAll('.checkbox').forEach(checkbox => {
+        checkbox.addEventListener('click', () => toggleRow(checkbox));
+    });
+
+    function approveContract() {
+        checkboxes.forEach(function(checkbox) {
+            if(checkbox.checked) {
+                var contractPriceNo = checkbox.parentElement.parentElement.children[1].innerText;
+                $.ajax({
+                    url: '/sales/approveContract',
+                    type: 'get',
+                    data: {contractPriceNo : contractPriceNo},
+                    dataType: 'json',
+                    success: function(data) {
+                        checkbox.parentElement.parentElement.children[9].innerText = data.contractPriceStatus;
+                        selectAllCheckbox.checked = false;
+                        checkbox.checked = false;
+                    },
+                    error: function() {
+                        console.log('/sales/updateContractPriceStatus error');
+                    }
+                });
+            }
+        });
+    }
+
+    function rejectContract() {
+        checkboxes.forEach(function(checkbox) {
+            if(checkbox.checked) {
+                var contractPriceNo = checkbox.parentElement.parentElement.children[1].innerText;
+                $.ajax({
+                    url: '/sales/rejectContract',
+                    type: 'get',
+                    data: {contractPriceNo : contractPriceNo},
+                    dataType: 'json',
+                    success: function(data) {
+                        checkbox.parentElement.parentElement.children[9].innerText = data.contractPriceStatus;
+                        selectAllCheckbox.checked = false;
+                        checkbox.checked = false;
+                    },
+                    error: function() {
+                        console.log('/sales/updateContractPriceStatus error');
+                    }
+                });
+            }
+        });
+    }
+
     // 팝업창 열기 및 닫기 기능
-    const popupModify = document.getElementById('popup-modify');
     const popupRegist = document.getElementById('popup-regist');
     const closeBtn = document.querySelectorAll('.close-btn');
     const closeBtn2 = document.querySelector('.close-btn2');
@@ -320,7 +293,6 @@
                 alert('error');
             }
         });
-
 
         popupRegist.style.display = 'block';
     }
@@ -361,86 +333,12 @@
         });
     }
 
-    // 클릭한 계약에 해당하는 계약정보 조회
-    function handleClick(event) {
-
-        $.ajax({
-            url: '/sales/getContractDetails',
-            type: 'get',
-            data: {contractPriceNo : event.target.parentElement.children[1].innerText},
-            dataType: 'json',
-            success: function(data) {
-                console.log(data)
-                $('#clientName').val(data[0].clientName);
-                $('#managerName').val(data[0].managerName);
-                $('#managerPhone').val(data[0].managerPhone);
-                $('#employeeName').val(data[0].employeeName);
-                $('#employeePhone').val(data[0].employeePhone);
-                $('#contractPriceNo').val(event.target.parentElement.children[1].innerText);
-
-                // 날짜형식 포맷
-                let contractSdate = new Date(data[0].contractSdate);
-                $('#contractSdate').val(contractSdate.toLocaleDateString('en-CA'));
-
-                console.log(data[0].contractEdate);
-                // 날짜형식 포맷
-                let contractEdate = new Date(data[0].contractEdate);
-                $('#contractEdate').val(contractEdate.toLocaleDateString('en-CA'));
-
-                //상품, 가격 반복
-                var html = "";
-                $.each(data, function(index, item) {
-                    html += "<tr class='addList'>";
-                    html += "<td><p>상품품목명</p></td>";
-                    html += "<td><input type='text' name='contractItems[" + index + "].productName[]' id='productName' value='" + item.productName + "'><input type='hidden' name='contractItems[" + index + "].productNo[]' value='" + item.productNo + "'></td>";
-                    html += "<td class='product-price'><p>책정거래가</p></td>";
-                    html += "<td colspan='3' style='text-align: left;'><input type='text' name='contractItems[" + index + "].contractPrice[]' id='contractPrice' value='" + item.contractPrice + "'></td>";
-                    html += "<input type='text' name='contractPrice' id='contractPrice'>";
-                    html += "</tr>";
-                })
-
-                $(".eachBox").html(html);
-            },
-            error: function () {
-                alert('계약 정보를 불러오는데 실패했습니다.');
-            }
-        });
-
-        //승인인 조회의 행을 누르면 바로 나타날 화면
-        if(event.target.parentElement.children[8].innerText === '승인') {
-            $('.approveButton').css('display', 'none');
-            $('.rejectButton').css('display', 'none');
-
-        } else if(event.target.parentElement.children[8].innerText === '반려') {
-
-        }
-
-        popupModify.style.display = 'block';
-    }
-
-    // 판매내역 승인 기능
-    function approveContract() {
-        const contractPriceStatusInput = document.querySelector('#contractPriceStatus'); //여기
-        contractPriceStatusInput.value = "승인";
-
-    }
-
-    // 판매내역 반려 기능
-    function rejectContract() {
-        const contractPriceStatusInput = document.querySelector('#contractPriceStatus');
-        contractPriceStatusInput.value = "반려";
-    }
-
     // 팝업창 닫기
-    function closePopupModify() {
-        popupModify.style.display = 'none';
-    }
     function closePopupRegist() {
         popupRegist.style.display = 'none';
     }
 
     // 닫기 버튼 클릭 시 팝업창 닫기
-    closeBtn2.addEventListener('click', closePopupModify); //--- 닫기 버튼
     closeBtn3.addEventListener('click', closePopupRegist); //--- 닫기 버튼
 
     // 등록팝업창 열기
