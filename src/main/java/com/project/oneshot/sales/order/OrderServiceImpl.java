@@ -90,8 +90,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateStatus(OrderVO vo) {
-        orderMapper.updateStatus(vo);
+    public void updateDeliveryStatus(List<Integer> orderHeaderNos) {
+        orderMapper.updateDeliveryStatus(orderHeaderNos);
     }
 
     @Override

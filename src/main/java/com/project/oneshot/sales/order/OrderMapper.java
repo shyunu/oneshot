@@ -31,7 +31,7 @@ public interface OrderMapper {
 
     public int getTotalCount(OrderCriteria cri);
 
-    public void updateStatus(OrderVO vo); //업데이트(상태)
+    public void updateDeliveryStatus(List<Integer> orderHeaderNos); //업데이트(상태)
     public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 
     public void changeProductStatus();

@@ -67,6 +67,7 @@ public class OrderRestController {
     }
 
 
+
     @GetMapping("/getInventoryQuantity")
     public int getInventoryQuantity(@RequestParam("productNo") int productNo) {
         return orderService.getInventoryQuantity(productNo);
@@ -82,9 +83,19 @@ public class OrderRestController {
         return orderService.getOrderItemCount(orderHeaderNo);
     }
 
+    @PostMapping("/updateDeliveryStatus")
+    public ResponseEntity<Void> updateDeliveryStatus(
+            @RequestParam List<Integer> orderHeaderNos) { // 주문 헤더 번호 리스트 받아옴
+
+        orderService.updateDeliveryStatus(orderHeaderNos);
+
+        return ResponseEntity.ok().build(); // 성공적으로 처리되면 200 OK 반환
+    }
+
     // 분기별 판매 총액
     @GetMapping("/getQuarterlyOrderAmount")
     public List<Map<String, Object>> getQuarterlyOrderAmount() {
         return orderService.getQuarterlyOrderAmount();
     }
+
 }

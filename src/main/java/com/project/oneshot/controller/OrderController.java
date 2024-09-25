@@ -55,16 +55,16 @@ public class OrderController {
     }
 
     //수정하기
-    @PostMapping("/updateOrder")
-    public String updateOrder(@ModelAttribute OrderVO vo) {
-        orderService.updateStatus(vo);
-
-        for(OrderItemVO item : vo.getOrderItems()) {
-            item.setOrderHeaderNo(vo.getOrderHeaderNo());
-            orderService.updateItem(item);
-        }
-        return "redirect:/sales/order";
-    }
+//    @PostMapping("/updateOrder")
+//    public String updateOrder(@ModelAttribute OrderVO vo) {
+//        orderService.updateStatus(vo);
+//
+//        for(OrderItemVO item : vo.getOrderItems()) {
+//            item.setOrderHeaderNo(vo.getOrderHeaderNo());
+//            orderService.updateItem(item);
+//        }
+//        return "redirect:/sales/order";
+//    }
 
     //날짜변환
     @InitBinder
