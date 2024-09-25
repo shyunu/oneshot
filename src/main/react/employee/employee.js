@@ -620,13 +620,7 @@ function Employee() {
                             전화번호
                         </th>
                         <th>
-                            비상연락처
-                        </th>
-                        <th>
                             이메일
-                        </th>
-                        <th>
-                            계좌번호
                         </th>
                         <th>
                             재직여부
@@ -658,9 +652,7 @@ function Employee() {
                                 <td style={{minWidth: "155px"}}>{employee.departmentName}</td>
                                 <td style={{minWidth: "105px"}}>{employee.positionName}</td>
                                 <td style={{minWidth: "155px"}}>{employee.employeePhone}</td>
-                                <td style={{minWidth: "155px"}}>{employee.emergencyPhone}</td>
                                 <td style={{minWidth: "170px"}}>{employee.employeeEmail}</td>
-                                <td style={{minWidth: "155px"}}>{employee.accountNumber}</td>
                                 <td style={{minWidth: "110px"}}>{employee.employeeStatus === 'y' ? '재직' : '퇴직'}</td>
                             </tr>
                         ) : null
