@@ -403,12 +403,6 @@
     }
   }
 
-  function postProductFn() {
-    if($("#checkProductName").css("display") === "none") {
-      $('#postProductForm').submit();
-    }
-  }
-
   function handleClick(event) { //수정페이지 팝업 열기
     $.ajax({
       url: '/inventory/getCategoryList',
@@ -452,6 +446,22 @@
     });
     modifyPopup.style.display = 'block';
   }
+
+  function postProductFn() {
+    let hasError = false;
+
+    $(".error-text").each(function(index, item) {
+      if ($(item).css("display") !== "none") {
+        hasError = true;
+        return false;  // 첫 번째 에러 발견 시 반복문 종료
+      }
+    });
+
+    if (!hasError) {
+      $("#postProductForm").submit();  // 에러가 없을 때만 폼 제출
+    }
+  }
+
 
   //팝업창 닫기
   function closePopupRegist() {
