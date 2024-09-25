@@ -95,7 +95,7 @@
 
         <!-- 등록 기능 -->
         <div id="popup-regist" class="popup-regist">
-            <form name="registForm" action="registForm" method="post">
+            <form id="registContract" action="registForm" method="post">
                 <input type="hidden" th:value="${#authentication.principal.username}" name="employeeNo">
                 <div class="popup-content">
                     <h2>계약등록</h2>
@@ -146,7 +146,7 @@
                         <div class="button-left">
                         </div>
                         <div class="button-right">
-                            <button type="submit" id="registerButton">등록</button>
+                            <button type="button" id="registerButton" onclick="registerBtn()">등록</button>
                             <button type="button" class="close-btn3">닫기</button>
                         </div>
                     </div>
@@ -353,6 +353,21 @@
       } else {
         errorText.style.display = "block";
       }
+    }
+
+    function registerBtn() {
+        let hasError = false;
+
+        $(".error-text").each(function(index, item) {
+            if ($(item).css("display") !== "none") {
+                hasError = true;
+                return false;  // 첫 번째 에러 발견 시 반복문 종료
+            }
+        });
+
+        if (!hasError) {
+            $("#registContract").submit();  // 에러가 없을 때만 폼 제출
+        }
     }
 
     // 팝업창 닫기
