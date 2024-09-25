@@ -13,8 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +50,16 @@ public class ContractController {
     @PostMapping("/registForm") //--- 계약 등록하기
     public String contractRegist(ContractVO vo) {
         contractService.contractRegist(vo);
-        return "redirect:/sales/contract";
+
+        String originalString = "승인대기";
+        String encodedString = "";
+        try {
+            encodedString = URLEncoder.encode(originalString, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/sales/contract?contractPriceStatus=" + encodedString;
     }
 
     // ----- 날짜 데이터 변환 ----- //
