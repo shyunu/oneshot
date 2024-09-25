@@ -5,13 +5,12 @@ import com.project.oneshot.command.EmployeeAuthVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.PositionVO;
 import com.project.oneshot.hr.employee.EmployeeService;
-import com.project.oneshot.security.EmployeeDetails;
-import com.project.oneshot.security.EmployeeDetailsService;
+import com.project.oneshot.security.service.EmployeeDetails;
+import com.project.oneshot.security.service.EmployeeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,7 +79,7 @@ public class EmployeeRestController {
         String uploadDir = "D:/file_repo/";
         if(employeePhoto == null || employeePhoto.isEmpty()) {
             System.out.println("사진없음");
-            employeeVO.setEmployeePhotoPath("default");
+            employeeVO.setEmployeePhotoPath("default.png");
         }
 
         // 폴더가 존재하지 않으면 생성
@@ -143,9 +142,9 @@ public class EmployeeRestController {
         }
 
         // 파일 저장 경로를 설정
-        if(employeePhoto == null || employeePhoto.isEmpty() ||  employeeVO.getEmployeePhotoPath().equals("default")) {
+        if(employeePhoto == null || employeePhoto.isEmpty() ||  employeeVO.getEmployeePhotoPath().equals("default.png")) {
             System.out.println("사진없음");
-            employeeVO.setEmployeePhotoPath("default");
+            employeeVO.setEmployeePhotoPath("default.png");
         }else{
             try {
                 String fileName = UUID.randomUUID().toString() + "_" + employeePhoto.getOriginalFilename();
