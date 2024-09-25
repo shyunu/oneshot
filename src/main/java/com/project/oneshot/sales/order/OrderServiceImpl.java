@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -103,4 +104,9 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getInventoryQuantity(productNo);
     }
 
+    //분기별 판매 총액 가져오기
+    @Override
+    public List<Map<String, Object>> getQuarterlyOrderAmount() {
+        return orderMapper.getQuarterlyOrderAmount();
+    }
 }

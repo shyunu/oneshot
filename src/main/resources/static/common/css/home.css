@@ -25,6 +25,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    margin-left: 45px;
 }
 .right1 {
     width: 100%;
@@ -37,8 +38,8 @@
 }
 
 #calendar {
-    width: 100%;
-    height: 475px;
+    width: 110%;
+    height: 499px;
 }
 
 .chart-container {
@@ -116,7 +117,40 @@
     background-color: #e3e3e3 !important;
 }
 
+.fc-scroller fc-scroller-liquid-absolute {
+/*    overflow: hidden !important;*/
+    top: 0;
+    right: 0px;
+    left: 0;
+    bottom: 0;
+}
 
+.fc-scrollgrid-section:-webkit-overflow-scrolling: {
+    display: none;
+}
+
+.fc .fc-daygrid-day-frame {
+    position: relative;
+    min-height: 80%;
+    width: 70%;
+}
+
+.fc .fc-daygrid-day-number {
+    position: relative;
+    z-index: 4;
+    padding: 4px;
+    margin-right: 30px;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-end {
+   margin-right: -24px !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
+   margin-left: 0px !important;
+}
+
+.fc-direction-ltr,
 /* 오른쪽 노티스 */
 .notice-wrap {
     display: inline-block;
@@ -151,7 +185,7 @@
 /* 아래본문 */
 .side-wrap {
     border-top: 1px solid #e3e3e3;
-    margin: -332px 21px;
+    margin: -380px 21px;
     display: flex;
     justify-content: space-between;
     height: 315px;

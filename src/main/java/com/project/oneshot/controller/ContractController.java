@@ -13,8 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -47,34 +50,16 @@ public class ContractController {
     @PostMapping("/registForm") //--- 계약 등록하기
     public String contractRegist(ContractVO vo) {
         contractService.contractRegist(vo);
-        return "redirect:/sales/contract";
-    }
 
-    @PostMapping("/modifyForm") //--- 계약 수정
-    public String modifyForm(ContractVO vo) {
-        System.out.println("vo = " + vo);
-
-        for(ContractItemVO item : vo.getContractItems()) {
-            System.out.println("ContractController.modifyForm");
-            ContractVO contractVO = new ContractVO();
-
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-            contractVO.setContractSdate(vo.getContractSdate());
-            contractVO.setContractEdate(vo.getContractEdate());
-            contractVO.setContractPriceStatus(vo.getContractPriceStatus());
-            contractVO.setProductNo(item.getProductNo());
-            contractVO.setProductName(item.getProductName());
-            contractVO.setContractPrice(item.getContractPrice());
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-
-            System.out.println("contractVO = " + contractVO);
-            
-            contractService.contractModify(contractVO);
+        String originalString = "승인대기";
+        String encodedString = "";
+        try {
+            encodedString = URLEncoder.encode(originalString, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-
-        return "redirect:/sales/contract";
-
+        return "redirect:/sales/contract?contractPriceStatus=" + encodedString;
     }
 
     // ----- 날짜 데이터 변환 ----- //
@@ -89,7 +74,4 @@ public class ContractController {
     public String submitForm(ContractVO contractVO) {
         return "result";
     }
-
-
-
 }

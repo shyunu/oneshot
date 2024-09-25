@@ -16,7 +16,7 @@
                         <canvas id="myChart"></canvas>
                     </div>
                     <div class="chart-container">
-                        <h3>목표판매량도달률</h3>
+                        <h3>3분기 목표판매량도달률</h3>
                         <canvas id="doughnut" style="height: 560px;"></canvas>
                     </div>
                 </div>
@@ -75,9 +75,7 @@
             <div class="side-left">
                 <div class="side-left-1">
                     <ul id="departmentList">
-                        <li data-department="hr">인사팀</li>
-                        <li data-department="inventory">재고팀</li>
-                        <li data-department="sales">영업팀</li>
+                        <li data-department="total">전체</li>
                     </ul>
                 </div>
                 <div class="side-left-2">
@@ -111,60 +109,143 @@
 </th:block>
 
 <script>
+    const departmentData = {};
+    async function fetchDepartmentData() {
+        try {
+            // 활성화된 부서 정보 가져오기
+            const departmentsResponse = await fetch('/hrm/getActiveDepartments');
+            const departments = await departmentsResponse.json();
+            // 직급별 사원 수 가져오기
+            const countResponse = await fetch('/hrm/countDeptPosEmployees');
+            const employeeCounts = await countResponse.json();
+            console.log(employeeCounts);
 
-    // ----- 세로막대 차트
-    // 첫 번째 차트 (매출액 차트)
-    const ctx1 = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['1분기', '2분기', '3분기', '4분기'],
-            datasets: [{
-                label: '원',
-                data: [30000000, 46000000, 120000000, 34000000],
-                backgroundColor: [
-                    '#5DADE2',
-                    '#A4C8E1',
-                    '#B2E0E0',
-                    '#8FD6E1',
-                ],
-                borderColor: [
-                    '#5DADE2',
-                    '#A4C8E1',
-                    '#B2E0E0',
-                    '#8FD6E1',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+            // 부서 목록을 <ul> 태그에 추가
+            const departmentList = document.getElementById('departmentList');
+
+            const totalCountsForPosition = new Array(6).fill(0);
+
+            // 부서와 직급별 사원 수를 departmentData에 매핑
+            departments.forEach(department => {
+
+                const li = document.createElement('li');
+                li.setAttribute('data-department', department.departmentNo); // 각 부서의 고유 번호를 data-department로 설정
+                li.textContent = department.departmentName; // 부서 이름을 <li> 태그의 텍스트로 설정
+                departmentList.appendChild(li);
+
+
+                const departmentId = department.departmentNo; // department_no를 사용
+                const countsForPosition = new Array(6).fill(0);
+
+                // 각 부서의 사원 수 업데이트
+                employeeCounts.forEach(count => {
+                    if (count.departmentNo === departmentId) {
+                        countsForPosition[count.positionNo - 9] = count.employeeCount; // position_no가 9 이상이므로 인덱스를 맞추기 위해 -9
+                        totalCountsForPosition[count.positionNo - 9] += count.employeeCount; // 전체 직급별 사원 수 업데이트
+                    }
+                });
+                console.log("countsForPosition: "+countsForPosition);
+                departmentData[departmentId] = countsForPosition; // department_no를 키로 사용
+            });
+            departmentData['total'] = totalCountsForPosition;
+
+            console.log(departmentData);
+        } catch (error) {
+            console.error('Error fetching department data:', error);
         }
-    });
+    }
+
+    // 페이지 로드 시 부서 목록 가져오기
+    document.addEventListener('DOMContentLoaded', fetchDepartmentData);
+
+    // ----- 세로막대 차트 + 도넛
+    // 첫 번째 차트 (매출액 차트) + 도넛
+    async function fetchQuarterlyOrderAmount() {
+        try {
+            const response = await fetch('/sales/getQuarterlyOrderAmount');
+            const responseData = await response.json();
+            console.log(responseData);
+            const quarterlyOrderAmount = responseData.map(item => item.total_amount);
+            const totalAmount = quarterlyOrderAmount.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
+            const ctx1 = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['1분기', '2분기', '3분기', '4분기'],
+                    datasets: [{
+                        label: '원',
+                        data: quarterlyOrderAmount,
+                        backgroundColor: [
+                            '#5DADE2',
+                            '#A4C8E1',
+                            '#B2E0E0',
+                            '#8FD6E1',
+                        ],
+                        borderColor: [
+                            '#5DADE2',
+                            '#A4C8E1',
+                            '#B2E0E0',
+                            '#8FD6E1',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            const canvas = document.getElementById("doughnut");
+            const data = {
+                labels: ["달성률(%)","잔여목표액"],
+                datasets: [
+                    {
+                        label: "My First Dataset",
+                        data: [totalAmount, 10000000-totalAmount],
+                        backgroundColor: [
+                            "#01497c",
+                            "#e3e3e3"
+                        ],
+//                borderColor: [
+//                    "#777",
+//                    "#777"
+//                ],
+                        hoverOffset: 4,
+                    },
+                ],
+            };
+            new Chart(canvas, {
+                type: "doughnut",
+                data,
+            });
+        } catch (error) {
+            console.error('Error fetching QuarterlyOrderAmount data:', error);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', fetchQuarterlyOrderAmount);
+
+
 
     // 두 번째 차트 (사원 현황 차트)
     // 부서별 사원수 데이터 (값 차이가 많이 나는 예시)
-    const departmentData = {
-        hr: [5, 15, 8, 6, 3, 1],        // 인사팀
-        inventory: [4, 11, 4, 2, 1, 1],  // 재고팀
-        sales: [8, 12, 4, 3, 2, 1]  // 영업팀
-    };
+
 
     // 차트 설정
     const ctx2 = document.getElementById('employeeChart').getContext('2d');
     const employeeChart = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: ['인턴', '사원', '주임', '대리', '과장', '부서장'],
+            labels: ['인턴', '사원', '주임', '대리', '과장', '차장'],
             datasets: [{
                 label: '사원수',
-                data: departmentData['hr'], // 기본값으로 인사팀 데이터 설정
+                data: departmentData[1], // 기본값으로 인사팀 데이터 설정
                 backgroundColor: [
                     '#1D4E89',
                     '#5DADE2',
@@ -189,7 +270,10 @@
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // y축 단위를 1로 설정
+                    }
                 }
             }
         }
@@ -254,30 +338,6 @@
             ]
         });
         calendar.render();
-    });
-
-    const canvas = document.getElementById("doughnut");
-    const data = {
-        labels: ["달성률(%)"],
-        datasets: [
-            {
-                label: "My First Dataset",
-                data: [200, 40],
-                backgroundColor: [
-                    "#01497c",
-                    "#e3e3e3"
-                ],
-//                borderColor: [
-//                    "#777",
-//                    "#777"
-//                ],
-                hoverOffset: 4,
-            },
-        ],
-    };
-    new Chart(canvas, {
-        type: "doughnut",
-        data,
     });
 
 </script>

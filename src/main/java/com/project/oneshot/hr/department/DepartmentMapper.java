@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DepartmentMapper {
@@ -19,6 +20,10 @@ public interface DepartmentMapper {
 
     // 부서 목록 조회
     List<DepartmentVO> selectDepartment();
+    // 활성화 부서 목록 조회
+    List<DepartmentVO> getActiveDepartments();
+    // 활성화된 부서의 직급별 사원 수 조회
+    List<Map<String, Object>> countDeptPosEmployees();
 
     // 부서 상태 업데이트
     int updateDepartmentState(@Param("departmentNo") int departmentNo, @Param("departmentState") String departmentState);

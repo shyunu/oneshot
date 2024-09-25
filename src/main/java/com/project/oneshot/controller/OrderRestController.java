@@ -92,5 +92,10 @@ public class OrderRestController {
         return ResponseEntity.ok().build(); // 성공적으로 처리되면 200 OK 반환
     }
 
+    // 분기별 판매 총액
+    @GetMapping("/getQuarterlyOrderAmount")
+    public List<Map<String, Object>> getQuarterlyOrderAmount() {
+        return orderService.getQuarterlyOrderAmount();
+    }
 
 }

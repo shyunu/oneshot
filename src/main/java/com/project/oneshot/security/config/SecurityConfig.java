@@ -35,7 +35,7 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeRequests(authorize -> authorize
-                .antMatchers("/","/common/login","/common/loginForm","/common/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
+                .antMatchers("/","/common/login","/common/loginForm","/common/js/**","/common/css/**","/common/img/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
                 .antMatchers("/hrm/**").hasRole("1")
                 .antMatchers("/inventory/**").hasRole("2")
                 .antMatchers("/sales/**").hasRole("3")

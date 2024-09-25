@@ -26,6 +26,23 @@ body.dark .navbar {
   box-shadow: 5px 0px 5px black;
 }
 
+body.dark .content .filter-content td, .content .filter-content th,
+#supplierTable th, #supplierTable td,
+#dataTable th, #dataTable td,
+#productTable th, #productTable td {
+  border: 1px solid black;
+}
+
+body.dark input, body.dark select {
+    background-color: #343434;
+    color: #e3e3e3;
+    border: 1px solid #black;
+}
+body.dark .order-title {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
 
 /* navbar */
 .navbar {
@@ -49,8 +66,8 @@ body.dark .navbar {
   font-weight: 500;
 }
 .navbar img {
-  width: 35px;
-  height: 35px;
+  width: auto;
+  height: 36px;
   border-radius: 50%;
 }
 .search_bar {
@@ -70,16 +87,14 @@ body.dark .navbar {
   padding: 0 20px;
 }
 .navbar_content {
-  display: flex;
-  align-items: center;
-  column-gap: 25px;
+    display: flex;
+    align-items: center;
 }
 .navbar_content i {
   cursor: pointer;
   font-size: 20px;
   color: #707070;
 }
-
 
 /* sidebar */
 .sidebar_content {
@@ -239,6 +254,7 @@ body.dark .navbar {
 }
 .bottom i {
   font-size: 20px;
+  margin-left: 117px;
 }
 .bottom a {
   font-size: 16px;
@@ -295,3 +311,63 @@ body.dark .navbar {
     left: -100%;
   }
 }
+
+
+/* 우측상단 프로필 */
+#darkLight {
+    font-size: 20px;
+    color: #ffc107;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 3px solid #f1f3f5;
+}
+
+.profileHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.topSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.hearderEmployeeName {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.bottomSection {
+    display: flex;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+.hearderDepartmentName {
+    border-radius: 4px 0 0 4px;
+}
+.hearderPositionName {
+    border-radius: 0 4px 4px 0;
+}
+.hearderDepartmentName,
+.hearderPositionName {
+    padding: 3px 8px;
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6; /* 테두리 스타일을 추가 */
+    margin: 0; /* 내부 요소 사이 간격 제거 */
+}
+/* =========================== */
+

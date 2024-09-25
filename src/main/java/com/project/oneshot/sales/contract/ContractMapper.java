@@ -22,7 +22,7 @@ public interface ContractMapper {
 
     public Integer getContractPriceNo();
 
-    public List<ContractVO> getContractDetails(int contractPriceNo);
+    public ContractVO getContractDetails(int contractPriceNo);
 
     public void getContractModify(ContractVO vo);
 
@@ -39,4 +39,8 @@ public interface ContractMapper {
     void updateOverlappingContract(@Param("productNo") Integer productNo, @Param("contractSdate") Date contractSdate, @Param("contractEdate") Date contractEdate, @Param("newEndDate") Date newEndDate);
 
     void insertContract(ContractVO splitContract);
+
+    void approveContract(int contractPriceNo);
+
+    void rejectContract(int contractPriceNo);
 }

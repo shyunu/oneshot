@@ -13,11 +13,15 @@ public interface ContractService {
     public ClientVO getContractUpdateList(int clientNo);
     public List<ProductVO> getContractProductList(); //상품조회
     public Integer getContractPriceNo();
-    public List<ContractVO> getContractDetails(int contractPriceNo);
+    public ContractVO getContractDetails(int contractPriceNo);
     public void contractModify(ContractVO vo);
     public int getTotalCount(ContractCriteria cri);
     public List<ClientVO> getClientList(); //거래등록시 고객사명(번호) 조회
 
     public void updateContract(ContractVO vo);
     public void updateContractDate(int clientNo, int productNo, Date contractSdate, Date contractEdate);
+
+    void approveContract(int contractPriceNo);
+
+    void rejectContract(int contractPriceNo);
 }

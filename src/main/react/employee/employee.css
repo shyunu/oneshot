@@ -6,27 +6,18 @@
 }
 a {
     text-decoration: none;
-    color: white;
+
 }
 .btn {
     height: 30px;
     border-radius: 6px;
     border-style: none;
-    background-color: #233047;
     color : white;
     width: 95px;
     margin-right: -5px;
     margin-left: 0px;
 }
 
-.btn:hover{
-    color: #233047;
-    background-color: #e3e3e3;
-    box-shadow: 0px 8px 16px #e3e3e3;
-    border-radius: 6px;
-    text-decoration: none;
-    cursor: pointer;
-}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -84,3 +75,19 @@ input[type='number'] {
     align-items: center;
     width: 100%;
 }
+/*사원테이블의 체크박스*/
+.employeeCheckbox {
+  width: 21px !important;
+  height: 30px !important;
+}
+
+#selectAllCheckbox {
+  width: 21px !important;
+  height: 21px !important;
+}
+
+.checkboxColumn {
+  width: 0% !important;
+  height: 0% !important;
+}
+/*========================*/

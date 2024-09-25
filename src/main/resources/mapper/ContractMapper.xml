@@ -52,7 +52,7 @@
             AND EMPLOYEE.EMPLOYEE_NAME like concat('%', #{employeeName}, '%')
         </if>
         <if test="contractPriceStatus != null and contractPriceStatus != ''">
-            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS like concat('%', #{contractPriceStatus}, '%')
+            AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS = #{contractPriceStatus}
         </if>
         ORDER BY CONTRACT_PRICE.CONTRACT_PRICE_NO DESC
         limit #{amount} offset #{pageStart}
@@ -78,7 +78,7 @@
             #{contractSdate},
             #{contractEdate},
             #{contractPrice},
-            '-')
+            '승인대기')
     </insert>
 
     <!-- 겹치는 계약을 조회하는 SQL -->
@@ -128,9 +128,9 @@
                contract_price.contract_sdate,
                contract_price.contract_edate,
                contract_price.contract_price,
+               contract_price.contract_price_status,
                product.product_name,
                product.product_no
-
         from contract_price
                  left join client on contract_price.client_no = client.client_no
                  left join employee on contract_price.employee_no = employee.employee_no
@@ -213,6 +213,7 @@
         SELECT * FROM contract_price
         WHERE product_no = #{productNo}
         <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+        AND contract_price_status = '승인'
     </select>
 
     <update id="updateContract" parameterType="ContractVO">
@@ -221,15 +222,30 @@
         contract_sdate = #{contractSdate},
         contract_edate = #{contractEdate},
         contract_price = #{contractPrice},
-        contract_price_status = #{contractPriceStatus}
+        contract_price_status = '승인대기'
         WHERE contract_price_no = #{contractPriceNo}
         AND product_no = #{productNo}
+        AND contract_price_status = '승인'
     </update>
 
     <delete id="deleteContract" parameterType="ContractVO">
         DELETE FROM contract_price
         WHERE product_no = #{productNo}
+        AND client_no = #{clientNo}
         AND contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
         AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
+        AND contract_price_status = '승인'
     </delete>
+
+    <update id="approveContract">
+        update contract_price
+        set contract_price_status = '승인'
+        where contract_price_no = #{contractPriceNo}
+    </update>
+
+    <update id="rejectContract">
+        update contract_price
+        set contract_price_status = '반려'
+        where contract_price_no = #{contractPriceNo}
+    </update>
 </mapper>

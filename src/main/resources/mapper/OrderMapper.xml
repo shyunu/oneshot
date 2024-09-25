@@ -301,4 +301,29 @@
         where product.product_no = #{productNo}
         GROUP BY product.product_no
     </select>
+
+    <!-- 올해 분기별 매출액 -->
+    <select id="getQuarterlyOrderAmount" resultType="map">
+        WITH QuarterData AS (
+            SELECT
+                gs.qtr AS quarter
+            FROM generate_series(1, 4) AS gs(qtr)
+        )
+        SELECT
+            q.quarter,
+            COALESCE(SUM(i.amount), 0) AS total_amount
+        FROM
+            QuarterData q
+                LEFT JOIN
+            order_header h ON EXTRACT(YEAR FROM h.order_sdate) = EXTRACT(YEAR FROM CURRENT_DATE)
+                AND EXTRACT(QUARTER FROM h.order_sdate) = q.quarter
+                LEFT JOIN
+            order_item i ON h.order_header_no = i.order_header_no
+        GROUP BY
+            q.quarter
+        ORDER BY
+            q.quarter;
+    </select>
+
+
 </mapper>

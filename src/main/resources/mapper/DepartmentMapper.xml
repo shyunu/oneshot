@@ -38,6 +38,42 @@
         ORDER BY d.department_no ASC
     </select>
 
+    <!-- 활성화 부서 목록 조회 -->
+    <select id="getActiveDepartments" resultType="DepartmentVO">
+        SELECT d.department_no, d.department_name
+        FROM department d
+        WHERE d.department_state = 'Y'
+        ORDER BY d.department_no ASC;
+    </select>
+
+
+    <!-- 활성화 부서별 사원수 조회 -->
+    <resultMap id="departmentPositionCountMap" type="java.util.HashMap">
+        <result property="departmentNo" column="department_no"/>
+        <result property="positionNo" column="position_no"/>
+        <result property="employeeCount" column="employee_count"/>
+    </resultMap>
+    <select id="countDeptPosEmployees" resultMap="departmentPositionCountMap">
+        SELECT
+            d.department_no,
+            p.position_no,
+            COALESCE(COUNT(e.employee_no), 0) AS employee_count
+        FROM
+            public.department d
+                CROSS JOIN
+            public.position p
+                LEFT JOIN
+            public.employee e ON e.department_no = d.department_no AND e.position_no = p.position_no
+        WHERE
+            p.position_no >= 9 -- position_no가 9 이상인 것만 필터링
+        GROUP BY
+            d.department_no,
+            p.position_no
+        ORDER BY
+            d.department_no,
+            p.position_no
+    </select>
+
     <!-- 부서별 사원 목록 조회 -->
     <select id="selectEmployeesByDepartment" parameterType="int" resultType="EmployeeVO">
         SELECT e.employee_no, e.employee_name, p.position_name
