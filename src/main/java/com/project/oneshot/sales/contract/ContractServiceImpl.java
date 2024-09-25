@@ -49,7 +49,7 @@ public class ContractServiceImpl implements ContractService {
                 LocalDate existingEndDate = existingContract.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                 // 케이스 4: 신규 계약이 기존 계약을 완전히 포함하는 경우
-                if (newContractStartDate.isBefore(existingStartDate) && newContractEndDate.isAfter(existingEndDate)) {
+                if (newContractStartDate.isBefore(existingStartDate) && newContractEndDate.isAfter(existingEndDate) || (newContractStartDate.isEqual(existingStartDate) && newContractEndDate.isEqual(existingEndDate))) {
                     // 기존 계약의 시작일과 종료일을 신규 계약의 시작일과 종료일로 업데이트
                     existingContract.setContractPrice(contractVO.getContractPrice());
                     existingContract.setContractSdate(contractVO.getContractSdate());
@@ -68,21 +68,17 @@ public class ContractServiceImpl implements ContractService {
                         contractMapper.updateContract(existingContract);
 
                         // 두 번째 계약 (뒷부분) 생성
-                        ContractVO splitContract = new ContractVO();
-                        splitContract.setProductNo(existingContract.getProductNo());
-                        splitContract.setClientNo(existingContract.getClientNo());
-                        splitContract.setEmployeeNo(existingContract.getEmployeeNo());
-                        splitContract.setContractPrice(existingContract.getContractPrice());
-                        splitContract.setContractSdate(Date.from(newContractEndDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())); // 뒷부분의 시작일
-                        splitContract.setContractEdate(originalEndDate); // 뒷부분의 종료일 (원래 계약 종료일)
-                        splitContract.setContractPriceStatus(existingContract.getContractPriceStatus());
+                        //ContractVO splitContract = new ContractVO();
+                        //splitContract.setProductNo(existingContract.getProductNo());
+                        //splitContract.setClientNo(existingContract.getClientNo());
+                        //splitContract.setEmployeeNo(existingContract.getEmployeeNo());
+                        //splitContract.setContractPrice(existingContract.getContractPrice());
+                        //splitContract.setContractSdate(Date.from(newContractEndDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())); // 뒷부분의 시작일
+                        //splitContract.setContractEdate(originalEndDate); // 뒷부분의 종료일 (원래 계약 종료일)
+                        //splitContract.setContractPriceStatus(existingContract.getContractPriceStatus());
 
                         // 새로운 분할 계약 등록
-                        contractMapper.getRegist(splitContract);
-
-                        // 로그 추가
-                        System.out.println("First part contract: " + existingContract.getContractSdate() + " ~ " + existingContract.getContractEdate());
-                        System.out.println("Second part (split) contract: " + splitContract.getContractSdate() + " ~ " + splitContract.getContractEdate());
+                        //contractMapper.getRegist(splitContract);
                     } else {
                         // 케이스 1: 기존 계약의 종료일이 신규 계약의 종료일보다 늦으면
                         if (newContractEndDate.isBefore(existingEndDate)) {
@@ -154,7 +150,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractVO> getContractDetails(int contractPriceNo) {
+    public ContractVO getContractDetails(int contractPriceNo) {
         return contractMapper.getContractDetails(contractPriceNo);
     }
 
@@ -176,5 +172,15 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void updateContractDate(int clientNo, int productNo, Date contractSdate, Date contractEdate) {
+    }
+
+    @Override
+    public void approveContract(int contractPriceNo) {
+        contractMapper.approveContract(contractPriceNo);
+    }
+
+    @Override
+    public void rejectContract(int contractPriceNo) {
+        contractMapper.rejectContract(contractPriceNo);
     }
 }

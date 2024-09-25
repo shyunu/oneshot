@@ -37,10 +37,17 @@ public class ContractRestController {
         return list;
     }
 
-    @GetMapping("/getContractDetails")
-    public List<ContractVO> getContractDetails(@RequestParam("contractPriceNo") int contractPriceNo) {
+    @GetMapping("/approveContract")
+    public ContractVO approveContract(@RequestParam("contractPriceNo") int contractPriceNo) {
+        contractService.approveContract(contractPriceNo);
+        ContractVO vo = contractService.getContractDetails(contractPriceNo);
+        return vo;
+    }
 
-        List<ContractVO> result = contractService.getContractDetails(contractPriceNo);
-        return result;
+    @GetMapping("/rejectContract")
+    public ContractVO rejectContract(@RequestParam("contractPriceNo") int contractPriceNo) {
+        contractService.rejectContract(contractPriceNo);
+        ContractVO vo = contractService.getContractDetails(contractPriceNo);
+        return vo;
     }
 }
