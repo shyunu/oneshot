@@ -1,37 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
-    window.onload = function () {
-        // 드래그 가능하게 만들기
-        const popupModify = document.getElementById('popup-modify');
-        const popupRegist = document.getElementById('popup-regist');
-
-        makeDraggable(popupModify);
-        makeDraggable(popupRegist);
-    };
-
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-        const header = element.querySelector('.popup-content');
-
-        header.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                element.style.left = `${e.clientX - offsetX}px`;
-                element.style.top = `${e.clientY - offsetY}px`;
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-    }
 
     let selectedProducts = []; // 선택된 상품 목록을 저장
 
@@ -386,6 +355,38 @@
     </div>
 </th:block>
 <script>
+    window.onload = function () {
+        // 드래그 가능하게 만들기
+        const popupModify = document.getElementById('popup-modify');
+        const popupRegist = document.getElementById('popup-regist');
+
+        makeDraggable(popupModify);
+        makeDraggable(popupRegist);
+    };
+
+    function makeDraggable(element) {
+        let isDragging = false;
+        let offsetX, offsetY;
+        const header = element.querySelector('.popup-content');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - offsetX}px`;
+                element.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+
     // 팝업창 열기 및 닫기 기능
     const popupModify = document.getElementById('popup-modify');
     const popupRegist = document.getElementById('popup-regist');

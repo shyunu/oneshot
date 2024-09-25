@@ -49,6 +49,11 @@
         const addButton = lastRow.querySelector('.add-button');
         if (addButton) {
             addButton.remove(); // 기존 행의 추가 버튼 제거
+            // 추가 버튼이 삭제된 행의 remove-button에 스타일 적용
+            const lastRowRemoveButton = lastRow.querySelector('.remove-button');
+            if (lastRowRemoveButton) {
+                lastRowRemoveButton.style.marginLeft = '55px';
+            }
         }
 
         // 새 행의 삭제 버튼에 이벤트 리스너 추가
@@ -70,43 +75,35 @@
     }
 
     function getPrice(event) {
+        const productNo = event.target.value; // 선택된 productNo
+        const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재 행
+
+        // 첫 번째 테이블에서 clientNo 값 가져오기
+        const clientNo = document.querySelector('.order-regist-table .clientNo').value;
+
+        // 현재 행의 input 요소 찾기
+        const contractPriceInput = currentRow.querySelector('.contractPrice'); // 현재행의 contractPrice
+        const productQuantityInput = currentRow.querySelector('.productQuantity'); // 현재행의 productQuantity
+        const amountInput = currentRow.querySelector('.amount'); // 현재행의 amount
+        const inventoryQuantityInput = currentRow.querySelector('.inventoryQuantity'); // 현재행의 재고 (inventory)
 
         $.ajax({
-            url: '/sales/getProductPrice',
+            url: '/sales/getProductPrice',  // 가격 정보를 가져오는 엔드포인트
             type: 'get',
-            data: {productNo : event.target.value, clientNo : event.target.parentElement.parentElement.parentElement.parentElement.querySelector('.clientNo').value},
-            dataType: 'text',
+            data: {
+                productNo: productNo,
+                clientNo: clientNo // 첫 번째 테이블에서 가져온 clientNo
+            },
+            dataType: 'json', // JSON 형태로 데이터 받아오기
             success: function(data) {
-
-                const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재행
-                const contractPriceInput = currentRow.querySelector('.contractPrice'); // 현재행의 contractPrice
-                const productQuantityInput = currentRow.querySelector('.productQuantity'); // 현재행의 productQuantity
-                const amountInput = currentRow.querySelector('.amount'); // 현재행의 amount
-
-                contractPriceInput.value = data;
-                productQuantityInput.value = '';
-                amountInput.value = '';
-
+                // 서버에서 받은 데이터를 해당 필드에 넣기
+                contractPriceInput.value = data.contractPrice; // 가격 정보
+                inventoryQuantityInput.value = data.inventoryQuantity; // 재고 정보
+                productQuantityInput.value = ''; // 개수 초기화
+                amountInput.value = ''; // 금액 초기화
             },
             error: function() {
-                alert('error');
-            }
-        });
-
-        $.ajax({
-            url: '/sales/getInventoryQuantity',
-            type: 'get',
-            data: {productNo : event.target.value},
-            dataType: 'text',
-            success: function(data) {
-
-                const currentRow = event.target.closest('tr'); // 이벤트가 발생한 현재행
-                const inventoryQuantityInput = currentRow.querySelector('.inventoryQuantity'); // 현재행의 inventoryQuantity
-
-                inventoryQuantityInput.value = data;
-            },
-            error: function() {
-                alert('error');
+                alert('상품 가격 및 재고 정보를 가져오는 데 실패했습니다.');
             }
         });
     }
@@ -171,9 +168,7 @@
                                 <td><p>배송상태</p></td>
                                 <td>
                                     <select name="deliveryStatus">
-                                        <option value="">-</option>
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송대기'}">배송대기</option>
-                                        <option th:selected="${pageVO.cri.deliveryStatus == '배송중'}">배송중</option>
                                         <option th:selected="${pageVO.cri.deliveryStatus == '배송완료'}">배송완료</option>
                                     </select>
                                 </td>
@@ -224,6 +219,7 @@
                 <div class="button-left">
 <!--                    <button onclick="exportToExcel()">Excel로 내보내기</button>-->
 <!--                    <button>계약서 저장</button>-->
+                    <button type="button" class="deliveryInfoButton" onclick="updateDeliveryDate()" >배송완료처리</button>
                 </div>
                 <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
             </div>
@@ -258,14 +254,7 @@
                             <!--                                <td><p>판매승인상태 *</p></td>-->
                             <!--                                <td><input name="orderStatus" id="modiOrderStatus" readonly></td>-->
                             <td class="deliveryStatus"><p>배송상태</p></td>
-                            <td>
-                                <select name="deliveryStatus" id="deliveryStatus" onchange="updateDeliveryDate()" disabled>
-                                    <option selected>-</option>
-                                    <option>배송대기</option>
-                                    <option>배송중</option>
-                                    <option>배송완료</option>
-                                </select>
-                            </td>
+                            <td><input type="text"  name="deliveryStatus" id="deliveryStatus" disabled></td>
                             <td colspan="2"><p>배송일</p></td>
                             <td colspan="2"><input type="text" id="deliveryDate" name="delivery" readonly></td>
                         </tr>
@@ -295,7 +284,7 @@
                     <div class="button-left">
 <!--                        <button type="submit" class="approveButton" onclick="approveOrder()">승인</button>-->
 <!--                        <button type="submit" class="rejectButton" onclick="rejectOrder()">반려</button>-->
-                        <button type="button" class="deliveryInfoButton" onclick="deliveryInfoRegist()">배송정보입력</button>
+<!--                        <button type="button" class="deliveryInfoButton" onclick="deliveryInfoRegist()">배송정보입력</button>-->
                     </div>
                     <div class="button-right">
 <!--                        <button type="button" onclick="editButtonClick()" class="modifyButton">수정</button>-->
@@ -308,9 +297,9 @@
         </div>
 
 
-        <div id="popup-regist" class="popup-regist">
+        <div id="popup-regist" class="popup-regist popup-regist-normal">
             <form name="orderForm" action="/sales/orderForm" method="post">
-                <div class="popup-content" style="width: 900px !important;">
+                <div class="popup-content" style="width: 1050px !important;">
                 <h2>판매등록</h2>
                 <div class="popup-list">
                     <table class="order-regist-table">
@@ -328,7 +317,7 @@
                             </tr>
                             <tr class="left-row">
                                 <td><p>고객사</p></td>
-                                <td><select class="clientNo" name="clientNo" onchange="changeClientName(event)" required></select></td>
+                                <td><select class="clientNo" name="clientNo" onchange="changeClientName(event)" oninput="checkValue(this)" required></select><br><p class="error-text">※ 고객사선택은 필수입니다.</p></td>
                                 <td><p>사업자번호</p></td>
                                 <td><input type="text" class="clientBusinessNo" disabled></td>
                                 <td colspan="2"><p>담당자</p></td>
@@ -337,23 +326,30 @@
                                 <td colspan="2"><input type="text" class="managerPhone" disabled></td>
                             </tr>
                         </tbody>
+                    </table>
+                    <table class="order-modify-table-list">
+                        <thead>
+                        <tr>
+                            <th>상품명</th>
+                            <th>책정거래가</th>
+                            <th>재고</th>
+                            <th>개수</th>
+                            <th>금액</th>
+                        </tr>
+                        </thead>
                         <tbody id="inputContainer" class="input-wrapper">
                             <tr id="dynamicRow" style="white-space: nowrap;">
-                                <td><p>상품명</p></td>
                                 <td>
-                                    <select name="orderItems[0].productNo[]" class="productNo" onchange="getPrice(event)">
+                                    <select name="orderItems[0].productNo[]" class="productNo" onchange="getPrice(event)" oninput="checkValue(this)" >
                                         <option value="" disabled selected>-상품-</option>
                                     </select>
+                                    <br><p class="error-text">※ 고객사선택은 필수입니다.</p>
                                 </td>
-                                <td><p>책정거래가</p></td>
                                 <td><input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly required></td>
-                                <td><p>재고</p></td>
                                 <td><input type="text" name="inventoryQuantity" id="inventoryQuantity" class="inventoryQuantity" readonly required></td>
-                                <td><p>개수</p></td>
                                 <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity" oninput="updateAmount(event)" required></td>
-                                <td><p>금액</p></td>
                                 <td><input type="number" name="orderItems[0].amount[]" class="amount" readonly required></td>
-                                <td colspan="2">
+                                <td>
                                     <button type="button" class="add-button" onclick="addRow()"
                                             style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button>
                                     <button type="button" class="remove-button" onclick="removeRow(this)"
@@ -361,13 +357,14 @@
                                 </td>
                             </tr>
                         </tbody>
-
+                    </table>
+                    <table>
                         <tbody>
                             <tr>
 <!--                                <td><p>승인상태</p></td>-->
 <!--                                <td><input type="text" name="orderStatus" placeholder="-" value="-" readonly style="text-align: center;"></td>-->
                                 <td><p>배송상태</p></td>
-                                <td><input type="text" name="deliveryStatus" placeholder="-" value="-"  readonly style="text-align: center;"></td>
+                                <td><input type="text" name="deliveryStatus" placeholder="-" value="배송대기"  readonly style="text-align: center;  color: #f0f0f0 !important;"></td>
                                 <td><p>배송일</p></td>
                                 <td><input type="date" name="delivery" readonly></td>
                                 <td colspan="4"><p>합계</p></td>
@@ -519,15 +516,15 @@
                 }
             }
         });
-        // 배송 상태에 따라 배송정보입력 버튼 표시 여부 결정
-        const deliveryInfoButton = document.querySelector('.deliveryInfoButton');
-        const selectedStatus = $('#deliveryStatus').val();
-
-        if (selectedStatus === '배송완료') {
-            deliveryInfoButton.style.display = 'none'; // 버튼 숨기기
-        } else {
-            deliveryInfoButton.style.display = 'inline-block'; // 버튼 보이기
-        }
+//        // 배송 상태에 따라 배송정보입력 버튼 표시 여부 결정
+//        const deliveryInfoButton = document.querySelector('.deliveryInfoButton');
+//        const selectedStatus = $('#deliveryStatus').val();
+//
+//        if (selectedStatus === '배송완료') {
+//            deliveryInfoButton.style.display = 'none'; // 버튼 숨기기
+//        } else {
+//            deliveryInfoButton.style.display = 'inline-block'; // 버튼 보이기
+//        }
 
         //오더헤더 위치 찾기
         const orderHeaderNo = tdElements[1].innerText || tdElements[1].textContent;
@@ -653,27 +650,27 @@
             url: '/sales/getEmployeeContent',
             type: 'get',
             data: {employeeNo : [[${#authentication.principal.username}]]},
-        dataType: 'json',
-        success: function(data) {
-        //clientName이 변경되면 해당 고객사정보도 변경
-        $('.employeeName').val(data.employeeName);
-        $('.employeePhone').val(data.employeePhone);
-        $('.employeeEmail').val(data.employeeEmail);
+            dataType: 'json',
+            success: function(data) {
+            //clientName이 변경되면 해당 고객사정보도 변경
+                $('.employeeName').val(data.employeeName);
+                $('.employeePhone').val(data.employeePhone);
+                $('.employeeEmail').val(data.employeeEmail);
 
-        // 데이터베이스에 저장될 값: employeeNo
-        $('input[name="employeeNo"]').val(data.employeeNo); // 숨겨진 input에 employeeNo 설정
+                // 데이터베이스에 저장될 값: employeeNo
+                $('input[name="employeeNo"]').val(data.employeeNo); // 숨겨진 input에 employeeNo 설정
 
-        },
-        error: function() {
-        $('.employeeNo').val('');
-        $('.employeePhone').val('');
-        $('.employeeEmail').val('');
-        $('input[name="employeeNo"]').val('');
-        }
-    });
-
-    popupRegist.style.display = 'block';
-}
+            },
+            error: function() {
+            $('.employeeNo').val('');
+            $('.employeePhone').val('');
+            $('.employeeEmail').val('');
+            $('input[name="employeeNo"]').val('');
+            }
+        });
+        const popupRegist = document.getElementById('popup-regist');
+        popupRegist.style.display = 'block';
+    }
     //사원명 change event
     /*
     function changeEmployeeName(event) {
@@ -836,23 +833,23 @@
         deliveryStatusSelects.forEach(select => {
             select.removeAttribute('disabled');
         });
-//
-//        const deliveryInputs = document.querySelector('input[name="delivery"]'); //배송일input활성화
-//        deliveryInputs.removeAttribute('readonly');
-
         const modifySubmitButton = document.querySelector('.modifySubmitButton'); //수정내역저장하기버튼
         modifySubmitButton.style.display = 'inline-block';
     }
 
     //배송완료되면 해당 날짜 배송일로 지정
     function updateDeliveryDate() {
-    const deliveryStatusSelect = document.getElementById("deliveryStatus");
-    const deliveryDateInput = document.getElementById("deliveryDate");
+    const rows = document.querySelectorAll('.product_list');
 
-    const selectedStatus = deliveryStatusSelect.value;
+    rows.forEach(row => {
+    const checkbox = row.querySelector('.checkbox');
+    const deliveryStatusCell = row.cells[7];
+    const deliveryDateInput = row.querySelector('input[name="deliveryDate"]');
 
-    // 선택된 상태가 '배송완료'일 경우에만 날짜 설정
-    if (selectedStatus === "배송완료") {
+    if (checkbox.checked) {
+    // 체크박스가 체크된 경우
+    deliveryStatusCell.innerText = '배송완료';
+
     const currentDate = new Date();
 
     // 로컬 시간 기준으로 YYYY-MM-DD 형식으로 포맷
@@ -862,12 +859,15 @@
 
     // YYYY-MM-DD 형식으로 포맷
     const formattedDate = `${year}-${month}-${day}`;
-
-    deliveryDateInput.value = formattedDate;
+    deliveryDateInput.value = formattedDate; // 배송일 입력란에 날짜 설정
     } else {
-    deliveryDateInput.value = "";
+    // 체크박스가 체크 해제된 경우
+    deliveryStatusCell.innerText = ''; // 상태를 초기화 (필요에 따라 수정)
+    deliveryDateInput.value = ''; // 배송일 입력란 초기화
     }
+    });
     }
+
 
 
     // 페이지 로드 후 초기화
@@ -946,6 +946,16 @@
     }
     function closePopupRegist() {
         popupRegist.style.display = 'none';
+    }
+
+    //등록팝업 유효성 검사처리
+    function checkValue(input) {
+        const errorText = input.nextElementSibling.nextElementSibling;
+        if(input.value.trim() !== "") {
+            errorText.style.display = "none";
+        } else {
+            errorText.style.display = "block";
+        }
     }
 
 </script>

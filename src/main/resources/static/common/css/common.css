@@ -250,6 +250,7 @@ td {
 
 .popup-list table p {
     margin: 0;
+    height: 0px;
 }
 
 .product_list:hover {
@@ -298,7 +299,7 @@ td {
 
 .popup-list {
     padding: 10px;
-    overflow-y: auto;
+/*    overflow-y: auto;*/
     flex-grow: 1;
 }
 
@@ -477,7 +478,7 @@ button:active {
     width: 5%;
 }
 .order-regist-table td:nth-of-type(4) {
-    width: 0%;
+    width: 9%;
 }
 .order-regist-table td:nth-of-type(5) {
     width: 5%;
@@ -489,7 +490,7 @@ button:active {
     width: 8%;
 }
 .order-regist-table td:nth-of-type(8) {
-    width: 15%;
+    width: 12%;
 }
 .order-regist-table td:nth-of-type(9) {
     width: 6%;
@@ -530,6 +531,9 @@ button:active {
     background-color: #fff !important;
     font-size: 15px;
     font-weight: 400;
+}
+.popup-regist-normal td {
+    width: 17%;
 }
 
 
