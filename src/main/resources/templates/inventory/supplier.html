@@ -148,7 +148,9 @@
                                 <td><p>공급업체번호</p></td>
                                 <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
                                 <td><p>담당자명</p></td>
-                                <td><input type="text" name="managerName" id="modifyManagerName" required></td>
+                                <td><input type="text" name="managerName" id="modifyManagerName" oninput="managerNameSuccessMd(this)" required>
+                                    <br><p class="error-text" id="managerNameResultMd" style="display: none">※ 이름은 한글만 가능합니다.</p>
+                                </td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
@@ -236,6 +238,19 @@
         }
     }
 
+    function managerNameSuccessMd(input) {
+        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
+        if(input.value.trim() === "") {
+            $('#managerNameResultMd').css("display", "block");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#managerNameResultMd').css("display", "block");
+        } else {
+            $('#managerNameResultMd').css("display", "none");
+        }
+    }
+
     function supplierNameSuccess(input) {
         var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
         if(input.value.trim() === "") {
@@ -290,7 +305,7 @@
     }
 
     function supplierBusinessNoSuccess(input) {
-        var regex = /^\d{3}-\d{2}-\d{4}$/;
+        var regex = /^\d{3}-\d{2}-\d{5}$/;
         if(input.value.trim() === "") {
             $('#supplierBusinessNoResult').css("display", "none");
             return;
