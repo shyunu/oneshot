@@ -298,11 +298,11 @@ useEffect(() => {
     }, []);
 
     // 부서 선택 시 호출되는 함수
-    const handleCheckboxChange = (departmentNo) => {
+    const handleCheckboxChange = (department) => {
         setSelectedDepartments((prevSelected) =>
-            prevSelected.includes(departmentNo)
-                ? prevSelected.filter((no) => no !== departmentNo)  // 선택된 부서가 이미 있으면 제거
-                : [...prevSelected, departmentNo]  // 선택되지 않은 부서는 추가
+            prevSelected.includes(department)
+                ? prevSelected.filter((dep) => dep.departmentNo !== department.departmentNo)  // 선택된 부서가 이미 있으면 제거
+                : [...prevSelected, department]  // 선택되지 않은 부서는 추가
         );
     };
 
@@ -313,7 +313,7 @@ useEffect(() => {
             setSelectedDepartments([]);
         } else {
             // 전체 선택: 모든 부서의 departmentNo 값을 선택된 부서 목록에 추가
-            setSelectedDepartments(departments.map(department => department.departmentNo));
+            setSelectedDepartments(departments);
         }
         // 전체 선택 상태 반전
         setIsAllChecked(!isAllChecked);
@@ -399,7 +399,11 @@ useEffect(() => {
         menuNo: formValues.menuNo.join(','),  // 배열을 쉼표로 구분된 문자열로 변환
     };
 
-
+    // 등록 버튼 클릭 시 모달 열기
+    const handleOpenRegistrationPopup = () => {
+        resetForm();  // 등록 팝업 열기 전에 입력 필드 초기화
+        setModalOpen(true);
+    };
 
     // 부서 등록 폼 제출 처리
     const formSubmit = async (e) => {
@@ -505,325 +509,344 @@ useEffect(() => {
 
     return (
         <main className="wrapper">
-            <div className="text-wrap">
-                <p>부서조회</p>
-                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
-            </div>
 
-            <div className="order-title">
-                <div className="filter-content">
-                        <div className="filter-main">
-                            <h3>상세내역검색</h3>
-                            <button className="filter-button" onClick={handleSearch}>검색하기</button>
-                            <button className="filter-button" onClick={handleResetFilters}>전체보기</button>
-                        </div>
-                    <table>
-                            <tr>
-                                <td><p>부서명</p></td>
-                                <td>
-                                    <select
-                                      name="departmentName"
-                                      value={filters.departmentName}
-                                      onChange={handleInputChange}
-                                    >
-                                      <option value="">전체</option>
-                                      {departments.length > 0 &&
-                                        departments.map((department) => (
-                                          <option key={department.departmentNo} value={department.departmentName}>
-                                            {department.departmentName}
-                                          </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td><p>부서번호</p></td>
-                                <td>
-                                    <input type="number" name="departmentNo" value={filters.departmentNo} onChange={handleInputChange} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><p>사용가능메뉴</p></td>
-                                <td>
-                                    <select
-                                      name="availableMenu"
-                                      value={filters.availableMenu}
-                                      onChange={handleInputChange}
-                                    >
-                                      <option value="">선택</option>
-                                      {menuList.length > 0 &&
-                                        menuList.map((menu) => (
-                                          <option key={menu.menuNo} value={menu.menuNo}>
-                                            {menu.menuName}
-                                          </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td><p>부서 상태</p></td>
-                                <td>
-                                    <select name="departmentState" value={filters.departmentState} onChange={handleInputChange}>
-                                        <option value="">전체</option>
-                                        <option value="Y">활성</option>
-                                        <option value="N">비활성</option>
-                                    </select>
-                                </td>
-                            </tr>
-                    </table>
+                <div className="text-wrap">
+                    <p>부서조회</p>
+                    <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
                 </div>
-            </div>
 
-            <article>
-                <table id="supplierTable">
+                <div className="order-title">
+                    <div className="filter-content">
+                            <div className="filter-main">
+                                <h3>상세내역검색</h3>
+                                <button className="filter-button" onClick={handleSearch}>검색하기</button>
+                                <button className="filter-button" onClick={handleResetFilters}>전체보기</button>
+                            </div>
+                        <table>
+                                <tr>
+                                    <td><p>부서명</p></td>
+                                    <td>
+                                        <select
+                                          name="departmentName"
+                                          value={filters.departmentName}
+                                          onChange={handleInputChange}
+                                        >
+                                          <option value="">전체</option>
+                                          {departments.length > 0 &&
+                                            departments.map((department) => (
+                                              <option key={department.departmentNo} value={department.departmentName}>
+                                                {department.departmentName}
+                                              </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td><p>부서번호</p></td>
+                                    <td>
+                                        <input type="number" name="departmentNo" value={filters.departmentNo} onChange={handleInputChange} />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>사용가능메뉴</p></td>
+                                    <td>
+                                        <select
+                                          name="availableMenu"
+                                          value={filters.availableMenu}
+                                          onChange={handleInputChange}
+                                        >
+                                          <option value="">선택</option>
+                                          {menuList.length > 0 &&
+                                            menuList.map((menu) => (
+                                              <option key={menu.menuNo} value={menu.menuNo}>
+                                                {menu.menuName}
+                                              </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td><p>부서 상태</p></td>
+                                    <td>
+                                        <select name="departmentState" value={filters.departmentState} onChange={handleInputChange}>
+                                            <option value="">전체</option>
+                                            <option value="Y">활성</option>
+                                            <option value="N">비활성</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <article>
+                  <table id="supplierTable">
                     <thead>
-                        <tr id="attribute">
-                            <th>
-                                <input type="checkbox" id="checkAll" checked={isAllChecked} onChange={handleAllCheckboxChange} />
-                                <label htmlFor="checkAll"></label>
-                            </th>
-                            <th onClick={() => requestSort('departmentNo')}>부서번호</th>
-                            <th onClick={() => requestSort('departmentName')}>부서명</th>
-                            <th onClick={() => requestSort('menus')}>사용가능메뉴</th>
-                            <th onClick={() => requestSort('departmentState')}>사용여부</th>
-                        </tr>
+                      <tr id="attribute">
+                        <th className="checkboxColumn">
+                          <input
+                            type="checkbox"
+                            id="selectAllCheckbox"
+                            checked={isAllChecked}
+                            onChange={handleAllCheckboxChange}
+                          />
+                          <label htmlFor="selectAllCheckbox"></label>
+                        </th>
+                        <th className="departmentNumberColumn" onClick={() => requestSort('departmentNo')}>no</th>
+                        <th className="departmentNameColumn" onClick={() => requestSort('departmentName')}>부서명</th>
+                        <th onClick={() => requestSort('menus')}>사용가능메뉴</th>
+                        <th onClick={() => requestSort('departmentState')}>사용여부</th>
+                      </tr>
                     </thead>
                     <tbody>
-                        {sortedDepartments.length > 0 ? (
-                            sortedDepartments.map((department) => (
-                                <tr key={department.departmentNo} className="product_list" onClick={() => handleDepartmentClick(department)} style={{ cursor: 'pointer' }}>
-                                    <td onClick={(e) => e.stopPropagation()}>
-                                        <input
-                                            type="checkbox"
-                                            id={`check${department.departmentNo}`}
-                                            checked={selectedDepartments.includes(department.departmentNo)}
-                                            onChange={() => handleCheckboxChange(department.departmentNo)}
-                                        />
-                                        <label htmlFor={`check${department.departmentNo}`}></label>
-                                    </td>
-                                    <td>{department.departmentNo}</td>
-                                    <td>{department.departmentName}</td>
-                                    <td>
-                                        {department.menuNo && department.menuNo.length > 0
-                                            ? department.menuNo
-                                                .map((menuNo) => {
-                                                    const menu = menuList.find((m) => m.menuNo === menuNo);
-                                                    return menu ? menu.menuName : '메뉴 없음';
-                                                })
-                                                .join(', ')
-                                            : '메뉴 없음'}
-                                    </td>
-                                    <td>{department.departmentState === 'Y' ? '활성' : '비활성'}</td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5">등록된 부서가 없습니다.</td>
-                            </tr>
-                        )}
+                      {sortedDepartments.length > 0 ? (
+                        sortedDepartments.map((department) => (
+                          <tr key={department.departmentNo} className="product_list" onClick={() => handleDepartmentClick(department)}
+                            style={
+                                selectedDepartments.includes(department)
+                                    ? { backgroundColor: '#f7f5f2' }
+                                    : undefined
+                              }
+                          >
+                            <td className="checkboxColumn" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="checkbox"
+                                className="departmentCheckbox"
+                                id={`check${department.departmentNo}`}
+                                checked={selectedDepartments.includes(department)}
+                                onChange={() => handleCheckboxChange(department)}
+                              />
+                              <label htmlFor={`check${department.departmentNo}`}></label>
+                            </td>
+                            <td className="departmentNumberColumn">{department.departmentNo}</td>
+                            <td className="departmentNameColumn">{department.departmentName}</td>
+                            <td>
+                              {department.menuNo && department.menuNo.length > 0
+                                ? department.menuNo
+                                    .map((menuNo) => {
+                                      const menu = menuList.find((m) => m.menuNo === menuNo);
+                                      return menu ? menu.menuName : '메뉴 없음';
+                                    })
+                                    .join(', ')
+                                : '메뉴 없음'}
+                            </td>
+                            <td>{department.departmentState === 'Y' ? '활성' : '비활성'}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="5">등록된 부서가 없습니다.</td>
+                        </tr>
+                      )}
                     </tbody>
-                </table>
-            </article>
+                  </table>
+                </article>
 
-            <div className="buttons">
-                <div className="regist-right" style={{justifyContent: "end", marginBottom: "20px"}}>
-                        <button className="register" style={{marginRight: "6px"}} onClick={() => setModalOpen(true)}>등록</button>
+
+                <div className="buttons">
+                    <div className="regist-right" style={{justifyContent: "end", marginBottom: "20px"}}>
+                            <button className="register" onClick={handleOpenRegistrationPopup}>등록</button>
+                    </div>
                 </div>
-            </div>
 
 
 
-        {/* 신규 등록 모달창 */}
+
+                    {/* 신규 등록 모달창 */}
                     {modalOpen && (
-                        <div className="popup" id="contractPopup">
-                            <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
-                                <div className="popup-content" id="draggablePopup">
-                                    <div className="popup-header" id="popupHeader">
-                                        <span>부서등록</span>
-                                    </div>
-                                    <form className="contract-form" onSubmit={formSubmit}>
-                                        <table>
-                                            <tbody>
-                                            <tr className="left-row">
-                                                <td colSpan="2">
-                                                    <label htmlFor="departmentNo">부서번호</label>
-                                                </td>
-                                                <td colSpan="2">
-                                                    <input
-                                                        type="text"
-                                                        id="departmentNo"
-                                                        value={formValues.departmentNo}
-                                                        style={{textAlign:"center"}}
-                                                        readOnly
-                                                    />
-                                                </td>
-                                                <td colSpan="2">
-                                                    <label htmlFor="departmentName">부서명</label>
-                                                </td>
-                                                <td colSpan="2">
-                                                    <input
-                                                        type="text"
-                                                        id="departmentName"
-                                                        value={formValues.departmentName}
-                                                        onChange={handleChange}
-                                                        placeholder="부서명"
-                                                        style={{textAlign:"center"}}
-                                                    />
-                                                    {submitted && errors.departmentName && (
-                                                            <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>※ 부서명은 필수 항목입니다</p>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                            <tr className="left-row">
-                                                <td colSpan="2">
-                                                    <label>사용가능메뉴</label>
-                                                </td>
-                                                <td colSpan="6">
-                                                    <div className="flex" style={{alignItems: "center",justifyContent:"center"}}>
-                                                        {menuList.length > 0 ? (
-                                                            menuList.map((menu) => (
-                                                                <div key={menu.menuNo}>
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        id={`menu-${menu.menuNo}`}
-                                                                        value={menu.menuNo}
-                                                                        checked={formValues.menuNo.includes(menu.menuNo)}  // 선택된 상태를 반영
-                                                                        onChange={() => handleMenuChange(menu.menuNo)}  // 변경 시 상태 처리
-                                                                        style={{height: "inherit"}}
-                                                                    />
-                                                                    <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
-                                                                </div>
-                                                            ))
-                                                        ) : (
-                                                            <p>사용할 수 있는 메뉴가 없습니다.</p>
-                                                        )}
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <div className="popup-buttons">
-                                            <button type="submit" className="popup-btn modify">등록</button>
-                                            <button
-                                                type="button"
-                                                className="popup-btn close"
-                                                onClick={() => {
-                                                    setModalOpen(false);  // 모달창 닫기
-                                                    resetForm();  // 입력 필드 초기화
-                                                }}
-                                            >
-                                                닫기
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </Draggable>
-                        </div>
+                      <div className="popup" id="contractPopup">
+                        <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
+                          <div className="popup-content" id="draggablePopup">
+                            <div className="popup-header" id="popupHeader">
+                              <span>부서등록</span>
+                            </div>
+                            <form className="contract-form" onSubmit={formSubmit}>
+                              <table>
+                                <tbody>
+                                  <tr className="left-row">
+                                    <td colSpan="2">
+                                      <label htmlFor="departmentNo">부서번호</label>
+                                    </td>
+                                    <td colSpan="2">
+                                      <input
+                                        type="text"
+                                        id="departmentNo"
+                                        value={formValues.departmentNo}
+                                        style={{textAlign:"center"}}
+                                        readOnly
+                                      />
+                                    </td>
+                                    <td colSpan="2">
+                                      <label htmlFor="departmentName">부서명</label>
+                                    </td>
+                                    <td colSpan="2">
+                                      <input
+                                        type="text"
+                                        id="departmentName"
+                                        value={formValues.departmentName}
+                                        onChange={handleChange}
+                                        placeholder="부서명"
+                                        style={{textAlign:"center"}}
+                                      />
+                                      {submitted && errors.departmentName && (
+                                        <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
+                                          ※ 부서명은 필수 항목입니다
+                                        </p>
+                                      )}
+                                    </td>
+                                  </tr>
+                                  <tr className="left-row">
+                                    <td colSpan="2">
+                                      <label>사용가능메뉴</label>
+                                    </td>
+                                    <td colSpan="6">
+                                      <div className="departmentCheck">
+                                        {menuList.length > 0 ? (
+                                          menuList.map((menu) => (
+                                            <div key={menu.menuNo} className="departmentPopupCheckboxWrapper">
+                                              <input
+                                                type="checkbox"
+                                                id={`menu-${menu.menuNo}`}
+                                                className="departmentPopupCheckbox"
+                                                value={menu.menuNo}
+                                                checked={formValues.menuNo.includes(menu.menuNo)}
+                                                onChange={() => handleMenuChange(menu.menuNo)}
+                                              />
+                                              <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
+                                            </div>
+                                          ))
+                                        ) : (
+                                          <p>사용할 수 있는 메뉴가 없습니다.</p>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <div className="popup-buttons">
+                                <button type="submit" className="popup-btn modify">등록</button>
+                                <button
+                                  type="button"
+                                  className="popup-btn close"
+                                  onClick={() => {
+                                    setModalOpen(false);  // 모달창 닫기
+                                    resetForm();  // 입력 필드 초기화
+                                  }}
+                                >
+                                  닫기
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </Draggable>
+                      </div>
                     )}
 
-            {departmentDetailPopupOpen && (
-                <div className="popup" id="departmentDetailPopup">
-                    <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
-                        <div className="popup-content">
-                            <div className="popup-header">
-                                <span>부서 상세 정보 수정</span>
-                            </div>
-                            <form className="contract-form" onSubmit={handleSave}>
-                                <table className="popup-table">
-                                    <tbody>
-                                    <tr className="left-row">
-                                        <td colSpan="2">
-                                            <label htmlFor="departmentNo">부서번호</label>
-                                        </td>
-                                        <td colSpan="2">
-                                            <input
-                                                type="text"
-                                                id="departmentNo"
-                                                value={formValues.departmentNo}
-                                                style={{textAlign:"center"}}
-                                                readOnly // 부서번호는 수정 불가
-                                            />
-                                        </td>
-                                        <td colSpan="2">
-                                            <label htmlFor="departmentName">부서명</label>
-                                        </td>
-                                        <td colSpan="2">
-                                            <input
-                                                type="text"
-                                                id="departmentName"
-                                                value={formValues.departmentName}
-                                                onChange={(e) => setFormValues({
-                                                    ...formValues,
-                                                    departmentName: e.target.value
-                                                })}
-                                                style={{ textAlign: "center" }}
-                                            />
-                                            {submitted && errors.departmentName && (
-                                                <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>※ 부서명은 필수 항목입니다</p>
-                                            )}
-                                        </td>
-                                    </tr>
-                                    <tr className="left-row">
-                                        <td colSpan="2"><label>사용가능메뉴</label></td>
-                                        <td colSpan="6">
-                                            <div className="menu-list flex" style={{justifyContent:"center" , alignItems:"center"}}>
-                                                {menuList.length > 0 && menuList.map((menu) => (
-                                                    <span key={menu.menuNo}>
-                                                            <input
-                                                                type="checkbox"
-                                                                id={`menu-${menu.menuNo}`}
-                                                                checked={formValues.menuNo.includes(menu.menuNo)}
-                                                                onChange={() => handleMenuChange(menu.menuNo)}
-                                                                style={{height:"inherit"}}
-                                                            />
-                                                            <label
-                                                                htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
-                                                        </span>
-                                                ))}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="left-row">
-                                        <td colSpan="2"><label>사용 여부</label></td>
-                                        <td colSpan="6">
-                                            <select
-                                                value={formValues.departmentState}
-                                                onChange={(e) => setFormValues({
-                                                    ...formValues,
-                                                    departmentState: e.target.value
-                                                })}
-                                            >
-                                                <option value="Y">활성</option>
-                                                <option value="N">비활성</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div className="popup-buttons">
-                                    <button type="button" className="popup-btn employee" id="employeeListBtn"
-                                            onClick={handleEmployeePopup}>
-                                        직원
-                                    </button>
-                                    <button type="submit" className="popup-btn modify">저장</button>
-                                    <button
-                                        type="button"
-                                        className="popup-btn close"
-                                        onClick={() => {
-                                            setDepartmentDetailPopupOpen(false);  // 모달창 닫기
-                                            setErrors({
-                                                departmentNo: false,
-                                                departmentName: false,
-                                            });
-                                            setSubmitted(false);  // 폼 제출 상태도 초기화
-                                        }}
-                                    >
-                                        닫기
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </Draggable>
-                </div>
 
+            {departmentDetailPopupOpen && (
+              <div className="popup" id="departmentDetailPopup">
+                <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
+                  <div className="popup-content">
+                    <div className="popup-header">
+                      <span>부서 상세 정보 수정</span>
+                    </div>
+                    <form className="contract-form" onSubmit={handleSave}>
+                      <table className="popup-table">
+                        <tbody>
+                          <tr className="left-row">
+                            <td colSpan="2">
+                              <label htmlFor="departmentNo">부서번호</label>
+                            </td>
+                            <td colSpan="2">
+                              <input
+                                type="text"
+                                id="departmentNo"
+                                value={formValues.departmentNo}
+                                style={{textAlign:"center"}}
+                                readOnly // 부서번호는 수정 불가
+                              />
+                            </td>
+                            <td colSpan="2">
+                              <label htmlFor="departmentName">부서명</label>
+                            </td>
+                            <td colSpan="2">
+                              <input
+                                type="text"
+                                id="departmentName"
+                                value={formValues.departmentName}
+                                onChange={(e) => setFormValues({
+                                  ...formValues,
+                                  departmentName: e.target.value
+                                })}
+                                style={{ textAlign: "center" }}
+                              />
+                              {submitted && errors.departmentName && (
+                                <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
+                                  ※ 부서명은 필수 항목입니다
+                                </p>
+                              )}
+                            </td>
+                          </tr>
+                          <tr className="left-row">
+                            <td colSpan="2">
+                              <label>사용가능메뉴</label>
+                            </td>
+                            <td colSpan="6">
+                              <div className="departmentDetailCheck">
+                                {menuList.length > 0 && menuList.map((menu) => (
+                                  <div key={menu.menuNo} className="departmentDetailCheckboxWrapper">
+                                    <input
+                                      type="checkbox"
+                                      id={`menu-${menu.menuNo}`}
+                                      className="departmentDetailCheckbox"
+                                      checked={formValues.menuNo.includes(menu.menuNo)}
+                                      onChange={() => handleMenuChange(menu.menuNo)}
+                                    />
+                                    <label htmlFor={`menu-${menu.menuNo}`}>{menu.menuName}</label>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                          </tr>
+                          <tr className="left-row">
+                            <td colSpan="2"><label>사용 여부</label></td>
+                            <td colSpan="6">
+                              <select
+                                value={formValues.departmentState}
+                                onChange={(e) => setFormValues({
+                                  ...formValues,
+                                  departmentState: e.target.value
+                                })}
+                              >
+                                <option value="Y">활성</option>
+                                <option value="N">비활성</option>
+                              </select>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div className="popup-buttons">
+                        <button type="button" className="popup-btn employee" id="employeeListBtn" onClick={handleEmployeePopup}>
+                          직원
+                        </button>
+                        <button type="submit" className="popup-btn modify">저장</button>
+                        <button
+                          type="button"
+                          className="popup-btn close"
+                          onClick={() => {
+                            setDepartmentDetailPopupOpen(false);
+                            setErrors({
+                              departmentNo: false,
+                              departmentName: false,
+                            });
+                            setSubmitted(false);
+                          }}
+                        >
+                          닫기
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Draggable>
+              </div>
             )}
+
 
             {employeePopupOpen && (
                 <div className="popup" style={{zIndex: "999"}}>
