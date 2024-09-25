@@ -502,16 +502,16 @@ button:active {
 }
 
 .order-modify-table td:nth-of-type(1) {
-    width: 10%;
+    width: 3.5%;
 }
 .order-modify-table td:nth-of-type(2) {
-    width: 23%;
+    width: 6.5%;
 }
 .order-modify-table td:nth-of-type(3) {
     width: 10%;
 }
 .order-modify-table td:nth-of-type(4) {
-    width: 10%;
+    width: 6%;
 }
 .order-modify-table td:nth-of-type(5) {
     width: 7%;
@@ -525,6 +525,13 @@ button:active {
 .order-modify-table td:nth-of-type(8) {
     width: 15%;
 }
+.order-modify-table-list th {
+    border: 1px solid #e3e3e3;
+    background-color: #fff !important;
+    font-size: 15px;
+    font-weight: 400;
+}
+
 
 /* ----------------------------------------------------- */
 
