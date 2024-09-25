@@ -45,27 +45,8 @@ public class ContractController {
     }
 
     @PostMapping("/registForm") //--- 계약 등록하기
-    public String contractRegist(@RequestParam("productNo") List<Integer> productNo,
-                                 @RequestParam("employeeNo") int employeeNo,
-                                 @RequestParam("clientNo") int clientNo,
-                                 @RequestParam("contractSdate") Date contractSdate,
-                                 @RequestParam("contractEdate") Date contractEdate,
-                                 @RequestParam("contractPrice") List<Integer> contractPrice
-    ) {
-        List<ContractVO> list = new ArrayList<>();
-
-        for(int i = 0; i < productNo.size(); i++) {
-            ContractVO vo = new ContractVO();
-            vo.setProductNo(productNo.get(i));
-            vo.setEmployeeNo(employeeNo);
-            vo.setClientNo(clientNo);
-            vo.setContractSdate(contractSdate);
-            vo.setContractEdate(contractEdate);
-            vo.setContractPrice(contractPrice.get(i));
-            list.add(vo);
-        }
-
-        contractService.contractRegist(list);
+    public String contractRegist(ContractVO vo) {
+        contractService.contractRegist(vo);
         return "redirect:/sales/contract";
     }
 

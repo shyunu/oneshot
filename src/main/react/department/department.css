@@ -1,21 +1,4 @@
-.btn {
-    height: 30px;
-    border-radius: 6px;
-    border-style: none;
-    background-color: #233047;
-    color : white;
-    width: 95px;
-    margin-right: -5px;
-    margin-left: 0px;
-}
-.btn:hover{
-     color: #233047;
-     background-color: #e3e3e3;
-     box-shadow: 0px 8px 16px #e3e3e3;
-     border-radius: 6px;
-     text-decoration: none;
-     cursor: pointer;
- }
+
 
 .flex{
     display: flex;
@@ -25,27 +8,8 @@
     background-color: #fdd;
 }
 
-/* 메인메뉴 */
 
-.wrapper .wrapper-title{
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 25px;
-}
-
-
-.wrapper .wrapper-footer {
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
 .employee-table{
     margin: 12px;
 }
 
-
-.btn:disabled {
-    background-color: #ccc; /* 비활성화된 버튼의 배경색 */
-    cursor: not-allowed; /* 비활성화된 버튼의 커서 모양 */
-}

@@ -4,7 +4,6 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import './department.css';
 import './popup.css';
-import './popup.css';
 
 function Department() {
     // 검색 필터를 위한 상태 관리
@@ -22,6 +21,11 @@ function Department() {
             menuNo: [],
             departmentState: 'Y',
         });
+        setErrors({
+            departmentNo: false,
+            departmentName: false,
+        });
+        setSubmitted(false);  // 폼 제출 상태도 초기화
     };
 
 useEffect(() => {
@@ -344,21 +348,24 @@ useEffect(() => {
     // 부서 저장 함수
     const handleSave = async (e) => {
         e.preventDefault();
+        setSubmitted(true);
 
-        const departmentNo = parseInt(formValues.departmentNo);
-        if (isNaN(departmentNo)) {
-            alert("부서번호는 숫자여야 합니다.");
-            return;
+        // 부서명이 공백인지 확인하는 유효성 검사
+        if (!formValues.departmentName.trim()) {
+            setErrors({
+                ...errors,
+                departmentName: true,
+            });
+            return; // 공백일 경우 저장 중지
+        } else {
+            setErrors({
+                ...errors,
+                departmentName: false,
+            });
         }
 
         try {
-            // 부서명 중복 확인 로직 추가
-            const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
-            if (duplicateCheckResponse.data && formValues.departmentName !== selectedDepartment.departmentName) {
-                alert('이미 중복된 부서명이 있습니다.');
-                return;  // 중복된 경우 저장 중지
-            }
-
+            const departmentNo = parseInt(formValues.departmentNo);
             const requestData = {
                 departmentNo,
                 departmentName: formValues.departmentName.trim(),
@@ -385,6 +392,7 @@ useEffect(() => {
         }
     };
 
+
     const departmentVO = {
         departmentNo: parseInt(formValues.departmentNo),
         departmentName: formValues.departmentName,
@@ -397,8 +405,22 @@ useEffect(() => {
     const formSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
-        console.log(formValues);
-        // 부서명 중복 확인 로직 추가
+
+        // 부서명이 공백인지 확인하는 유효성 검사
+        if (!formValues.departmentName.trim()) {
+            setErrors({
+                ...errors,
+                departmentName: true,
+            });
+            return; // 공백일 경우 등록 중지
+        } else {
+            setErrors({
+                ...errors,
+                departmentName: false,
+            });
+        }
+
+        // 부서명 중복 확인 로직 및 서버로의 POST 요청 코드 (생략)
         try {
             const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
             if (duplicateCheckResponse.data) {
@@ -409,21 +431,13 @@ useEffect(() => {
             console.error('부서명 중복 확인 중 오류 발생:', error);
         }
 
-        if (!formValues.departmentNo || !formValues.departmentName.trim()) {
-            setErrors({
-                departmentNo: !formValues.departmentNo,
-                departmentName: !formValues.departmentName.trim(),
-            });
-            return;
-        }
-
-        const departmentVO = {
-            departmentNo: parseInt(formValues.departmentNo),
-            departmentName: formValues.departmentName,
-            menuNo: formValues.menuNo
-        };
-        console.log(departmentVO);
+        // 서버로 POST 요청
         try {
+            const departmentVO = {
+                departmentNo: parseInt(formValues.departmentNo),
+                departmentName: formValues.departmentName,
+                menuNo: formValues.menuNo
+            };
             const response = await axios.post("http://localhost:8181/hrm/registDepartment", departmentVO, {
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -436,6 +450,7 @@ useEffect(() => {
             console.error('부서 등록 중 오류:', err);
         }
     };
+
 
     // 정렬 처리
     const requestSort = (key) => {
@@ -492,7 +507,7 @@ useEffect(() => {
         <main className="wrapper">
             <div className="text-wrap">
                 <p>부서조회</p>
-                <p>❉ 조회 또는 수정을 원하시면 부서명을 선택해주세요. </p>
+                <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
 
             <div className="order-title">
@@ -503,7 +518,6 @@ useEffect(() => {
                             <button className="filter-button" onClick={handleResetFilters}>전체보기</button>
                         </div>
                     <table>
-                        <tbody>
                             <tr>
                                 <td><p>부서명</p></td>
                                 <td>
@@ -527,7 +541,7 @@ useEffect(() => {
                                 </td>
                             </tr>
                             <tr>
-                                <td><p>사용 가능 메뉴</p></td>
+                                <td><p>사용가능메뉴</p></td>
                                 <td>
                                     <select
                                       name="availableMenu"
@@ -552,22 +566,16 @@ useEffect(() => {
                                     </select>
                                 </td>
                             </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
 
             <article>
-                <table>
+                <table id="supplierTable">
                     <thead>
                         <tr id="attribute">
                             <th>
-                                <input
-                                    type="checkbox"
-                                    id="checkAll"
-                                    checked={isAllChecked}
-                                    onChange={handleAllCheckboxChange}
-                                />
+                                <input type="checkbox" id="checkAll" checked={isAllChecked} onChange={handleAllCheckboxChange} />
                                 <label htmlFor="checkAll"></label>
                             </th>
                             <th onClick={() => requestSort('departmentNo')}>부서번호</th>
@@ -580,10 +588,7 @@ useEffect(() => {
                         {sortedDepartments.length > 0 ? (
                             sortedDepartments.map((department) => (
                                 <tr key={department.departmentNo} className="product_list" onClick={() => handleDepartmentClick(department)} style={{ cursor: 'pointer' }}>
-                                    <td
-                                        style={{ width: '30px', textAlign: 'center' }}
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
+                                    <td onClick={(e) => e.stopPropagation()}>
                                         <input
                                             type="checkbox"
                                             id={`check${department.departmentNo}`}
@@ -592,7 +597,7 @@ useEffect(() => {
                                         />
                                         <label htmlFor={`check${department.departmentNo}`}></label>
                                     </td>
-                                    <td style={{ width: '100px', textAlign: 'center' }}>{department.departmentNo}</td>
+                                    <td>{department.departmentNo}</td>
                                     <td>{department.departmentName}</td>
                                     <td>
                                         {department.menuNo && department.menuNo.length > 0
@@ -616,11 +621,9 @@ useEffect(() => {
                 </table>
             </article>
 
-            <div className="wrapper-footer">
-                <div className="flex" style={{justifyContent: "end", marginBottom: "20px"}}>
-                    <div>
-                        <button className="btn" style={{marginRight: "6px"}} onClick={() => setModalOpen(true)}>등록</button>
-                    </div>
+            <div className="buttons">
+                <div className="regist-right" style={{justifyContent: "end", marginBottom: "20px"}}>
+                        <button className="register" style={{marginRight: "6px"}} onClick={() => setModalOpen(true)}>등록</button>
                 </div>
             </div>
 
@@ -647,7 +650,7 @@ useEffect(() => {
                                                         id="departmentNo"
                                                         value={formValues.departmentNo}
                                                         style={{textAlign:"center"}}
-                                                        readOnly  // 부서번호는 수정 불가
+                                                        readOnly
                                                     />
                                                 </td>
                                                 <td colSpan="2">
@@ -661,14 +664,15 @@ useEffect(() => {
                                                         onChange={handleChange}
                                                         placeholder="부서명"
                                                         style={{textAlign:"center"}}
-                                                        className={submitted && errors.departmentName ? 'input-error' : ''}
-                                                        required
                                                     />
+                                                    {submitted && errors.departmentName && (
+                                                            <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>※ 부서명은 필수 항목입니다</p>
+                                                    )}
                                                 </td>
                                             </tr>
                                             <tr className="left-row">
                                                 <td colSpan="2">
-                                                    <label>사용 가능 메뉴:</label>
+                                                    <label>사용가능메뉴</label>
                                                 </td>
                                                 <td colSpan="6">
                                                     <div className="flex" style={{alignItems: "center",justifyContent:"center"}}>
@@ -696,7 +700,7 @@ useEffect(() => {
                                             </tbody>
                                         </table>
                                         <div className="popup-buttons">
-                                            <button type="submit" className="popup-btn modify">저장</button>
+                                            <button type="submit" className="popup-btn modify">등록</button>
                                             <button
                                                 type="button"
                                                 className="popup-btn close"
@@ -745,12 +749,15 @@ useEffect(() => {
                                                 type="text"
                                                 id="departmentName"
                                                 value={formValues.departmentName}
-                                                style={{textAlign:"center"}}
                                                 onChange={(e) => setFormValues({
                                                     ...formValues,
                                                     departmentName: e.target.value
                                                 })}
+                                                style={{ textAlign: "center" }}
                                             />
+                                            {submitted && errors.departmentName && (
+                                                <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>※ 부서명은 필수 항목입니다</p>
+                                            )}
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -796,8 +803,19 @@ useEffect(() => {
                                         직원
                                     </button>
                                     <button type="submit" className="popup-btn modify">저장</button>
-                                    <button type="button" className="popup-btn close"
-                                            onClick={() => setDepartmentDetailPopupOpen(false)}>닫기
+                                    <button
+                                        type="button"
+                                        className="popup-btn close"
+                                        onClick={() => {
+                                            setDepartmentDetailPopupOpen(false);  // 모달창 닫기
+                                            setErrors({
+                                                departmentNo: false,
+                                                departmentName: false,
+                                            });
+                                            setSubmitted(false);  // 폼 제출 상태도 초기화
+                                        }}
+                                    >
+                                        닫기
                                     </button>
                                 </div>
                             </form>

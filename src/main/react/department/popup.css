@@ -87,6 +87,7 @@
 }
 
 .contract-form label {
+    margin-left: 5px;
     margin-bottom: 5px;
     padding-right: 20px;
 }
