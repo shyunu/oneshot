@@ -50,33 +50,6 @@ public class ContractController {
         return "redirect:/sales/contract";
     }
 
-    @PostMapping("/modifyForm") //--- 계약 수정
-    public String modifyForm(ContractVO vo) {
-        System.out.println("vo = " + vo);
-
-        for(ContractItemVO item : vo.getContractItems()) {
-            System.out.println("ContractController.modifyForm");
-            ContractVO contractVO = new ContractVO();
-
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-            contractVO.setContractSdate(vo.getContractSdate());
-            contractVO.setContractEdate(vo.getContractEdate());
-            contractVO.setContractPriceStatus(vo.getContractPriceStatus());
-            contractVO.setProductNo(item.getProductNo());
-            contractVO.setProductName(item.getProductName());
-            contractVO.setContractPrice(item.getContractPrice());
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-
-            System.out.println("contractVO = " + contractVO);
-            
-            contractService.contractModify(contractVO);
-        }
-
-
-        return "redirect:/sales/contract";
-
-    }
-
     // ----- 날짜 데이터 변환 ----- //
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -89,7 +62,4 @@ public class ContractController {
     public String submitForm(ContractVO contractVO) {
         return "result";
     }
-
-
-
 }
