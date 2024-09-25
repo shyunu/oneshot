@@ -99,6 +99,8 @@ td {
     border: 1px solid #e3e3e3;
 }
 
+
+
 /* 각 열의 기본 최소 너비 설정 */
 #dataTable th:nth-child(1), #dataTable td:nth-child(1) { width: 3%; }
 #dataTable th:nth-child(2), #dataTable td:nth-child(2) { width: 6%; }
@@ -148,7 +150,6 @@ td {
 #purchaseTable th:nth-child(7), #purchaseTable td:nth-child(7) { width: 9%; }  /* 총가격 */
 #purchaseTable th:nth-child(8), #purchaseTable td:nth-child(8) { width: 10%; }  /* 담당자 */
 #purchaseTable th:nth-child(9), #purchaseTable td:nth-child(9) { width: 15%; }  /* 구매일 */
-
 
 
 
@@ -238,7 +239,7 @@ td {
 
 .popup-list table p {
     margin: 0;
-    height: 0px;
+    height: 28px;
 }
 
 .product_list:hover {
@@ -317,6 +318,7 @@ td {
     background-color: #f0f0f0;
     color: #888;
 }
+
 
 .popup-button {
     height: 50px;
@@ -449,10 +451,7 @@ button:active {
     width: 100%;
 }
 
-.purchase-table {
-    white-space: nowrap;
-    width: 10%;
-}
+
 
 
 
@@ -530,8 +529,13 @@ button:active {
 
 
 /* ----------------------------------------------------- */
+.purchase-table {
+    white-space: nowrap;
+    width: 10%;
+}
+
 .purchase-table td {
-    width: 8%;
+    width: 13%;
 }
 
 .error-text {
@@ -541,23 +545,22 @@ button:active {
     display: none;
 }
 
+
+
 /* ----------------------------------------------------- */
 /* supplier */
 .supplier-regist-table table p {
     height: 20px;
 }
-.supplier-regist-table td:nth-of-type(1) {
-    width: 20%;
-}
-.supplier-regist-table td:nth-of-type(2) {
-    width: 30%;
-}
+.supplier-regist-table td:nth-of-type(1),
 .supplier-regist-table td:nth-of-type(3) {
     width: 20%;
 }
+.supplier-regist-table td:nth-of-type(2),
 .supplier-regist-table td:nth-of-type(4) {
     width: 30%;
 }
+
 
 /* 강제 스타일 */
 .hidden {

@@ -116,8 +116,8 @@
                         <table id="inputContainer" class="purchase-table">
                             <tbody>
                                 <tr>
-                                    <td><p>카테고리</p></td>
-                                    <td colspan="2">
+                                    <td colspan="2"><p>카테고리</p></td>
+                                    <td colspan="3">
                                         <select class="categoryNo" name="categoryNo" onchange="changeCategoryNo(event)" required></select>
                                         <br><p id="categoryErrorText" class="error-text">※ 카테고리 선택은 필수입니다.</p>
                                     </td>
@@ -130,17 +130,19 @@
                                     <td><input type="text" name="inventoryQuantity" disabled></td>
                                     <td><p>안전재고수량</p></td>
                                     <td><input type="text" name="safetyQuantity" disabled></td>
-                                    <td rowspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow(event)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
+<!--                                    <td colspan="2" style="vertical-align: bottom;"><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button><button type="button" class="remove-button" onclick="removeRow(event)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>-->
                                 </tr>
                                 <tr>
-                                    <td><p>구매수량</p></td>
+                                    <td colspan="2"><p>구매수량</p></td>
                                     <td colspan="3"><input type="text" name="purchaseQuantity" required oninput="calculateSubtotal(this); productcalculateSubTotal(this)">
                                         <br><p class="error-text">※ 구매수량 입력은 필수입니다.</p><p class="error-text" id="productcalculateSubTotalResult" style="display: none">※ 구매수량은 숫자만 입력 가능합니다.</p></td>
                                     <td><p>구매가격</p></td>
                                     <td colspan="3"><input type="text" name="purchasePrice" required oninput="calculateSubtotal(this); productPurchaseQuantity(this)">
                                         <br><p class="error-text">※ 구매가격 입력은 필수입니다.</p><p class="error-text" id="productPurchaseQuantityResult" style="display: none">※ 구매가격은 숫자만 입력 가능합니다.</p></td>
                                     <td><p>소계</p></td>
-                                    <td colspan="2"><input type="text" name="subtotalPrice" disabled></td>
+                                    <td><input type="text" name="subtotalPrice" disabled></td>
+                                    <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
+                                    <td><button type="button" class="remove-button" onclick="removeRow(event)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
                                 </tr>
                             </tbody>
                         </table>
