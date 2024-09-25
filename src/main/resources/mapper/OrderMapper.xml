@@ -127,7 +127,12 @@
         H.ORDER_STATUS,
         H.DELIVERY_STATUS,
         H.DELIVERY
-        ORDER BY H.ORDER_HEADER_NO DESC
+        ORDER BY
+            CASE
+                WHEN H.DELIVERY_STATUS = '배송완료' THEN 1
+                ELSE 0
+            END,
+        H.ORDER_HEADER_NO DESC
         limit #{amount} offset #{pageStart}
     </select>
 
@@ -239,14 +244,17 @@
     </select>
 
     <!-- 판매내역 수정하기 -->
-    <update id="updateStatus" parameterType="orderVO">
+    <update id="updateDeliveryStatus" parameterType="java.util.List">
         UPDATE ORDER_HEADER
         SET
-        ORDER_STATUS = #{orderStatus},
-        DELIVERY_STATUS = #{deliveryStatus},
-        DELIVERY = #{delivery}
-        WHERE ORDER_HEADER_NO = #{orderHeaderNo}
+        DELIVERY_STATUS = '배송완료',
+        DELIVERY = CURRENT_DATE
+        WHERE ORDER_HEADER_NO IN
+        <foreach item="orderHeaderNo" collection="list" open="(" separator="," close=")">
+            #{orderHeaderNo}
+        </foreach>
     </update>
+
     <update id="updateItem" parameterType="orderItemVO">
         UPDATE ORDER_ITEM
         SET

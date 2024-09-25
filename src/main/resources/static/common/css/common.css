@@ -566,3 +566,12 @@ button:active {
 .supplier-regist-table td:nth-of-type(4) {
     width: 20%;
 }
+
+/* 강제 스타일 */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
