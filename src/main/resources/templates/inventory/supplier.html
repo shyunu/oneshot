@@ -52,21 +52,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}" class="product_list">
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierNo}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierName}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierAddress}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierBusinessNo}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerName}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerPhone}"></td>
-                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerEmail}"></td>
-                        <td>
-                            <a th:if="${supplier.supplierFile != null}"
-                               th:href="@{/inventory/viewFile/{fileName}(fileName=${supplier.supplierFile})}"
-                               target="_blank">조회
-                            </a>
-                        </td>
-                    </tr>
+                <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}" class="product_list">
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierNo}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierName}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierAddress}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierBusinessNo}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerName}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerPhone}"></td>
+                    <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerEmail}"></td>
+                    <td>
+                        <a th:if="${supplier.supplierFile != null}"
+                           th:href="@{/inventory/viewFile/{fileName}(fileName=${supplier.supplierFile})}"
+                           target="_blank">조회
+                        </a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
@@ -90,32 +90,40 @@
                     <div class="popup-list supplier-regist-table">
                         <table>
                             <tbody>
-                                <tr>
-                                    <td><p>공급업체번호</p></td>
-                                    <td><input type="text" name="supplierNo" disabled></td>
-                                    <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" oninput="checkValue(this)" required><br><p class="error-text">※ 담당자명 입력은 필수입니다.</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" oninput="checkValue(this); checkSupplierName(event)" class="error-box" required><br>
-                                        <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
-                                        <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p></td>
-                                    <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone" oninput="checkValue(this)" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required><br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress" oninput="checkValue(this)" required><br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
-                                    <td><p>담당자 이메일</p></td>
-                                    <td><input type="email" name="managerEmail" oninput="checkValue(this)" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required><br><p class="error-text">※ 담당자 이메일 입력은 필수입니다.</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체 사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" oninput="checkValue(this)" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required><br><p class="error-text">※ 공급업체 사업자등록번호 입력은 필수입니다.</p></td>
-                                    <td><p>첨부파일</p></td>
-                                    <td><input type="file" name="supplierFile" oninput="checkValue(this)" required><br><p class="error-text">※ 파일첨부는 필수입니다.</p></td>
-                                </tr>
+                            <tr>
+                                <td><p>공급업체번호</p></td>
+                                <td><input type="text" name="supplierNo" disabled></td>
+                                <td><p>담당자명</p></td>
+                                <td><input type="text" id="managerName" name="managerName" oninput="checkValue(this)" required><br><p class="error-text">※ 담당자명 입력은 필수입니다.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체명</p></td>
+                                <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event)" class="error-box" required><br>
+                                    <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
+                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p></td>
+
+                                <td><p>담당자 연락처</p></td>
+                                <td><input type="text" id="managerPhone" name="managerPhone" oninput="checkValue(this); checkManagerPhone(event)" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
+                                    <br>
+                                    <p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p></td>
+                                    <p id="checkManagerPhone" class="error-text" style="display: none;">※ 올바른 전화번호 형식을 입력하세요.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체주소</p></td>
+                                <td><input type="text" id="supplierAddress" name="supplierAddress" oninput="checkValue(this)" required><br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
+
+                                <td><p>담당자 이메일</p></td>
+                                <td><input type="email" id="managerEmail" name="managerEmail" oninput="checkValue(this)" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required>
+                                    <br><p class="error-text">※ 담당자 이메일 입력은 필수입니다.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체 사업자등록번호</p></td>
+                                <td><input type="text" id="supplierBusinessNo" name="supplierBusinessNo" oninput="checkValue(this)" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required>
+                                    <br><p class="error-text">※ 공급업체 사업자등록번호 입력은 필수입니다.</p></td>
+
+                                <td><p>첨부파일</p></td>
+                                <td><input type="file" id="supplierFile" name="supplierFile" oninput="checkValue(this)" required><br><p class="error-text">※ 파일첨부는 필수입니다.</p></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -136,33 +144,33 @@
                     <div class="popup-list">
                         <table>
                             <tbody>
-                                <tr>
-                                    <td><p>공급업체번호</p></td>
-                                    <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
-                                    <td><p>담당자명</p></td>
-                                    <td><input type="text" name="managerName" id="modifyManagerName" required></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체명</p></td>
-                                    <td><input type="text" name="supplierName" id="modifySupplierName" required></td>
-                                    <td><p>담당자 연락처</p></td>
-                                    <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체주소</p></td>
-                                    <td><input type="text" name="supplierAddress" id="modifySupplierAddress" required></td>
-                                    <td><p>담당자 이메일</p></td>
-                                    <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
-                                </tr>
-                                <tr>
-                                    <td><p>공급업체 사업자등록번호</p></td>
-                                    <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
-                                    <td><p>첨부파일</p></td>
-                                    <td>
-                                        <input type="file" name="supplierFile" id="modifySupplierFile">
-                                        <input type="hidden" name="existingFile" id="existingFile">
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><p>공급업체번호</p></td>
+                                <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
+                                <td><p>담당자명</p></td>
+                                <td><input type="text" name="managerName" id="modifyManagerName" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체명</p></td>
+                                <td><input type="text" name="supplierName" id="modifySupplierName" required></td>
+                                <td><p>담당자 연락처</p></td>
+                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체주소</p></td>
+                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" required></td>
+                                <td><p>담당자 이메일</p></td>
+                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                            </tr>
+                            <tr>
+                                <td><p>공급업체 사업자등록번호</p></td>
+                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                <td><p>첨부파일</p></td>
+                                <td>
+                                    <input type="file" name="supplierFile" id="modifySupplierFile">
+                                    <input type="hidden" name="existingFile" id="existingFile">
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -214,31 +222,46 @@
         });
     }
 
+    //여기작성할거임
+    function checkManagerPhone(event) {
+        const managerPhone = event.target.value;
+    }
+
+
     function saveSupplier() {
-        if($("#checkSupplierName").css("display") === "none") {
-            $("#registerSupplier").submit();
+        let hasError = false;
+
+        $(".error-text").each(function(index, item) {
+            if ($(item).css("display") !== "none") {
+                hasError = true;
+                return false;  // 첫 번째 에러 발견 시 반복문 종료
+            }
+        });
+
+        if (!hasError) {
+            $("#registerSupplier").submit();  // 에러가 없을 때만 폼 제출
         }
     }
 
     // 공급업체의 정보 조회 후 수정 모달에 표시
     function openModifyModal(supplierNo) {
         fetch(`/inventory/getSupplierByNo/${supplierNo}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('modifySupplierNo').value = data.supplierNo;
-            document.getElementById('modifySupplierName').value = data.supplierName;
-            document.getElementById('modifySupplierAddress').value = data.supplierAddress;
-            document.getElementById('modifySupplierBusinessNo').value = data.supplierBusinessNo;
-            document.getElementById('modifyManagerName').value = data.managerName;
-            document.getElementById('modifyManagerPhone').value = data.managerPhone;
-            document.getElementById('modifyManagerEmail').value = data.managerEmail;
-            document.getElementById('existingFile').value = data.supplierFile;
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('modifySupplierNo').value = data.supplierNo;
+                document.getElementById('modifySupplierName').value = data.supplierName;
+                document.getElementById('modifySupplierAddress').value = data.supplierAddress;
+                document.getElementById('modifySupplierBusinessNo').value = data.supplierBusinessNo;
+                document.getElementById('modifyManagerName').value = data.managerName;
+                document.getElementById('modifyManagerPhone').value = data.managerPhone;
+                document.getElementById('modifyManagerEmail').value = data.managerEmail;
+                document.getElementById('existingFile').value = data.supplierFile;
 
-            document.getElementById('popup-modify').style.display = "flex"; // 수정 모달창 열기
-        })
-        .catch(error => {
-            alert('오류가 발생했습니다.');
-        });
+                document.getElementById('popup-modify').style.display = "flex"; // 수정 모달창 열기
+            })
+            .catch(error => {
+                alert('오류가 발생했습니다.');
+            });
     }
 
     // 수정된 정보 서버로 전송 후 저장
@@ -256,20 +279,20 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('성공적으로 수정되었습니다.');
-                closeModal();
-                updateTableRow(formData);
-            }
-            else {
-                alert('수정에 실패했습니다: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('오류가 발생했습니다: ' + error.message);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('성공적으로 수정되었습니다.');
+                    closeModal();
+                    updateTableRow(formData);
+                }
+                else {
+                    alert('수정에 실패했습니다: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('오류가 발생했습니다: ' + error.message);
+            });
     }
 
     // 테이블 행 업데이트
