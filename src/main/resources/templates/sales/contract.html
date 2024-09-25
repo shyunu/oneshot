@@ -32,82 +32,6 @@
             isDragging = false;
         });
     }
-
-    let selectedProducts = []; // 선택된 상품 목록을 저장
-
-    function changeHandle() {
-        if(selectedProducts.length > 0) {
-            selectedProducts.pop();
-        }
-        selectedProducts.push(event.target.value);
-    }
-
-    // regist - 상품품목 및 책정거래가 새로운 input 추가
-    function addRow() {
-        const rows = document.querySelectorAll('#inputContainer tr');
-        const lastRow = rows[rows.length - 1];
-
-        console.log(event.target.closest('tr'));
-        event.target.closest('tr').querySelector('select').readonly = true;
-
-        const newRow = lastRow.cloneNode(true); //복사해서 배열에 들어있는 값 disabled x
-        newRow.querySelectorAll('select option').forEach((item, index) => {
-            console.log(item);
-            if(selectedProducts.includes(item.value)) {
-                item.disabled = true;
-            }
-        });
-
-        const newRowInputs = newRow.querySelectorAll('input, select');
-
-        // 새로운 행의 입력 필드 name 속성 업데이트
-        newRowInputs.forEach((element) => {
-            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
-        });
-
-        // 새로운 행의 값 초기화 및 이벤트 리스너 추가
-        newRow.querySelectorAll('input').forEach(input => {
-            input.value = '';
-            input.readOnly = false;
-        });
-
-        // 상품 선택 필드에 이벤트 리스너 추가
-        const productSelect = newRow.querySelector('.productNo');
-        productSelect.onchange = function(event) {
-            const selectedValue = event.target.value;
-            if (selectedValue) {
-                selectedProducts.push(selectedValue); // 선택된 상품 추가
-            }
-            disableSelectedProducts(); // 선택된 상품 비활성화
-        };
-
-        // 삭제 버튼 클릭 시 선택된 상품 목록에서 제거
-        const removeButton = newRow.querySelector('.remove-button');
-        removeButton.addEventListener('click', function() {
-            const selectedValue = productSelect.value;
-            if (selectedValue) {
-                selectedProducts = selectedProducts.filter(item => item !== selectedValue);
-            }
-            removeRow(removeButton);
-            disableSelectedProducts(); // 업데이트된 선택된 상품 비활성화
-        });
-
-        document.getElementById('inputContainer').appendChild(newRow);
-        disableSelectedProducts(); // 새로운 행 추가 후 선택된 상품 비활성화
-    }
-
-    function removeRow(button) {
-        // 버튼이 위치한 행을 찾는다
-        const row = button.closest('tr');
-
-        // 해당 행에 `add-button`이 있는지 확인
-        const addButton = row.querySelector('.add-button');
-
-        // `add-button`이 없는 경우에만 행을 삭제
-        if (!addButton) {
-            row.remove();
-        }
-    }
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
@@ -185,13 +109,13 @@
                     <th>no</th>
                     <th>고객사명</th>
                     <th>고객사담당자</th>
-                    <th>상품품목명</th>
+                    <th>상품명</th>
                     <th>계약가격</th>
                     <th>계약시작일</th>
                     <th>계약종료일</th>
                     <th>본사담당자</th>
                     <th>계약상태</th>
-                    <th>계약만료예정</th>
+                    <th>계약만료일</th>
                 </tr>
                 </thead>
 
@@ -201,7 +125,7 @@
                     <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
-                    <td th:text="${vo.contractPrice}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.contractPrice} + 원" onclick="handleClick(event)"></td>
                     <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
                     <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
@@ -212,10 +136,7 @@
             </table>
 
             <div class="buttons">
-                <div class="button-left">
-<!--                    <button>Excel로 내보내기</button>-->
-<!--                    <button>계약서 저장</button>-->
-                </div>
+                <div class="button-left"></div>
                 <button class="button-regist button-right" onclick="handleClick2(event)">거래등록</button>
             </div>
 
@@ -235,64 +156,53 @@
                     <div class="popup-list">
                         <table>
                             <tbody>
-                            <tr>
-                                <td><p>고객사명</p></td>
-                                <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
-                                <td><p>사업자등록번호</p></td>
-                                <td colspan="4"><input type="text" class="clientBusinessNo" disabled></td>
-                            </tr>
-                            <tr>
-                                <td><p>고객사담당자</p></td>
-                                <td><input type="text" class="managerName" readonly style="background-color: #f0f0f0; color: #777777"></td>
-                                <td><p>고객사담당자 전화번호</p></td>
-                                <td colspan="4"><input type="text" class="managerPhone" disabled></td>
-                            </tr>
+                                <tr>
+                                    <td><p>고객사명</p></td>
+                                    <td><select class="clientName" onchange="updateInfo(event)" name="clientNo"></select></td>
+                                    <td><p>사업자등록번호</p></td>
+                                    <td><input type="text" class="clientBusinessNo" disabled></td>
+                                </tr>
+                                <tr>
+                                    <td><p>고객사담당자</p></td>
+                                    <td><input type="text" class="managerName" readonly style="background-color: #f0f0f0; color: #777777"></td>
+                                    <td><p>고객사담당자 전화번호</p></td>
+                                    <td><input type="text" class="managerPhone" disabled></td>
+                                </tr>
 
-                            <tr>
-                                <td><p>본사담당자</p></td>
-                                <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" readonly style="background-color: #f0f0f0; color: #777777"></td>
+                                <tr>
+                                    <td><p>본사담당자</p></td>
+                                    <td><input type="text" class="employeeName" th:value="${#authentication.principal.employeeName}" readonly style="background-color: #f0f0f0; color: #777777"></td>
+                                    <td><p>본사담당자 전화번호</p></td>
+                                    <td><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
+                                </tr>
 
-                                <td><p>본사담당자 전화번호</p></td>
-                                <td colspan="4"><input type="text" class="employeePhone" th:value="${#authentication.principal.employeePhone}" disabled></td>
-                            </tr>
+                                <tr>
+                                    <td><p>계약시작일</p></td>
+                                    <td><input type="date" id="registContractSdate" name="contractSdate" required></td>
+                                    <td><p>계약종료일</p></td>
+                                    <td>
+                                        <input type="date" id="registContractEdate" name="contractEdate" required>
+                                        <p id="dateError" style="color: red; font-size: 12px;"></p>
+                                    </td>
+                                </tr>
+                                <tr class="addList">
+                                    <td><p>상품품목명</p></td>
+                                    <td>
+                                        <select class="productNo" name="productNo" onchange="changeHandle()">
+                                            <option>-상품-</option>
+                                        </select>
+                                    </td>
 
-                            <tr>
-                                <td><p>계약시작일</p></td>
-                                <td><input type="date" id="registContractSdate" name="contractSdate" required></td>
-
-                                <td><p>계약종료일</p></td>
-                                <td colspan="4">
-                                    <input type="date" id="registContractEdate" name="contractEdate" required>
-                                    <p id="dateError" style="color: red; font-size: 12px;"></p>
-                                </td>
-                            </tr>
-
-                            </tbody>
-                            <tbody id="inputContainer" class="input-wrapper">
-                            <tr class="addList">
-                                <td><p>상품품목명</p></td>
-                                <td>
-                                    <select colspan="3" class="productNo" name="productNo" onchange="changeHandle()">
-                                        <option>-상품-</option>
-                                    </select>
-                                </td>
-
-                                <td class="product-price">
-                                    <p>책정거래가</p>
-                                </td>
-
-                                <td style="text-align: left;">
-                                    <input type="number" colspan="3" name="contractPrice">
-                                <td><button type="button" class="add-button" onclick="addRow()" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가</button></td>
-                                <td><button type="button" class="remove-button" onclick="removeRow(this)" style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">제거</button></td>
-                                </td>
-                            </tr>
+                                    <td class="product-price">
+                                        <p>책정거래가</p>
+                                        <input type="number" name="contractPrice">
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="popup-button">
                         <div class="button-left">
-                    <!--<button>계약서 첨부</button>-->
                         </div>
                         <div class="button-right">
                             <button type="submit" id="registerButton">등록</button>
@@ -439,7 +349,7 @@
             type: 'get',
             dataType: 'json',
             success: function(data2) {
-                var html = '<option>-상품-</option>';
+                var html = '<option value="">-상품-</option>';
                 $.each(data2, function(index2, obj2) {
                     html += '<option value="' + obj2.productNo + '">' + obj2.productName + '</option>';
                 });
@@ -535,6 +445,5 @@
 
     // 등록팝업창 열기
     const registBtn = document.getElementById('button-regist');
-    // registBtn.addEventListener('click', openPopup);
 </script>
 </html>

@@ -59,29 +59,26 @@
     </select>
 
     <!-- 계약 등록 기능 -->
-    <insert id="getRegist" parameterType="java.util.List">
+    <insert id="getRegist" parameterType="ContractVO">
         INSERT INTO CONTRACT_PRICE (
-        CONTRACT_PRICE_NO,
-        PRODUCT_NO,
-        EMPLOYEE_NO,
-        CLIENT_NO,
-        CONTRACT_SDATE,
-        CONTRACT_EDATE,
-        CONTRACT_PRICE,
-        CONTRACT_PRICE_STATUS
+            CONTRACT_PRICE_NO,
+            PRODUCT_NO,
+            EMPLOYEE_NO,
+            CLIENT_NO,
+            CONTRACT_SDATE,
+            CONTRACT_EDATE,
+            CONTRACT_PRICE,
+            CONTRACT_PRICE_STATUS
         )
         VALUES
-
-        <foreach collection="list" item="list" separator=",">
             (nextval('contract_price_seq'),
-            #{list.productNo},
-            #{list.employeeNo},
-            #{list.clientNo},
-            #{list.contractSdate},
-            #{list.contractEdate},
-            #{list.contractPrice},
+            #{productNo},
+            #{employeeNo},
+            #{clientNo},
+            #{contractSdate},
+            #{contractEdate},
+            #{contractPrice},
             '-')
-        </foreach>
     </insert>
 
     <!-- 겹치는 계약을 조회하는 SQL -->
@@ -89,9 +86,9 @@
         SELECT *
         FROM contract_price
         WHERE client_no = #{clientNo}
-          AND product_no = #{productNo}
-          AND contract_sdate &lt;= #{contractEdate}
-          AND contract_edate &gt;= #{contractSdate}
+        AND product_no = #{productNo}
+        AND (contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
+        OR contract_edate BETWEEN #{contractSdate} AND #{contractEdate})
     </select>
 
     <!-- 기존 계약의 시작 날짜를 업데이트하는 SQL -->
@@ -100,8 +97,8 @@
         SET contract_sdate = DATE_ADD(#{contractEdate}, INTERVAL 1 DAY)
         WHERE client_no = #{clientNo}
         AND product_no = #{productNo}
-        AND contract_sdate &lt;= #{contractEdate}
-        AND contract_edate &gt;= #{contractSdate}
+        <![CDATA[ AND contract_sdate &lt;= #{contractEdate} ]]>
+        <![CDATA[ AND contract_edate &gt;= #{contractSdate} ]]>
     </update>
 
     <select id="getClientList" resultType="ClientVO">
@@ -190,4 +187,49 @@
         ) AS SUBQUERY
     </select>
 
+    <select id="getContractProduct" resultType="ContractVO">
+        select * from contract_price where product_no = #{productNo}
+    </select>
+
+    <select id="countOverlappingContracts" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM contract_price
+        WHERE product_no = #{productNo}
+        AND client_no = #{clientNo}
+        AND (
+        <![CDATA[ (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+        )
+    </select>
+
+    <update id="updateOverlappingContract">
+        UPDATE contract_price
+        SET contract_sdate = #{newEndDate}
+        WHERE product_no = #{productNo}
+        <![CDATA[ AND contract_sdate <= #{contractEdate} ]]>
+        <![CDATA[ AND contract_edate >= #{contractSdate} ]]>
+    </update>
+
+    <select id="getOverlappingContracts" parameterType="map" resultType="ContractVO">
+        SELECT * FROM contract_price
+        WHERE product_no = #{productNo}
+        <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+    </select>
+
+    <update id="updateContract" parameterType="ContractVO">
+        UPDATE contract_price
+        SET
+        contract_sdate = #{contractSdate},
+        contract_edate = #{contractEdate},
+        contract_price = #{contractPrice},
+        contract_price_status = #{contractPriceStatus}
+        WHERE contract_price_no = #{contractPriceNo}
+        AND product_no = #{productNo}
+    </update>
+
+    <delete id="deleteContract" parameterType="ContractVO">
+        DELETE FROM contract_price
+        WHERE product_no = #{productNo}
+        AND contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
+        AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
+    </delete>
 </mapper>

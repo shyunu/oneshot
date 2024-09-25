@@ -43,23 +43,4 @@ public class ContractRestController {
         List<ContractVO> result = contractService.getContractDetails(contractPriceNo);
         return result;
     }
-
-    @PostMapping("/updateContract")
-    public ResponseEntity<?> checkContractOverlap(@RequestParam String contractSdate,
-                                                  @RequestParam Date contractEdate,
-                                                  @RequestParam int clientNo,
-                                                  @RequestParam int productNo) {
-        // 기존 계약과 날짜가 겹치는지 확인
-        ContractVO ContractVO;
-        List<ContractVO> contractDate = contractService.updateContract(clientNo, productNo, contractSdate, contractEdate);
-
-        if (!contractDate.isEmpty()) {
-            return ResponseEntity.ok(Map.of("overlap", true, "contracts", contractDate));
-        }
-
-        else {
-            return ResponseEntity.ok(Map.of("overlap", false));
-        }
-    }
-
 }
