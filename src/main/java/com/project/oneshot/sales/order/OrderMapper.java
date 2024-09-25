@@ -27,14 +27,13 @@ public interface OrderMapper {
     public ClientVO getClientContent(int clientNo); //고객사 상세정보 조회
     public List<ContractVO> getProductList(int clientNo); //상품조회
     public int getProductPrice(@Param("clientNo") int clientNo, @Param("productNo") int productNo); //계약가격조회
-//    public List<CategoryVO> getCategory(int productNo); //카테고리 조회
 
     public int getTotalCount(OrderCriteria cri);
 
     public void updateStatus(OrderVO vo); //업데이트(상태)
     public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 
-    void changeProductStatus();
+    public void changeProductStatus();
 
-    int getInventoryQuantity(int productNo);
+    public int getInventoryQuantity(int productNo);
 }
