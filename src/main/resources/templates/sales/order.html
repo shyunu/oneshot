@@ -210,7 +210,7 @@
                         <td th:text="${#dates.format(vo.orderSdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${vo.clientName}" onclick="handleClick(this.innerHTML)"></td>
                         <td th:text="${vo.productNames}"></td>
-                        <td th:text="${vo.totalAmount} + '원'"></td>
+                        <td th:text="${#numbers.formatInteger(vo.totalAmount, 3, 'COMMA') + '원'}"></td>
                         <td th:text="${vo.employeeName}" ></td>
 <!--                        <td th:text="${vo.orderStatus}" ></td>-->
                         <td th:text="${vo.deliveryStatus}" ></td>
@@ -221,10 +221,10 @@
             </table>
 
             <div class="buttons">
-<!--                <div class="button-left">-->
-<!--                    <button>Excel로 내보내기</button>-->
+                <div class="button-left">
+<!--                    <button onclick="exportToExcel()">Excel로 내보내기</button>-->
 <!--                    <button>계약서 저장</button>-->
-<!--                </div>-->
+                </div>
                 <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
             </div>
 
@@ -251,39 +251,45 @@
                             <td colspan="2"><input type="text" name="clientName" id="modiClientName" readonly></td>
                         </tr>
                         </tbody>
-
+                        <tbody>
+                        <tr>
+                            <td><p>판매담당자</p></td>
+                            <td><input type="text" name="employeeName" id="modiEmployeeName" readonly></td>
+                            <!--                                <td><p>판매승인상태 *</p></td>-->
+                            <!--                                <td><input name="orderStatus" id="modiOrderStatus" readonly></td>-->
+                            <td class="deliveryStatus"><p>배송상태</p></td>
+                            <td>
+                                <select name="deliveryStatus" id="deliveryStatus" onchange="updateDeliveryDate()" disabled>
+                                    <option selected>-</option>
+                                    <option>배송대기</option>
+                                    <option>배송중</option>
+                                    <option>배송완료</option>
+                                </select>
+                            </td>
+                            <td colspan="2"><p>배송일</p></td>
+                            <td colspan="2"><input type="text" id="deliveryDate" name="delivery" readonly></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="order-modify-table-list">
+                        <thead>
+                        <tr>
+                            <th>상품품목명</th>
+                            <th>책정거래가</th>
+                            <th>개수</th>
+                            <th>금액</th>
+                        </tr>
+                        </thead>
                         <tbody class="order-items-tbody">
                             <tr class="modify-items-detail" style="white-space: nowrap;">
-                                <td><p>상품품목명</p></td>
                                 <td><input type="text" name="orderItems[0].productName[]" class="productName" readonly></td>
-                                <td><p>책정거래가</p></td>
                                 <td><input type="text" name="orderItems[0].contractPrice[]" class="contractPrice" readonly></td>
-                                <td><p>개수</p></td>
                                 <td><input type="number" name="orderItems[0].productQuantity[]" class="productQuantity"></td>
-                                <td><p>금액</p></td>
                                 <td><input type="number" name="orderItems[0].amount[]" class="amount"></td>
                             <tr>
                         </tbody>
-                        <tbody>
-                            <tr>
-                                <td><p>판매담당자</p></td>
-                                <td><input type="text" name="employeeName" id="modiEmployeeName" readonly></td>
-<!--                                <td><p>판매승인상태 *</p></td>-->
-<!--                                <td><input name="orderStatus" id="modiOrderStatus" readonly></td>-->
-                                <td class="deliveryStatus"><p>배송상태</p></td>
-                                <td>
-                                    <select name="deliveryStatus" id="deliveryStatus" onchange="updateDeliveryDate()" disabled>
-                                        <option selected>-</option>
-                                        <option>배송대기</option>
-                                        <option>배송중</option>
-                                        <option>배송완료</option>
-                                    </select>
-                                </td>
-                                <td colspan="2"><p>배송일</p></td>
-                                <td colspan="2"><input type="text" id="deliveryDate" name="delivery" readonly></td>
-                            </tr>
-                        </tbody>
                     </table>
+
                 </div>
                 <div class="popup-button">
                     <div class="button-left">
@@ -308,6 +314,7 @@
                 <h2>판매등록</h2>
                 <div class="popup-list">
                     <table class="order-regist-table">
+
                         <tbody>
                             <tr class="left-row">
                                 <td><p>등록일자</p></td>
@@ -550,13 +557,9 @@
                         $.each(data, function(index, item) {
                             var newRow = `
                         <tr style="white-space: nowrap;">
-                            <td><p>상품품목명</p></td>
                             <td><input type="text" name="orderItems[${index}].productName[]" value="${item.productName}" readonly></td>
-                            <td><p>책정거래가</p></td>
                             <td><input type="text" name="orderItems[${index}].contractPrice[]" value="${item.contractPrice}" readonly></td>
-                            <td><p>개수</p></td>
                             <td><input type="number" name="orderItems[${index}].productQuantity[]" class="productQuantity" value="${item.productQuantity}" oninput="updateAmount()" readonly></td>
-                            <td><p>금액</p></td>
                             <td><input type="number" name="orderItems[${index}].amount[]" class="amount" value="${item.amount}" readonly></td>
                         </tr>
 
@@ -867,27 +870,31 @@
     }
 
 
-
-    //수정버튼 누르면 작동할 기능
-    function editButtonClick() {
-
-        //readonly 속성 제거
-        const productQuantityInputs = document.querySelectorAll('input[name^="orderItems"][name$="productQuantity[]"]');
-        productQuantityInputs.forEach(input => {
-            input.removeAttribute('readonly');
-        });
-
-
-
-
-        // 수정 버튼 클릭 후에 일어날 동작
-        $('.modifyButton').css('display', 'none');
-        $('.modifySubmitButton').css('display', 'inline-block');
-        $('.approveButton').css('display', 'none');
-        $('.rejectButton').css('display', 'none');
-
-        checkOrderStatus();
-    }
+    // 페이지 로드 후 초기화
+    window.onload = initializeCurrency;
+//
+//
+//
+//    //수정버튼 누르면 작동할 기능
+//    function editButtonClick() {
+//
+//        //readonly 속성 제거
+//        const productQuantityInputs = document.querySelectorAll('input[name^="orderItems"][name$="productQuantity[]"]');
+//        productQuantityInputs.forEach(input => {
+//            input.removeAttribute('readonly');
+//        });
+//
+//
+//
+//
+//        // 수정 버튼 클릭 후에 일어날 동작
+//        $('.modifyButton').css('display', 'none');
+//        $('.modifySubmitButton').css('display', 'inline-block');
+//        $('.approveButton').css('display', 'none');
+//        $('.rejectButton').css('display', 'none');
+//
+//        checkOrderStatus();
+//    }
 
     //판매상태가 반려이면 배송관련 필드 비활성화하기
 //    function checkOrderStatus() {
@@ -940,7 +947,6 @@
     function closePopupRegist() {
         popupRegist.style.display = 'none';
     }
-
 
 </script>
 </html>
