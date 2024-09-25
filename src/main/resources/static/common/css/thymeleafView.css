@@ -327,7 +327,7 @@ body.dark .navbar {
     width: 100%;
 }
 
-.employeeName {
+.hearderEmployeeName {
     font-size: 1.2rem;
     font-weight: bold;
     color: #343a40;
@@ -339,14 +339,14 @@ body.dark .navbar {
     color: #6c757d;
     margin-top: 5px;
 }
-.departmentName {
+.hearderDepartmentName {
     border-radius: 4px 0 0 4px;
 }
-.positionName {
+.hearderPositionName {
     border-radius: 0 4px 4px 0;
 }
-.departmentName,
-.positionName {
+.hearderDepartmentName,
+.hearderPositionName {
     padding: 3px 8px;
     background-color: #e9ecef;
     border: 1px solid #dee2e6; /* 테두리 스타일을 추가 */

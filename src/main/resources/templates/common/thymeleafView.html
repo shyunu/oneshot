@@ -36,11 +36,11 @@
         <img th:src="@{'http://localhost:8181/hrm/images/' + ${#authentication.principal.employeePhotoPath}}" class="profile" />
         <div class="profileHeader">
             <div class="topSection">
-                <span class="employeeName">[[${#authentication.principal.employeeName}]]</span>
+                <span class="hearderEmployeeName">[[${#authentication.principal.employeeName}]]</span>
             </div>
             <div class="bottomSection">
-                <span class="departmentName">[[${#authentication.principal.departmentName}]]</span>
-                <span class="positionName">[[${#authentication.principal.positionName}]]</span>
+                <span class="hearderDepartmentName">[[${#authentication.principal.departmentName}]]</span>
+                <span class="hearderPositionName">[[${#authentication.principal.positionName}]]</span>
             </div>
         </div>
     </div>
