@@ -220,6 +220,14 @@ function Employee() {
         employeeEmail: (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(value) ? '' : '유효한 이메일 주소를 입력해주세요.';
+        },
+        employeePhone: (value) => {
+            const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
+            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
+        },
+        emergencyPhone:(value) => {
+            const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
+            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
         }
     };
 
@@ -833,11 +841,8 @@ function Employee() {
                                                    className="input-form"
                                                    value={newEmployee.employeePhone}
                                                    onChange={handleFormChange}
-                                                   pattern="01[016789][0-9]{3,4}[0-9]{4}"
-                                                   required
-                                                   autoComplete="off"
-                                                   title="올바른 휴대폰 번호 형식이 아닙니다. (예: 01012345678)"
                                             />
+                                            {errors.employeePhone && <p style={{ color: 'red' }}>{errors.employeePhone}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
@@ -846,11 +851,8 @@ function Employee() {
                                             <input type="tel" id="emergencyPhone" name="emergencyPhone"
                                                    className="input-form"
                                                    value={newEmployee.emergencyPhone} onChange={handleFormChange}
-                                                   pattern="01[016789][0-9]{3,4}[0-9]{4}"
-                                                   required
-                                                   autoComplete="off"
-                                                   title="올바른 휴대폰 번호 형식이 아닙니다. (예: 01012345678)"
                                             />
+                                            {errors.emergencyPhone && <p style={{ color: 'red' }}>{errors.emergencyPhone}</p>}
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -962,6 +964,7 @@ function Employee() {
                                                     accountHolder: '',
                                                     departmentName: ''
                                                 });
+                                                setErrors({});
                                             }}>닫기
                                     </button>
                                 </div>

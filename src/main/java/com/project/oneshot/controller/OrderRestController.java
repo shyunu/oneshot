@@ -82,4 +82,9 @@ public class OrderRestController {
         return orderService.getOrderItemCount(orderHeaderNo);
     }
 
+    // 분기별 판매 총액
+    @GetMapping("/getQuarterlyOrderAmount")
+    public List<Map<String, Object>> getQuarterlyOrderAmount() {
+        return orderService.getQuarterlyOrderAmount();
+    }
 }
