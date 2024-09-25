@@ -40,8 +40,11 @@ body {
 /* //////////////////////////////////////////////////////////// */
 
 input[readonly],
-select[readonly] {
+select[readonly],
+input[disabled],
+select[disabled] {
     background-color: #f0f0f0 !important;
+    color: #777 !important;
 }
 
 table {
@@ -303,7 +306,7 @@ td {
     display: inline-block;
     position: relative;
     height: 30px;
-    width: 50%;
+    width: 70%;
 }
 
 .popup-list p {
@@ -474,35 +477,56 @@ button:active {
     width: 5%;
 }
 .order-regist-table td:nth-of-type(4) {
-    width: 32%;
+    width: 0%;
 }
 .order-regist-table td:nth-of-type(5) {
     width: 5%;
 }
 .order-regist-table td:nth-of-type(6) {
-    width: 0%;
+    width: 8%;
 }
 .order-regist-table td:nth-of-type(7) {
-    width: 5%;
+    width: 8%;
 }
 .order-regist-table td:nth-of-type(8) {
-    width: 21%;
+    width: 15%;
 }
 .order-regist-table td:nth-of-type(9) {
     width: 6%;
 }
 .order-regist-table td:nth-of-type(10) {
-    width: 21%;
-}
-.order-regist-table td:nth-of-type(11) {
-    width: 21%;
+    width: 23%;
 }
 .order-regist-table td:nth-of-type(12) {
     width: 21%;
 }
-.order-modify-table td {
+
+.order-modify-table td:nth-of-type(1) {
     width: 10%;
 }
+.order-modify-table td:nth-of-type(2) {
+    width: 23%;
+}
+.order-modify-table td:nth-of-type(3) {
+    width: 10%;
+}
+.order-modify-table td:nth-of-type(4) {
+    width: 10%;
+}
+.order-modify-table td:nth-of-type(5) {
+    width: 7%;
+}
+.order-modify-table td:nth-of-type(6) {
+    width: 12%;
+}
+.order-modify-table td:nth-of-type(7) {
+    width: 7%;
+}
+.order-modify-table td:nth-of-type(8) {
+    width: 15%;
+}
+
+/* ----------------------------------------------------- */
 
 .purchase-table td {
     width: 8%;
