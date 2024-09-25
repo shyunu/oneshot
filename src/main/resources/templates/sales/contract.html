@@ -80,8 +80,8 @@
 
             <div class="buttons">
                 <div class="button-left">
-                    <button id="approveButton" class="button-right" th:if="${pageVO.cri.contractPriceStatus == '승인대기'}" onclick="rejectContract()">계약반려</button>
-                    <button id="rejectButton" class="button-right" th:if="${pageVO.cri.contractPriceStatus == '승인대기'}" onclick="approveContract()" style="margin-right: 3px !important;">계약승인</button>
+                    <button id="approveButton" class="button-right" th:if="${pageVO.cri.contractPriceStatus == '승인대기' and #authentication.principal.positionNo <= 8}" onclick="rejectContract()">계약반려</button>
+                    <button id="rejectButton" class="button-right" th:if="${pageVO.cri.contractPriceStatus == '승인대기' and #authentication.principal.positionNo <= 8}" onclick="approveContract()" style="margin-right: 3px !important;">계약승인</button>
                 </div>
                 <button class="button-right" onclick="handleClick2(event)">거래등록</button>
             </div>
