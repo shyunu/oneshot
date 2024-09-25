@@ -25,7 +25,7 @@ body {
     margin-bottom: 20px;
     padding: 5px;
     border-bottom: 1px solid #e3e3e3;
-    border-top: 1px solid #777;
+    border-top: 1px solid #e3e3e3;
 }
 .text-wrap p {
     font-size: 30px;
@@ -63,9 +63,9 @@ table p {
 th {
     padding: 5px;
     text-align: center;
-    background-color: #d9d9d9;
+    background-color: #f1f1f1;
     font-family: 'NanumBarunGothicBold'; /* 볼드체 */
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
 }
 
 td {
@@ -73,7 +73,7 @@ td {
     text-align: center;
     height: auto;
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
     font-size: 15px;
 }
 
@@ -84,7 +84,7 @@ td {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
 }
 
 /* 각 열의 기본 최소 너비 설정 */
@@ -96,8 +96,8 @@ td {
 #dataTable th:nth-child(6), #dataTable td:nth-child(6) { width: 10%; }
 #dataTable th:nth-child(7), #dataTable td:nth-child(7) { width: 10%; }
 #dataTable th:nth-child(8), #dataTable td:nth-child(8) { width: 10%; }
-#dataTable th:nth-child(8), #dataTable td:nth-child(8) { width: 10%; }
-#dataTable th:nth-child(8), #dataTable td:nth-child(8) { width: 10%; }
+#dataTable th:nth-child(9), #dataTable td:nth-child(9) { width: 10%; }
+#dataTable th:nth-child(10), #dataTable td:nth-child(10) { width: 10%; }
 
 
 /* supplierTable 안에 있는 th와 td에만 적용 */
@@ -107,7 +107,7 @@ td {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
     padding: 10px;
 }
 
@@ -128,7 +128,7 @@ td {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
     padding: 10px;
 }
 
@@ -150,7 +150,7 @@ td {
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px solid #777;
+    border: 1px solid #e3e3e3;
     padding: 10px;
 }
 
@@ -182,25 +182,29 @@ td {
 .page {
     display: inline-block;
 }
+
 .page li {
     float: left;
     padding: 8px 16px;
     transition: background-color .3s;
-    border: 1px solid #ddd;
     margin: 0 4px;
     list-style: none;
-}
-
-.page li.active {
-    background-color: #e3e3e3;
-}
-.page li:hover:not(.active) {
-    background-color: #e3e3e3;
+    margin: -12px;
 }
 
 .page li a {
+    display: block;
+    padding: 8px 16px;
     text-decoration: none;
-    color: black;
+    color: #000;
+    border: 1px solid #e3e3e3;
+    transition: background-color .3s;
+}
+.page li.active a {
+    background-color: #f1f1f1;
+}
+.page li:hover:not(.active) a {
+    background-color: #f1f1f1;
 }
 
 /* //////////////////////////////////////////////////////////// */
@@ -253,7 +257,8 @@ td {
 }
 
 .product_list:hover {
-    background-color: #f7f5f2;
+    background-color: #f6f6f6;
+/*    opacity: 0.7;*/
     cursor: pointer;
 }
 
@@ -306,7 +311,6 @@ td {
     display: inline-block;
     position: relative;
     height: 30px;
-    width: 70%;
 }
 
 .popup-list p {
@@ -465,6 +469,8 @@ button:active {
     width: 10%;
 }
 
+
+
 /* ----------------------------------------------------- */
 /* order개인 css */
 .order-regist-table td:nth-of-type(1) {
@@ -526,8 +532,8 @@ button:active {
     width: 15%;
 }
 
-/* ----------------------------------------------------- */
 
+/* ----------------------------------------------------- */
 .purchase-table td {
     width: 8%;
 }
@@ -538,20 +544,21 @@ button:active {
     text-align: left;
     display: none;
 }
+
 /* ----------------------------------------------------- */
 /* supplier */
 .supplier-regist-table table p {
     height: 20px;
 }
 .supplier-regist-table td:nth-of-type(1) {
-    width: 0%;
+    width: 20%;
 }
 .supplier-regist-table td:nth-of-type(2) {
-    width: 0%;
+    width: 30%;
 }
 .supplier-regist-table td:nth-of-type(3) {
-    width: 3%;
+    width: 20%;
 }
 .supplier-regist-table td:nth-of-type(4) {
-    width: 20%;
+    width: 30%;
 }
