@@ -78,7 +78,6 @@ td {
 }
 
 /* Table 안에 있는 th와 td에만 적용 */
-#dataTable th, #dataTable td,
 #supplierTable th, #supplierTable td,
 #productTable th, #productTable td,
 #purchaseTable th, #purchaseTable td  {
@@ -89,6 +88,15 @@ td {
     text-overflow: ellipsis;
     border: 1px solid #e3e3e3;
     padding: 10px;
+}
+
+#dataTable th, #dataTable td {
+    text-align: center;
+    height: auto;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #e3e3e3;
 }
 
 /* 각 열의 기본 최소 너비 설정 */
@@ -513,6 +521,7 @@ button:active {
     background-color: #fff !important;
     font-size: 15px;
     font-weight: 400;
+    width: 20%;
 }
 .popup-regist-normal td {
     width: 17%;
