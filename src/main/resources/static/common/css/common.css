@@ -247,6 +247,11 @@ td {
     color: #888;
 }
 
+.popup-list .explanation {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+}
+
 
 .popup-button {
     height: 50px;

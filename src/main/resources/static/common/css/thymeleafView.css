@@ -15,7 +15,7 @@ body {
 /* -- 다크버전 추후 더 추가 예정 -- */
 body.dark {
   background-color: #343434;
-  color: black;
+/*  color: black;*/
 }
 
 body.dark .sidebar, body.dark .bottom {
@@ -27,46 +27,63 @@ body.dark .navbar {
   box-shadow: 5px 0px 5px black;
 }
 
+body.dark .bottom a {
+  color: #e3e3e3;
+}
+
+body.dark p, body.dark h3, body.dark h2 {
+  color: #bdc1c6;
+}
+
+body.dark .order-title {
+  border-top: 1px solid #5f6368;
+  border-bottom: 1px solid #5f6368;
+}
+
 body.dark th {
   background-color: #343434;
 }
 body.dark .content .filter-content td, body.dark .content .filter-content th,
 body.dark .content .filter-content input, body.dark .content .filter-content select,
-body.dark  #supplierTable th, body.dark  #supplierTable td,
-body.dark  #dataTable th,body.dark   #dataTable td,
-body.dark  #productTable th,body.dark  #productTable td,
-body.dark  #purchaseTable th,body.dark  #purchaseTable td,
+body.dark th, body.dark td,
 body.dark .page li a {
-  border: 1px solid black;
+  border: 1px solid #5f6368;
+  color: #bdc1c6;
 }
 
 body.dark .popup-content {
   background: #343434;
-  box-shadow: 1px 0px 1px #e3e3e3;
-
+/*  box-shadow: 1px 0px 1px #e3e3e3;*/
+  border: 1px solid black;
+  box-shadow: none;
+  border-radius: 10px;
 }
 
 body.dark .popup-regist td, body.dark .popup-modify td,
-body.dark input, body.dark select, body.dark td textarea {
-  border: 1px solid black;
+body.dark input, body.dark select {
+  border: 1px solid #5f6368;
   background: #343434;
   color: black;
 }
 
+body.dark .popup-list .explanation {
+  border: 1px solid #5f6368;
+  background: #343434;
+  color: #bdc1c6;
+}
+
 body.dark .error-text {
-  color: black;
+  color: red;
 }
 
 body.dark input, body.dark select, body.dark .checkbox {
     background-color: #343434;
     color: #e3e3e3;
-    border: 1px solid #black;
+    border: 1px solid #5f6368;
 }
-body.dark .order-title {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+body.dark .add-button, body.dark .remove-button {
+  background: #9aa0a6;
 }
-
 
 /* navbar */
 .navbar {
