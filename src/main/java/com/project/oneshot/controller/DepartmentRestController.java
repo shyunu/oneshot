@@ -57,9 +57,9 @@ public class DepartmentRestController {
     }
 
     /**
-     * 부서 목록 조회 API
+     * 부서 목록 + 부서별 사용가능메뉴 조회 API
      */
-    @GetMapping("/getDepartment")
+        @GetMapping("/getDepartment")
     public List<DepartmentVO> getDepartment() {
         List<DepartmentMenuVO> departmentMenuList = departmentService.getDepartmentMenus();
         List<DepartmentVO> departmentList = departmentService.selectDepartment();
@@ -87,6 +87,21 @@ public class DepartmentRestController {
         System.out.println(" 부서 Department List: " + departmentList);
 
         return departmentList;
+    }
+    /**
+     * 활성화된 부서 조회 API
+     */
+    @GetMapping("/getActiveDepartments")
+    public List<DepartmentVO> getActiveDepartments() {
+        return departmentService.getActiveDepartments();
+    }
+
+    /**
+     * 활성화된 부서의 직급별 사원의 인원 조회 API
+     */
+    @GetMapping("/countDeptPosEmployees")
+    public List<Map<String, Object>> countDeptPosEmployees() {
+        return departmentService.countDeptPosEmployees();
     }
 
     /**

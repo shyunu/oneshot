@@ -4,6 +4,7 @@ import com.project.oneshot.command.*;
 import com.project.oneshot.inventory.product.ProductCriteria;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
@@ -29,4 +30,7 @@ public interface OrderService {
     public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 
     int getInventoryQuantity(int productNo);
+
+    // 분기별 판매 총액 조회
+    List<Map<String, Object>> getQuarterlyOrderAmount();
 }

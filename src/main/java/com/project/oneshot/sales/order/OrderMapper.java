@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -37,4 +38,6 @@ public interface OrderMapper {
     void changeProductStatus();
 
     int getInventoryQuantity(int productNo);
+
+    List<Map<String, Object>> getQuarterlyOrderAmount();
 }

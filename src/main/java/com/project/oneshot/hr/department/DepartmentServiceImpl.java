@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("departmentService")
 public class DepartmentServiceImpl implements DepartmentService {
@@ -47,6 +48,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentVO> selectDepartment() {
         return departmentMapper.selectDepartment();
+    }
+
+    @Override
+    public List<DepartmentVO> getActiveDepartments() {
+        return departmentMapper.getActiveDepartments();
+    }
+
+    @Override
+    public List<Map<String, Object>> countDeptPosEmployees() {
+        return departmentMapper.countDeptPosEmployees();
     }
 
     @Override
