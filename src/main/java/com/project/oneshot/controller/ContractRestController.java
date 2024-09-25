@@ -3,10 +3,10 @@ package com.project.oneshot.controller;
 import com.project.oneshot.command.*;
 import com.project.oneshot.sales.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +37,17 @@ public class ContractRestController {
         return list;
     }
 
-    @GetMapping("/getContractDetails")
-    public List<ContractVO> getContractDetails(@RequestParam("contractPriceNo") int contractPriceNo) {
-
-        List<ContractVO> result = contractService.getContractDetails(contractPriceNo);
-        return result;
+    @GetMapping("/approveContract")
+    public ContractVO approveContract(@RequestParam("contractPriceNo") int contractPriceNo) {
+        contractService.approveContract(contractPriceNo);
+        ContractVO vo = contractService.getContractDetails(contractPriceNo);
+        return vo;
     }
 
+    @GetMapping("/rejectContract")
+    public ContractVO rejectContract(@RequestParam("contractPriceNo") int contractPriceNo) {
+        contractService.rejectContract(contractPriceNo);
+        ContractVO vo = contractService.getContractDetails(contractPriceNo);
+        return vo;
+    }
 }

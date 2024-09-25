@@ -9,7 +9,8 @@ public interface SupplierService {
     public List<SupplierVO> getAllSuppliers(SupplierCriteria cri);
     int getTotalSupplier(SupplierCriteria cri);
     public void registerSupplier(SupplierVO supplier);
-//    public List<SupplierVO> searchSuppliers(Map<String, Object> parameters);
     SupplierVO getSupplierByNo(Long supplierNo);
     public boolean modifySupplier(SupplierVO supplierVO);
+
+    int checkSupplierName(String supplierName);
 }

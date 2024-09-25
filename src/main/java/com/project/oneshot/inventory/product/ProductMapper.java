@@ -24,4 +24,6 @@ public interface ProductMapper {
     ProductVO getProductContent(int productNo);
 
     void putProduct(ProductVO vo);
+
+    int checkProductName(String productName);
 }

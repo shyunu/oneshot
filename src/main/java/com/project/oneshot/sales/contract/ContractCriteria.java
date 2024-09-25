@@ -16,7 +16,7 @@ public class ContractCriteria {
     private String managerName;
     private String productName; //상품명
     private String employeeName;
-    private String contractPriceStatus; //판매승인상태
+    private String contractPriceStatus = "승인"; //판매승인상태
 
     public ContractCriteria() {
         this(1, 10);

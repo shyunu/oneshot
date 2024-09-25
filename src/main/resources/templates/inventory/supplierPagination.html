@@ -19,7 +19,7 @@
 
         <!-- 1. 페이지네이션 -->
         <th:block th:each="page : ${pageVO.pageList}">
-            <li th:class="${pageVO.page == page ? 'on' : '' }">
+            <li th:class="${pageVO.page == page ? 'on' : '' }" >
                 <a th:href="@{supplierList(page = ${page},
                                           amount = ${pageVO.amount},
                                           supplierName = ${pageVO.cri.supplierName},
@@ -30,6 +30,7 @@
                                           managerEmail = ${pageVO.cri.managerEmail}
                                           )}">[[${page}]]</a></li>
         </th:block>
+
 
         <!--2. 다음버튼 -->
         <th:block th:if="${pageVO.next}">

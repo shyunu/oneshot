@@ -13,8 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -45,63 +48,18 @@ public class ContractController {
     }
 
     @PostMapping("/registForm") //--- 계약 등록하기
-    public String contractRegist(@RequestParam("productNo") List<Integer> productNo,
-                                 @RequestParam("employeeNo") int employeeNo,
-                                 @RequestParam("clientNo") int clientNo,
-                                 @RequestParam("contractSdate") Date contractSdate,
-                                 @RequestParam("contractEdate") Date contractEdate,
-                                 @RequestParam("contractPrice") List<Integer> contractPrice
-    ) {
-        Integer no = contractService.getContractPriceNo();
-        if(no == null) {
-            no = 1;
-        } else {
-            no = no + 1;
+    public String contractRegist(ContractVO vo) {
+        contractService.contractRegist(vo);
+
+        String originalString = "승인대기";
+        String encodedString = "";
+        try {
+            encodedString = URLEncoder.encode(originalString, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-        List<ContractVO> list = new ArrayList<>();
-
-        for(int i = 0; i < productNo.size(); i++) {
-            ContractVO vo = new ContractVO();
-            vo.setContractPriceNo(no);
-            vo.setProductNo(productNo.get(i));
-            vo.setEmployeeNo(employeeNo);
-            vo.setClientNo(clientNo);
-            vo.setContractSdate(contractSdate);
-            vo.setContractEdate(contractEdate);
-            vo.setContractPrice(contractPrice.get(i));
-            list.add(vo);
-        }
-
-        contractService.contractRegist(list);
-        return "redirect:/sales/contract";
-    }
-
-    @PostMapping("/modifyForm") //--- 계약 수정
-    public String modifyForm(ContractVO vo) {
-        System.out.println("vo = " + vo);
-
-        for(ContractItemVO item : vo.getContractItems()) {
-            System.out.println("ContractController.modifyForm");
-            ContractVO contractVO = new ContractVO();
-
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-            contractVO.setContractSdate(vo.getContractSdate());
-            contractVO.setContractEdate(vo.getContractEdate());
-            contractVO.setContractPriceStatus(vo.getContractPriceStatus());
-            contractVO.setProductNo(item.getProductNo());
-            contractVO.setProductName(item.getProductName());
-            contractVO.setContractPrice(item.getContractPrice());
-            contractVO.setContractPriceNo(vo.getContractPriceNo());
-
-            System.out.println("contractVO = " + contractVO);
-            
-            contractService.contractModify(contractVO);
-        }
-
-
-        return "redirect:/sales/contract";
-
+        return "redirect:/sales/contract?contractPriceStatus=" + encodedString;
     }
 
     // ----- 날짜 데이터 변환 ----- //
@@ -116,7 +74,4 @@ public class ContractController {
     public String submitForm(ContractVO contractVO) {
         return "result";
     }
-
-
-
 }

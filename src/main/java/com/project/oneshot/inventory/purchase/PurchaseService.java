@@ -7,6 +7,8 @@ import java.util.List;
 public interface PurchaseService {
     public List<PurchaseVO> getAllPurchase(PurchaseCriteria cri);
 
+    SupplierVO getSupplier(int supplierNo);
+
     int getTotalPurchase(PurchaseCriteria cri);
 
     public void registerPurchase(List<PurchaseVO> list);

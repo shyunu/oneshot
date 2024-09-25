@@ -19,6 +19,10 @@
         SELECT * FROM supplier
     </select>
 
+    <select id="getSupplier" resultType="SupplierVO">
+        select * from supplier where supplier_no = #{supplierNo}
+    </select>
+
     <select id="getCategories" resultType="CategoryVO">
         select product.category_no, category_name
         from supplier inner join product on supplier.supplier_no = product.supplier_no inner join category on product.category_no = category.category_no
@@ -110,10 +114,6 @@
         <if test="(purchaseSdate != null and purchaseSdate != '') and (purchaseEdate == null or purchaseEdate == '')">
             <![CDATA[ AND pc.purchase_date >= to_timestamp(#{purchaseSdate}, 'yyyy-MM-dd') ]]>
         </if>
-    </select>
-
-    <select id="getPurchaseNo" resultType="Integer">
-        select purchase_no from purchase order by purchase_no desc limit 1
     </select>
 
     <select id="getAllCategories" resultType="CategoryVO">

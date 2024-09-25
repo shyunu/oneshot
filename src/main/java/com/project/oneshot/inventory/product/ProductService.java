@@ -25,4 +25,6 @@ public interface ProductService {
     ProductVO getProductContent(int productNo);
 
     void putProduct(ProductVO vo, MultipartFile file);
+
+    int checkProductName(String productName);
 }

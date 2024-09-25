@@ -99,4 +99,9 @@ public class ProductServiceImpl implements ProductService {
         }
         productMapper.putProduct(vo);
     }
+
+    @Override
+    public int checkProductName(String productName) {
+        return productMapper.checkProductName(productName);
+    }
 }

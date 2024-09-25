@@ -64,4 +64,10 @@ public class ProductRestController {
         ProductVO vo = productService.getProductContent(productNo);
         return vo;
     }
+
+    @GetMapping("checkProductName")
+    public int checkProductName(@RequestParam("productName") String productName) {
+        System.out.println("productName = " + productName);
+        return productService.checkProductName(productName);
+    }
 }

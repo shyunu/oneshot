@@ -148,7 +148,7 @@
               <tbody>
                 <tr>
                   <td><p>공급업체</p></td>
-                  <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)"></select></td>
+                  <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)" required></select><br><p id="supplierErrorText" class="error-text">※ 공급업체 선택은 필수입니다.</p></td>
                   <td><p>사업자번호</p></td>
                   <td><input type="text" id="postSupplierBusinessNo" disabled></td>
                 </tr>
@@ -160,28 +160,32 @@
                 </tr>
                 <tr>
                   <td><p>카테고리</p></td>
-                  <td><select name="categoryNo" id="postCategoryNo"></select></td>
+                  <td><select name="categoryNo" id="postCategoryNo" onchange="changeCategoryNo(this)" required></select><br><p id="categoryErrorText" class="error-text">※ 카테고리 선택은 필수입니다.</p></td>
                   <td><p>판매상태</p></td>
                   <td colspan="3">
-                    <select name="productRemark" id="postProductRemark">
+                    <select name="productRemark" id="postProductRemark" onchange="changeRemarkNo(this)" required>
                       <option value="">- 판매상태 -</option>
                       <option value="판매중">판매중</option>
                       <option value="품절">품절</option>
                       <option value="단종">단종</option>
                     </select>
+                    <br><p id="remarkErrorText" class="error-text">※ 판매상태 입력은 필수입니다.</p>
                   </td>
                 </tr>
                 <tr>
                   <td><p>상품명</p></td>
-                  <td><input type="text" name="productName" id="postProductName"></td>
+                  <td><input type="text" name="productName" id="postProductName" oninput="checkValue(this); checkProductName(event)" required><br>
+                    <p class="error-text">※ 상품명 입력은 필수입니다.</p>
+                    <p id="checkProductName" class="error-text" style="display: none;">※ 중복된 상품명입니다.</p>
+                  </td>
                   <td><p>판매정가</p></td>
-                  <td><input type="text" name="productPrice" id="postProductPrice"></td>
+                  <td><input type="text" name="productPrice" id="postProductPrice" oninput="checkValue(this)" required><br><p class="error-text">※ 판매정가 입력은 필수입니다.</p></td>
                 </tr>
                 <tr>
                   <td><p>안전재고수량</p></td>
-                  <td><input type="text" name="safetyQuantity" id="postSafetyQuantity"></td>
+                  <td><input type="text" name="safetyQuantity" id="postSafetyQuantity" oninput="checkValue(this)" required><br><p class="error-text">※ 안전재고수량 입력은 필수입니다.</p></td>
                   <td><p>상품이미지</p></td>
-                  <td><input type="file" name="file" id="postProductImg"></td>
+                  <td><input type="file" name="file" id="postProductImg" oninput="checkValue(this)" required><br><p class="error-text">※ 상품이미지 업로드는 필수입니다.</p></td>
                 </tr>
                 <tr>
                   <td><p>상품설명</p></td>
@@ -314,6 +318,36 @@
     resistPopup.style.display = 'block';
   }
 
+  function checkValue(input) {
+    const errorText = input.nextElementSibling.nextElementSibling;
+    if(input.value.trim() !== "") {
+      errorText.style.display = "none";
+    } else {
+      errorText.style.display = "block";
+    }
+  }
+
+  function checkProductName(event) {
+    const productName = event.target.value;
+    $.ajax({
+      url: '/inventory/checkProductName',
+      type: 'get',
+      data: {productName, productName},
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        if(data >= 1) {
+          $("#checkProductName").css("display", "block");
+        } else {
+          $("#checkProductName").css("display", "none");
+        }
+      },
+      error: function() {
+        console.log('/inventory/checkSupplierName error');
+      }
+    });
+  }
+
   function changeSupplierNo(event) {
     $.ajax({
       url: '/inventory/getSupplierContent',
@@ -332,6 +366,8 @@
         $('#postProductImg').val('');
         $('#postProductContent').val('');
         $('#postProductRemark').val('').prop('selected', true);
+
+        $('#supplierErrorText').css('display', 'none');
       },
       error: function() {
         $('#postSupplierNo').val('0').prop('selected', true);
@@ -345,45 +381,26 @@
         $('#postProductImg').val('');
         $('#postProductContent').val('');
         $('#postProductRemark').val('').prop('selected', true);
+
+        $('#supplierErrorText').css('display', 'block');
       }
     });
   }
 
-  function postProductFn() {
-    if($('#postSupplierNo').val() == 0) {
-      alert('공급업체를 선택해주세요.');
-      return;
+  function changeCategoryNo(input) {
+    if(input.value.trim() !== '') {
+      $('#categoryErrorText').css('display', 'none');
+    } else {
+      $('#categoryErrorText').css('display', 'block');
     }
-    if($('#postCategoryNo').val() == 0) {
-      alert('카테고리를 선택해주세요.');
-      return;
-    }
-    if($('#postProductRemark').val() == '') {
-      alert('판매상태를 선택해주세요.');
-      return;
-    }
-    if($('#postProductRemark').val() == '') {
-      alert('판매상태를 선택해주세요.');
-      return;
-    }
-    if($('#postProductName').val() == '') {
-      alert('상품명을 입력해주세요.');
-      return;
-    }
-    if($('#postProductPrice').val() == '') {
-      alert('판매정가를 입력해주세요.');
-      return;
-    }
-    if($('#postSafetyQuantity').val() == '') {
-      alert('안전재고수량을 입력해주세요.');
-      return;
-    }
-    if($('#postProductImg').val() == '') {
-      alert('상품이미지를 업로드해주세요.');
-      return;
-    }
+  }
 
-    $('#postProductForm').submit();
+  function changeRemarkNo(input) {
+    if(input.value.trim() !== '') {
+      $('#remarkErrorText').css('display', 'none');
+    } else {
+      $('#remarkErrorText').css('display', 'block');
+    }
   }
 
   function handleClick(event) { //수정페이지 팝업 열기
@@ -429,6 +446,22 @@
     });
     modifyPopup.style.display = 'block';
   }
+
+  function postProductFn() {
+    let hasError = false;
+
+    $(".error-text").each(function(index, item) {
+      if ($(item).css("display") !== "none") {
+        hasError = true;
+        return false;  // 첫 번째 에러 발견 시 반복문 종료
+      }
+    });
+
+    if (!hasError) {
+      $("#postProductForm").submit();  // 에러가 없을 때만 폼 제출
+    }
+  }
+
 
   //팝업창 닫기
   function closePopupRegist() {
