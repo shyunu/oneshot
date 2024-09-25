@@ -2,8 +2,6 @@ package com.project.oneshot.command;
 
 import lombok.*;
 
-import javax.persistence.*;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

@@ -4,21 +4,12 @@ package com.project.oneshot.inventory.product;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
-import com.project.oneshot.inventory.supplier.SupplierMapper;
-import com.project.oneshot.util.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {

@@ -620,13 +620,7 @@ function Employee() {
                             전화번호
                         </th>
                         <th>
-                            비상연락처
-                        </th>
-                        <th>
                             이메일
-                        </th>
-                        <th>
-                            계좌번호
                         </th>
                         <th>
                             재직여부
@@ -658,9 +652,7 @@ function Employee() {
                                 <td style={{minWidth: "155px"}}>{employee.departmentName}</td>
                                 <td style={{minWidth: "105px"}}>{employee.positionName}</td>
                                 <td style={{minWidth: "155px"}}>{employee.employeePhone}</td>
-                                <td style={{minWidth: "155px"}}>{employee.emergencyPhone}</td>
                                 <td style={{minWidth: "170px"}}>{employee.employeeEmail}</td>
-                                <td style={{minWidth: "155px"}}>{employee.accountNumber}</td>
                                 <td style={{minWidth: "110px"}}>{employee.employeeStatus === 'y' ? '재직' : '퇴직'}</td>
                             </tr>
                         ) : null
@@ -781,10 +773,6 @@ function Employee() {
                                                 className="input-form"
                                                 value={newEmployee.employeeEmail}
                                                 onChange={handleFormChange}
-                                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                                                required
-                                                autoComplete="off"
-                                                title="유효한 이메일 주소를 입력해주세요."
                                             />
                                             {errors.employeeEmail && <p style={{ color: 'red' }}>{errors.employeeEmail}</p>}
                                         </td>

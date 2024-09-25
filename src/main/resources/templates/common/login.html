@@ -24,14 +24,32 @@
             </form>
         </div>
     </div>
-    <script th:inline="javascript">
-        window.onload = function() {
-            var errormsg = [[${msg}]];
-            if (errormsg != null && errormsg != '') {
-                alert(errormsg);
-            }
-        };
+    <script>
+        document.querySelector('.login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 제출의 기본 동작을 막음
+
+            var formData = new FormData(this); // 폼 데이터 가져오기
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/common/loginForm', true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // 로그인 성공 시 리다이렉트
+                    window.location.href = '/common/home';
+                } else {
+                    // 로그인 실패 시 알림 표시
+                    alert(xhr.responseText); // 서버에서 전송한 메시지를 알림으로 표시
+                }
+            };
+
+            xhr.onerror = function() {
+                alert('서버와의 연결에 실패했습니다.'); // 연결 실패 시 알림
+            };
+
+            xhr.send(formData); // AJAX 요청 전송
+        });
     </script>
+
 
 </body>
 </html>
