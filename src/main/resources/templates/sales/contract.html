@@ -13,7 +13,7 @@
                         <div class="filter-main">
                             <h3>상세내역검색</h3>
                             <button type="submit" class="filter-button">검색하기</button>
-                            <button type="button" class="filter-button" onclick="location.href='/sales/contract'">전체보기</button>
+                            <button type="button" class="filter-button" onclick="location.href='/sales/contract?contractPriceStatus='">전체보기</button>
                         </div>
 
                         <table>
@@ -58,7 +58,7 @@
                         <th>계약종료일</th>
                         <th>본사담당자</th>
                         <th>계약상태</th>
-                        <th>계약만료일</th>
+                        <!-- <th>계약만료일</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -68,12 +68,12 @@
                         <td th:text="${vo.clientName}"></td>
                         <td th:text="${vo.managerName}"></td>
                         <td th:text="${vo.productName}"></td>
-                        <td th:text="${vo.contractPrice} + 원"></td>
+                        <td th:text="${#numbers.formatInteger(vo.contractPrice, 3, 'COMMA') + '원'}"></td>
                         <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${vo.employeeName}"></td>
                         <td th:text="${vo.contractPriceStatus}"></td>
-                        <td th:text="${vo.contractDday}"></td>
+                        <!-- <td th:text="${vo.contractDday}"></td> -->
                     </tr>
                 </tbody>
             </table>
@@ -222,6 +222,13 @@
     });
 
     function approveContract() {
+        let hasChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if(!hasChecked) {
+            alert('승인하실 계약을 한 개 이상 선택해 주세요.');
+            return;
+        }
+
         checkboxes.forEach(function(checkbox) {
             if(checkbox.checked) {
                 var contractPriceNo = checkbox.parentElement.parentElement.children[1].innerText;
@@ -246,6 +253,13 @@
     }
 
     function rejectContract() {
+        let hasChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if(!hasChecked) {
+            alert('반려하실 계약을 한 개 이상 선택해 주세요.');
+            return;
+        }
+
         checkboxes.forEach(function(checkbox) {
             if(checkbox.checked) {
                 var contractPriceNo = checkbox.parentElement.parentElement.children[1].innerText;

@@ -213,6 +213,7 @@
         SELECT * FROM contract_price
         WHERE product_no = #{productNo}
         <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+        AND contract_price_status = '승인'
     </select>
 
     <update id="updateContract" parameterType="ContractVO">
@@ -224,6 +225,7 @@
         contract_price_status = '승인대기'
         WHERE contract_price_no = #{contractPriceNo}
         AND product_no = #{productNo}
+        AND contract_price_status = '승인'
     </update>
 
     <delete id="deleteContract" parameterType="ContractVO">
@@ -232,6 +234,7 @@
         AND client_no = #{clientNo}
         AND contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
         AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
+        AND contract_price_status = '승인'
     </delete>
 
     <update id="approveContract">
