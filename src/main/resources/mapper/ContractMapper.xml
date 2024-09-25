@@ -23,17 +23,8 @@
             CLIENT.CLIENT_NAME,
             CONTRACT_PRICE.CONTRACT_SDATE,
             CONTRACT_PRICE.CONTRACT_EDATE,
-            CASE
-            WHEN COUNT(PRODUCT.PRODUCT_NAME) > 1 THEN
-            CONCAT(
-            MIN(PRODUCT.PRODUCT_NAME),
-            ' 외 ',
-            COUNT(PRODUCT.PRODUCT_NAME) - 1,
-            '건'
-            )
-            ELSE
-            MIN(PRODUCT.PRODUCT_NAME)
-            END AS PRODUCT_NAME,
+            CONTRACT_PRICE.CONTRACT_PRICE,
+            PRODUCT.PRODUCT_NAME,
             CLIENT.MANAGER_NAME,
             EMPLOYEE.EMPLOYEE_NAME,
             CONTRACT_PRICE.CONTRACT_PRICE_STATUS
@@ -63,15 +54,6 @@
         <if test="contractPriceStatus != null and contractPriceStatus != ''">
             AND CONTRACT_PRICE.CONTRACT_PRICE_STATUS like concat('%', #{contractPriceStatus}, '%')
         </if>
-        GROUP BY
-        CONTRACT_PRICE.CONTRACT_PRICE_NO,
-        CONTRACT_PRICE.CLIENT_NO,
-        CLIENT.CLIENT_NAME,
-        EMPLOYEE.EMPLOYEE_NAME,
-        CONTRACT_PRICE.CONTRACT_SDATE,
-        CONTRACT_PRICE.CONTRACT_EDATE,
-        CLIENT.MANAGER_NAME,
-        CONTRACT_PRICE.CONTRACT_PRICE_STATUS
         ORDER BY CONTRACT_PRICE.CONTRACT_PRICE_NO DESC
         limit #{amount} offset #{pageStart}
     </select>
@@ -91,7 +73,7 @@
         VALUES
 
         <foreach collection="list" item="list" separator=",">
-            (#{list.contractPriceNo},
+            (nextval('contract_price_seq'),
             #{list.productNo},
             #{list.employeeNo},
             #{list.clientNo},

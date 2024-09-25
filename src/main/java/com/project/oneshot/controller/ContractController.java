@@ -52,18 +52,10 @@ public class ContractController {
                                  @RequestParam("contractEdate") Date contractEdate,
                                  @RequestParam("contractPrice") List<Integer> contractPrice
     ) {
-        Integer no = contractService.getContractPriceNo();
-        if(no == null) {
-            no = 1;
-        } else {
-            no = no + 1;
-        }
-
         List<ContractVO> list = new ArrayList<>();
 
         for(int i = 0; i < productNo.size(); i++) {
             ContractVO vo = new ContractVO();
-            vo.setContractPriceNo(no);
             vo.setProductNo(productNo.get(i));
             vo.setEmployeeNo(employeeNo);
             vo.setClientNo(clientNo);

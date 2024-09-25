@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <script>
-
-
-window.onload = function () {
-
+    window.onload = function () {
         // 드래그 가능하게 만들기
         const popupModify = document.getElementById('popup-modify');
         const popupRegist = document.getElementById('popup-regist');
 
         makeDraggable(popupModify);
         makeDraggable(popupRegist);
-
     };
 
     function makeDraggable(element) {
@@ -37,63 +33,67 @@ window.onload = function () {
         });
     }
 
+    let selectedProducts = []; // 선택된 상품 목록을 저장
+
+    function changeHandle() {
+        if(selectedProducts.length > 0) {
+            selectedProducts.pop();
+        }
+        selectedProducts.push(event.target.value);
+    }
+
     // regist - 상품품목 및 책정거래가 새로운 input 추가
     function addRow() {
-        // 마지막 행을 가져와서 복사본 생성
         const rows = document.querySelectorAll('#inputContainer tr');
         const lastRow = rows[rows.length - 1];
 
-        // 새 행 생성
-        const newRow = lastRow.cloneNode(true);
+        console.log(event.target.closest('tr'));
+        event.target.closest('tr').querySelector('select').readonly = true;
 
-        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
-        const newRowInputs = newRow.querySelectorAll('input, select');
-        newRowInputs.forEach((element) => {
-            // 기존 name 속성에서 배열 인덱스를 추출하여 업데이트
-            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
-        });
-
-        // 새 행의 값 초기화
-        newRow.querySelectorAll('input').forEach(input => {
-            input.value = '';
-            if (input.classList.contains('contractPrice')) {
-                input.readOnly = true; // 활성화
-            } else {
-                input.readOnly = false; // 신규 행에서는 모든 input 필드를 활성화
+        const newRow = lastRow.cloneNode(true); //복사해서 배열에 들어있는 값 disabled x
+        newRow.querySelectorAll('select option').forEach((item, index) => {
+            console.log(item);
+            if(selectedProducts.includes(item.value)) {
+                item.disabled = true;
             }
         });
 
-        // 새 행의 select 필드에 개별적으로 getPrice 연결
-        newRow.querySelectorAll('select').forEach(select => {
-            select.selectedIndex = 0; // 기본 옵션으로 초기화
-            select.disabled = false; // 새 행의 select 필드 활성화
-            select.onchange = function(event) {
-                getPrice(event); // 새로 추가된 행에 대해서만 getPrice 연결
-            };
+        const newRowInputs = newRow.querySelectorAll('input, select');
+
+        // 새로운 행의 입력 필드 name 속성 업데이트
+        newRowInputs.forEach((element) => {
+            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
         });
 
-        // 기존 행의 add-button 삭제
-        const addButton = lastRow.querySelector('.add-button');
-        if (addButton) {
-            addButton.remove(); // 기존 행의 추가 버튼 제거
-        }
+        // 새로운 행의 값 초기화 및 이벤트 리스너 추가
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            input.readOnly = false;
+        });
 
-        // 새 행의 삭제 버튼에 이벤트 리스너 추가
+        // 상품 선택 필드에 이벤트 리스너 추가
+        const productSelect = newRow.querySelector('.productNo');
+        productSelect.onchange = function(event) {
+            const selectedValue = event.target.value;
+            if (selectedValue) {
+                selectedProducts.push(selectedValue); // 선택된 상품 추가
+            }
+            disableSelectedProducts(); // 선택된 상품 비활성화
+        };
+
+        // 삭제 버튼 클릭 시 선택된 상품 목록에서 제거
         const removeButton = newRow.querySelector('.remove-button');
-        if (removeButton) {
-            removeButton.addEventListener('click', function() {
-                removeRow(removeButton);
-            });
-        }
+        removeButton.addEventListener('click', function() {
+            const selectedValue = productSelect.value;
+            if (selectedValue) {
+                selectedProducts = selectedProducts.filter(item => item !== selectedValue);
+            }
+            removeRow(removeButton);
+            disableSelectedProducts(); // 업데이트된 선택된 상품 비활성화
+        });
 
-        // 새 행의 입력 필드에 이벤트 리스너 추가
-        const productQuantityInput = newRow.querySelector('.productQuantity');
-        if (productQuantityInput) {
-            productQuantityInput.addEventListener('input', updateAmount);
-        }
-
-        // 새 행을 테이블에 추가
         document.getElementById('inputContainer').appendChild(newRow);
+        disableSelectedProducts(); // 새로운 행 추가 후 선택된 상품 비활성화
     }
 
     function removeRow(button) {
@@ -108,68 +108,6 @@ window.onload = function () {
             row.remove();
         }
     }
-
-    // modify - 상품 품목 및 책정 거래가 새로운 input 추가
-    function addRow2() {
-        // 마지막 행을 가져와서 복사본 생성
-        const rows = document.querySelectorAll('#popup-modify tbody tr.addList');
-        const lastRow = rows[rows.length - 1];
-
-        // 새 행 생성
-        const newRow = lastRow.cloneNode(true);
-
-        // 새 행의 입력 필드 및 선택 필드의 name 속성 업데이트
-        const newRowInputs = newRow.querySelectorAll('input, select');
-        newRowInputs.forEach((element) => {
-            element.name = element.name.replace(/\[\d+\]/, `[${rows.length}]`);
-        });
-
-        // 새 행의 값 초기화
-        newRow.querySelectorAll('input').forEach(input => {
-            input.value = ''; // 입력값 초기화
-            input.readOnly = false; // 새로운 행에서는 입력 필드 활성화
-        });
-
-        // 새 행의 select 필드에 getPrice 연결 및 초기화
-        newRow.querySelectorAll('select').forEach(select => {
-            select.selectedIndex = 0; // 기본 옵션으로 초기화
-            select.disabled = false; // select 필드 활성화
-            select.onchange = function(event) {
-                getPrice(event); // 새로 추가된 행에 대해 getPrice 연결
-            };
-        });
-
-        // 기존 행의 add-button 삭제 (중복 추가 방지)
-        const addButton = lastRow.querySelector('.add-button');
-        if (addButton) {
-            addButton.remove(); // 마지막 행의 추가 버튼 제거
-        }
-
-        // 새 행의 삭제 버튼에 이벤트 리스너 추가
-        const removeButton = newRow.querySelector('.remove-button');
-        if (removeButton) {
-            removeButton.addEventListener('click', function() {
-                removeRow2(removeButton); // 삭제 버튼 클릭 시 행 삭제
-            });
-        }
-
-        // 새 행을 테이블에 추가
-        document.querySelector('#popup-modify tbody').appendChild(newRow);
-    }
-
-    function removeRow2(button) {
-        // 버튼이 위치한 행을 찾는다
-        const row = button.closest('tr');
-
-        // 해당 행에 add-button이 있는지 확인
-        const addButton = row.querySelector('.add-button');
-
-        // add-button이 없는 경우에만 행을 삭제
-        if (!addButton) {
-            row.remove();
-        }
-    }
-
 </script>
 
 <th:block th:replace="~{./common/thymeleafView::setContent(~{::.content})}">
@@ -244,11 +182,11 @@ window.onload = function () {
             <table id="dataTable">
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
                     <th>no</th>
                     <th>고객사명</th>
                     <th>고객사담당자</th>
                     <th>상품품목명</th>
+                    <th>계약가격</th>
                     <th>계약시작일</th>
                     <th>계약종료일</th>
                     <th>본사담당자</th>
@@ -259,11 +197,11 @@ window.onload = function () {
 
                 <tbody>
                 <tr th:each="vo : ${list}" class="product_list" >
-                    <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"></td>
                     <td th:text="${vo.contractPriceNo}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.clientName}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.managerName}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.productName}" onclick="handleClick(event)"></td>
+                    <td th:text="${vo.contractPrice}" onclick="handleClick(event)"></td>
                     <td th:text="${#dates.format(vo.contractSdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
                     <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}" onclick="handleClick(event)"></td>
                     <td th:text="${vo.employeeName}" onclick="handleClick(event)"></td>
@@ -334,7 +272,7 @@ window.onload = function () {
                             <tr class="addList">
                                 <td><p>상품품목명</p></td>
                                 <td>
-                                    <select colspan="3" class="productNo" name="productNo">
+                                    <select colspan="3" class="productNo" name="productNo" onchange="changeHandle()">
                                         <option>-상품-</option>
                                     </select>
                                 </td>
@@ -447,73 +385,7 @@ window.onload = function () {
         </div>
     </div>
 </th:block>
-
 <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // localStorage에서 값을 가져와서 폼 필드에 채우기
-        if (localStorage.getItem('clientName')) {
-            document.querySelector('input[name="clientName"]').value = localStorage.getItem('clientName');
-        }
-        if (localStorage.getItem('contractSdate')) {
-            document.querySelector('input[name="contractSdate"]').value = localStorage.getItem('contractSdate');
-        }
-        if (localStorage.getItem('contractEdate')) {
-            document.querySelector('input[name="contractEdate"]').value = localStorage.getItem('contractEdate');
-        }
-        if (localStorage.getItem('productName')) {
-            document.querySelector('input[name="productName"]').value = localStorage.getItem('productName');
-        }
-        if (localStorage.getItem('managerName')) {
-            document.querySelector('input[name="managerName"]').value = localStorage.getItem('managerName');
-        }
-        if (localStorage.getItem('contractPriceStatus')) {
-            document.querySelector('input[name="contractPriceStatus"]').value = localStorage.getItem('contractPriceStatus');
-        }
-    });
-
-
-    document.querySelector('.filter-button[type="submit"]').addEventListener('click', function() {
-        // 폼 필드 값들을 저장
-        localStorage.setItem('clientName', document.querySelector('input[name="clientName"]').value);
-        localStorage.setItem('contractSdate', document.querySelector('input[name="contractSdate"]').value);
-        localStorage.setItem('contractEdate', document.querySelector('input[name="contractEdate"]').value);
-        localStorage.setItem('productName', document.querySelector('input[name="productName"]').value);
-        localStorage.setItem('managerName', document.querySelector('input[name="managerName"]').value);
-        localStorage.setItem('contractPriceStatus', document.querySelector('input[name="contractPriceStatus"]').value);
-    });
-
-
-    document.querySelector('.filter-button[type="button"]').addEventListener('click', function() {
-        // localStorage 값 제거
-        localStorage.removeItem('clientName');
-        localStorage.removeItem('contractSdate');
-        localStorage.removeItem('contractEdate');
-        localStorage.removeItem('productName');
-        localStorage.removeItem('managerName');
-        localStorage.removeItem('contractPriceStatus');
-    });
-
-
-    // 전체 선택 체크박스
-    const selectAllCheckbox = document.getElementById('selectAll');
-
-    // 각 체크박스들
-    const checkboxes = document.querySelectorAll('.checkbox');
-
-    // '전체 선택' 체크박스를 클릭했을 때 실행되는 함수
-    selectAllCheckbox.addEventListener('change', function () {
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = selectAllCheckbox.checked;
-
-            // 배경색 지정
-            const td = checkbox.closest('tr').querySelectorAll('td'); // 체크박스가 있는 모든 <td>
-            td.forEach(function(cell) {
-                cell.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
-            });
-        });
-    });
-
     // 팝업창 열기 및 닫기 기능
     const popupModify = document.getElementById('popup-modify');
     const popupRegist = document.getElementById('popup-regist');
@@ -522,24 +394,7 @@ window.onload = function () {
     const closeBtn3 = document.querySelector('.close-btn3');
     const forPopup = document.querySelectorAll('.for-popup');
 
-    // 체크박스 누르면 누른 행 색상 변하게
-    function toggleRow(checkbox) {
-        const row = checkbox.closest('tr'); // 체크박스가 속한 tr 요소를 찾음
-        const tds = row.getElementsByTagName('td'); // 해당 tr의 모든 td 요소를 가져옴
-
-        // 모든 td의 배경색과 투명도를 설정
-        for (const td of tds) {
-            td.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
-        }
-    }
-
-    // 체크박스 클릭 시 toggleRow 함수 호출
-    document.querySelectorAll('.checkbox').forEach(checkbox => {
-        checkbox.addEventListener('click', () => toggleRow(checkbox));
-    });
-
-
-    function handleClick2(event) { //수정페이지
+    function handleClick2(event) { //등록페이지
         $.ajax({
             url: '/sales/getContractClientList',
             type: 'get',
@@ -651,53 +506,7 @@ window.onload = function () {
         }
 
         popupModify.style.display = 'block';
-
     }
-
-    $('#registerButton').on('click', function(event) {
-        event.preventDefault();
-
-        // 폼에서 입력된 데이터를 가져옴
-        let contractSdate = $('#registContractSdate').val();
-        console.log("contractSdate = " + contractSdate);
-        let contractEdate = $('#registContractEdate').val();
-        console.log("contractEdate = " + contractEdate);
-        let clientNo = $('select[name="clientNo"]').val();
-        console.log("clientNo = " + clientNo);
-        let productNo = $('select[name="productNo"]').val();
-        console.log("productNo = " + productNo);
-
-        // 날짜 중복 확인 함수 호출
-        contractDateUpdate(contractSdate, contractEdate, clientNo, productNo).done(function(response) {
-            if (response.overlap) {
-                // 날짜가 겹치면 기존 계약 업데이트 처리
-                alert('기존 계약과 날짜가 겹칩니다. 기존 계약의 시작 날짜를 업데이트합니다.');
-
-                // 서버에 기존 계약을 업데이트하는 AJAX 요청
-                $.ajax({
-                    url: '/updateContract',
-                    method: 'POST',
-                    data: {
-                        contractSdate: contractSdate,
-                        contractEdate: contractEdate,
-                        clientNo: clientNo,
-                        productNo: productNo
-                    },
-                    success: function() {
-                        // 기존 계약 업데이트 후 새 계약 등록
-                        $('form[name="registForm"]').submit();
-                    },
-                    error: function(error) {
-                        console.error('Error updating existing contract:', error);
-                    }
-                });
-            } else {
-                // 겹치는 계약이 없으면 바로 새로운 계약 등록
-                $('form[name="registForm"]').submit();
-            }
-        });
-    });
-
 
     // 판매내역 승인 기능
     function approveContract() {
@@ -710,7 +519,6 @@ window.onload = function () {
     function rejectContract() {
         const contractPriceStatusInput = document.querySelector('#contractPriceStatus');
         contractPriceStatusInput.value = "반려";
-
     }
 
     // 팝업창 닫기
@@ -729,9 +537,4 @@ window.onload = function () {
     const registBtn = document.getElementById('button-regist');
     // registBtn.addEventListener('click', openPopup);
 </script>
-
-</html>
-
-</script>
-
 </html>
