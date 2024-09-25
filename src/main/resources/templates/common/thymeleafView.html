@@ -34,10 +34,18 @@
     <div class="navbar_content">
         <i class='bx bx-sun' id="darkLight"></i>
         <img th:src="@{'http://localhost:8181/hrm/images/' + ${#authentication.principal.employeePhotoPath}}" class="profile" />
-        <div>
-            <span>[[${#authentication.principal.employeeName}]]</span>
+        <div class="profileHeader">
+            <div class="topSection">
+                <span class="employeeName">[[${#authentication.principal.employeeName}]]</span>
+            </div>
+            <div class="bottomSection">
+                <span class="departmentName">[[${#authentication.principal.departmentName}]]</span>
+                <span class="positionName">[[${#authentication.principal.positionName}]]</span>
+            </div>
         </div>
     </div>
+
+
 </nav>
 
 <div class="sidebar_content">

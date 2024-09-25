@@ -600,20 +600,20 @@ function Employee() {
                 <table>
                     <thead>
                     <tr id="attribute">
-                        <th>
+                        <th className="checkboxColumn">
                             <input
                                 type="checkbox"
-                                id="checkAll"
+                                id="selectAllCheckbox"
                                 checked={isAllChecked}
                                 onChange={handleAllCheckboxChange}
                             />
-                            <label htmlFor="checkAll"></label>
+                            <label htmlFor="selectAllCheckbox"></label>
                         </th>
                         <th>
                             입사일자
                         </th>
                         <th>
-                            사원번호
+                            no
                         </th>
                         <th>
                             성명
@@ -645,9 +645,10 @@ function Employee() {
                                         : undefined // 선택되지 않은 경우 스타일 적용 안 함
                                 }
                             >
-                                <td onClick={(e) => e.stopPropagation()}>
+                                <td className="checkboxColumn" onClick={(e) => e.stopPropagation()}>
                                     <input
                                         type="checkbox"
+                                        className="employeeCheckbox"
                                         id={`check${employee.employeeNo}`}
                                         checked={selectedEmployees.includes(employee)}
                                         onChange={() => handleCheckboxChange(employee)}
