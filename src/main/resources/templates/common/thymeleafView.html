@@ -47,10 +47,11 @@
                 <a href="/common/home">
                 <li class="item">
                     <div class="nav_link submenu_item">
+<!--                    <div>-->
                 <span class="navlink_icon">
                   <i class='bx bxs-home'></i>
                 </span>
-                <span >
+                <span>
                   <a href="/common/home" class="navlink" style="text-decoration: none; color: #fff;">홈</a>
                 </span>
                     </div>
@@ -108,8 +109,8 @@
                     <span> Expand</span>
                 </div>
                 <div class="bottom collapse_sidebar">
-                    <a href="/logout">로그아웃</a>
-                    <i class='bx bx-log-out'></i>
+                    <a href="/logout">로그아웃
+                    <i class='bx bx-log-out'></i></a>
                 </div>
             </div>
         </div>
@@ -187,7 +188,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const currentPage = window.location.pathname;
 
-        // 특정 요소에 active 및 show_submenu 상태 추가
         function setActiveState(element) {
             element.classList.add('active');
             if (element.classList.contains('submenu_item')) {
@@ -195,47 +195,44 @@
             }
         }
 
-        // 모든 메뉴 항목에서 active 및 show_submenu 상태 제거
         function removeAllActiveStates() {
             document.querySelectorAll('.nav_link, .sublink, .submenu_item').forEach(el => {
                 el.classList.remove('active', 'show_submenu');
             });
         }
 
-        // 페이지 로드 시, 현재 URL에 맞는 항목 활성화
-        function setInitialActiveState() {
-            const allLinks = document.querySelectorAll('.submenu_item, .sublink');
-            allLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && currentPage.includes(href)) {
-                    setActiveState(link);
-                    if (link.classList.contains('sublink')) {
-                        setActiveState(link.closest('.item').querySelector('.submenu_item'));
-                    }
-                }
-            });
-        }
-
-        // 메인 메뉴 클릭 시 다른 활성 상태 제거 및 해당 메뉴 활성화
+        // 메인 메뉴 클릭 이벤트
         document.querySelectorAll('.submenu_item').forEach(item => {
             item.addEventListener('click', function(e) {
-                removeAllActiveStates();  // 모든 활성화 상태 제거
-                setActiveState(this);  // 현재 클릭한 메인 메뉴 활성화
-                e.preventDefault();   // 서브 메뉴 표시만 표시
+                if (!this.querySelector('.submenu')) {
+                    return; // 서브메뉴가 없으면 페이지 이동
+                }
+                e.preventDefault();
+                removeAllActiveStates();
+                setActiveState(this);
             });
         });
 
-        // 서브 메뉴 클릭 시 메인 메뉴는 유지하고, 서브 메뉴 활성화
+        // 서브 메뉴 클릭 이벤트
         document.querySelectorAll('.sublink').forEach(link => {
             link.addEventListener('click', function() {
-                removeAllActiveStates();  // 모든 활성화 상태 제거
-                setActiveState(this);     // 클릭한 서브 메뉴 활성화
-                setActiveState(this.closest('.item').querySelector('.submenu_item')); // 해당하는 메인 메뉴 유지
+                removeAllActiveStates();
+                setActiveState(this);
+                setActiveState(this.closest('.item').querySelector('.submenu_item'));
             });
         });
 
-        // 페이지 로드 시 활성 상태 설정
-        setInitialActiveState();
+        // 초기 활성 상태 설정
+        const allLinks = document.querySelectorAll('.submenu_item, .sublink');
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && currentPage.includes(href)) {
+                setActiveState(link);
+                if (link.classList.contains('sublink')) {
+                    setActiveState(link.closest('.item').querySelector('.submenu_item'));
+                }
+            }
+        });
     });
 </script>
 
