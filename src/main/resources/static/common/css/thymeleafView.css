@@ -26,6 +26,23 @@ body.dark .navbar {
   box-shadow: 5px 0px 5px black;
 }
 
+body.dark .content .filter-content td, .content .filter-content th,
+#supplierTable th, #supplierTable td,
+#dataTable th, #dataTable td,
+#productTable th, #productTable td {
+  border: 1px solid black;
+}
+
+body.dark input, body.dark select {
+    background-color: #343434;
+    color: #e3e3e3;
+    border: 1px solid #black;
+}
+body.dark .order-title {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
 
 /* navbar */
 .navbar {
