@@ -77,14 +77,18 @@ td {
     font-size: 15px;
 }
 
-/* dataTable 안에 있는 th와 td에만 적용 */
-#dataTable th, #dataTable td {
+/* Table 안에 있는 th와 td에만 적용 */
+#dataTable th, #dataTable td,
+#supplierTable th, #supplierTable td,
+#productTable th, #productTable td,
+#purchaseTable th, #purchaseTable td  {
     text-align: center;
     height: auto;
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     overflow: hidden;
     text-overflow: ellipsis;
     border: 1px solid #e3e3e3;
+    padding: 10px;
 }
 
 /* 각 열의 기본 최소 너비 설정 */
@@ -100,16 +104,6 @@ td {
 #dataTable th:nth-child(10), #dataTable td:nth-child(10) { width: 10%; }
 
 
-/* supplierTable 안에 있는 th와 td에만 적용 */
-#supplierTable th, #supplierTable td {
-    text-align: center;
-    height: auto;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid #e3e3e3;
-    padding: 10px;
-}
 
 /* 각 열의 기본 최소 너비 설정 */
 #supplierTable th:nth-child(1), #supplierTable td:nth-child(1) { width: 7%; }  /* 공급업체번호 */
@@ -121,16 +115,7 @@ td {
 #supplierTable th:nth-child(7), #supplierTable td:nth-child(7) { width: 19%; }  /* 담당자 이메일 */
 #supplierTable th:nth-child(8), #supplierTable td:nth-child(8) { width: 8%; }  /* 첨부파일 */
 
-/* productTable 안에 있는 th와 td에만 적용 */
-#productTable th, #productTable td {
-    text-align: center;
-    height: auto;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid #e3e3e3;
-    padding: 10px;
-}
+
 
 /* 각 열의 기본 최소 너비 설정 */
 #productTable th:nth-child(1), #productTable td:nth-child(1) { width: 5%; }  /* 상품번호 */
@@ -143,16 +128,7 @@ td {
 #productTable th:nth-child(8), #productTable td:nth-child(8) { width: 10%; }  /* 상품이미지 */
 #productTable th:nth-child(9), #productTable td:nth-child(9) { width: 10%; }  /* 비고 */
 
-/* purchaseTable 안에 있는 th와 td에만 적용 */
-#purchaseTable th, #purchaseTable td {
-    text-align: center;
-    height: auto;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid #e3e3e3;
-    padding: 10px;
-}
+
 
 /* 각 열의 기본 최소 너비 설정 */
 #purchaseTable th:nth-child(1), #purchaseTable td:nth-child(1) { width: 6%; }  /* no */
