@@ -92,7 +92,6 @@ function Employee() {
             employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
             emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
         });
-        console.log(newEmployee);
         const formData = new FormData();
         if(employeePhoto){
             formData.append("employeePhoto", employeePhoto);
@@ -242,7 +241,6 @@ function Employee() {
     //사원 제출및 수정 값 변경
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        console.log(newEmployee);
 
         // 해당 필드의 유효성 검사를 실행
         const errorMessage = validators[name] ? validators[name](value) : '';
@@ -387,7 +385,7 @@ function Employee() {
 
     const fetchDepartments = async () => {
         try {
-            const response = await axios.get("http://localhost:8181/hrm/getDepartment");
+            const response = await axios.get("http://localhost:8181/hrm/getActiveDepartments");
             setDepartments(response.data);
         } catch (err) {
             console.error('Error fetching departments:', err);
@@ -427,7 +425,6 @@ function Employee() {
     //수정팝업
     const openEditPopup = (employee) => {
         setEditMode(true);   // 수정 모드
-        console.log(employee);
         setNewEmployee(employee); // 선택된 사원의 데이터로 초기화
         if(employee.employeePhotoPath !=='default'){
             setPhotoThumbnail(`http://localhost:8181/hrm/images/${employee.employeePhotoPath}`)
@@ -500,14 +497,6 @@ function Employee() {
         fetchDepartments();
         fetchBanks();
     }, []);
-    // 디버깅: employees 상태 출력
-    useEffect(() => {
-        console.log('Employees:', employees);
-    }, [employees]);
-    useEffect(() => {
-        console.log('Employees:', newEmployee);
-    }, [newEmployee]);
-
 
     return (
         <main className="wrapper">

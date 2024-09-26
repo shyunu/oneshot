@@ -252,7 +252,7 @@ useEffect(() => {
                 ? department.departmentNo.toString().includes(filters.departmentNo)
                 : true;
             const matchDepartmentName = filters.departmentName
-                ? department.departmentName.includes(filters.departmentName)
+                ? department.departmentName.toString().includes(filters.departmentName)
                 : true;
             const matchAvailableMenu = filters.availableMenu
                 ? department.menuNo.includes(parseInt(filters.availableMenu))
@@ -544,23 +544,12 @@ useEffect(() => {
                                 <tr>
                                     <td><p>부서명</p></td>
                                     <td>
-                                        <select
-                                          name="departmentName"
-                                          value={filters.departmentName}
-                                          onChange={handleInputChange}
-                                        >
-                                          <option value="">전체</option>
-                                          {departments.length > 0 &&
-                                            departments.map((department) => (
-                                              <option key={department.departmentNo} value={department.departmentName}>
-                                                {department.departmentName}
-                                              </option>
-                                            ))}
-                                        </select>
+                                        <input type="text" name="departmentName" value={filters.departmentName}
+                                               onChange={handleInputChange}/>
                                     </td>
                                     <td><p>부서번호</p></td>
                                     <td>
-                                        <input type="number" name="departmentNo" value={filters.departmentNo} onChange={handleInputChange} />
+                                    <input type="number" name="departmentNo" value={filters.departmentNo} onChange={handleInputChange} />
                                     </td>
                                 </tr>
                                 <tr>
@@ -606,10 +595,10 @@ useEffect(() => {
                           />
                           <label htmlFor="selectAllCheckbox"></label>
                         </th>
-                        <th className="departmentNumberColumn" onClick={() => requestSort('departmentNo')}>부서번호</th>
-                        <th className="departmentNameColumn" onClick={() => requestSort('departmentName')}>부서명</th>
-                        <th onClick={() => requestSort('menus')}>사용가능메뉴</th>
-                        <th onClick={() => requestSort('departmentState')}>사용여부</th>
+                        <th className="departmentNumberColumn">부서번호</th>
+                        <th className="departmentNameColumn">부서명</th>
+                        <th>사용가능메뉴</th>
+                        <th>사용여부</th>
                       </tr>
                     </thead>
                     <tbody>
