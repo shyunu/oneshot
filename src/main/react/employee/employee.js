@@ -23,8 +23,8 @@ function Employee() {
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
     const [errors, setErrors] = useState({
         employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
-        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
-        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
+        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
     }); //유효성검사 에러메세지
     const [deletePopup1Open, setDeletePopup1Open ] =useState(false);
     const [deletePopup2Open, setDeletePopup2Open ] =useState(false);
@@ -89,8 +89,8 @@ function Employee() {
 
         setErrors({
             employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
-            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
-            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
+            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
         });
         const formData = new FormData();
         if(employeePhoto){
@@ -229,12 +229,12 @@ function Employee() {
             return emailRegex.test(value) ? '' : '※ 유효한 이메일 주소를 입력해주세요.';
         },
         employeePhone: (value) => {
-            const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
+            const phoneRegex =/^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 필수';
         },
         emergencyPhone:(value) => {
-            const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
+            const phoneRegex =/^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 필수';
         }
     };
 
@@ -665,7 +665,7 @@ function Employee() {
                         ) : null
                     )) : (
                         <tr>
-                            <td colSpan="10">등록된 사원이 없습니다.</td>
+                            <td>등록된 사원이 없습니다.</td>
                         </tr>
                     )}
                     </tbody>
@@ -965,8 +965,8 @@ function Employee() {
                                                 });
                                                 setErrors({
                                                     employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
-                                                    employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
-                                                    emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+                                                    employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
+                                                    emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
                                                 });
                                             }}>닫기
                                     </button>
