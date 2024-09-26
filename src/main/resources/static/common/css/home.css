@@ -42,6 +42,10 @@
     height: 499px;
 }
 
+.fc-scroller-liquid-absolute {
+    overflow: hidden !important;
+}
+
 .chart-container {
     width: 330px;
     height: 100%;

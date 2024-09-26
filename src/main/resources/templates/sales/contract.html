@@ -45,24 +45,24 @@
                     </form>
                 </div>
             </div>
-            <table id="dataTable">
+            <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="selectAll"></th>
-                        <th>no</th>
-                        <th>고객사명</th>
-                        <th>고객사담당자</th>
-                        <th>상품명</th>
-                        <th>계약가격</th>
-                        <th>계약시작일</th>
-                        <th>계약종료일</th>
-                        <th>본사담당자</th>
-                        <th>계약상태</th>
+                        <th style="width: 3%;"><input type="checkbox" id="selectAll"></th>
+                        <th style="width: 5%;">no</th>
+                        <th style="width: 10%;">고객사명</th>
+                        <th style="width: 12%;">고객사담당자</th>
+                        <th style="width: 20%;">상품명</th>
+                        <th style="width: 10%;">계약가격</th>
+                        <th style="width: 10%;">계약시작일</th>
+                        <th style="width: 10%;">계약종료일</th>
+                        <th style="width: 9%;">본사담당자</th>
+                        <th style="width: 8%;">계약상태</th>
                         <!-- <th>계약만료일</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="vo : ${list}" class="product_list" >
+                    <tr th:each="vo : ${list}" class="product_list">
                         <td><input type="checkbox" class="checkbox"></td>
                         <td th:text="${vo.contractPriceNo}"></td>
                         <td th:text="${vo.clientName}"></td>
@@ -131,13 +131,15 @@
                                 <tr class="addList">
                                     <td><p>상품명</p></td>
                                     <td>
-                                        <select class="productNo" name="productNo" onchange="changeHandle()" oninput="checkValue(this)" required>
+                                        <select class="productNo" name="productNo" oninput="checkValue(this)" required>
                                             <option>-상품명-</option>
                                         </select>
                                         <br><p id="productErrorText" class="error-text">※ 상품 선택은 필수입니다.</p>
                                     </td>
                                     <td class="product-price"><p>계약거래가</p></td>
-                                    <td><input type="number" name="contractPrice" oninput="checkValue(this); checkProductName(event)" required><br><p class="error-text">※ 계약거래가 입력은 필수입니다.</p></td>
+                                    <td><input type="text" name="contractPrice" oninput="checkValue(this); checkProductName(event); contractPriceRg(this)" required>
+                                        <br><p class="error-text">※ 계약거래가 입력은 필수입니다.</p><p class="error-text" id="priceResultRg" style="display: none">※ 계약거래가는 숫자만 입력 가능합니다.</p>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -353,6 +355,20 @@
       } else {
         errorText.style.display = "block";
       }
+    }
+
+    // 유효성검사
+    function contractPriceRg(input) {
+        var regex = /^\d+$/;
+        if(input.value.trim() === "") {
+            $('#priceResultRg').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#priceResultRg').css("display", "block");
+        } else {
+            $('#priceResultRg').css("display", "none");
+        }
     }
 
     function registerBtn() {
