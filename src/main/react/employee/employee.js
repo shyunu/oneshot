@@ -17,7 +17,7 @@ function Employee() {
     const nodeRef = useRef(null); //Draggable 오류수정
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
-    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/userCircle.png"); // 사진미리보기용
+    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/default.png"); // 사진미리보기용
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
@@ -144,7 +144,7 @@ function Employee() {
             });
             console.log('폼 제출 완료 및 직원 생성:', response.data);
             fetchEmployees();
-            setPhotoThumbnail("../../common/img/userCircle.png");
+            setPhotoThumbnail("../../common/img/default.png");
         } catch (error) {
             console.error('폼 제출 실패:', error);
         }
@@ -721,7 +721,7 @@ function Employee() {
             {showPopup &&
                 <div className="popup" id="contractPopup">
                     <Draggable nodeRef={nodeRef} onStart={handleStart} positionOffset={{x: '-50%', y: '-50%'}}>
-                        <div className="popup-content" ref={nodeRef} id="draggablePopup">
+                        <div className="popup-content" ref={nodeRef} id="draggablePopup" style={{width: "1120px"}}>
                             <div className="popup-header" id="popupHeader">
                                 <span>{editMode ? '사원 수정' : '사원 등록'}</span>
                             </div>
@@ -783,7 +783,7 @@ function Employee() {
                                                 value={newEmployee.employeeEmail}
                                                 onChange={handleFormChange}
                                             />
-                                            {errors.employeeEmail && <p style={{ color: 'red' }}>{errors.employeeEmail}</p>}
+                                            {errors.employeeEmail && <p style={{ color: 'red', fontSize: '13px' }}>{errors.employeeEmail}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="department">부서번호</label>
@@ -843,7 +843,7 @@ function Employee() {
                                                    value={newEmployee.employeePhone}
                                                    onChange={handleFormChange}
                                             />
-                                            {errors.employeePhone && <p style={{ color: 'red' }}>{errors.employeePhone}</p>}
+                                            {errors.employeePhone && <p style={{ color: 'red' , fontSize: '13px' }}>{errors.employeePhone}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
@@ -853,7 +853,7 @@ function Employee() {
                                                    className="input-form"
                                                    value={newEmployee.emergencyPhone} onChange={handleFormChange}
                                             />
-                                            {errors.emergencyPhone && <p style={{ color: 'red' }}>{errors.emergencyPhone}</p>}
+                                            {errors.emergencyPhone && <p style={{ color: 'red', fontSize: '13px' }}>{errors.emergencyPhone}</p>}
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -945,7 +945,7 @@ function Employee() {
                                     <button type="button" className="btn close"
                                             onClick={() => {
                                                 setShowPopup(false);
-                                                setPhotoThumbnail("../../common/img/userCircle.png");
+                                                setPhotoThumbnail("../../common/img/default.png");
                                                 setNewEmployee({
                                                     departmentNo: '',
                                                     employeeNo:'',
