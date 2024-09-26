@@ -59,7 +59,7 @@
                   <i class='bx bxs-home'></i>
                 </span>
                 <span>
-                  <a href="/common/home" class="navlink" style="text-decoration: none; color: #fff;">홈</a>
+                  <a href="/common/home" class="navlink" style="text-decoration: none; color: #fff; display: block; width: 100%;">홈</a>
                 </span>
                     </div>
                 </li>
@@ -143,35 +143,51 @@
     const sidebarOpen = document.querySelector("#sidebarOpen");
     const sidebarClose = document.querySelector(".collapse_sidebar");
     const sidebarExpand = document.querySelector(".expand_sidebar");
-    sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+    //    sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
 
-    sidebarClose.addEventListener("click", () => {
-      sidebar.classList.add("close", "hoverable");
-    });
-    sidebarExpand.addEventListener("click", () => {
-      sidebar.classList.remove("close", "hoverable");
-    });
+    //    sidebarClose.addEventListener("click", () => {
+    //      sidebar.classList.add("close", "hoverable");
+    //    });
+    //    sidebarExpand.addEventListener("click", () => {
+    //      sidebar.classList.remove("close", "hoverable");
+    //    });
+    //
+    //    sidebar.addEventListener("mouseenter", () => {
+    //      if (sidebar.classList.contains("hoverable")) {
+    //        sidebar.classList.remove("close");
+    //      }
+    //    });
+    //    sidebar.addEventListener("mouseleave", () => {
+    //      if (sidebar.classList.contains("hoverable")) {
+    //        sidebar.classList.add("close");
+    //      }
+    //    });
 
-    sidebar.addEventListener("mouseenter", () => {
-      if (sidebar.classList.contains("hoverable")) {
-        sidebar.classList.remove("close");
-      }
-    });
-    sidebar.addEventListener("mouseleave", () => {
-      if (sidebar.classList.contains("hoverable")) {
-        sidebar.classList.add("close");
-      }
-    });
+//     페이지 로드 시 로컬 스토리지에서 다크 모드 상태 불러오기
+        window.onload = function() {
+            const isDarkMode = localStorage.getItem('darkMode');
+            if (isDarkMode === 'enabled') {
+                body.classList.add('dark');
+                darkLight.classList.replace("bx-sun", "bx-moon");
+            } else {
+                body.classList.remove('dark');
+                darkLight.classList.replace("bx-moon", "bx-sun");
+            }
+        };
 
-    darkLight.addEventListener("click", () => {
-      body.classList.toggle("dark");
-      if (body.classList.contains("dark")) {
-        document.setI
-        darkLight.classList.replace("bx-sun", "bx-moon");
-      } else {
-        darkLight.classList.replace("bx-moon", "bx-sun");
-      }
-    });
+        // 다크 모드 버튼 클릭 시 상태 변경 및 저장
+        darkLight.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            if (body.classList.contains("dark")) {
+                // 다크 모드가 활성화되었을 때 로컬 스토리지에 저장
+                localStorage.setItem("darkMode", "enabled");
+                darkLight.classList.replace("bx-sun", "bx-moon");
+            } else {
+                // 다크 모드가 비활성화 -> 제거
+                localStorage.setItem("darkMode", "disabled");
+                darkLight.classList.replace("bx-moon", "bx-sun");
+            }
+        });
 
     submenuItems.forEach((item, index) => {
       item.addEventListener("click", () => {

@@ -61,7 +61,6 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="totalAmount" column="TOTAL_AMOUNT"/>
         <result property="employeeNo" column="EMPLOYEE_NO"/>
-        <result property="orderStatus" column="ORDER_STATUS"/>
         <result property="deliveryStatus" column="DELIVERY_STATUS"/>
         <result property="delivery" column="DELIVERY"/>
     </resultMap>
@@ -87,7 +86,6 @@
             SUM(I.AMOUNT) AS TOTAL_AMOUNT,
             H.EMPLOYEE_NO,
             E.EMPLOYEE_NAME,
-            H.ORDER_STATUS,
             H.DELIVERY_STATUS,
             H.DELIVERY
         FROM ORDER_ITEM I
@@ -108,9 +106,6 @@
         <if test="employeeName != null and employeeName != ''">
             and E.employee_name like concat('%', #{employeeName}, '%')
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            and H.order_status like concat('%', #{orderStatus}, '%')
-        </if>
         <if test="deliveryStatus != null and deliveryStatus != ''">
             and H.delivery_status like concat('%', #{deliveryStatus}, '%')
         </if>
@@ -124,7 +119,6 @@
         CL.CLIENT_NAME,
         H.EMPLOYEE_NO,
         E.EMPLOYEE_NAME,
-        H.ORDER_STATUS,
         H.DELIVERY_STATUS,
         H.DELIVERY
         ORDER BY
@@ -165,9 +159,6 @@
         </if>
         <if test="employeeName != null and employeeName != ''">
             and E.employee_name like concat('%', #{employeeName}, '%')
-        </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            and H.order_status like concat('%', #{orderStatus}, '%')
         </if>
         <if test="deliveryStatus != null and deliveryStatus != ''">
             and H.delivery_status like concat('%', #{deliveryStatus}, '%')
@@ -225,8 +216,9 @@
         INNER JOIN PRODUCT P
         ON CP.PRODUCT_NO = P.PRODUCT_NO
         WHERE C.CLIENT_NO = #{clientNo}
-            AND CP.CONTRACT_PRICE_STATUS = '승인'
-        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+              AND CP.CONTRACT_PRICE_STATUS = '승인'
+              AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+              AND P.PRODUCT_REMARK = '판매중'
     </select>
 
 
