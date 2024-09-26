@@ -87,7 +87,7 @@ input[type='number'] {
 }
 
 .checkboxColumn {
-  width: 0% !important;
-  height: 0% !important;
+  width: 43px !important;
+  height: 0 !important;
 }
 /*========================*/

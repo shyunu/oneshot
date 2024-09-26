@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import './department.css';
 import './popup.css';
+import {CSVLink} from "react-csv";
 
 function Department() {
     // 검색 필터를 위한 상태 관리
@@ -506,6 +507,23 @@ useEffect(() => {
         }
     };
 
+    //excel 내보내기
+    const handleCSVExport = (e) => {
+        if (selectedDepartments.length === 0) {
+            e.preventDefault();  // CSV 다운로드를 막음
+            alert("선택된 부서가 없습니다.");
+        }
+    };
+    const getExportData = () => {
+        return selectedDepartments.map(department => {
+            return {
+                부서번호: department.departmentNo,
+                부서명: department.departmentName,
+                사용여부: department.departmentState
+            };
+        });
+    };
+
 
     return (
         <main className="wrapper">
@@ -639,22 +657,31 @@ useEffect(() => {
                 </article>
 
 
-                <div className="buttons">
-                    <div className="regist-right" style={{justifyContent: "end", marginBottom: "20px"}}>
-                            <button className="register" onClick={handleOpenRegistrationPopup}>등록</button>
-                    </div>
+            <div className="buttons">
+                <button>
+                    <CSVLink
+                        data={getExportData()}
+                        filename="selected_employees.csv"
+                        className="btn"
+                        target="_blank"
+                        onClick={handleCSVExport}
+                    >
+                        Excel 내보내기
+                    </CSVLink>
+                </button>
+                <div className="regist-right" style={{justifyContent: "end", marginBottom: "20px"}}>
+                    <button className="register" onClick={handleOpenRegistrationPopup}>등록</button>
                 </div>
+            </div>
 
 
-
-
-                    {/* 신규 등록 모달창 */}
-                    {modalOpen && (
-                      <div className="popup" id="contractPopup">
-                        <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
-                          <div className="popup-content" id="draggablePopup">
+            {/* 신규 등록 모달창 */}
+            {modalOpen && (
+                <div className="popup" id="contractPopup">
+                    <Draggable positionOffset={{x: '-50%', y: '-50%'}}>
+                        <div className="popup-content" id="draggablePopup">
                             <div className="popup-header" id="popupHeader">
-                              <span>부서등록</span>
+                                <span>부서등록</span>
                             </div>
                             <form className="contract-form" onSubmit={formSubmit}>
                               <table>

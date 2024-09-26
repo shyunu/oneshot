@@ -503,14 +503,14 @@ function Employee() {
     return (
         <main className="wrapper">
 
-            <div class="text-wrap">
+            <div className="text-wrap">
                 <p>사원조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
 
-            <div class="order-title">
-                <div class="filter-content">
-                    <div class="filter-main">
+            <div className="order-title">
+                <div className="filter-content">
+                    <div className="filter-main">
                         <h3>상세내역검색</h3>
                         <button className="filter-button" onClick={handleSearchBtn}>검색하기</button>
                         <button className="filter-button" onClick={() => {
@@ -609,28 +609,28 @@ function Employee() {
                             />
                             <label htmlFor="selectAllCheckbox"></label>
                         </th>
-                        <th>
+                        <th style={{minWidth: "130px"}}>
                             입사일자
                         </th>
-                        <th>
+                        <th  style={{minWidth: "110px"}}>
                             no
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             성명
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             부서명
                         </th>
-                        <th>
+                        <th style={{minWidth: "105px"}}>
                             직급
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             전화번호
                         </th>
-                        <th>
+                        <th style={{minWidth: "170px"}}>
                             이메일
                         </th>
-                        <th>
+                        <th style={{minWidth: "110px"}}>
                             재직여부
                         </th>
                     </tr>
