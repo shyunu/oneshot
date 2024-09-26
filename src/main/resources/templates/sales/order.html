@@ -113,11 +113,13 @@
         const row = button.closest('tr');
         const rows = document.querySelectorAll('#inputContainer tr');
 
-        // 최소 1개의 행이 남게 컨트롤
-        if (rows.length <= 1) {
+        // 첫 번째 행이면 기능을 수행하지 않음
+        if (row === rows[0]) {
             alert("최소 1개의 항목은 등록하셔야합니다.");
             return;
         }
+
+        // 행 삭제
         row.remove();
     }
 
@@ -288,8 +290,8 @@
                             <tr class="left-row">
                                 <td><p>등록일자</p></td>
                                 <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
-                                <td><p>판매담당자</p></td>
-                                <td><input type="text" name="employeeName" th:value="${#authentication.principal.employeeName}" readonly></td>
+                                <td><p>판매담당자번호</p></td>
+                                <td><input type="text" name="employeeNo" th:value="${#authentication.principal.username}" readonly></td>
                                 <td colspan="2"><p>판매자 연락처</p></td>
                                 <td colspan="2"><input type="text" class="employeePhone" disabled></td>
                                 <td colspan="2"><p>판매자 이메일</p></td>
@@ -389,7 +391,9 @@
     </div>
 </th:block>
 <script th:inline="javascript">
-
+    var employeeNo = /*[(${#authentication.principal.username})]*/ 'defaultUsername';
+</script>
+<script>
 
     window.onload = function () {
 
@@ -901,53 +905,34 @@
             }
         });
 
+
         $.ajax({
         url: '/sales/getEmployeeContent',
         type: 'get',
-        data: {employeeNo : [[${#authentication.principal.username}]]},
-    dataType: 'json',
-    success: function(data) {
-    //clientName이 변경되면 해당 고객사정보도 변경
-    $('.employeeName').val(data.employeeName);
-    $('.employeePhone').val(data.employeePhone);
-    $('.employeeEmail').val(data.employeeEmail);
+        data: {employeeNo : employeeNo},
+        dataType: 'json',
+        success: function(data) {
+        //clientName이 변경되면 해당 고객사정보도 변경
+        $('.employeeName').val(data.employeeName);
+        $('.employeePhone').val(data.employeePhone);
+        $('.employeeEmail').val(data.employeeEmail);
 
-    // 데이터베이스에 저장될 값: employeeNo
-    $('input[name="employeeNo"]').val(data.employeeNo); // 숨겨진 input에 employeeNo 설정
+        // 데이터베이스에 저장될 값: employeeNo
+        $('input[name="employeeNo"]').val(data.employeeNo); // 숨겨진 input에 employeeNo 설정
 
-    },
-    error: function() {
-    $('.employeeNo').val('');
-    $('.employeePhone').val('');
-    $('.employeeEmail').val('');
-    $('input[name="employeeNo"]').val('');
-    }
-    });
+        },
+        error: function() {
+        $('.employeeName').val('');
+        $('.employeePhone').val('');
+        $('.employeeEmail').val('');
+        $('input[name="employeeNo"]').val('');
+        }
+        });
+
     const popupRegist = document.getElementById('popup-regist');
     popupRegist.style.display = 'block';
     }
-    //사원명 change event
-    /*
-    function changeEmployeeName(event) {
 
-        $.ajax({
-            url: '/sales/getEmployeeContent',
-            type: 'get',
-            data: {employeeNo : event.target.value},
-            dataType: 'json',
-            success: function(data) {
-            //clientName이 변경되면 해당 고객사정보도 변경
-            $('.employeePhone').val(data.employeePhone);
-            $('.employeeEmail').val(data.employeeEmail);
-
-         },
-        error: function() {
-            $('.employeePhone').val('');
-            $('.employeeEmail').val('');
-             }
-        });
-    }
-    */
 
 
 </script>
