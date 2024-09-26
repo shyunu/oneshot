@@ -129,6 +129,7 @@
     bottom: 0;
 }
 
+
 .fc-scrollgrid-section:-webkit-overflow-scrolling: {
     display: none;
 }
