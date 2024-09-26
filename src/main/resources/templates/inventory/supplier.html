@@ -111,7 +111,7 @@
                                 <td><input type="text" name="supplierNo" disabled></td>
                                 <td><p>담당자명</p></td>
                                 <td><input type="text" id="managerName" name="managerName" oninput="checkValue(this); managerNameSuccess(this)" required>
-                                <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none">※ 이름은 한글만 가능합니다.</p></td>
+                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none">※ 이름은 한글만 가능합니다.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
@@ -126,7 +126,7 @@
                             <tr>
                                 <td><p>공급업체주소</p></td>
                                 <td><input type="text" id="supplierAddress" name="supplierAddress" oninput="checkValue(this); supplierAddressSuccess(this)" required>
-                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p><p class="error-text" id="supplierAddressResult" style="display: none">※ 공급업체주소는 한글만 가능합니다.</p></td>
+                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
 
                                 <td><p>담당자이메일</p></td>
                                 <td><input type="email" id="managerEmail" name="managerEmail" oninput="checkValue(this); managerEmailSuccess(this)" required>
@@ -163,16 +163,24 @@
                             <tr>
                                 <td><p>공급업체번호</p></td>
                                 <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
+
                                 <td><p>담당자명</p></td>
                                 <td><input type="text" name="managerName" id="modifyManagerName" oninput="managerNameSuccessMd(this)" required>
-                                    <br><p class="error-text" id="managerNameResultMd" style="display: none">※ 이름은 한글만 가능합니다.</p>
+                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p>
+                                    <p class="error-text" id="managerNameResultMd" style="display: none">※ 이름은 한글만 가능합니다.</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
-                                <td><input type="text" name="supplierName" id="modifySupplierName" required></td>
+                                <td><input type="text" name="supplierName" id="modifySupplierName" oninput="modifySupplierSuccessMd(this)" required>
+                                    <br><p class="error-text" id="supplierNameResultMd">※ 공급업체명 입력은 필수입니다.</p>
+                                </td>
+
                                 <td><p>담당자 연락처</p></td>
-                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" pattern="\d{2,3}-\d{3,4}-\d{4}" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required></td>
+                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" oninput="managerPhoneSuccessMd(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
+                                    <br><p class="error-text" id="managerPhoneMdResult" style="display: none">※ 담당자 연락처 입력은 필수입니다.</p>
+                                </td>
+
                             </tr>
                             <tr>
                                 <td><p>공급업체주소</p></td>
@@ -257,9 +265,8 @@
     function managerNameSuccessMd(input) {
         var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
         if(input.value.trim() === "") {
-            $('#managerNameResultMd').css("display", "block");
-            return;
-        }
+            $('#managerNameResultMd').css("display", "none");
+            }
         if(!regex.test(input.value)) {
             $('#managerNameResultMd').css("display", "block");
         } else {
@@ -270,7 +277,20 @@
     function supplierNameSuccess(input) {
         var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
         if(input.value.trim() === "") {
-            $('#supplierNameResult').css("display", "none");
+            $('#supplierNameResultMd').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#supplierNameResultMd').css("display", "block");
+        } else {
+            $('#supplierNameResultMd').css("display", "none");
+        }
+    }
+
+    function modifySupplierSuccessMd(input) {
+        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
+        if(input.value.trim() === "") {
+            $('#supplierNameResult').css("display", "block");
             return;
         }
         if(!regex.test(input.value)) {
@@ -291,6 +311,20 @@
             $('#managerPhoneResult').css("display", "block");
         } else {
             $('#managerPhoneResult').css("display", "none");
+        }
+    }
+
+    function managerPhoneSuccessMd(input) {
+        var regex = /^\d{2,3}-\d{4}-\d{4}$/;
+
+        if(input.value.trim() === "") {
+            $('#managerPhoneMdResult').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#managerPhoneMdResult').css("display", "block");
+        } else {
+            $('#managerPhoneMdResult').css("display", "none");
         }
     }
 
@@ -332,11 +366,6 @@
             $('#supplierBusinessNoResult').css("display", "none");
         }
     }
-
-
-
-
-
 
 
     function saveSupplier() {
