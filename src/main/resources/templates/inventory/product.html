@@ -83,7 +83,7 @@
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.inventoryQuantity}" th:classappend="${productVO.inventoryQuantity < productVO.safetyQuantity} ? 'warning' : ''" onclick="handleClick(event)"></td>
             <td th:text="${productVO.safetyQuantity}" onclick="handleClick(event)"></td>
-            <td th:text="${productVO.productPrice} + 원" onclick="handleClick(event)"></td>
+            <td th:text="${#numbers.formatInteger(productVO.productPrice, 3, 'COMMA') + '원'}"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
             <td th:text="${productVO.productRemark}" onclick="handleClick(event)"></td>
           </tr>

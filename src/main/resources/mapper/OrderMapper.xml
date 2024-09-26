@@ -61,7 +61,6 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="totalAmount" column="TOTAL_AMOUNT"/>
         <result property="employeeNo" column="EMPLOYEE_NO"/>
-        <result property="orderStatus" column="ORDER_STATUS"/>
         <result property="deliveryStatus" column="DELIVERY_STATUS"/>
         <result property="delivery" column="DELIVERY"/>
     </resultMap>
@@ -87,7 +86,6 @@
             SUM(I.AMOUNT) AS TOTAL_AMOUNT,
             H.EMPLOYEE_NO,
             E.EMPLOYEE_NAME,
-            H.ORDER_STATUS,
             H.DELIVERY_STATUS,
             H.DELIVERY
         FROM ORDER_ITEM I
@@ -108,9 +106,6 @@
         <if test="employeeName != null and employeeName != ''">
             and E.employee_name like concat('%', #{employeeName}, '%')
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            and H.order_status like concat('%', #{orderStatus}, '%')
-        </if>
         <if test="deliveryStatus != null and deliveryStatus != ''">
             and H.delivery_status like concat('%', #{deliveryStatus}, '%')
         </if>
@@ -124,7 +119,6 @@
         CL.CLIENT_NAME,
         H.EMPLOYEE_NO,
         E.EMPLOYEE_NAME,
-        H.ORDER_STATUS,
         H.DELIVERY_STATUS,
         H.DELIVERY
         ORDER BY
@@ -166,9 +160,6 @@
         <if test="employeeName != null and employeeName != ''">
             and E.employee_name like concat('%', #{employeeName}, '%')
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            and H.order_status like concat('%', #{orderStatus}, '%')
-        </if>
         <if test="deliveryStatus != null and deliveryStatus != ''">
             and H.delivery_status like concat('%', #{deliveryStatus}, '%')
         </if>
@@ -184,7 +175,7 @@
     <select id="getEmployeeList" resultType="EmployeeVO">
         SELECT *
         FROM EMPLOYEE
-        ORDER BY EMPLOYEE_NO ASC
+        ORDER BY EMPLOYEE_NAME ASC
     </select>
 
     <!-- 사원 정보 조회하기 -->
@@ -196,7 +187,7 @@
     <select id="getClientList" resultType="ClientVO">
         SELECT *
         FROM CLIENT
-        ORDER BY CLIENT_NO ASC
+        ORDER BY CLIENT_NAME ASC
     </select>
 
     <!-- 고객사 정보 조회하기 -->

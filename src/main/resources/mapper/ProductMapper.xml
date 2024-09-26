@@ -94,7 +94,7 @@
     </select>
 
     <select id="getCategoryList" resultType="CategoryVO">
-        select * from category order by category_no
+        <![CDATA[ SELECT * FROM category ORDER BY category_name USING ~<~ ]]>
     </select>
 
     <insert id="postProduct" parameterType="ProductVO">

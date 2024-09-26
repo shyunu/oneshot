@@ -61,8 +61,8 @@
                         <td th:text="${purchase.categoryName}"></td>
                         <td th:text="${purchase.productName}"></td>
                         <td th:text="${purchase.purchaseQuantity}"></td>
-                        <td th:text="${purchase.purchasePrice} + 원"></td>
-                        <td th:text="(${purchase.purchaseQuantity} * ${purchase.purchasePrice}) + 원"></td>
+                        <td th:text="${#numbers.formatInteger(purchase.purchasePrice, 3, 'COMMA') + '원'}"></td>
+                        <td th:text="${#numbers.formatInteger(purchase.purchaseQuantity * purchase.purchasePrice, 3, 'COMMA') + '원'}"></td>
                         <td th:text="${purchase.employeeName}"></td>
                         <td th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
                     </tr>
