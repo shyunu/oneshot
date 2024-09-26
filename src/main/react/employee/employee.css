@@ -77,17 +77,17 @@ input[type='number'] {
 }
 /*사원테이블의 체크박스*/
 .employeeCheckbox {
-  width: 21px !important;
-  height: 30px !important;
+  width: 16px !important;
+  height: 24px !important;
 }
 
 #selectAllCheckbox {
-  width: 21px !important;
+  width: 16px !important;
   height: 21px !important;
 }
 
 .checkboxColumn {
-  width: 0% !important;
-  height: 0% !important;
+  width: 43px !important;
+  height: 0 !important;
 }
 /*========================*/

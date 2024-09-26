@@ -41,14 +41,14 @@
             <table>
                 <thead>
                 <tr>
-                    <th style="width: 6% !important;">no</th>
-                    <th style="width: 13% !important;">공급업체명</th>
-                    <th style="width: 20% !important;">공급업체주소</th>
-                    <th style="width: 13% !important;">사업자등록번호</th>
-                    <th style="width: 10% !important;">담당자명</th>
-                    <th style="width: 12% !important;">담당자연락처</th>
-                    <th style="width: 19% !important;">담당자이메일</th>
-                    <th style="width: 8% !important;">첨부파일</th>
+                    <th style="width: 5%;">no</th>
+                    <th style="width: 13%;">공급업체명</th>
+                    <th style="width: 20%;">공급업체주소</th>
+                    <th style="width: 13%;">사업자등록번호</th>
+                    <th style="width: 10%;">담당자명</th>
+                    <th style="width: 13%;">담당자연락처</th>
+                    <th style="width: 19%;">담당자이메일</th>
+                    <th style="width: 8%;">첨부파일</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,22 +67,6 @@
                         </a>
                     </td>
                 </tr>
-<!--                    <tr th:each="supplier : ${list}" th:data-supplier-no="${supplier.supplierNo}" class="product_list">-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierNo}" style="min-width: 45px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierName}" style="min-width: 110px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierAddress}" style="min-width: 100px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.supplierBusinessNo}" style="min-width: 100px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerName}" style="min-width: 70px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerPhone}" style="min-width: 70px;"></td>-->
-<!--                        <td th:onclick="'openModifyModal(' + ${supplier.supplierNo} + ')'" th:text="${supplier.managerEmail}" style="min-width: 70px;"></td>-->
-<!--                        <td style="min-width: 50px;">-->
-<!--                            <a th:if="${supplier.supplierFile != null}"-->
-<!--                               th:href="@{/inventory/viewFile/{fileName}(fileName=${supplier.supplierFile})}"-->
-<!--                               target="_blank">조회-->
-<!--                            </a>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-
                 </tbody>
             </table>
 
@@ -111,31 +95,31 @@
                                 <td><input type="text" name="supplierNo" disabled></td>
                                 <td><p>담당자명</p></td>
                                 <td><input type="text" id="managerName" name="managerName" oninput="checkValue(this); managerNameSuccess(this)" required>
-                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none">※ 이름은 한글만 가능합니다.</p></td>
+                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none;">※ 이름은 한글만 가능합니다.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
-                                <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event); supplierNameSuccess(this)" class="error-box" required><br>
+                                <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event);" class="error-box" required><br>
                                     <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
-                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none">※ 공급업체는 한글만 가능합니다.</p></td>
+                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none;">※ 공급업체는 한글만 가능합니다.</p></td>
 
                                 <td><p>담당자연락처</p></td>
                                 <td><input type="text" id="managerPhone" name="managerPhone" oninput="checkValue(this); managerPhoneSuccess(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
-                                    <br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p><p class="error-text" id="managerPhoneResult" style="display: none">※ 올바른 연락처 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p><p class="error-text" id="managerPhoneResult" style="display: none;">※ 올바른 연락처 형식을 입력하세요.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체주소</p></td>
                                 <td><input type="text" id="supplierAddress" name="supplierAddress" oninput="checkValue(this); supplierAddressSuccess(this)" required>
-                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
+                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p><p class="error-text" id="supplierAddressResult" style="display: none">※ 공급업체주소는 한글만 가능합니다.</p></td>
 
                                 <td><p>담당자이메일</p></td>
                                 <td><input type="email" id="managerEmail" name="managerEmail" oninput="checkValue(this); managerEmailSuccess(this)" required>
-                                    <br><p class="error-text">※ 담당자이메일 입력은 필수입니다.</p><p class="error-text" id="managerEmailResult" style="display: none">※ 올바른 이메일 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 담당자이메일 입력은 필수입니다.</p><p class="error-text" id="managerEmailResult" style="display: none;">※ 올바른 이메일 형식을 입력하세요.</p></td>
                             </tr>
                             <tr>
                                 <td><p>사업자등록번호</p></td>
                                 <td><input type="text" id="supplierBusinessNo" name="supplierBusinessNo" oninput="checkValue(this); supplierBusinessNoSuccess(this)" placeholder="xxx-xx-xxxx" required>
-                                    <br><p class="error-text">※ 사업자등록번호 입력은 필수입니다.</p><p class="error-text" id="supplierBusinessNoResult" style="display: none">※ 올바른 사업자번호 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 사업자등록번호 입력은 필수입니다.</p><p class="error-text" id="supplierBusinessNoResult" style="display: none;">※ 올바른 사업자번호 형식을 입력하세요.</p></td>
 
                                 <td><p>첨부파일</p></td>
                                 <td><input type="file" id="supplierFile" name="supplierFile" oninput="checkValue(this)" required><br><p class="error-text">※ 파일첨부는 필수입니다.</p></td>
@@ -163,34 +147,29 @@
                             <tr>
                                 <td><p>공급업체번호</p></td>
                                 <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
-
                                 <td><p>담당자명</p></td>
-                                <td><input type="text" name="managerName" id="modifyManagerName" oninput="checkValue(this); managerNameSuccessMd(this)" required>
-                                    <br><p class="error-text" id="managerNameInputMd" style="display: none;">※ 담당자명 입력은 필수입니다.</p>
-                                    <p class="error-text" id="managerNameRegexMd" style="display: none;">※ 이름은 한글만 가능합니다.</p>
+                                <td><input type="text" name="managerName" id="modifyManagerName" oninput="checkValue(this)" required>
                                 </td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
-                                <td><input type="text" name="supplierName" id="modifySupplierName" oninput="modifySupplierSuccessMd(this)" required>
-                                    <br><p class="error-text" id="supplierNameResultMd" style="display: none;">※ 공급업체명 입력은 필수입니다.</p>
+                                <td><input type="text" name="supplierName" id="modifySupplierName" oninput="checkValue(this)" required>
                                 </td>
-
                                 <td><p>담당자 연락처</p></td>
-                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" oninput="managerPhoneSuccessMd(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
-                                    <br><p class="error-text" id="managerPhoneMdResult" style="display: none">※ 담당자 연락처 입력은 필수입니다.</p>
+                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" oninput="checkValue(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
                                 </td>
-
                             </tr>
                             <tr>
                                 <td><p>공급업체주소</p></td>
-                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" required></td>
+                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" oninput="checkValue(this)" required>
                                 <td><p>담당자 이메일</p></td>
-                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" oninput="checkValue(this)" required>
+                                </td>
                             </tr>
                             <tr>
-                                <td><p>공급업체 사업자등록번호</p></td>
-                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                <td><p>사업자등록번호</p></td>
+                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" oninput="checkValue(this)" placeholder="xxx-xx-xxxx" required>
+                                </td>
                                 <td><p>첨부파일</p></td>
                                 <td>
                                     <input type="file" name="supplierFile" id="modifySupplierFile">
@@ -262,44 +241,6 @@
         }
     }
 
-    function managerNameSuccessMd(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-        if(input.value.trim() === "") {
-            $('#managerNameRegexMd').css("display", "none");
-            }
-        if(!regex.test(input.value)) {
-            $('#managerNameRegexMd').css("display", "block");
-        } else {
-            $('#managerNameRegexMd').css("display", "none");
-        }
-    }
-
-    function supplierNameSuccess(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-        if(input.value.trim() === "") {
-            $('#supplierNameResultMd').css("display", "none");
-            return;
-        }
-        if(!regex.test(input.value)) {
-            $('#supplierNameResultMd').css("display", "block");
-        } else {
-            $('#supplierNameResultMd').css("display", "none");
-        }
-    }
-
-    function modifySupplierSuccessMd(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-        if(input.value.trim() === "") {
-            $('#supplierNameResult').css("display", "none");
-            return;
-        }
-        if(!regex.test(input.value)) {
-            $('#supplierNameResult').css("display", "block");
-        } else {
-            $('#supplierNameResult').css("display", "none");
-        }
-    }
-
     function managerPhoneSuccess(input) {
         var regex = /^\d{2,3}-\d{4}-\d{4}$/;
 
@@ -311,20 +252,6 @@
             $('#managerPhoneResult').css("display", "block");
         } else {
             $('#managerPhoneResult').css("display", "none");
-        }
-    }
-
-    function managerPhoneSuccessMd(input) {
-        var regex = /^\d{2,3}-\d{4}-\d{4}$/;
-
-        if(input.value.trim() === "") {
-            $('#managerPhoneMdResult').css("display", "none");
-            return;
-        }
-        if(!regex.test(input.value)) {
-            $('#managerPhoneMdResult').css("display", "block");
-        } else {
-            $('#managerPhoneMdResult').css("display", "none");
         }
     }
 
@@ -354,6 +281,7 @@
         }
     }
 
+
     function supplierBusinessNoSuccess(input) {
         var regex = /^\d{3}-\d{2}-\d{5}$/;
         if(input.value.trim() === "") {
@@ -366,7 +294,6 @@
             $('#supplierBusinessNoResult').css("display", "none");
         }
     }
-
 
     function saveSupplier() {
         let hasError = false;
@@ -393,17 +320,9 @@
                 document.getElementById('modifySupplierAddress').value = data.supplierAddress;
                 document.getElementById('modifySupplierBusinessNo').value = data.supplierBusinessNo;
                 document.getElementById('modifyManagerName').value = data.managerName;
-                var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-                console.log(data.managerName);
-                if(!regex.test(data.managerName)) {
-                    $('#managerNameRegexMd').css('display', 'block');
-                }
                 document.getElementById('modifyManagerPhone').value = data.managerPhone;
-
                 document.getElementById('modifyManagerEmail').value = data.managerEmail;
-
                 document.getElementById('existingFile').value = data.supplierFile;
-
                 document.getElementById('popup-modify').style.display = "flex"; // 수정 모달창 열기
             })
             .catch(error => {
@@ -426,21 +345,22 @@
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('성공적으로 수정되었습니다.');
-                    closeModal();
-                    updateTableRow(formData);
-                }
-                else {
-                    alert('수정에 실패했습니다: ' + data.message);
-                }
-            })
-            .catch(error => {
-                alert('오류가 발생했습니다: ' + error.message);
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('성공적으로 수정되었습니다.');
+                closeModal();
+                updateTableRow(formData);
+            }
+            else {
+                alert('수정에 실패했습니다: ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('오류가 발생했습니다: ' + error.message);
+        });
     }
+
 
     // 테이블 행 업데이트
     function updateTableRow(formData) {
@@ -516,6 +436,5 @@
             isDragging = false;
         });
     }
-
 </script>
 </html>

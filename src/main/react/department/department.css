@@ -1,23 +1,37 @@
+a {
+  text-decoration: none;
+}
+
+.btn {
+  height: 30px;
+  border-radius: 6px;
+  border-style: none;
+  color : white;
+  width: 95px;
+  margin-right: -5px;
+  margin-left: 0px;
+}
+
 /*부서테이블의 체크박스*/
 .departmentCheckbox {
-  width: 21px !important;
+  width: 16px !important;
   height: 21px !important;
 }
 
 #selectAllCheckbox {
-  width: 21px !important;
+  width: 16px !important;
   height: 21px !important;
 }
 
 .checkboxColumn {
-  width: 0% !important;
+  width: 43px !important;
 }
 /*========================*/
 .departmentNumberColumn {
-  width: 2% !important; /* 부서no 테이블 너비 */
+  width: 150px !important; /* 부서no 테이블 너비 */
 }
 .departmentNameColumn {
-  width: 10% !important; /* 부서명테이블 너비 */
+  width: 20% !important; /* 부서명테이블 너비 */
 }
 
 /*부서등록팝업체크박스*/
@@ -79,4 +93,5 @@
 .employee-table{
     margin: 12px;
 }
+
 

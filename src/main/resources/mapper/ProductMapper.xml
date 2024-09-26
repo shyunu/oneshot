@@ -69,10 +69,9 @@
         product.product_price,
         product.product_img,
         product.product_remark,
-        purchase_summary.total_purchase_quantity,
-        order_summary.total_order_quantity
-        ORDER BY
-        product.product_no DESC
+        purchase_summary.total_purchase_quantity,  -- 추가된 부분
+        order_summary.total_order_quantity         -- 추가된 부분
+        ORDER BY product.product_no DESC
         LIMIT #{amount} OFFSET #{pageStart}
     </select>
 
