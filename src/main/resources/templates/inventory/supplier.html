@@ -393,8 +393,15 @@
                 document.getElementById('modifySupplierAddress').value = data.supplierAddress;
                 document.getElementById('modifySupplierBusinessNo').value = data.supplierBusinessNo;
                 document.getElementById('modifyManagerName').value = data.managerName;
+                var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
+                console.log(data.managerName);
+                if(!regex.test(data.managerName)) {
+                    $('#managerNameRegexMd').css('display', 'block');
+                }
                 document.getElementById('modifyManagerPhone').value = data.managerPhone;
+
                 document.getElementById('modifyManagerEmail').value = data.managerEmail;
+
                 document.getElementById('existingFile').value = data.supplierFile;
 
                 document.getElementById('popup-modify').style.display = "flex"; // 수정 모달창 열기
