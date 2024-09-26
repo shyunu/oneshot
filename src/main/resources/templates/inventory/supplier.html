@@ -165,7 +165,7 @@
                                 <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
                             </tr>
                             <tr>
-                                <td><p>공급업체 사업자등록번호</p></td>
+                                <td><p>사업자등록번호</p></td>
                                 <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
                                 <td><p>첨부파일</p></td>
                                 <td>
@@ -374,21 +374,22 @@
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('성공적으로 수정되었습니다.');
-                    closeModal();
-                    updateTableRow(formData);
-                }
-                else {
-                    alert('수정에 실패했습니다: ' + data.message);
-                }
-            })
-            .catch(error => {
-                alert('오류가 발생했습니다: ' + error.message);
-            });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('성공적으로 수정되었습니다.');
+                closeModal();
+                updateTableRow(formData);
+            }
+            else {
+                alert('수정에 실패했습니다: ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('오류가 발생했습니다: ' + error.message);
+        });
     }
+
 
     // 테이블 행 업데이트
     function updateTableRow(formData) {

@@ -110,7 +110,7 @@
     color: #000 !important;
     border: 0.3px solid #e3e3e3 !important;
     border-style: none;
-    box-shadow: 0px 4px 8px #e3e3e3;
+/*    box-shadow: 0px 4px 8px #e3e3e3;*/
     border-radius: 5px;
     width: 100px;
 }
@@ -221,13 +221,12 @@
 }
 
 .side-right {
-    width: 47.7%;
+    width: 50%;
     height: 300px;
     padding: 20px;
-    border-radius: 5px;
     background-color: #fff;
-    box-shadow: 0px 4px 8px #e3e3e3;
     margin: 10px 0px;
+    border: 1px solid #e3e3e3;
 }
 .side-right h3 {
     margin: 10px 0px 15px 0px;

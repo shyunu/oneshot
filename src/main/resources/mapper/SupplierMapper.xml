@@ -81,12 +81,12 @@
     <update id="modifySupplier" parameterType="SupplierVO">
         UPDATE supplier
         SET supplier_name = #{supplierName},
-            supplier_address = #{supplierAddress},
-            supplier_business_no = #{supplierBusinessNo},
-            manager_name = #{managerName},
-            manager_phone = #{managerPhone},
-            manager_email = #{managerEmail},
-            supplier_file = #{supplierFile}
+        supplier_address = #{supplierAddress},
+        supplier_business_no = #{supplierBusinessNo},
+        manager_name = #{managerName},
+        manager_phone = #{managerPhone},
+        manager_email = #{managerEmail},
+        supplier_file = #{supplierFile}
         WHERE supplier_no = #{supplierNo}
     </update>
 
