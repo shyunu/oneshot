@@ -95,13 +95,13 @@
                                 <td><input type="text" name="supplierNo" disabled></td>
                                 <td><p>담당자명</p></td>
                                 <td><input type="text" id="managerName" name="managerName" oninput="checkValue(this); managerNameSuccess(this)" required>
-                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none;">※ 이름은 한글만 가능합니다.</p></td>
+                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none;">※ 이름은 한글과 영어만 가능합니다.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
                                 <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event);" class="error-box" required><br>
                                     <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
-                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none;">※ 공급업체는 한글만 가능합니다.</p></td>
+                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none;">※ 공급업체는 한글과 영어만 가능합니다.</p></td>
 
                                 <td><p>담당자연락처</p></td>
                                 <td><input type="text" id="managerPhone" name="managerPhone" oninput="checkValue(this); managerPhoneSuccess(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
@@ -227,9 +227,9 @@
         });
     }
 
-    //유효성검사
+    // 유효성검사
     function managerNameSuccess(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
+        var regex = /^[가-힣a-zA-Z]+$/;
         if(input.value.trim() === "") {
             $('#managerNameResult').css("display", "none");
             return;
@@ -256,7 +256,9 @@
     }
 
     function supplierAddressSuccess(input) {
+
         var regex = /^[가-힣a-zA-Z0-9\s]+$/;
+
         if(input.value.trim() === "") {
             $('#supplierAddressResult').css("display", "none");
             return;

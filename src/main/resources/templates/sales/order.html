@@ -194,7 +194,7 @@
                 <tr th:each="vo : ${list}"
                     onclick="handleClick(this, event)"
                     class="product_list"
-                    th:attr="style=${vo.deliveryStatus} == '배송완료' ? 'background-color: #e3e3e3; opacity: 0.5;' : ''">
+                    th:attr="style=${vo.deliveryStatus} == '배송완료' ? 'background-color: #f6f6f6; opacity: 0.5;' : ''">
                     <td><input type="checkbox" class="checkbox" onclick="toggleRow(this)"></td>
                     <td th:text="${vo.orderHeaderNo}"></td>
                     <td th:text="${#dates.format(vo.orderSdate, 'yyyy-MM-dd')}"></td>
@@ -210,7 +210,7 @@
 
             <div class="buttons">
                 <div class="button-left">
-                    <button type="button" class="deliveryInfoButton" onclick="closeDeliveryStatus()">배송완료처리</button>
+                    <button type="button" class="deliveryInfoButton" onclick="closeDeliveryStatus()">배송완료</button>
                 </div>
                 <button class="button-regist button-right" onclick="handleClick2(this.innerHTML)">판매등록</button>
             </div>
@@ -336,7 +336,7 @@
                                         <option value="" disabled selected>-상품-</option>
                                     </select>
                                     <br>
-                                    <p class="error-text">※ 상품 선택은 필수입니다.</p>
+                                    <p class="error-text">※ 상품선택은 필수입니다.</p>
                                 </td>
                                 <td>
                                     <input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly required>
@@ -459,7 +459,7 @@
             // 배경색 지정
             const td = checkbox.closest('tr').querySelectorAll('td');
             td.forEach(function(cell) {
-                cell.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+                cell.style.backgroundColor = checkbox.checked ? '#f6f6f6' : '';
             });
         });
     });
@@ -481,7 +481,7 @@
             // 배경색 지정
             const td = checkbox.closest('tr').querySelectorAll('td'); // 체크박스가 있는 모든 <td>
             td.forEach(function(cell) {
-                cell.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+                cell.style.backgroundColor = checkbox.checked ? '#f6f6f6' : '';
             });
         });
     });
@@ -600,7 +600,7 @@
 
         // 모든 td의 배경색과 투명도를 설정
         for (const td of tds) {
-            td.style.backgroundColor = checkbox.checked ? '#f7f5f2' : '';
+            td.style.backgroundColor = checkbox.checked ? '#f6f6f6' : '';
         }
     }
 
@@ -856,7 +856,7 @@
                     const row = checkbox.closest('tr');
                     row.cells[7].innerText = '배송완료';
                     row.cells[8].innerText = new Date().toLocaleDateString();
-                    row.style.backgroundColor = '#e3e3e3';
+                    row.style.backgroundColor = '#f6f6f6';
                     row.style.opacity = '0.5';
 
                     checkbox.checked = false;
