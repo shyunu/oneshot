@@ -21,7 +21,11 @@ function Employee() {
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
-    const [errors, setErrors] = useState({}); //유효성검사 에러메세지
+    const [errors, setErrors] = useState({
+        employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+    }); //유효성검사 에러메세지
     const [deletePopup1Open, setDeletePopup1Open ] =useState(false);
     const [deletePopup2Open, setDeletePopup2Open ] =useState(false);
 
@@ -68,7 +72,6 @@ function Employee() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
         //유효성검사
         const newErrors = {};
         Object.keys(validators).forEach(field => {
@@ -84,6 +87,11 @@ function Employee() {
             return; // 폼 제출 중단
         }
 
+        setErrors({
+            employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+        });
         console.log(newEmployee);
         const formData = new FormData();
         if(employeePhoto){
@@ -387,6 +395,7 @@ function Employee() {
     };
     // 행 클릭 핸들러
     const handleRowClick = (employee) => {
+        setErrors({});
         openEditPopup(employee); // 클릭한 사원의 정보를 상태에 저장
     };
 
@@ -965,7 +974,11 @@ function Employee() {
                                                     accountHolder: '',
                                                     departmentName: ''
                                                 });
-                                                setErrors({});
+                                                setErrors({
+                                                    employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+                                                    employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+                                                    emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+                                                });
                                             }}>닫기
                                     </button>
                                 </div>
