@@ -110,7 +110,7 @@
                             <tr>
                                 <td><p>공급업체주소</p></td>
                                 <td><input type="text" id="supplierAddress" name="supplierAddress" oninput="checkValue(this); supplierAddressSuccess(this)" required>
-                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p></td>
+                                    <br><p class="error-text">※ 공급업체주소 입력은 필수입니다.</p><p class="error-text" id="supplierAddressResult" style="display: none">※ 공급업체주소는 한글만 가능합니다.</p></td>
 
                                 <td><p>담당자이메일</p></td>
                                 <td><input type="email" id="managerEmail" name="managerEmail" oninput="checkValue(this); managerEmailSuccess(this)" required>
