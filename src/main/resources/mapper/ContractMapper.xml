@@ -104,7 +104,7 @@
     <select id="getClientList" resultType="ClientVO">
         SELECT *
         FROM CLIENT
-        ORDER BY CLIENT_NO ASC
+        ORDER BY CLIENT_NAME
     </select>
 
     <select id="getContractUpdateList" resultType="ClientVO">
