@@ -111,17 +111,17 @@
                                 <td><input type="text" name="supplierNo" disabled></td>
                                 <td><p>담당자명</p></td>
                                 <td><input type="text" id="managerName" name="managerName" oninput="checkValue(this); managerNameSuccess(this)" required>
-                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none">※ 이름은 한글만 가능합니다.</p></td>
+                                    <br><p class="error-text">※ 담당자명 입력은 필수입니다.</p><p class="error-text" id="managerNameResult" style="display: none;">※ 이름은 한글만 가능합니다.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
-                                <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event); supplierNameSuccess(this)" class="error-box" required><br>
+                                <td><input type="text" id="supplierName" name="supplierName" oninput="checkValue(this); checkSupplierName(event);" class="error-box" required><br>
                                     <p class="error-text">※ 공급업체 입력은 필수입니다.</p>
-                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none">※ 공급업체는 한글만 가능합니다.</p></td>
+                                    <p id="checkSupplierName" class="error-text" style="display: none;">※ 중복된 공급업체명입니다.</p><p class="error-text" id="supplierNameResult" style="display: none;">※ 공급업체는 한글만 가능합니다.</p></td>
 
                                 <td><p>담당자연락처</p></td>
                                 <td><input type="text" id="managerPhone" name="managerPhone" oninput="checkValue(this); managerPhoneSuccess(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
-                                    <br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p><p class="error-text" id="managerPhoneResult" style="display: none">※ 올바른 연락처 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 담당자 연락처 입력은 필수입니다.</p><p class="error-text" id="managerPhoneResult" style="display: none;">※ 올바른 연락처 형식을 입력하세요.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체주소</p></td>
@@ -130,12 +130,12 @@
 
                                 <td><p>담당자이메일</p></td>
                                 <td><input type="email" id="managerEmail" name="managerEmail" oninput="checkValue(this); managerEmailSuccess(this)" required>
-                                    <br><p class="error-text">※ 담당자이메일 입력은 필수입니다.</p><p class="error-text" id="managerEmailResult" style="display: none">※ 올바른 이메일 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 담당자이메일 입력은 필수입니다.</p><p class="error-text" id="managerEmailResult" style="display: none;">※ 올바른 이메일 형식을 입력하세요.</p></td>
                             </tr>
                             <tr>
                                 <td><p>사업자등록번호</p></td>
                                 <td><input type="text" id="supplierBusinessNo" name="supplierBusinessNo" oninput="checkValue(this); supplierBusinessNoSuccess(this)" placeholder="xxx-xx-xxxx" required>
-                                    <br><p class="error-text">※ 사업자등록번호 입력은 필수입니다.</p><p class="error-text" id="supplierBusinessNoResult" style="display: none">※ 올바른 사업자번호 형식을 입력하세요.</p></td>
+                                    <br><p class="error-text">※ 사업자등록번호 입력은 필수입니다.</p><p class="error-text" id="supplierBusinessNoResult" style="display: none;">※ 올바른 사업자번호 형식을 입력하세요.</p></td>
 
                                 <td><p>첨부파일</p></td>
                                 <td><input type="file" id="supplierFile" name="supplierFile" oninput="checkValue(this)" required><br><p class="error-text">※ 파일첨부는 필수입니다.</p></td>
@@ -163,34 +163,34 @@
                             <tr>
                                 <td><p>공급업체번호</p></td>
                                 <td><input type="text" name="supplierNo" id="modifySupplierNo" readonly></td>
-
                                 <td><p>담당자명</p></td>
-                                <td><input type="text" name="managerName" id="modifyManagerName" oninput="checkValue(this); managerNameSuccessMd(this)" required>
+                                <td><input type="text" name="managerName" id="modifyManagerName" oninput="checkValue(this); managerNameSuccess(this)" required>
                                     <br><p class="error-text" id="managerNameInputMd" style="display: none;">※ 담당자명 입력은 필수입니다.</p>
                                     <p class="error-text" id="managerNameRegexMd" style="display: none;">※ 이름은 한글만 가능합니다.</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td><p>공급업체명</p></td>
-                                <td><input type="text" name="supplierName" id="modifySupplierName" oninput="modifySupplierSuccessMd(this)" required>
+                                <td><input type="text" name="supplierName" id="modifySupplierName" oninput="checkValue(this); checkSupplierName(event);" required>
                                     <br><p class="error-text" id="supplierNameResultMd" style="display: none;">※ 공급업체명 입력은 필수입니다.</p>
                                 </td>
-
                                 <td><p>담당자 연락처</p></td>
-                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" oninput="managerPhoneSuccessMd(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
-                                    <br><p class="error-text" id="managerPhoneMdResult" style="display: none">※ 담당자 연락처 입력은 필수입니다.</p>
+                                <td><input type="text" name="managerPhone" id="modifyManagerPhone" oninput="checkValue(this); managerPhoneSuccess(this)" placeholder="xx-xxxx-xxxx or xxx-xxxx-xxxx" required>
+                                    <br><p class="error-text" id="managerPhoneMdResult" style="display: none;">※ 담당자 연락처 입력은 필수입니다.</p><p class="error-text" id="managerPhoneResultMd" style="display: none;">※ 올바른 연락처 형식을 입력하세요.</p>
                                 </td>
-
                             </tr>
                             <tr>
                                 <td><p>공급업체주소</p></td>
-                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" required></td>
+                                <td><input type="text" name="supplierAddress" id="modifySupplierAddress" oninput="checkValue(this); supplierAddressSuccessMd(this)" required>
+                                    <br><p class="error-text" id="supplierAddressResultMd" style="display: none;">※ 공급업체주소 입력은 필수입니다.</p></td>
                                 <td><p>담당자 이메일</p></td>
-                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required></td>
+                                <td><input type="email" name="managerEmail" id="modifyManagerEmail" oninput="checkValue(this); managerEmailSuccessMd(this)" required>
+                                    <br><p class="error-text" style="display: none;">※ 담당자이메일 입력은 필수입니다.</p><p class="error-text" id="managerEmailResultMd" style="display: none;">※ 올바른 이메일 형식을 입력하세요.</p></td>
                             </tr>
                             <tr>
                                 <td><p>공급업체 사업자등록번호</p></td>
-                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" pattern="\d{3}-\d{2}-\d{5}" placeholder="xxx-xx-xxxx" required></td>
+                                <td><input type="text" name="supplierBusinessNo" id="modifySupplierBusinessNo" oninput="checkValue(this); supplierBusinessNoSuccess(this)" placeholder="xxx-xx-xxxx" required>
+                                    <br><p class="error-text" style="display: none;">※ 사업자등록번호 입력은 필수입니다.</p><p class="error-text" id="supplierBusinessNoResultMd" style="display: none;">※ 올바른 사업자번호 형식을 입력하세요.</p></td>
                                 <td><p>첨부파일</p></td>
                                 <td>
                                     <input type="file" name="supplierFile" id="modifySupplierFile">
@@ -266,37 +266,11 @@
         var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
         if(input.value.trim() === "") {
             $('#managerNameRegexMd').css("display", "none");
-            }
+        }
         if(!regex.test(input.value)) {
             $('#managerNameRegexMd').css("display", "block");
         } else {
             $('#managerNameRegexMd').css("display", "none");
-        }
-    }
-
-    function supplierNameSuccess(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-        if(input.value.trim() === "") {
-            $('#supplierNameResultMd').css("display", "none");
-            return;
-        }
-        if(!regex.test(input.value)) {
-            $('#supplierNameResultMd').css("display", "block");
-        } else {
-            $('#supplierNameResultMd').css("display", "none");
-        }
-    }
-
-    function modifySupplierSuccessMd(input) {
-        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-        if(input.value.trim() === "") {
-            $('#supplierNameResult').css("display", "none");
-            return;
-        }
-        if(!regex.test(input.value)) {
-            $('#supplierNameResult').css("display", "block");
-        } else {
-            $('#supplierNameResult').css("display", "none");
         }
     }
 
@@ -341,6 +315,19 @@
         }
     }
 
+    function supplierAddressSuccessMd(input) {
+        var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
+        if(input.value.trim() === "") {
+            $('#supplierAddressResultMd').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#supplierAddressResultMd').css("display", "block");
+        } else {
+            $('#supplierAddressResultMd').css("display", "none");
+        }
+    }
+
     function managerEmailSuccess(input) {
         var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if(input.value.trim() === "") {
@@ -351,6 +338,19 @@
             $('#managerEmailResult').css("display", "block");
         } else {
             $('#managerEmailResult').css("display", "none");
+        }
+    }
+
+    function managerEmailSuccessMd(input) {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(input.value.trim() === "") {
+            $('#managerEmailResultMd').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#managerEmailResultMd').css("display", "block");
+        } else {
+            $('#managerEmailResultMd').css("display", "none");
         }
     }
 
@@ -367,6 +367,18 @@
         }
     }
 
+    function supplierBusinessNoSuccess(input) {
+        var regex = /^\d{3}-\d{2}-\d{5}$/;
+        if(input.value.trim() === "") {
+            $('#supplierBusinessNoResultMd').css("display", "none");
+            return;
+        }
+        if(!regex.test(input.value)) {
+            $('#supplierBusinessNoResultMd').css("display", "block");
+        } else {
+            $('#supplierBusinessNoResultMd').css("display", "none");
+        }
+    }
 
     function saveSupplier() {
         let hasError = false;
@@ -390,20 +402,34 @@
             .then(data => {
                 document.getElementById('modifySupplierNo').value = data.supplierNo;
                 document.getElementById('modifySupplierName').value = data.supplierName;
+                if(data.supplierName.trim() === "") {
+                    $('#supplierNameResultMd').css("display", "block");
+                }
                 document.getElementById('modifySupplierAddress').value = data.supplierAddress;
+                if(data.supplierAddress.trim() === "") {
+                    $('#supplierAddressResultMd').css("display", "block");
+                }
                 document.getElementById('modifySupplierBusinessNo').value = data.supplierBusinessNo;
+                var regex = /^\d{3}-\d{2}-\d{5}$/;
+                if(!regex.test(data.supplierBusinessNo)) {
+                    $('#supplierBusinessNoResultMd').css('display', 'block');
+                }
                 document.getElementById('modifyManagerName').value = data.managerName;
                 var regex = /^[ㄱ-ㅎ가-힣ㅏㅣ]+$/;
-                console.log(data.managerName);
                 if(!regex.test(data.managerName)) {
                     $('#managerNameRegexMd').css('display', 'block');
                 }
                 document.getElementById('modifyManagerPhone').value = data.managerPhone;
-
+                var regex = /^\d{2,3}-\d{4}-\d{4}$/;
+                if(!regex.test(data.managerPhone)) {
+                    $('#managerPhoneResultMd').css('display', 'block');
+                }
                 document.getElementById('modifyManagerEmail').value = data.managerEmail;
-
+                var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if(!regex.test(data.managerEmail)) {
+                    $('#managerEmailResultMd').css('display', 'block');
+                }
                 document.getElementById('existingFile').value = data.supplierFile;
-
                 document.getElementById('popup-modify').style.display = "flex"; // 수정 모달창 열기
             })
             .catch(error => {
@@ -516,6 +542,5 @@
             isDragging = false;
         });
     }
-
 </script>
 </html>
