@@ -1,244 +1,251 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="setContent(content)">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src='/common/css/main.js'></script>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/common/css/thymeleafView.css" />
-    <link rel="stylesheet" href="/common/css/home.css" />
-    <link rel='stylesheet' href='/common/css/main.css' />
-    <link rel='stylesheet' href='/common/css/common.css' />
-    <script>
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('error') && urlParams.get('error') === 'accessDenied') {
-                alert('권한이 없습니다'); // 알림창 띄우기
-            }
-        };
-    </script>
-</head>
-<body>
-<nav class="navbar">
-    <div class="logo_item">
-        <i class="sidebar" id="sidebarOpen"></i>
-        <a href="/common/home"><img src="../../common/img/oneshot.png" alt="oneshot" style="width: 180px; border-radius: 0px;"></i></a>
-    </div>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+        <script src='/common/css/main.js'></script>
 
-    <div class="navbar_content">
-        <i class='bx bx-sun' id="darkLight"></i>
-        <img th:src="@{'http://localhost:8181/hrm/images/' + ${#authentication.principal.employeePhotoPath}}" class="profile" />
-        <div class="profileHeader">
-            <div class="topSection">
-                <span class="hearderEmployeeName">[[${#authentication.principal.employeeName}]]</span>
-                <span class="hearderPositionName">[[${#authentication.principal.positionName}]]</span>
-                <span class="hearderDepartmentName">([[${#authentication.principal.departmentName}]])</span>
+        <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="/common/css/thymeleafView.css"/>
+        <link rel="stylesheet" href="/common/css/home.css"/>
+        <link rel='stylesheet' href='/common/css/main.css'/>
+        <link rel='stylesheet' href='/common/css/common.css'/>
 
-            </div>
+        <script>
+            window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('error') && urlParams.get('error') === 'accessDenied') {
+                    alert('권한이 없습니다'); // 알림창 띄우기
+                }
+            };
+        </script>
+    </head>
+    <body>
+    <nav class="navbar">
+        <div class="logo_item">
+            <i class="sidebar" id="sidebarOpen"></i>
+            <a href="/common/home"><img src="../../common/img/oneshot.png" alt="oneshot"
+                                        style="width: 180px; border-radius: 0px;"></i></a>
         </div>
-    </div>
-</nav>
 
-<div class="sidebar_content">
-    <nav class="sidebar">
-        <div class="menu_content">
-            <ul class="menu_items">
-                <a href="/common/home">
-                <li class="item">
-                    <div class="nav_link submenu_item">
-                <span class="navlink_icon">
-                  <i class='bx bxs-home'></i>
-                </span>
-                <span>
-                  <a href="/common/home" class="navlink" style="text-decoration: none; color: #fff; display: block; width: 100%;">홈</a>
-                </span>
-                    </div>
-                </li>
-                </a>
-
-                <li class="item">
-                    <div class="nav_link submenu_item" data-category="hr">
-                      <span class="navlink_icon">
-                        <i class='bx bxs-user'></i>
-                      </span>
-                      <span class="navlink">인사관리</span>
-                      <i class="bx bx-chevron-right arrow-left"></i>
-                    </div>
-                    <ul class="submenu">
-                        <a href="/hrm/employee.do" class="nav_link sublink" data-subcategory="employee" style="margin-bottom: 3px;">사원관리</a>
-                        <a href="/hrm/department.do" class="nav_link sublink" data-subcategory="department" style="margin-bottom: 3px;">부서관리</a>
-                    </ul>
-                </li>
-
-                <li class="item">
-                    <div class="nav_link submenu_item" data-category="inventory">
-                <span class="navlink_icon">
-                  <i class='bx bxs-archive'></i>
-                </span>
-                        <span class="navlink">재고관리</span>
-                        <i class="bx bx-chevron-right arrow-left"></i>
-                    </div>
-
-                    <ul class="submenu">
-                        <a href="/inventory/supplierList" class="nav_link sublink" data-subcategory="supplier" style="margin-bottom: 3px;">공급업체관리</a>
-                        <a href="/inventory/productList" class="nav_link sublink" data-subcategory="product" style="margin-bottom: 3px;">상품관리</a>
-                        <a href="/inventory/purchaseList" class="nav_link sublink" data-subcategory="purchase" style="margin-bottom: 3px;">구매관리</a>
-                    </ul>
-                </li>
-
-                <li class="item">
-                    <div class="nav_link submenu_item" data-category="sales">
-                <span class="navlink_icon">
-                  <i class='bx bxs-briefcase-alt'></i>
-                </span>
-                        <span class="navlink">영업관리</span>
-                        <i class="bx bx-chevron-right arrow-left" ></i>
-                    </div>
-
-                    <ul class="submenu">
-                        <a href="/sales/contract" class="nav_link sublink" data-subcategory="contract" style="margin-bottom: 3px;">계약관리</a>
-                        <a href="/sales/order" class="nav_link sublink" data-subcategory="order" style="margin-bottom: 3px;">판매관리</a>
-                    </ul>
-                </li>
-            </ul>
-
-            <div class="bottom_content">
-                <div class="bottom expand_sidebar">
-                    <span> Expand</span>
-                </div>
-                <div class="bottom collapse_sidebar">
-                    <a href="/logout">로그아웃
-                    <i class='bx bx-log-out'></i></a>
+        <div class="navbar_content">
+            <i class='bx bx-sun' id="darkLight"></i>
+            <img th:src="@{'http://localhost:8181/hrm/images/' + ${#authentication.principal.employeePhotoPath}}"
+                 class="profile"/>
+            <div class="profileHeader">
+                <div class="topSection">
+                    <span class="hearderEmployeeName">[[${#authentication.principal.employeeName}]]</span>
+                    <span class="hearderPositionName">[[${#authentication.principal.positionName}]]</span>
+                    <span class="hearderDepartmentName">([[${#authentication.principal.departmentName}]])</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <th:block th:if="${reactInclude == null}">
-        <div class="content">
-            <th:block th:replace="${content}"></th:block>
-        </div>
-    </th:block>
-    <th:block th:if="${reactInclude != null}">
-        <div class="content">
-            <div id="root" class="content"></div>
-        </div>
-    </th:block>
+    <div class="sidebar_content">
+        <nav class="sidebar">
+            <div class="menu_content">
+                <ul class="menu_items">
+                    <a href="/common/home">
+                        <li class="item">
+                            <div class="nav_link submenu_item">
+                            <span class="navlink_icon">
+                              <i class='bx bxs-home'></i>
+                            </span>
+                                <span>
+                              <a href="/common/home" class="navlink"
+                                 style="text-decoration: none; color: #fff; display: block; width: 100%;">홈</a>
+                            </span>
+                            </div>
+                        </li>
+                    </a>
+
+                    <li class="item">
+                        <div class="nav_link submenu_item" data-category="hr">
+                          <span class="navlink_icon">
+                            <i class='bx bxs-user'></i>
+                          </span>
+                            <span class="navlink">인사관리</span>
+                            <i class="bx bx-chevron-right arrow-left"></i>
+                        </div>
+                        <ul class="submenu">
+                            <a href="/hrm/employee.do" class="nav_link sublink" data-subcategory="employee"
+                               style="margin-bottom: 3px;">사원관리</a>
+                            <a href="/hrm/department.do" class="nav_link sublink" data-subcategory="department"
+                               style="margin-bottom: 3px;">부서관리</a>
+                        </ul>
+                    </li>
+
+                    <li class="item">
+                        <div class="nav_link submenu_item" data-category="inventory">
+                        <span class="navlink_icon">
+                          <i class='bx bxs-archive'></i>
+                        </span>
+                            <span class="navlink">재고관리</span>
+                            <i class="bx bx-chevron-right arrow-left"></i>
+                        </div>
+
+                        <ul class="submenu">
+                            <a href="/inventory/supplierList" class="nav_link sublink" data-subcategory="supplier"
+                               style="margin-bottom: 3px;">공급업체관리</a>
+                            <a href="/inventory/productList" class="nav_link sublink" data-subcategory="product"
+                               style="margin-bottom: 3px;">상품관리</a>
+                            <a href="/inventory/purchaseList" class="nav_link sublink" data-subcategory="purchase"
+                               style="margin-bottom: 3px;">구매관리</a>
+                        </ul>
+                    </li>
+
+                    <li class="item">
+                        <div class="nav_link submenu_item" data-category="sales">
+                            <span class="navlink_icon">
+                              <i class='bx bxs-briefcase-alt'></i>
+                            </span>
+                            <span class="navlink">영업관리</span>
+                            <i class="bx bx-chevron-right arrow-left"></i>
+                        </div>
+
+                        <ul class="submenu">
+                            <a href="/sales/contract" class="nav_link sublink" data-subcategory="contract"
+                               style="margin-bottom: 3px;">계약관리</a>
+                            <a href="/sales/order" class="nav_link sublink" data-subcategory="order"
+                               style="margin-bottom: 3px;">판매관리</a>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="bottom_content">
+                    <div class="bottom expand_sidebar">
+                        <span> Expand</span>
+                    </div>
+                    <div class="bottom collapse_sidebar" onclick="location.href='/logout'">
+                        <a href="/logout">로그아웃
+                            <i class='bx bx-log-out'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <th:block th:if="${reactInclude == null}">
+            <div class="content">
+                <th:block th:replace="${content}"></th:block>
+            </div>
+        </th:block>
+        <th:block th:if="${reactInclude != null}">
+            <div class="content">
+                <div id="root" class="content"></div>
+            </div>
+        </th:block>
     </div>
 
-<script>
-    const body = document.querySelector("body");
-    const darkLight = document.querySelector("#darkLight");
-    const sidebar = document.querySelector(".sidebar");
-    const submenuItems = document.querySelectorAll(".submenu_item");
-    const sidebarOpen = document.querySelector("#sidebarOpen");
-    const sidebarClose = document.querySelector(".collapse_sidebar");
-    const sidebarExpand = document.querySelector(".expand_sidebar");
-    //    sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+    <script>
+        const body = document.querySelector("body");
+        const darkLight = document.querySelector("#darkLight");
+        const sidebar = document.querySelector(".sidebar");
+        const submenuItems = document.querySelectorAll(".submenu_item");
 
+        function applyDarkMode() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            if (isDarkMode) {
+                body.classList.add('dark');
+                darkLight.classList.replace("bx-sun", "bx-moon");
+            } else {
+                body.classList.remove('dark');
+                darkLight.classList.replace("bx-moon", "bx-sun");
+            }
+        }
 
-    function applyDarkMode() {
-        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-        if (isDarkMode) {
-            body.classList.add('dark');
-            darkLight.classList.replace("bx-sun", "bx-moon");
+        // 페이지 로드 시 다크 모드 상태 적용
+        window.addEventListener('load', applyDarkMode);
+
+        // 다크 모드 토글 함수
+        function toggleDarkMode() {
+            const isDarkMode = body.classList.toggle("dark");
+            localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
+            darkLight.classList.replace(isDarkMode ? "bx-sun" : "bx-moon", isDarkMode ? "bx-moon" : "bx-sun");
+        }
+
+        // 다크 모드 버튼 클릭 이벤트
+        darkLight.addEventListener("click", toggleDarkMode);
+
+        // 나머지 코드는 그대로 유지
+        submenuItems.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("show_submenu");
+                submenuItems.forEach((item2, index2) => {
+                    if (index !== index2) {
+                        item2.classList.remove("show_submenu");
+                    }
+                });
+            });
+        });
+
+        if (window.innerWidth < 768) {
+            sidebar.classList.add("close");
         } else {
-            body.classList.remove('dark');
-            darkLight.classList.replace("bx-moon", "bx-sun");
-        }
-    }
-
-    // 페이지 로드 시 다크 모드 상태 적용
-    window.addEventListener('load', applyDarkMode);
-
-    // 다크 모드 토글 함수
-    function toggleDarkMode() {
-        const isDarkMode = body.classList.toggle("dark");
-        localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
-        darkLight.classList.replace(isDarkMode ? "bx-sun" : "bx-moon", isDarkMode ? "bx-moon" : "bx-sun");
-    }
-
-    // 다크 모드 버튼 클릭 이벤트
-    darkLight.addEventListener("click", toggleDarkMode);
-
-    // 나머지 코드는 그대로 유지
-    submenuItems.forEach((item, index) => {
-        item.addEventListener("click", () => {
-            item.classList.toggle("show_submenu");
-            submenuItems.forEach((item2, index2) => {
-                if (index !== index2) {
-                    item2.classList.remove("show_submenu");
-                }
-            });
-        });
-    });
-
-    if (window.innerWidth < 768) {
-        sidebar.classList.add("close");
-    } else {
-        sidebar.classList.remove("close");
-    }
-
-
-    // 사이드바 메뉴탭 호버, 액티브 고정
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentPage = window.location.pathname;
-
-        function setActiveState(element) {
-            element.classList.add('active');
-            if (element.classList.contains('submenu_item')) {
-                element.classList.add('show_submenu');
-            }
+            sidebar.classList.remove("close");
         }
 
-        function removeAllActiveStates() {
-            document.querySelectorAll('.nav_link, .sublink, .submenu_item').forEach(el => {
-                el.classList.remove('active', 'show_submenu');
-            });
-        }
 
-        // 메인 메뉴 클릭 이벤트
-        document.querySelectorAll('.submenu_item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (!this.querySelector('.submenu')) {
-                    return; // 서브메뉴가 없으면 페이지 이동
-                }
-                e.preventDefault();
-                removeAllActiveStates();
-                setActiveState(this);
-            });
-        });
+        // 사이드바 메뉴탭 호버, 액티브 고정
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPage = window.location.pathname;
 
-        // 서브 메뉴 클릭 이벤트
-        document.querySelectorAll('.sublink').forEach(link => {
-            link.addEventListener('click', function() {
-                removeAllActiveStates();
-                setActiveState(this);
-                setActiveState(this.closest('.item').querySelector('.submenu_item'));
-            });
-        });
-
-        // 초기 활성 상태 설정
-        const allLinks = document.querySelectorAll('.submenu_item, .sublink');
-        allLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && currentPage.includes(href)) {
-                setActiveState(link);
-                if (link.classList.contains('sublink')) {
-                    setActiveState(link.closest('.item').querySelector('.submenu_item'));
+            function setActiveState(element) {
+                element.classList.add('active');
+                if (element.classList.contains('submenu_item')) {
+                    element.classList.add('show_submenu');
                 }
             }
-        });
-    });
-</script>
 
-<th:block th:if="${reactInclude != null}">
-    <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
-</th:block>
-</body>
+            function removeAllActiveStates() {
+                document.querySelectorAll('.nav_link, .sublink, .submenu_item').forEach(el => {
+                    el.classList.remove('active', 'show_submenu');
+                });
+            }
+
+            // 메인 메뉴 클릭 이벤트
+            document.querySelectorAll('.submenu_item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    if (!this.querySelector('.submenu')) {
+                        return; // 서브메뉴가 없으면 페이지 이동
+                    }
+                    e.preventDefault();
+                    removeAllActiveStates();
+                    setActiveState(this);
+                });
+            });
+
+            // 서브 메뉴 클릭 이벤트
+            document.querySelectorAll('.sublink').forEach(link => {
+                link.addEventListener('click', function () {
+                    removeAllActiveStates();
+                    setActiveState(this);
+                    setActiveState(this.closest('.item').querySelector('.submenu_item'));
+                });
+            });
+
+            // 초기 활성 상태 설정
+            const allLinks = document.querySelectorAll('.submenu_item, .sublink');
+            allLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && currentPage.includes(href)) {
+                    setActiveState(link);
+                    if (link.classList.contains('sublink')) {
+                        setActiveState(link.closest('.item').querySelector('.submenu_item'));
+                    }
+                }
+            });
+        });
+    </script>
+
+    <th:block th:if="${reactInclude != null}">
+        <script th:src="@{'/bundle/' + ${pageName} + '.bundle.js'}"></script>
+    </th:block>
+    </body>
 </th:block>
 </html>
