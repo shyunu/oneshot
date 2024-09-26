@@ -35,6 +35,19 @@ body.dark p, body.dark h3, body.dark h2 {
   color: #bdc1c6;
 }
 
+body.dark .fc-direction-ltr .fc-toolbar > * > :not(:first-child),
+body.dark .fc-direction-ltr .fc-button-group > .fc-button:not(:last-child),
+body.dark .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
+  box-shadow: none;
+  border: none !important;
+}
+
+body.dark .side-right {
+  background-color: #343434;
+  border: 1px solid #5f6368;
+  box-shadow: none;
+}
+
 body.dark .order-title {
   border-top: 1px solid #5f6368;
   border-bottom: 1px solid #5f6368;
