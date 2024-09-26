@@ -47,6 +47,7 @@ public class ProductController {
 
     @PostMapping("/putProduct")
     public String putProduct(ProductVO vo, @RequestParam("file") MultipartFile file) {
+        System.out.println("vo = " + vo);
         productService.putProduct(vo, file);
         return "redirect:/inventory/productList";
     }

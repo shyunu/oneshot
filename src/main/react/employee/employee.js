@@ -665,7 +665,7 @@ function Employee() {
                         ) : null
                     )) : (
                         <tr>
-                            <td>등록된 사원이 없습니다.</td>
+                            <td colSpan="9">등록된 사원이 없습니다.</td>
                         </tr>
                     )}
                     </tbody>
