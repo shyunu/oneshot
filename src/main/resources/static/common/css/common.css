@@ -458,7 +458,8 @@ button:active {
 .popup-regist-normal td {
     width: 17%;
 }
-#dataTable {
+#dataTable th, #dataTable td {
+    padding: 2px;
 
 }
 
