@@ -332,7 +332,7 @@
                             <tr id="dynamicRow" style="white-space: nowrap;">
                                 <td>
                                     <select name="orderItems[0].productNo[]" class="productNo"
-                                            onchange="getPrice(event)" oninput="checkValue(this)">
+                                            onchange="clearFields(); getPrice(event)" oninput="checkValue(this)">
                                     </select>
                                     <br>
 <!--                                    <p class="error-text">※ 상품선택은 필수입니다.</p>-->
@@ -936,6 +936,11 @@
     popupRegist.style.display = 'block';
     }
 
+    function clearFields() {
+        $('.contractPrice').val('');
+        $('.inventoryQuantity').val('');
+        $('.totalAmount').val('');
+    }
 
 
 </script>
