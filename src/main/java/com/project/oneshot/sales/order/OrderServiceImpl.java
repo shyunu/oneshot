@@ -18,6 +18,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.orderHeader(vo);
         orderMapper.orderItem(vo);
         orderMapper.changeProductStatus();
+        System.out.println("orderMapper.changeProductStatus()");
     }
 
 

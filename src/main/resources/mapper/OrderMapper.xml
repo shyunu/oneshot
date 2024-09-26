@@ -260,18 +260,23 @@
     <update id="changeProductStatus">
         WITH total_purchase AS (
         SELECT
-        product_no,
-        SUM(purchase_quantity) AS total_purchase_quantity
+        p.product_no,
+        COALESCE(SUM(pur.purchase_quantity), 0) AS total_purchase_quantity
         FROM
-        purchase
+        product p
+        LEFT JOIN
+        purchase pur ON p.product_no = pur.product_no
         GROUP BY
-        product_no
+        p.product_no
         )
         UPDATE product
-        SET product_remark = '품절'
+        SET product_remark = CASE
+        <![CDATA[ WHEN total_purchase.total_purchase_quantity <= product.safety_quantity THEN '품절' ]]>
+        ELSE '판매중'
+        END
         FROM total_purchase
         WHERE product.product_no = total_purchase.product_no
-        <![CDATA[ AND total_purchase.total_purchase_quantity <= product.safety_quantity ]]>
+        <![CDATA[ AND product.product_remark <> '단종' ]]>  -- '단종'이 아닌 경우에만 업데이트
     </update>
 
     <!-- 재고확인 -->
