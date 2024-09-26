@@ -258,25 +258,43 @@
 
     <!-- 승인상태 변경 -->
     <update id="changeProductStatus">
-        WITH total_purchase AS (
+        WITH purchase_data AS (
+        SELECT
+        product_no,
+        COALESCE(SUM(purchase_quantity), 0) AS total_purchase_quantity
+        FROM
+        purchase
+        GROUP BY
+        product_no
+        ),
+        order_data AS (
+        SELECT
+        product_no,
+        COALESCE(SUM(product_quantity), 0) AS total_order_quantity
+        FROM
+        order_item
+        GROUP BY
+        product_no
+        ),
+        stock_data AS (
         SELECT
         p.product_no,
-        COALESCE(SUM(pur.purchase_quantity), 0) AS total_purchase_quantity
+        COALESCE(pur.total_purchase_quantity, 0) - COALESCE(ord.total_order_quantity, 0) AS total_stock_quantity
         FROM
         product p
         LEFT JOIN
-        purchase pur ON p.product_no = pur.product_no
-        GROUP BY
-        p.product_no
+        purchase_data pur ON p.product_no = pur.product_no
+        LEFT JOIN
+        order_data ord ON p.product_no = ord.product_no
         )
         UPDATE product
         SET product_remark = CASE
-        <![CDATA[ WHEN total_purchase.total_purchase_quantity <= product.safety_quantity THEN '품절' ]]>
+        <![CDATA[ WHEN stock_data.total_stock_quantity <= product.safety_quantity THEN '품절' ]]>
         ELSE '판매중'
         END
-        FROM total_purchase
-        WHERE product.product_no = total_purchase.product_no
-        <![CDATA[ AND product.product_remark <> '단종' ]]>  -- '단종'이 아닌 경우에만 업데이트
+        FROM stock_data
+        WHERE product.product_no = stock_data.product_no
+        <![CDATA[ AND product.product_remark <> '단종' ]]>
     </update>
 
     <!-- 재고확인 -->
