@@ -63,6 +63,7 @@
 
       <table>
         <thead>
+
           <tr>
             <th style="width: 5%;">no</th>
             <th style="width: 13%;">카테고리</th>
@@ -74,6 +75,7 @@
             <th style="width: 9%;">상품이미지</th>
             <th style="width: 8%;">비고</th>
           </tr>
+
         </thead>
         <tbody>
           <tr th:each="productVO : ${productList}" th:classappend="${productVO.productRemark == '단종'} ? 'disabled' : ''" class="product_list">
@@ -83,7 +85,7 @@
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.inventoryQuantity}" th:classappend="${productVO.inventoryQuantity < productVO.safetyQuantity} ? 'warning' : ''" onclick="handleClick(event)"></td>
             <td th:text="${productVO.safetyQuantity}" onclick="handleClick(event)"></td>
-            <td th:text="${productVO.productPrice} + 원" onclick="handleClick(event)"></td>
+            <td th:text="${#numbers.formatInteger(productVO.productPrice, 3, 'COMMA') + '원'}"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
             <td th:text="${productVO.productRemark}" onclick="handleClick(event)"></td>
           </tr>
@@ -111,6 +113,58 @@
           <div class="popup-list">
             <table>
               <tbody>
+
+
+              <tr>
+                <td><p>공급업체</p></td>
+                <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)" required></select>
+                  <br><p id="supplierErrorText" class="error-text">※ 공급업체 선택은 필수입니다.</p></td>
+                <td><p>사업자번호</p></td>
+                <td><input type="text" id="postSupplierBusinessNo" disabled></td>
+              </tr>
+              <tr>
+                <td><p>담당자</p></td>
+                <td><input type="text" id="postManagerName" disabled ></td>
+                <td><p>담당자 연락처</p></td>
+                <td><input type="text" id="postManagerPhone" disabled></td>
+              </tr>
+              <tr>
+                <td><p>카테고리</p></td>
+                <td><select name="categoryNo" id="postCategoryNo" onchange="changeCategoryNo(this)" required></select><br><p id="categoryErrorText" class="error-text">※ 카테고리 선택은 필수입니다.</p></td>
+                <td><p>판매상태</p></td>
+                <td colspan="3">
+                  <select name="productRemark" id="postProductRemark" onchange="changeRemarkNo(this)" required>
+                    <option value="">- 판매상태 -</option>
+                    <option value="판매중">판매중</option>
+                    <option value="품절">품절</option>
+                    <option value="단종">단종</option>
+                  </select>
+                  <br><p id="remarkErrorText" class="error-text">※ 판매상태 입력은 필수입니다.</p>
+                </td>
+              </tr>
+              <tr>
+                <td><p>상품명</p></td>
+                <td><input type="text" name="productName" id="postProductName" oninput="checkValue(this); checkProductName(event)" required>
+                  <br><p class="error-text">※ 상품명 입력은 필수입니다.</p>
+                  <p id="checkProductName" class="error-text" style="display: none;">※ 중복된 상품명입니다.</p>
+                </td>
+                <td><p>판매정가</p></td>
+                <td><input type="text" name="productPrice" id="postProductPrice" oninput="checkValue(this); productPriceRg(this)" required>
+                  <br><p class="error-text">※ 판매정가 입력은 필수입니다.</p><p class="error-text" id="productPriceResultRg" style="display: none">※ 판매정가는 숫자만 입력 가능합니다.</p>
+                </td>
+              </tr>
+              <tr>
+                <td><p>안전재고수량</p></td>
+                <td><input type="text" name="safetyQuantity" id="postSafetyQuantity" oninput="checkValue(this); productQuantityRg(this)" required><br>
+                  <p class="error-text">※ 안전재고수량 입력은 필수입니다.</p><p class="error-text" id="productQuantityResultRg" style="display: none">※ 재고수량은 숫자만 입력 가능합니다.</p>
+                </td>
+                <td><p>상품이미지</p></td>
+                <td><input type="file" name="file" id="postProductImg" oninput="checkValue(this)" required><br><p class="error-text">※ 상품이미지 업로드는 필수입니다.</p></td>
+              </tr>
+              <tr>
+                <td><p>상품설명</p></td>
+                <td colspan="3"><textarea rows="4" name="productContent" id="postProductContent" style="width: 100%; border: 1px solid #e3e3e3;"></textarea></td>
+              </tr>
                 <tr>
                   <td><p>공급업체</p></td>
                   <td><select name="supplierNo" id="postSupplierNo" onchange="changeSupplierNo(event)" required></select>
@@ -157,6 +211,7 @@
                   <td><p>상품설명</p></td>
                   <td colspan="3"><textarea rows="4" name="productContent" id="postProductContent" class="explanation"></textarea></td>
                 </tr>
+
               </tbody>
             </table>
           </div>
@@ -462,13 +517,40 @@
     }
   }
 
+  //유효성 검사
+  function productPriceRg(input) {
+    var regex = /^\d+$/;
+    if(input.value.trim() === "") {
+      $('#productPriceResultRg').css("display", "none");
+      return;
+    }
+    if(!regex.test(input.value)) {
+      $('#productPriceResultRg').css("display", "block");
+    } else {
+      $('#productPriceResultRg').css("display", "none");
+    }
+  }
+
+  function productQuantityRg(input) {
+    var regex = /^\d+$/;
+    if(input.value.trim() === "") {
+      $('#productQuantityResultRg').css("display", "none");
+      return;
+    }
+    if(!regex.test(input.value)) {
+      $('#productQuantityResultRg').css("display", "block");
+    } else {
+      $('#productQuantityResultRg').css("display", "none");
+    }
+  }
+
   //팝업창 닫기
   function closePopupRegist() {
-      resistPopup.style.display = 'none'; //등록페이지 팝업 닫기
+    resistPopup.style.display = 'none'; //등록페이지 팝업 닫기
   }
 
   function closePopupModify() {
-      modifyPopup.style.display = 'none'; //수정페이지 팝업 닫기
+    modifyPopup.style.display = 'none'; //수정페이지 팝업 닫기
   }
 
   // 닫기 버튼 클릭 시 팝업창 닫기

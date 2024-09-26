@@ -16,7 +16,7 @@
 
     <!-- 구매 신청할 때 값 불러오기 -->
     <select id="getAllSuppliers" resultType="SupplierVO">
-        SELECT * FROM supplier
+        SELECT * FROM supplier order by supplier_name
     </select>
 
     <select id="getSupplier" resultType="SupplierVO">
@@ -28,6 +28,7 @@
         from supplier inner join product on supplier.supplier_no = product.supplier_no inner join category on product.category_no = category.category_no
         where supplier.supplier_no = #{supplierNo}
         group by product.category_no, category_name
+        order by category_name
     </select>
 
     <select id="getProducts" resultType="ProductVO">
@@ -35,10 +36,12 @@
     </select>
 
     <select id="getQuantity" resultType="ProductVO">
-        select product.product_no, coalesce(sum(purchase_quantity), 0) as inventory_quantity, safety_quantity
-        from product left join purchase on product.product_no = purchase.product_no
+        select product.product_no, COALESCE(SUM(purchase.purchase_quantity), 0) - COALESCE(SUM(order_item.product_quantity), 0) AS inventory_quantity, safety_quantity
+        from product
+        left join purchase on product.product_no = purchase.product_no
+        left join order_item on product.product_no = order_item.product_no
         where product.product_no = #{productNo}
-        group by product.product_no
+        group by product.product_no;
     </select>
 
     <select id="getProductsByCategory" resultType="ProductVO">

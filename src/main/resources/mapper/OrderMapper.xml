@@ -175,7 +175,7 @@
     <select id="getEmployeeList" resultType="EmployeeVO">
         SELECT *
         FROM EMPLOYEE
-        ORDER BY EMPLOYEE_NO ASC
+        ORDER BY EMPLOYEE_NAME ASC
     </select>
 
     <!-- 사원 정보 조회하기 -->
@@ -187,7 +187,7 @@
     <select id="getClientList" resultType="ClientVO">
         SELECT *
         FROM CLIENT
-        ORDER BY CLIENT_NO ASC
+        ORDER BY CLIENT_NAME ASC
     </select>
 
     <!-- 고객사 정보 조회하기 -->

@@ -394,7 +394,7 @@ button:active {
     width: 5%;
 }
 .order-regist-table td:nth-of-type(2) {
-    width: 0%;
+    width: 12%;
 }
 .order-regist-table td:nth-of-type(3) {
     width: 5%;
@@ -458,7 +458,9 @@ button:active {
 .popup-regist-normal td {
     width: 17%;
 }
-
+#dataTable th {
+    height: 40px !important;
+}
 
 
 /* ----------------------------------------------------- */

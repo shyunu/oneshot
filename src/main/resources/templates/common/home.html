@@ -109,14 +109,22 @@
 </th:block>
 
 <script>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        if (error === 'accessDenied') {
+            alert('접근할 권한이 없습니다.');
+        }
+    };
     const departmentData = {};
     async function fetchDepartmentData() {
         try {
             // 활성화된 부서 정보 가져오기
-            const departmentsResponse = await fetch('/hrm/getActiveDepartments');
+            const departmentsResponse = await fetch('/common/getActiveDepartments');
             const departments = await departmentsResponse.json();
             // 직급별 사원 수 가져오기
-            const countResponse = await fetch('/hrm/countDeptPosEmployees');
+            const countResponse = await fetch('/common/countDeptPosEmployees');
             const employeeCounts = await countResponse.json();
             console.log(employeeCounts);
 
@@ -162,7 +170,7 @@
     // 첫 번째 차트 (매출액 차트) + 도넛
     async function fetchQuarterlyOrderAmount() {
         try {
-            const response = await fetch('/sales/getQuarterlyOrderAmount');
+            const response = await fetch('/common/getQuarterlyOrderAmount');
             const responseData = await response.json();
             console.log(responseData);
             const quarterlyOrderAmount = responseData.map(item => item.total_amount);
@@ -245,7 +253,7 @@
             labels: ['인턴', '사원', '주임', '대리', '과장', '차장'],
             datasets: [{
                 label: '사원수',
-                data: departmentData[1], // 기본값으로 인사팀 데이터 설정
+                data: departmentData[0],
                 backgroundColor: [
                     '#1D4E89',
                     '#5DADE2',

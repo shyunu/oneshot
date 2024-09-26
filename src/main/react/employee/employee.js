@@ -17,11 +17,15 @@ function Employee() {
     const nodeRef = useRef(null); //Draggable 오류수정
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
-    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/userCircle.png"); // 사진미리보기용
+    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/default.png"); // 사진미리보기용
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
-    const [errors, setErrors] = useState({}); //유효성검사 에러메세지
+    const [errors, setErrors] = useState({
+        employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+    }); //유효성검사 에러메세지
     const [deletePopup1Open, setDeletePopup1Open ] =useState(false);
     const [deletePopup2Open, setDeletePopup2Open ] =useState(false);
 
@@ -68,7 +72,6 @@ function Employee() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
         //유효성검사
         const newErrors = {};
         Object.keys(validators).forEach(field => {
@@ -84,6 +87,11 @@ function Employee() {
             return; // 폼 제출 중단
         }
 
+        setErrors({
+            employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+        });
         console.log(newEmployee);
         const formData = new FormData();
         if(employeePhoto){
@@ -144,7 +152,7 @@ function Employee() {
             });
             console.log('폼 제출 완료 및 직원 생성:', response.data);
             fetchEmployees();
-            setPhotoThumbnail("../../common/img/userCircle.png");
+            setPhotoThumbnail("../../common/img/default.png");
         } catch (error) {
             console.error('폼 제출 실패:', error);
         }
@@ -219,15 +227,15 @@ function Employee() {
     const validators = {
         employeeEmail: (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(value) ? '' : '유효한 이메일 주소를 입력해주세요.';
+            return emailRegex.test(value) ? '' : '※ 유효한 이메일 주소를 입력해주세요.';
         },
         employeePhone: (value) => {
             const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
         },
         emergencyPhone:(value) => {
             const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
         }
     };
 
@@ -387,6 +395,7 @@ function Employee() {
     };
     // 행 클릭 핸들러
     const handleRowClick = (employee) => {
+        setErrors({});
         openEditPopup(employee); // 클릭한 사원의 정보를 상태에 저장
     };
 
@@ -503,14 +512,14 @@ function Employee() {
     return (
         <main className="wrapper">
 
-            <div class="text-wrap">
+            <div className="text-wrap">
                 <p>사원조회</p>
                 <p>❉ 조회 또는 수정을 원하시면 원하는 항목을 선택해주세요. </p>
             </div>
 
-            <div class="order-title">
-                <div class="filter-content">
-                    <div class="filter-main">
+            <div className="order-title">
+                <div className="filter-content">
+                    <div className="filter-main">
                         <h3>상세내역검색</h3>
                         <button className="filter-button" onClick={handleSearchBtn}>검색하기</button>
                         <button className="filter-button" onClick={() => {
@@ -609,28 +618,28 @@ function Employee() {
                             />
                             <label htmlFor="selectAllCheckbox"></label>
                         </th>
-                        <th>
+                        <th style={{minWidth: "130px"}}>
                             입사일자
                         </th>
-                        <th>
-                            no
+                        <th  style={{minWidth: "110px"}}>
+                            직원번호
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             성명
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             부서명
                         </th>
-                        <th>
+                        <th style={{minWidth: "105px"}}>
                             직급
                         </th>
-                        <th>
+                        <th style={{minWidth: "155px"}}>
                             전화번호
                         </th>
-                        <th>
+                        <th style={{minWidth: "170px"}}>
                             이메일
                         </th>
-                        <th>
+                        <th style={{minWidth: "110px"}}>
                             재직여부
                         </th>
                     </tr>
@@ -721,7 +730,7 @@ function Employee() {
             {showPopup &&
                 <div className="popup" id="contractPopup">
                     <Draggable nodeRef={nodeRef} onStart={handleStart} positionOffset={{x: '-50%', y: '-50%'}}>
-                        <div className="popup-content" ref={nodeRef} id="draggablePopup">
+                        <div className="popup-content" ref={nodeRef} id="draggablePopup" style={{width: "1150px"}}>
                             <div className="popup-header" id="popupHeader">
                                 <span>{editMode ? '사원 수정' : '사원 등록'}</span>
                             </div>
@@ -733,7 +742,7 @@ function Employee() {
                                         <p>사원사진</p>
                                             <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
-                                            <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
+                                            <label htmlFor="fileInput" className="btn attach-file" style={{position:"absolute", top:"70px", left:"380px", width:"100px",height:"100px"}}></label>
                                         </td>
                                         <td rowSpan="2" colSpan="2">
                                             <div className="profile-picture">
@@ -783,7 +792,7 @@ function Employee() {
                                                 value={newEmployee.employeeEmail}
                                                 onChange={handleFormChange}
                                             />
-                                            {errors.employeeEmail && <p style={{ color: 'red' }}>{errors.employeeEmail}</p>}
+                                            {errors.employeeEmail && <p style={{ color: 'red', fontSize: '13px', textAlign:"left" }}>{errors.employeeEmail}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="department">부서번호</label>
@@ -843,7 +852,7 @@ function Employee() {
                                                    value={newEmployee.employeePhone}
                                                    onChange={handleFormChange}
                                             />
-                                            {errors.employeePhone && <p style={{ color: 'red' }}>{errors.employeePhone}</p>}
+                                            {errors.employeePhone && <p style={{ color: 'red' , fontSize: '13px', textAlign:"left" }}>{errors.employeePhone}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
@@ -853,7 +862,7 @@ function Employee() {
                                                    className="input-form"
                                                    value={newEmployee.emergencyPhone} onChange={handleFormChange}
                                             />
-                                            {errors.emergencyPhone && <p style={{ color: 'red' }}>{errors.emergencyPhone}</p>}
+                                            {errors.emergencyPhone && <p style={{ color: 'red', fontSize: '13px', textAlign:"left" }}>{errors.emergencyPhone}</p>}
                                         </td>
                                     </tr>
                                     <tr className="left-row">
@@ -945,7 +954,7 @@ function Employee() {
                                     <button type="button" className="btn close"
                                             onClick={() => {
                                                 setShowPopup(false);
-                                                setPhotoThumbnail("../../common/img/userCircle.png");
+                                                setPhotoThumbnail("../../common/img/default.png");
                                                 setNewEmployee({
                                                     departmentNo: '',
                                                     employeeNo:'',
@@ -965,7 +974,11 @@ function Employee() {
                                                     accountHolder: '',
                                                     departmentName: ''
                                                 });
-                                                setErrors({});
+                                                setErrors({
+                                                    employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+                                                    employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 제외',
+                                                    emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 제외'
+                                                });
                                             }}>닫기
                                     </button>
                                 </div>
