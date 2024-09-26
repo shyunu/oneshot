@@ -118,6 +118,7 @@
             alert("최소 1개의 항목은 등록하셔야합니다.");
             return;
         }
+        row.remove();
     }
 
 
@@ -175,15 +176,15 @@
             <table id="dataTable">
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
-                    <th>no</th>
-                    <th>판매등록일자</th>
-                    <th>고객사명</th>
-                    <th>상품리스트</th>
-                    <th>총거래가</th>
-                    <th>판매담당자명</th>
-                    <th>배송상태</th>
-                    <th>배송일</th>
+                    <th style="width: 3%;"><input type="checkbox" id="selectAll"></th>
+                    <th style="width: 5%;">no</th>
+                    <th style="width: 13%;">판매등록일자</th>
+                    <th style="width: 10%;">고객사명</th>
+                    <th style="width: 22%;">상품리스트</th>
+                    <th style="width: 10%;">총거래가</th>
+                    <th style="width: 11%;">판매담당자명</th>
+                    <th style="width: 10%;">배송상태</th>
+                    <th style="width: 16%;">배송일</th>
                 </tr>
                 </thead>
 
@@ -288,7 +289,7 @@
                                 <td><p>등록일자</p></td>
                                 <td><input type="date" id="dateField" name="orderSdate" class="orderSdate" readonly/></td>
                                 <td><p>판매담당자</p></td>
-                                <td><input type="text" name="employeeNo" th:value="${#authentication.principal.employeeName}" readonly></td>
+                                <td><input type="text" name="employeeName" th:value="${#authentication.principal.employeeName}" readonly></td>
                                 <td colspan="2"><p>판매자 연락처</p></td>
                                 <td colspan="2"><input type="text" class="employeePhone" disabled></td>
                                 <td colspan="2"><p>판매자 이메일</p></td>
@@ -318,9 +319,9 @@
                                 <th>재고</th>
                                 <th>개수</th>
                                 <th>금액</th>
-                                <th>
+                                <th style="width: 6.5%;">
                                     <button type="button" class="add-button" onclick="addRow()"
-                                            style="width: 50px; background-image: none; color: black; margin:0px; border: 1px solid #e3e3e3;">추가
+                                            style="width: 50px; background-image: none; color: black; margin-left: -10px; border: 1px solid #e3e3e3;">추가
                                     </button>
                                 </th>
                             </tr>
@@ -361,8 +362,6 @@
                         <table>
                             <tbody>
                             <tr>
-                                <!--                                <td><p>승인상태</p></td>-->
-                                <!--                                <td><input type="text" name="orderStatus" placeholder="-" value="-" readonly style="text-align: center;"></td>-->
                                 <td><p>배송상태</p></td>
                                 <td><input type="text" name="deliveryStatus" placeholder="-" value="배송대기" readonly
                                            style="text-align: center;  color: #f0f0f0 !important;"></td>
