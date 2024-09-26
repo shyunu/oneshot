@@ -72,6 +72,10 @@ body.dark .popup-content {
   border-radius: 10px;
 }
 
+body.dark .popup-list input:disabled {
+  background-color: #e4e4e4 !important;
+}
+
 body.dark .popup-regist td, body.dark .popup-modify td,
 body.dark input, body.dark select {
   border: 1px solid #5f6368;
@@ -121,7 +125,7 @@ body.dark .add-button, body.dark .remove-button {
 }
 .navbar img {
   width: auto;
-  height: 36px;
+  height: 45px;
   border-radius: 50%;
 }
 .search_bar {
