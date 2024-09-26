@@ -62,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="vo : ${list}" class="product_list">
+                    <tr th:each="vo : ${list}" class="product_list" style="cursor: default;">
                         <td><input type="checkbox" class="checkbox"></td>
                         <td th:text="${vo.contractPriceNo}"></td>
                         <td th:text="${vo.clientName}"></td>
