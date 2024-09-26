@@ -29,10 +29,6 @@ public class SupplierServiceImpl implements SupplierService {
         supplierMapper.registerSupplier(supplier);
     }
 
-//    public List<SupplierVO> searchSuppliers(Map<String, Object> parameters) {
-//        return supplierMapper.searchSuppliers((Map<String, Object>) parameters);
-//    }
-
     @Override
     public SupplierVO getSupplierByNo(Long supplierNo) {
         return supplierMapper.getSupplierByNo(supplierNo);
@@ -40,7 +36,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public boolean modifySupplier(SupplierVO supplierVO) {
-         return supplierMapper.modifySupplier(supplierVO) > 0;
+        return supplierMapper.modifySupplier(supplierVO) > 0;
     }
 
     @Override

@@ -7,7 +7,7 @@
         category.category_name,
         supplier.supplier_name,
         product.product_name,
-        COALESCE(SUM(purchase.purchase_quantity), 0) - COALESCE(SUM(order_item.product_quantity), 0) AS inventory_quantity,
+        COALESCE(purchase_summary.total_purchase_quantity, 0) - COALESCE(order_summary.total_order_quantity, 0) AS inventory_quantity,
         product.safety_quantity,
         product.product_price,
         product.product_img,
@@ -18,10 +18,26 @@
         category ON product.category_no = category.category_no
         LEFT JOIN
         supplier ON product.supplier_no = supplier.supplier_no
-        LEFT JOIN
-        purchase ON product.product_no = purchase.product_no
-        LEFT JOIN
-        order_item ON product.product_no = order_item.product_no
+        -- 서브쿼리로 중복 제거한 구매 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(purchase_quantity) AS total_purchase_quantity
+        FROM
+        purchase
+        GROUP BY
+        product_no
+        ) AS purchase_summary ON product.product_no = purchase_summary.product_no
+        -- 서브쿼리로 중복 제거한 주문 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(product_quantity) AS total_order_quantity
+        FROM
+        order_item
+        GROUP BY
+        product_no
+        ) AS order_summary ON product.product_no = order_summary.product_no
         WHERE 1 = 1
         <if test="categoryNo != null and categoryNo != ''">
             and product.category_no = #{categoryNo}
@@ -52,9 +68,10 @@
         product.safety_quantity,
         product.product_price,
         product.product_img,
-        product.product_remark
-        ORDER BY
-        product.product_no DESC
+        product.product_remark,
+        purchase_summary.total_purchase_quantity,  -- 추가된 부분
+        order_summary.total_order_quantity         -- 추가된 부분
+        ORDER BY product.product_no DESC
         LIMIT #{amount} OFFSET #{pageStart}
     </select>
 

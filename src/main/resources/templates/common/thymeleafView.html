@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="/common/css/home.css" />
     <link rel='stylesheet' href='/common/css/main.css' />
     <link rel='stylesheet' href='/common/css/common.css' />
-    <link rel="stylesheet" href="/inventory/css/supplier.css" />
-    <link rel="stylesheet" href="/inventory/css/purchase.css" />
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -29,7 +27,7 @@
     <div class="logo_item">
         <i class="sidebar" id="sidebarOpen"></i>
         <a href="/common/home"><img src="../../common/img/oneshot.png" alt="oneshot" style="width: 180px; border-radius: 0px;"></i></a>
-  </div>
+    </div>
 
     <div class="navbar_content">
         <i class='bx bx-sun' id="darkLight"></i>
@@ -37,15 +35,12 @@
         <div class="profileHeader">
             <div class="topSection">
                 <span class="hearderEmployeeName">[[${#authentication.principal.employeeName}]]</span>
-            </div>
-            <div class="bottomSection">
-                <span class="hearderDepartmentName">[[${#authentication.principal.departmentName}]]</span>
                 <span class="hearderPositionName">[[${#authentication.principal.positionName}]]</span>
+                <span class="hearderDepartmentName">([[${#authentication.principal.departmentName}]])</span>
+
             </div>
         </div>
     </div>
-
-
 </nav>
 
 <div class="sidebar_content">
@@ -145,65 +140,47 @@
     const sidebarExpand = document.querySelector(".expand_sidebar");
     //    sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
 
-    //    sidebarClose.addEventListener("click", () => {
-    //      sidebar.classList.add("close", "hoverable");
-    //    });
-    //    sidebarExpand.addEventListener("click", () => {
-    //      sidebar.classList.remove("close", "hoverable");
-    //    });
-    //
-    //    sidebar.addEventListener("mouseenter", () => {
-    //      if (sidebar.classList.contains("hoverable")) {
-    //        sidebar.classList.remove("close");
-    //      }
-    //    });
-    //    sidebar.addEventListener("mouseleave", () => {
-    //      if (sidebar.classList.contains("hoverable")) {
-    //        sidebar.classList.add("close");
-    //      }
-    //    });
 
-//     페이지 로드 시 로컬 스토리지에서 다크 모드 상태 불러오기
-        window.onload = function() {
-            const isDarkMode = localStorage.getItem('darkMode');
-            if (isDarkMode === 'enabled') {
-                body.classList.add('dark');
-                darkLight.classList.replace("bx-sun", "bx-moon");
-            } else {
-                body.classList.remove('dark');
-                darkLight.classList.replace("bx-moon", "bx-sun");
-            }
-        };
+    function applyDarkMode() {
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            body.classList.add('dark');
+            darkLight.classList.replace("bx-sun", "bx-moon");
+        } else {
+            body.classList.remove('dark');
+            darkLight.classList.replace("bx-moon", "bx-sun");
+        }
+    }
 
-        // 다크 모드 버튼 클릭 시 상태 변경 및 저장
-        darkLight.addEventListener("click", () => {
-            body.classList.toggle("dark");
-            if (body.classList.contains("dark")) {
-                // 다크 모드가 활성화되었을 때 로컬 스토리지에 저장
-                localStorage.setItem("darkMode", "enabled");
-                darkLight.classList.replace("bx-sun", "bx-moon");
-            } else {
-                // 다크 모드가 비활성화 -> 제거
-                localStorage.setItem("darkMode", "disabled");
-                darkLight.classList.replace("bx-moon", "bx-sun");
-            }
-        });
+    // 페이지 로드 시 다크 모드 상태 적용
+    window.addEventListener('load', applyDarkMode);
 
+    // 다크 모드 토글 함수
+    function toggleDarkMode() {
+        const isDarkMode = body.classList.toggle("dark");
+        localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
+        darkLight.classList.replace(isDarkMode ? "bx-sun" : "bx-moon", isDarkMode ? "bx-moon" : "bx-sun");
+    }
+
+    // 다크 모드 버튼 클릭 이벤트
+    darkLight.addEventListener("click", toggleDarkMode);
+
+    // 나머지 코드는 그대로 유지
     submenuItems.forEach((item, index) => {
-      item.addEventListener("click", () => {
-        item.classList.toggle("show_submenu");
-        submenuItems.forEach((item2, index2) => {
-          if (index !== index2) {
-            item2.classList.remove("show_submenu");
-          }
+        item.addEventListener("click", () => {
+            item.classList.toggle("show_submenu");
+            submenuItems.forEach((item2, index2) => {
+                if (index !== index2) {
+                    item2.classList.remove("show_submenu");
+                }
+            });
         });
-      });
     });
 
     if (window.innerWidth < 768) {
-      sidebar.classList.add("close");
+        sidebar.classList.add("close");
     } else {
-      sidebar.classList.remove("close");
+        sidebar.classList.remove("close");
     }
 
 
