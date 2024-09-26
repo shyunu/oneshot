@@ -256,7 +256,7 @@
     }
 
     function supplierAddressSuccess(input) {
-        var regex = /^[가-힣a-zA-Z]+$/;
+        var regex = /^[가-힣a-zA-Z0-9\s]+$/;
         if(input.value.trim() === "") {
             $('#supplierAddressResult').css("display", "none");
             return;
