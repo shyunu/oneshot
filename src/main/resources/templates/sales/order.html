@@ -333,10 +333,9 @@
                                 <td>
                                     <select name="orderItems[0].productNo[]" class="productNo"
                                             onchange="getPrice(event)" oninput="checkValue(this)">
-                                        <option value="" disabled selected>-상품-</option>
                                     </select>
                                     <br>
-                                    <p class="error-text">※ 상품선택은 필수입니다.</p>
+<!--                                    <p class="error-text">※ 상품선택은 필수입니다.</p>-->
                                 </td>
                                 <td>
                                     <input type="number" name="orderItems[0].contractPrice[]" class="contractPrice" readonly required>
@@ -382,7 +381,7 @@
                         <!--                    </div>-->
                         <div class="button-right">
                             <button type="submit" onclick="handleSubmit()">등록</button>
-                            <button type="button" class="close-btn3" onclick="closePopupRegist()">닫기</button>
+                            <button type="button" class="close-btn3" onclick="location.href='/sales/order'" >닫기</button>
                         </div>
                     </div>
                 </div>
@@ -626,7 +625,7 @@
                 $('.managerName').val(data.managerName);
                 $('.managerPhone').val(data.managerPhone);
 
-                $('.productNo').html('<option>-상품-</option>');
+                $('.productNo').html('');
                 $('.contractPrice').val('');
                 $('.productQuantity').val('');
                 $('.amount').val('');
@@ -653,6 +652,10 @@
                 while (inputContainer.rows.length > 1) {
                     inputContainer.deleteRow(1); // 첫 번째 행 이후의 모든 행 제거
                 }
+                // 책정거래가와 재고 초기화
+                $('.contractPrice').val('');
+                $('.inventoryQuantity').val('');
+                $('.totalAmount').val('');
 
             },
             error: function() {

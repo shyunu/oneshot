@@ -192,10 +192,10 @@
               </tr>
               <tr>
                 <td><p>카테고리</p></td>
-                <td><select name="categoryNo" id="putCategoryNo"></select></td>
+                <td><select name="categoryNo" id="putCategoryNo" required></select></td>
                 <td><p>판매상태</p></td>
                 <td colspan="3">
-                  <select name="productRemark" id="putProductRemark">
+                  <select name="productRemark" id="putProductRemark" required>
                     <option value="">- 판매상태 -</option>
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
@@ -205,13 +205,13 @@
               </tr>
               <tr>
                 <td><p>상품명</p></td>
-                <td><input type="text" name="productName" id="putProductName"></td>
+                <td><input type="text" name="productName" id="putProductName" required></td>
                 <td><p>판매정가</p></td>
-                <td><input type="number" name="productPrice" id="putProductPrice"></td>
+                <td><input type="text" name="productPrice" id="putProductPrice" required></td>
               </tr>
               <tr>
                 <td><p>안전재고수량</p></td>
-                <td><input type="number" name="safetyQuantity" id="putSafetyQuantity"></td>
+                <td><input type="text" name="safetyQuantity" id="putSafetyQuantity" required></td>
                 <td><p>상품이미지</p></td>
                 <td><input type="file" name="file" id="putProductImg"></td>
               </tr>
@@ -226,7 +226,7 @@
             <div class="button-left">
             </div>
             <div class="button-right">
-              <button type="button" onclick="modifySave()">저장</button>
+              <button type="button" onclick="modifySave(event)">저장</button>
               <button type="button" class="close-btn3">닫기</button>
             </div>
           </div>
@@ -388,6 +388,8 @@
   }
 
   function changeCategoryNo(input) {
+
+
     if(input.value.trim() !== '') {
       $('#categoryErrorText').css('display', 'none');
     } else {
@@ -454,34 +456,40 @@
     }
   }
 
-  function modifySave() {
+  function modifySave(event) {
     // 필수 입력 필드들 (상품 설명과 disabled된 필드 제외)
-    const requiredFields = [
-      '#putCategoryNo',
-      '#putProductRemark',
-      '#putProductName',
-      '#putProductPrice',
-      '#putSafetyQuantity'
-    ];
+    const putCategoryNo = event.target.parentElement.parentElement.parentElement.querySelector("#putCategoryNo").value;
+    const putProductName = event.target.parentElement.parentElement.parentElement.querySelector("#putProductName").value;
+    const putProductPrice = event.target.parentElement.parentElement.parentElement.querySelector("#putProductPrice").value;
+    const putProductRemark = event.target.parentElement.parentElement.parentElement.querySelector("#putProductRemark").value;
+    const putSafetyQuantity = event.target.parentElement.parentElement.parentElement.querySelector("#putSafetyQuantity").value;
 
+    const requiredFields = [putCategoryNo, putProductName, putProductPrice, putProductRemark, putSafetyQuantity];
+
+    console.log(event.target.parentElement.parentElement.parentElement.querySelector("#putCategoryNo").value);
     let hasEmptyField = false;
 
     // 각 필드의 값을 확인
     requiredFields.forEach(function(field) {
-      const value = $(field).val().trim(); // 공백을 제거한 값
+      const value = field.trim(); // 공백을 제거한 값
       if (!value) { // 값이 없을 경우
         hasEmptyField = true;
       }
     });
 
-    // 에러가 있는 경우 저장을 막음
-    if (hasEmptyField) {
-      //alert("필수 입력 항목을 모두 채워주세요."); // 경고 메시지
-      return;
+    // 카테고리가 기본값인 경우 체크
+    if (putCategoryNo === "" || putCategoryNo === "0") {
+      hasEmptyField = true;
     }
 
-    // 모든 값이 입력되었을 경우 폼을 제출
-    $("#putProductForm").submit();
+    // 에러가 있는 경우 저장을 막음
+    if (hasEmptyField) {
+      //alert("모든 필수 입력 필드를 채워주세요."); // 오류 메시지 추가 (선택 사항)
+      return;
+    } else {
+      // 모든 값이 입력되었을 경우 폼을 제출
+      $("#putProductForm").submit();
+    }
   }
 
   //유효성 검사
