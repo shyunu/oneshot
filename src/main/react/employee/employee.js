@@ -87,11 +87,7 @@ function Employee() {
             return; // 폼 제출 중단
         }
 
-        setErrors({
-            employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
-            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
-            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
-        });
+
         const formData = new FormData();
         if(employeePhoto){
             formData.append("employeePhoto", employeePhoto);
@@ -149,6 +145,11 @@ function Employee() {
                 departmentName: '',
                 employeePhotoPath:''
             });
+            setErrors({
+                        employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+                        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
+                        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
+                    });
             console.log('폼 제출 완료 및 직원 생성:', response.data);
             fetchEmployees();
             setPhotoThumbnail("../../common/img/default.png");

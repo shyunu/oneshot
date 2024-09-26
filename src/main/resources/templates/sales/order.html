@@ -323,8 +323,7 @@
                                 <th>금액</th>
                                 <th style="width: 6.5%;">
                                     <button type="button" class="add-button" onclick="addRow()"
-                                            style="width: 50px; background-image: none; color: black; margin-left: -10px; border: 1px solid #e3e3e3;">추가
-                                    </button>
+                                            style="width: 50px; background-image: none; color: black; margin-left: -10px; border: 1px solid #e3e3e3;">+</button>
                                 </th>
                             </tr>
                             </thead>
@@ -332,7 +331,7 @@
                             <tr id="dynamicRow" style="white-space: nowrap;">
                                 <td>
                                     <select name="orderItems[0].productNo[]" class="productNo"
-                                            onchange="getPrice(event)" oninput="checkValue(this)">
+                                            onchange="clearFields(); getPrice(event)" oninput="checkValue(this)">
                                         <option value="" disabled selected>-상품-</option>
                                     </select>
                                     <br>
@@ -354,9 +353,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="remove-button" onclick="removeRow(this)"
-                                            style="width: 50px; background-image: none; color: black; margin: 0px; border: 1px solid #e3e3e3;">
-                                        삭제
-                                    </button>
+                                            style="width: 50px; background-image: none; color: black; margin: 0px; border: 1px solid #e3e3e3;">-</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -382,7 +379,7 @@
                         <!--                    </div>-->
                         <div class="button-right">
                             <button type="submit" onclick="handleSubmit()">등록</button>
-                            <button type="button" class="close-btn3" onclick="closePopupRegist()">닫기</button>
+                            <button type="button" class="close-btn3" onclick="location.href='/sales/order'" >닫기</button>
                         </div>
                     </div>
                 </div>
@@ -653,6 +650,9 @@
                 while (inputContainer.rows.length > 1) {
                     inputContainer.deleteRow(1); // 첫 번째 행 이후의 모든 행 제거
                 }
+                $('.contractPrice').val('');
+                $('.inventoryQuantity').val('');
+                $('.totalAmount').val('');
 
             },
             error: function() {
@@ -933,6 +933,11 @@
     popupRegist.style.display = 'block';
     }
 
+    function clearFields() {
+    $('.contractPrice').val('');
+    $('.inventoryQuantity').val('');
+    $('.totalAmount').val('');
+}
 
 
 </script>
