@@ -8,14 +8,14 @@ import lombok.*;
 @Builder
 public class ProductVO {
 
-    private int productNo;
-    private int categoryNo;
-    private int supplierNo;
+    private Integer productNo;
+    private Integer categoryNo;
+    private Integer supplierNo;
     private String productName;
     private String productContent;
-    private int inventoryQuantity;
-    private int safetyQuantity;
-    private int productPrice;
+    private Integer inventoryQuantity;
+    private Integer safetyQuantity;
+    private Integer productPrice;
     private String productImg;
     private String productRemark;
 

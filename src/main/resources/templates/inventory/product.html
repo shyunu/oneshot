@@ -83,7 +83,7 @@
             <td th:text="${productVO.categoryName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.supplierName}" onclick="handleClick(event)"></td>
             <td th:text="${productVO.productName}" onclick="handleClick(event)"></td>
-            <td th:text="${productVO.inventoryQuantity}" th:classappend="${productVO.inventoryQuantity < productVO.safetyQuantity} ? 'warning' : ''" onclick="handleClick(event)"></td>
+            <td th:text="${productVO.inventoryQuantity}" th:classappend="${productVO.inventoryQuantity <= productVO.safetyQuantity} ? 'warning' : ''" onclick="handleClick(event)"></td>
             <td th:text="${productVO.safetyQuantity}" onclick="handleClick(event)"></td>
             <td th:text="${#numbers.formatInteger(productVO.productPrice, 3, 'COMMA') + '원'}"></td>
             <td><a th:href="@{/inventory/displayImg/{productImg}(productImg=${productVO.productImg})}" target="_blank">조회</td>
@@ -130,30 +130,22 @@
                   <td><p>카테고리</p></td>
                   <td><select name="categoryNo" id="postCategoryNo" onchange="changeCategoryNo(this)" required></select><br><p id="categoryErrorText" class="error-text">※ 카테고리 선택은 필수입니다.</p></td>
                   <td><p>판매상태</p></td>
-                  <td colspan="3">
-                    <select name="productRemark" id="postProductRemark" onchange="changeRemarkNo(this)" required>
-                      <option value="">- 판매상태 -</option>
-                      <option value="판매중">판매중</option>
-                      <option value="품절">품절</option>
-                      <option value="단종">단종</option>
-                    </select>
-                    <br><p id="remarkErrorText" class="error-text">※ 판매상태 입력은 필수입니다.</p>
-                  </td>
+                  <td colspan="3"><input type="text" value="품절" readonly></td>
                 </tr>
                 <tr>
                   <td><p>상품명</p></td>
                   <td><input type="text" name="productName" id="postProductName" oninput="checkValue(this); checkProductName(event)" required>
-                    <br><p class="error-text">※ 상품명 입력은 필수입니다.</p>
+                    <br><p class="error-text" id="1">※ 상품명 입력은 필수입니다.</p>
                     <p id="checkProductName" class="error-text" style="display: none;">※ 중복된 상품명입니다.</p>
                   </td>
                   <td><p>판매정가</p></td>
-                  <td><input type="text" name="productPrice" id="postProductPrice" oninput="checkValue(this)" required><br><p class="error-text">※ 판매정가 입력은 필수입니다.</p></td>
+                  <td><input type="text" name="productPrice" id="postProductPrice" oninput="checkValue(this)" required><br><p id="2" class="error-text">※ 판매정가 입력은 필수입니다.</p></td>
                 </tr>
                 <tr>
                   <td><p>안전재고수량</p></td>
-                  <td><input type="text" name="safetyQuantity" id="postSafetyQuantity" oninput="checkValue(this)" required><br><p class="error-text">※ 안전재고수량 입력은 필수입니다.</p></td>
+                  <td><input type="text" name="safetyQuantity" id="postSafetyQuantity" oninput="checkValue(this)" required><br><p id="3" class="error-text">※ 안전재고수량 입력은 필수입니다.</p></td>
                   <td><p>상품이미지</p></td>
-                  <td><input type="file" name="file" id="postProductImg" oninput="checkValue(this)" required><br><p class="error-text">※ 상품이미지 업로드는 필수입니다.</p></td>
+                  <td><input type="file" name="file" id="postProductImg" oninput="checkValue(this)" required><br><p id="4" class="error-text">※ 상품이미지 업로드는 필수입니다.</p></td>
                 </tr>
                 <tr>
                   <td><p>상품설명</p></td>
@@ -178,7 +170,7 @@
 
     <!-- 수정 팝업 -->
     <div id="popup-modify" class="popup-modify">
-      <form action="/inventory/putProduct" method="post" enctype="multipart/form-data">
+      <form action="/inventory/putProduct" method="post" id="putProductForm" enctype="multipart/form-data">
         <input type="hidden" name="productNo" id="putProductNo">
         <input type="hidden" name="supplierNo" id="putSupplierNo">
         <div class="popup-content">
@@ -215,11 +207,11 @@
                 <td><p>상품명</p></td>
                 <td><input type="text" name="productName" id="putProductName"></td>
                 <td><p>판매정가</p></td>
-                <td><input type="text" name="productPrice" id="putProductPrice"></td>
+                <td><input type="number" name="productPrice" id="putProductPrice"></td>
               </tr>
               <tr>
                 <td><p>안전재고수량</p></td>
-                <td><input type="text" name="safetyQuantity" id="putSafetyQuantity"></td>
+                <td><input type="number" name="safetyQuantity" id="putSafetyQuantity"></td>
                 <td><p>상품이미지</p></td>
                 <td><input type="file" name="file" id="putProductImg"></td>
               </tr>
@@ -371,6 +363,11 @@
         $('#postProductRemark').val('').prop('selected', true);
 
         $('#supplierErrorText').css('display', 'none');
+        $('#categoryErrorText').css('display', 'block');
+        $('#1').css('display', 'block');
+        $('#2').css('display', 'block');
+        $('#3').css('display', 'block');
+        $('#4').css('display', 'block');
       },
       error: function() {
         $('#postSupplierNo').val('0').prop('selected', true);
@@ -395,14 +392,6 @@
       $('#categoryErrorText').css('display', 'none');
     } else {
       $('#categoryErrorText').css('display', 'block');
-    }
-  }
-
-  function changeRemarkNo(input) {
-    if(input.value.trim() !== '') {
-      $('#remarkErrorText').css('display', 'none');
-    } else {
-      $('#remarkErrorText').css('display', 'block');
     }
   }
 
@@ -492,7 +481,7 @@
     }
 
     // 모든 값이 입력되었을 경우 폼을 제출
-    $("#postProductForm").submit();
+    $("#putProductForm").submit();
   }
 
   //유효성 검사
@@ -524,6 +513,25 @@
 
   //팝업창 닫기
   function closePopupRegist() {
+    $('#postSupplierNo').val('0').prop('selected', true);
+    $('#postSupplierBusinessNo').val('');
+    $('#postManagerName').val('');
+    $('#postManagerPhone').val('');
+    $('#postCategoryNo').val('0').prop('selected', true);
+    $('#postProductName').val('');
+    $('#postProductPrice').val('');
+    $('#postSafetyQuantity').val('');
+    $('#postProductImg').val('');
+    $('#postProductContent').val('');
+    $('#postProductRemark').val('').prop('selected', true);
+
+    $('#supplierErrorText').css('display', 'block');
+    $('#categoryErrorText').css('display', 'block');
+    $('#1').css('display', 'block');
+    $('#2').css('display', 'block');
+    $('#3').css('display', 'block');
+    $('#4').css('display', 'block');
+
     resistPopup.style.display = 'none'; //등록페이지 팝업 닫기
   }
 
