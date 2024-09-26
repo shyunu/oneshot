@@ -606,7 +606,7 @@ useEffect(() => {
                           />
                           <label htmlFor="selectAllCheckbox"></label>
                         </th>
-                        <th className="departmentNumberColumn" onClick={() => requestSort('departmentNo')}>no</th>
+                        <th className="departmentNumberColumn" onClick={() => requestSort('departmentNo')}>부서번호</th>
                         <th className="departmentNameColumn" onClick={() => requestSort('departmentName')}>부서명</th>
                         <th onClick={() => requestSort('menus')}>사용가능메뉴</th>
                         <th onClick={() => requestSort('departmentState')}>사용여부</th>

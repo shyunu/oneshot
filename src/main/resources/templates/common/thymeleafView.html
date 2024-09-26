@@ -27,7 +27,7 @@
     <div class="logo_item">
         <i class="sidebar" id="sidebarOpen"></i>
         <a href="/common/home"><img src="../../common/img/oneshot.png" alt="oneshot" style="width: 180px; border-radius: 0px;"></i></a>
-  </div>
+    </div>
 
     <div class="navbar_content">
         <i class='bx bx-sun' id="darkLight"></i>
@@ -35,15 +35,12 @@
         <div class="profileHeader">
             <div class="topSection">
                 <span class="hearderEmployeeName">[[${#authentication.principal.employeeName}]]</span>
-            </div>
-            <div class="bottomSection">
-                <span class="hearderDepartmentName">[[${#authentication.principal.departmentName}]]</span>
                 <span class="hearderPositionName">[[${#authentication.principal.positionName}]]</span>
+                <span class="hearderDepartmentName">([[${#authentication.principal.departmentName}]])</span>
+
             </div>
         </div>
     </div>
-
-
 </nav>
 
 <div class="sidebar_content">

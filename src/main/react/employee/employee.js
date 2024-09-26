@@ -219,15 +219,15 @@ function Employee() {
     const validators = {
         employeeEmail: (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(value) ? '' : '유효한 이메일 주소를 입력해주세요.';
+            return emailRegex.test(value) ? '' : '※ 유효한 이메일 주소를 입력해주세요.';
         },
         employeePhone: (value) => {
             const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
         },
         emergencyPhone:(value) => {
             const phoneRegex =/^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-            return phoneRegex.test(value) ? '' : '정확한 핸드폰번호를 입력해주세요: - 제외';
+            return phoneRegex.test(value) ? '' : '※ 정확한 핸드폰번호를 입력해주세요: - 제외';
         }
     };
 
@@ -613,7 +613,7 @@ function Employee() {
                             입사일자
                         </th>
                         <th  style={{minWidth: "110px"}}>
-                            no
+                            직원번호
                         </th>
                         <th style={{minWidth: "155px"}}>
                             성명
@@ -721,7 +721,7 @@ function Employee() {
             {showPopup &&
                 <div className="popup" id="contractPopup">
                     <Draggable nodeRef={nodeRef} onStart={handleStart} positionOffset={{x: '-50%', y: '-50%'}}>
-                        <div className="popup-content" ref={nodeRef} id="draggablePopup" style={{width: "1120px"}}>
+                        <div className="popup-content" ref={nodeRef} id="draggablePopup" style={{width: "1150px"}}>
                             <div className="popup-header" id="popupHeader">
                                 <span>{editMode ? '사원 수정' : '사원 등록'}</span>
                             </div>
@@ -733,7 +733,7 @@ function Employee() {
                                         <p>사원사진</p>
                                             <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
-                                            <label htmlFor="fileInput" className="btn attach-file">사진변경</label>
+                                            <label htmlFor="fileInput" className="btn attach-file" style={{position:"absolute", top:"70px", left:"380px", width:"100px",height:"100px"}}></label>
                                         </td>
                                         <td rowSpan="2" colSpan="2">
                                             <div className="profile-picture">
@@ -783,7 +783,7 @@ function Employee() {
                                                 value={newEmployee.employeeEmail}
                                                 onChange={handleFormChange}
                                             />
-                                            {errors.employeeEmail && <p style={{ color: 'red', fontSize: '13px' }}>{errors.employeeEmail}</p>}
+                                            {errors.employeeEmail && <p style={{ color: 'red', fontSize: '13px', textAlign:"left" }}>{errors.employeeEmail}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="department">부서번호</label>
@@ -843,7 +843,7 @@ function Employee() {
                                                    value={newEmployee.employeePhone}
                                                    onChange={handleFormChange}
                                             />
-                                            {errors.employeePhone && <p style={{ color: 'red' , fontSize: '13px' }}>{errors.employeePhone}</p>}
+                                            {errors.employeePhone && <p style={{ color: 'red' , fontSize: '13px', textAlign:"left" }}>{errors.employeePhone}</p>}
                                         </td>
                                         <td colSpan="2">
                                             <label htmlFor="emergencyPhone">비상연락처</label>
@@ -853,7 +853,7 @@ function Employee() {
                                                    className="input-form"
                                                    value={newEmployee.emergencyPhone} onChange={handleFormChange}
                                             />
-                                            {errors.emergencyPhone && <p style={{ color: 'red', fontSize: '13px' }}>{errors.emergencyPhone}</p>}
+                                            {errors.emergencyPhone && <p style={{ color: 'red', fontSize: '13px', textAlign:"left" }}>{errors.emergencyPhone}</p>}
                                         </td>
                                     </tr>
                                     <tr className="left-row">
