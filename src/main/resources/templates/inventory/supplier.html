@@ -281,7 +281,6 @@
         }
     }
 
-
     function supplierBusinessNoSuccess(input) {
         var regex = /^\d{3}-\d{2}-\d{5}$/;
         if(input.value.trim() === "") {
@@ -335,7 +334,19 @@
         const form = document.getElementById('modifySupplier');
         const formData = new FormData(form);
 
-        // 파일이 변경되지 않았다면 기존 파일명을 사용
+        // 필수 항목 체크 (파일 입력 제외)
+        let hasError = false;
+        document.querySelectorAll('#modifySupplier input[required]').forEach(input => {
+            if (!input.value.trim()) {
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            return;  // 필수 항목이 비어 있으면 함수 종료
+        }
+
+        // 파일이 선택되지 않았다면 기존 파일명을 사용
         if (formData.get('supplierFile').size === 0) {
             formData.delete('supplierFile');
             formData.append('supplierFile', formData.get('existingFile'));
@@ -345,22 +356,20 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('성공적으로 수정되었습니다.');
-                closeModal();
-                updateTableRow(formData);
-            }
-            else {
-                alert('수정에 실패했습니다: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('오류가 발생했습니다: ' + error.message);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('성공적으로 수정되었습니다.');
+                    closeModal();
+                    updateTableRow(formData);  // 테이블 행 업데이트
+                } else {
+                    alert('수정에 실패했습니다: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('오류가 발생했습니다: ' + error.message);
+            });
     }
-
 
     // 테이블 행 업데이트
     function updateTableRow(formData) {
