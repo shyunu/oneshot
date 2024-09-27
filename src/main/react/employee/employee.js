@@ -17,7 +17,7 @@ function Employee() {
     const nodeRef = useRef(null); //Draggable 오류수정
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
-    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/default.png"); // 사진미리보기용
+    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/images/default.png"); // 사진미리보기용
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
@@ -152,7 +152,7 @@ function Employee() {
                     });
             console.log('폼 제출 완료 및 직원 생성:', response.data);
             fetchEmployees();
-            setPhotoThumbnail("../../common/img/default.png");
+            setPhotoThumbnail("../../common/images/default.png");
         } catch (error) {
             console.error('폼 제출 실패:', error);
         }
@@ -428,7 +428,7 @@ function Employee() {
         setEditMode(true);   // 수정 모드
         setNewEmployee(employee); // 선택된 사원의 데이터로 초기화
         if(employee.employeePhotoPath !=='default'){
-            setPhotoThumbnail(`http://localhost:8181/hrm/images/${employee.employeePhotoPath}`)
+            setPhotoThumbnail(`http://localhost:8181/common/images/${employee.employeePhotoPath}`)
         }
         setShowPopup(true);
     };
