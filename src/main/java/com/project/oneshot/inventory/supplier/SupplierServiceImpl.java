@@ -3,6 +3,7 @@ package com.project.oneshot.inventory.supplier;
 import com.project.oneshot.command.SupplierVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean modifySupplier(SupplierVO supplierVO) {
+    public boolean modifySupplier(SupplierVO supplierVO, MultipartFile supplierFile) {
         return supplierMapper.modifySupplier(supplierVO) > 0;
     }
 
