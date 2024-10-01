@@ -11,7 +11,7 @@ public interface SupplierService {
     int getTotalSupplier(SupplierCriteria cri);
     public void registerSupplier(SupplierVO supplier);
     SupplierVO getSupplierByNo(Long supplierNo);
-    public boolean modifySupplier(SupplierVO supplierVO, MultipartFile supplierFile);
+    public boolean modifySupplier(SupplierVO supplierVO);
 
     int checkSupplierName(String supplierName);
 }

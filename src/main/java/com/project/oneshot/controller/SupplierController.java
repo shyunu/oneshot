@@ -57,8 +57,8 @@ public class SupplierController {
         String filename = null;
         try {
             filename = System.currentTimeMillis() + "_" + supplierFile.getOriginalFilename();
-            String directoryPath = "/Users/narin/Desktop/첨부파일/"; // D:/file_repo/
-//            String directoryPath = "D:/file_repo/";
+//            String directoryPath = "/Users/narin/Desktop/첨부파일/"; // D:/file_repo/
+            String directoryPath = "D:/file_repo/";
             File dir = new File(directoryPath);
 
             if (!dir.exists()) {
@@ -117,7 +117,7 @@ public class SupplierController {
                 supplierFile.transferTo(new File(filePath));
                 supplierVO.setSupplierFile(filename);
             }
-            boolean result = supplierService.modifySupplier(supplierVO, supplierFile);
+            boolean result = supplierService.modifySupplier(supplierVO);
 
             if (result) {
                 response.put("success", true);

@@ -36,7 +36,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean modifySupplier(SupplierVO supplierVO, MultipartFile supplierFile) {
+    public boolean modifySupplier(SupplierVO supplierVO) {
         return supplierMapper.modifySupplier(supplierVO) > 0;
     }
 
