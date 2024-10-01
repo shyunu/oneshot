@@ -2,12 +2,12 @@ create table product (
 	product_no	integer		not null,
 	category_no	integer		not null,
 	supplier_no	integer		not null,
-	product_name	varchar(20)		null,
+	product_name	varchar(40)		null,
 	product_content	varchar(50)		null,
 	safety_quantity	integer		null,
 	product_price	integer		null,
-	product_img	varchar(30)		null,
-	product_remarks	varchar(20)		null
+	product_img	varchar(100)		null,
+	product_remark	varchar(50)		null
 );
 
 create table category (
@@ -17,12 +17,11 @@ create table category (
 
 create table order_header (
 	order_header_no	integer		not null,
-	contract_sdate	date		not null,
 	client_no	integer		null,
-	order_status	varchar(10)		null,
 	delivery_status	varchar(10)		null,
 	delivery	date		null,
-	order_employee	varchar(20)		null
+	employee_no	integer		null,
+	order_sdate date null
 );
 
 create table client (
@@ -40,7 +39,9 @@ create table order_item (
 	product_item_no	integer		not null,
 	order_header_no	integer		not null,
 	product_no	integer		null,
-	product_quantity	integer		null
+	product_quantity	integer		null,
+	amount integer null,
+	contract_price integer null
 );
 
 create table authority (
@@ -67,32 +68,28 @@ create table attendance (
 create table employee (
 	employee_no	integer		not null,
 	department_no	integer		not null,
-	rank_no	integer		not null,
 	employee_name	varchar(20)		null,
 	employee_birth	date		null,
 	employee_phone	varchar(20)		null,
 	emergency_phone	varchar(20)		null,
-	employee_address	varchar(20)		null,
+	employee_address	varchar(255)		null,
 	account_number	varchar(20)		null,
 	employee_hiredate	date		null,
 	employee_status	varchar(2)		null,
-	employee_email	varchar(20)		null,
-	employee_photo_path	varchar(30)		null
+	employee_email	varchar(255)		null,
+	employee_photo_path	varchar(255)		null,
+	bank_no integer not null,
+	account_holder varchar(50) null,
+	position_no integer null,
+	employee_address_detail varchar(255) null
 );
 
 create table department (
 	department_no	integer		not null,
-	department_name	varchar(10)		null
+	department_name	varchar(10)		null,
+	department_state varchar(2) null
 );
 
-create table purchase_list (
-	purchase_list_no	integer		not null,
-	product_no	integer		not null,
-	purchase_price	integer		null,
-	purchase_quantity	integer		null,
-	purchase_date	date		null,
-	purchase_status	varchar(10)		null
-);
 
 create table contract_price (
 	product_no	integer		not null,
@@ -100,19 +97,22 @@ create table contract_price (
 	client_no	integer		not null,
 	contract_sdate	date		not null,
 	contract_edate	date		null,
-	contract_price	integer		null
+	contract_price	integer		null,
+	contract_price_no integer null,
+	contract_price_status varchar(10) null
 );
 
 create table supplier (
-	supplier_no	integer		not null,
+    supplier_no integer not null,
 	supplier_name	varchar(20)		null,
 	supplier_business_no	varchar(20)		null,
 	supplier_address	varchar(50)		null,
 	manager_name	varchar(20)		null,
 	manager_phone	varchar(20)		null,
-	manager_email	varchar(50)		null,
-	supplier_file	varchar(100)		null
+	manager_email	varchar(30)		null,
+	supplier_file	varchar(200)		null
 );
+
 
 create table purchase (
     purchase_no integer not null,
@@ -123,6 +123,7 @@ create table purchase (
     purchase_date date null,
     purchase_status varchar(10) null
 };
+
 
 create table id_pw (
 	id	varchar(30)		not null,
