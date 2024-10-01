@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // "/hrm/images/**" 요청을 "D:/file_repo/" 폴더로 매핑
-        registry.addResourceHandler("/hrm/images/**")
+        registry.addResourceHandler("/common/images/**")
                 .addResourceLocations("file:///D:/file_repo/");
     }
 

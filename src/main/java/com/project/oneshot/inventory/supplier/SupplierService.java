@@ -1,6 +1,7 @@
 package com.project.oneshot.inventory.supplier;
 
 import com.project.oneshot.command.SupplierVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;

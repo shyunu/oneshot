@@ -114,6 +114,17 @@ create table supplier (
 );
 
 
+create table purchase (
+    purchase_no integer not null,
+    product_no integer not null,
+    employee_no integer not null,
+    purchase_price integer null,
+    purchase_quantity integer null,
+    purchase_date date null,
+    purchase_status varchar(10) null
+};
+
+
 create table id_pw (
 	id	varchar(30)		not null,
 	pw	varchar(30)		null,
