@@ -4,5 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.app.contract.AppContractMapper">
+    <select id="getClientList" resultType="ClientVO">
+        SELECT * FROM CLIENT ORDER BY CLIENT_NAME
+    </select>
 
+    <select id="getProductList" resultType="ProductVO">
+        SELECT * FROM PRODUCT ORDER BY PRODUCT_NAME
+    </select>
 </mapper>
