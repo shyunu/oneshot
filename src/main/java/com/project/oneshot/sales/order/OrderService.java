@@ -29,7 +29,7 @@ public interface OrderService {
     public void updateDeliveryStatus(List<Integer> orderHeaderNos); //업데이트(상태)
     public void updateItem(OrderItemVO vo); //업데이트(상품정보)
 
-    int getInventoryQuantity(int productNo);
+    int getInventoryQuantity(int productNo); //재고조회
 
     // 분기별 판매 총액 조회
     List<Map<String, Object>> getQuarterlyOrderAmount();
