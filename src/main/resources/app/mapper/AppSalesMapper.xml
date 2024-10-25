@@ -4,5 +4,107 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.oneshot.app.sales.AppSalesMapper">
+    <!-- 고객사리스트 조회하기 -->
+    <select id="getClientList" resultType="ClientVO">
+        SELECT * FROM CLIENT ORDER BY CLIENT_NAME
+    </select>
 
+    <!-- 고객사 정보 조회하기 -->
+    <select id="getClientContent" parameterType="int" resultType="ClientVO">
+        select * from client where client_no = #{clientNo}
+    </select>
+
+    <!-- 거래체결한 상품 조회하기 -->
+    <select id="getProductList" resultType="ContractVO">
+        SELECT P.PRODUCT_NO, P.PRODUCT_NAME, CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND CP.CONTRACT_PRICE_STATUS = '승인'
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+        AND P.PRODUCT_REMARK = '판매중'
+    </select>
+
+    <!-- 거래체결한 상품가격 조회하기 -->
+    <select id="getProductPrice" resultType="int">
+        SELECT CP.CONTRACT_PRICE
+        FROM CLIENT C
+        INNER JOIN CONTRACT_PRICE CP
+        ON C.CLIENT_NO = CP.CLIENT_NO
+        INNER JOIN PRODUCT P
+        ON CP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE C.CLIENT_NO = #{clientNo}
+        AND P.PRODUCT_NO = #{productNo}
+        AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
+    </select>
+
+    <select id="getInventoryQuantity" resultType="int">
+        SELECT
+        COALESCE(purchase_summary.total_purchase_quantity, 0)
+        - COALESCE(order_summary.total_order_quantity, 0)
+        - COALESCE(MAX(product.safety_quantity), 0) AS stock
+        FROM product
+        LEFT JOIN purchase ON product.product_no = purchase.product_no
+        LEFT JOIN order_item ON product.product_no = order_item.product_no
+        -- 서브쿼리로 중복 제거한 구매 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(purchase_quantity) AS total_purchase_quantity
+        FROM
+        purchase
+        GROUP BY
+        product_no
+        ) AS purchase_summary ON product.product_no = purchase_summary.product_no
+        -- 서브쿼리로 중복 제거한 주문 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(product_quantity) AS total_order_quantity
+        FROM
+        order_item
+        GROUP BY
+        product_no
+        ) AS order_summary ON product.product_no = order_summary.product_no
+        where product.product_no = #{productNo}
+        GROUP BY product.product_no,
+        purchase_summary.total_purchase_quantity,
+        order_summary.total_order_quantity
+    </select>
+
+    <!-- 판매등록  -->
+    <insert id="orderHeader" parameterType="OrderVO" useGeneratedKeys="true" keyProperty="orderHeaderNo">
+        INSERT INTO ORDER_HEADER (
+        ORDER_SDATE,
+        EMPLOYEE_NO,
+        CLIENT_NO,
+        DELIVERY_STATUS,
+        DELIVERY
+        )
+        VALUES (
+        #{orderSdate},
+        #{employeeNo},
+        #{clientNo},
+        #{deliveryStatus},
+        #{delivery}
+        )
+    </insert>
+
+    <!-- 판매아이템등록  -->
+    <insert id="orderItem" parameterType="OrderVO">
+        INSERT INTO ORDER_ITEM (
+        ORDER_HEADER_NO,
+        PRODUCT_NO,
+        CONTRACT_PRICE,
+        PRODUCT_QUANTITY,
+        AMOUNT
+        )
+        VALUES
+        <foreach collection="orderItems" item="item" separator=",">
+            (#{orderHeaderNo}, #{item.productNo}, #{item.contractPrice}, #{item.productQuantity}, #{item.amount})
+        </foreach>
+    </insert>
 </mapper>

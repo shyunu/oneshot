@@ -37,7 +37,7 @@ public interface OrderMapper {
     public void changeProductStatus();
 
 
-    int getInventoryQuantity(int productNo);
+    int getInventoryQuantity(int productNo); //재고 조회
 
     List<Map<String, Object>> getQuarterlyOrderAmount();
 }
