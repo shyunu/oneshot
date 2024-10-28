@@ -9,6 +9,70 @@
     </select>
 
     <select id="getProductList" resultType="ProductVO">
-        SELECT * FROM PRODUCT ORDER BY PRODUCT_NAME
+        SELECT *
+        FROM PRODUCT
+        ORDER BY PRODUCT_NAME COLLATE "ko_KR.utf8"
     </select>
+
+    <select id="getContractList" resultType="ContractVO">
+        SELECT * FROM CONTRACT_PRICE WHERE CLIENT_NO = #{clientNo} AND PRODUCT_NO = #{productNo} ORDER BY CONTRACT_SDATE DESC, CONTRACT_EDATE DESC
+    </select>
+
+    <select id="countOverlappingContracts" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM contract_price
+        WHERE product_no = #{productNo}
+        AND client_no = #{clientNo}
+        AND (
+        <![CDATA[ (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+        )
+    </select>
+
+    <select id="getOverlappingContracts" parameterType="map" resultType="ContractVO">
+        SELECT * FROM contract_price
+        WHERE product_no = #{productNo}
+        <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+    </select>
+
+    <delete id="deleteContract" parameterType="ContractVO">
+        DELETE FROM contract_price
+        WHERE product_no = #{productNo}
+        AND client_no = #{clientNo}
+        AND contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
+        AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
+    </delete>
+
+    <update id="updateContract" parameterType="ContractVO">
+        UPDATE CONTRACT_PRICE
+        SET
+        contract_sdate = #{contractSdate},
+        contract_edate = #{contractEdate},
+        contract_price = #{contractPrice},
+        contract_price_status = '승인대기'
+        WHERE contract_price_no = #{contractPriceNo}
+        AND product_no = #{productNo}
+    </update>
+
+    <insert id="getRegist" parameterType="ContractVO">
+        INSERT INTO CONTRACT_PRICE (
+        CONTRACT_PRICE_NO,
+        PRODUCT_NO,
+        EMPLOYEE_NO,
+        CLIENT_NO,
+        CONTRACT_SDATE,
+        CONTRACT_EDATE,
+        CONTRACT_PRICE,
+        CONTRACT_PRICE_STATUS
+        )
+        VALUES
+        (nextval('contract_price_seq'),
+        #{productNo},
+        1,
+        #{clientNo},
+        #{contractSdate},
+        #{contractEdate},
+        #{contractPrice},
+        'y')
+    </insert>
+
 </mapper>
