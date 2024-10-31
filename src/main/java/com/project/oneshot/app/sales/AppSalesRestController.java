@@ -1,13 +1,18 @@
 package com.project.oneshot.app.sales;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.OrderVO;
+import com.project.oneshot.command.*;
+import com.project.oneshot.sales.order.OrderCriteria;
+import com.project.oneshot.sales.order.OrderPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +68,36 @@ public class AppSalesRestController {
 
     //등록하기
     @PostMapping("/orderForm")
-    public String orderForm(@ModelAttribute OrderVO vo) {
-        appSalesService.orderRegist(vo);
-        return "redirect:/salesApp";
+    public ResponseEntity<String> orderForm(@RequestBody OrderVO vo) {
+        try {
+            appSalesService.orderRegist(vo);
+            return ResponseEntity.ok("등록성공!!");
+        } catch (Exception e) {
+            e.printStackTrace(); // 예외 스택 추적을 로그에 출력
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("등록 실패: " + e.getMessage());
+        }
+    }
+    //날짜변환(string -> date)
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false); // 엄격한 날짜 형식 검사
+        binder.registerCustomEditor(Date.class, new org.springframework.beans.propertyeditors.CustomDateEditor(dateFormat, true)); // Allow empty dates
+    }
+
+    //조회하기
+    @GetMapping("/order")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<OrderVO>> orderList() {
+        // 모든 주문 내역 조회
+        List<OrderVO> orderList = appSalesService.getList(); // 모든 주문을 가져오는 서비스 메소드
+        return ResponseEntity.ok(orderList); // JSON 형태로 응답
+    }
+
+    @GetMapping("/items/{orderHeaderNo}")
+    public List<OrderItemVO> getItems(@PathVariable("orderHeaderNo") int orderHeaderNo) {
+        return appSalesService.getItems(orderHeaderNo);
     }
 
 }

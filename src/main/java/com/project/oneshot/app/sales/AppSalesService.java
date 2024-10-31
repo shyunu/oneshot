@@ -1,8 +1,7 @@
 package com.project.oneshot.app.sales;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.OrderVO;
+import com.project.oneshot.command.*;
+import com.project.oneshot.sales.order.OrderCriteria;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,6 +16,8 @@ public interface AppSalesService {
 
     void orderRegist(OrderVO vo); //판매등록
 
+    List<OrderVO> getList(); //판매내역조회
+    List<OrderItemVO> getItems(@Param("orderHeaderNo") int orderHeaderNo); //상세조회
 
 
 }
