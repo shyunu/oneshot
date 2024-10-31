@@ -1,8 +1,7 @@
 package com.project.oneshot.app.sales;
 
-import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
-import com.project.oneshot.command.OrderVO;
+import com.project.oneshot.command.*;
+import com.project.oneshot.sales.order.OrderCriteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +16,13 @@ public interface AppSalesMapper {
     int getProductPrice(@Param("clientNo") int clientNo, @Param("productNo") int productNo); //계약가격조회
     int getInventoryQuantity(@Param("productNo") int productNo); //재고 조회
 
-    // ----- 판매내역 ----- //
-    public int orderHeader(OrderVO vo); //판매등록
-    public int orderItem(OrderVO vo); //판매상세등록
+    // ----- 판매등록 ----- //
+    int orderHeader(OrderVO vo); //판매등록
+    int orderItem(OrderVO vo); //판매상세등록
+
+    // ----- 판매조회 ----- //
+    List<OrderVO> getList(); //판매내역조회
+    List<OrderItemVO> getItems(int orderHeaderNo); //상세조회
+
+
 }

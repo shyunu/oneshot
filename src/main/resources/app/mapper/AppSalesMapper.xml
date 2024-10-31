@@ -41,11 +41,11 @@
         AND CURRENT_DATE BETWEEN CP.CONTRACT_SDATE AND CP.CONTRACT_EDATE
     </select>
 
+    <!-- 재고 조회 -->
     <select id="getInventoryQuantity" resultType="int">
         SELECT
         COALESCE(purchase_summary.total_purchase_quantity, 0)
-        - COALESCE(order_summary.total_order_quantity, 0)
-        - COALESCE(MAX(product.safety_quantity), 0) AS stock
+        - COALESCE(order_summary.total_order_quantity, 0) AS stock
         FROM product
         LEFT JOIN purchase ON product.product_no = purchase.product_no
         LEFT JOIN order_item ON product.product_no = order_item.product_no
@@ -107,4 +107,74 @@
             (#{orderHeaderNo}, #{item.productNo}, #{item.contractPrice}, #{item.productQuantity}, #{item.amount})
         </foreach>
     </insert>
+
+
+    <resultMap id="OrderResultMap" type="OrderVO">
+        <result property="orderHeaderNo" column="ORDER_HEADER_NO"/>
+        <result property="orderSdate" column="ORDER_SDATE"/>
+        <result property="clientNo" column="CLIENT_NO"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="totalAmount" column="TOTAL_AMOUNT"/>
+        <result property="employeeNo" column="EMPLOYEE_NO"/>
+        <result property="deliveryStatus" column="DELIVERY_STATUS"/>
+        <result property="delivery" column="DELIVERY"/>
+    </resultMap>
+
+    <!-- 판매내역 조회 기능 (메인화면창) -->
+    <select id="getList" resultMap="OrderResultMap">
+        SELECT
+        H.ORDER_HEADER_NO,
+        H.ORDER_SDATE,
+        H.CLIENT_NO,
+        CL.CLIENT_NAME,
+        CASE
+        WHEN COUNT(P.PRODUCT_NAME) > 1 THEN
+        CONCAT(
+        MIN(P.PRODUCT_NAME),
+        ' 외 ',
+        COUNT(P.PRODUCT_NAME) - 1,
+        '건'
+        )
+        ELSE
+        MIN(P.PRODUCT_NAME)
+        END AS PRODUCT_NAMES,
+        SUM(I.AMOUNT) AS TOTAL_AMOUNT,
+        H.EMPLOYEE_NO,
+        E.EMPLOYEE_NAME,
+        H.DELIVERY_STATUS,
+        H.DELIVERY
+        FROM ORDER_ITEM I
+        LEFT JOIN ORDER_HEADER H ON I.ORDER_HEADER_NO = H.ORDER_HEADER_NO
+        LEFT JOIN CLIENT CL ON H.CLIENT_NO = CL.CLIENT_NO
+        LEFT JOIN EMPLOYEE E ON H.EMPLOYEE_NO = E.EMPLOYEE_NO
+        LEFT JOIN PRODUCT P ON I.PRODUCT_NO = P.PRODUCT_NO
+        GROUP BY
+        H.ORDER_HEADER_NO,
+        H.ORDER_SDATE,
+        H.CLIENT_NO,
+        CL.CLIENT_NAME,
+        H.EMPLOYEE_NO,
+        E.EMPLOYEE_NAME,
+        H.DELIVERY_STATUS,
+        H.DELIVERY
+        ORDER BY
+        CASE
+        WHEN H.DELIVERY_STATUS = '배송완료' THEN 1
+        ELSE 0
+        END,
+        H.ORDER_HEADER_NO DESC
+        limit #{amount} offset #{pageStart}
+    </select>
+
+    <!-- 상세조회 -->
+    <select id="getItems" resultType="orderItemVO">
+        SELECT *
+        FROM order_item I
+        inner join product P
+        on I.product_no = p.product_no
+        WHERE order_header_no = #{orderHeaderNo}
+    </select>
+
+
+
 </mapper>

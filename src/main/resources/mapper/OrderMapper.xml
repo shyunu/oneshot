@@ -289,7 +289,7 @@
         )
         UPDATE product
         SET product_remark = CASE
-        <![CDATA[ WHEN stock_data.total_stock_quantity <= product.safety_quantity THEN '품절' ]]>
+        <![CDATA[ WHEN stock_data.total_stock_quantity <= 0 THEN '품절' ]]>
         ELSE '판매중'
         END
         FROM stock_data
@@ -301,8 +301,7 @@
     <select id="getInventoryQuantity" resultType="int">
         SELECT
             COALESCE(purchase_summary.total_purchase_quantity, 0)
-            - COALESCE(order_summary.total_order_quantity, 0)
-            - COALESCE(MAX(product.safety_quantity), 0) AS stock
+            - COALESCE(order_summary.total_order_quantity, 0) AS stock
         FROM product
         LEFT JOIN purchase ON product.product_no = purchase.product_no
         LEFT JOIN order_item ON product.product_no = order_item.product_no
