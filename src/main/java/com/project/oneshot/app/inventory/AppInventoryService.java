@@ -6,21 +6,21 @@ import java.util.List;
 
 public interface AppInventoryService {
 
-    SupplierVO getSupplier(int supplierNo);
-
-//    public void registerPurchase(List<PurchaseVO> list);
+    public void registerPurchase(List<PurchaseVO> list);
 
     List<SupplierVO> getAllSuppliers();
 
+    SupplierVO getSupplierInfo(int supplierNo);
+
     List<CategoryVO> getCategories(int supplierNo);
+
+    List<ProductVO> getProductsByCategory(Long categoryNo);
 
     List<ProductVO> getProducts(int supplierNo, int categoryNo);
 
     ProductVO getQuantity(int productNo);
 
-    List<ProductVO> getProductsByCategory(Long categoryNo);
+    List<CategoryVO> getAllCategories();
 
     List<EmployeeVO> getAllEmployees();
-
-    List<CategoryVO> getAllCategories();
 }

@@ -7,23 +7,23 @@ import java.util.List;
 public interface PurchaseService {
     public List<PurchaseVO> getAllPurchase(PurchaseCriteria cri);
 
-    SupplierVO getSupplier(int supplierNo);
-
     int getTotalPurchase(PurchaseCriteria cri);
 
     public void registerPurchase(List<PurchaseVO> list);
 
     List<SupplierVO> getAllSuppliers();
 
+    SupplierVO getSupplierInfo(int supplierNo);
+
+    List<CategoryVO> getAllCategories();
+
     List<CategoryVO> getCategories(int supplierNo);
-
-    List<ProductVO> getProducts(int supplierNo, int categoryNo);
-
-    ProductVO getQuantity(int productNo);
 
     List<ProductVO> getProductsByCategory(Long categoryNo);
 
+    List<ProductVO> getProducts(int supplierNo, int categoryNo);
+
     List<EmployeeVO> getAllEmployees();
 
-    List<CategoryVO> getAllCategories();
+    ProductVO getQuantity(int productNo);
 }
