@@ -34,8 +34,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public SupplierVO getSupplier(int supplierNo) {
-        return purchaseMapper.getSupplier(supplierNo);
+    public SupplierVO getSupplierInfo(int supplierNo) {
+        return purchaseMapper.getSupplierInfo(supplierNo);
     }
 
     @Override

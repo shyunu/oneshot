@@ -1,7 +1,6 @@
 package com.project.oneshot.app.inventory;
 
 import com.project.oneshot.command.*;
-import com.project.oneshot.inventory.purchase.PurchaseCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,11 @@ public class AppInventoryServiceImpl implements AppInventoryService {
     @Autowired
     private AppInventoryMapper appInventoryMapper;
 
-//    @Override
-//    public void registerPurchase(List<PurchaseVO> list) {
-//        appInventoryMapper.registerPurchase(list);
-//        appInventoryMapper.changeProductStatus();
-//    }
+    @Override
+    public void registerPurchase(List<PurchaseVO> list) {
+        appInventoryMapper.registerPurchase(list);
+        appInventoryMapper.changeProductStatus();
+    }
 
     @Override
     public List<SupplierVO> getAllSuppliers() {
@@ -25,8 +24,8 @@ public class AppInventoryServiceImpl implements AppInventoryService {
     }
 
     @Override
-    public SupplierVO getSupplier(int supplierNo) {
-        return appInventoryMapper.getSupplier(supplierNo);
+    public SupplierVO getSupplierInfo(int supplierNo) {
+        return appInventoryMapper.getSupplierInfo(supplierNo);
     }
 
     @Override

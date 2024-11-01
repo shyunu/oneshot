@@ -16,19 +16,20 @@ public interface PurchaseMapper {
 
     List<SupplierVO> getAllSuppliers(); // 공급업체 목록
 
-    List<CategoryVO> getCategories(int supplierNo);
+    SupplierVO getSupplierInfo(int supplierNo); // 공급업체 정보
 
-    List<ProductVO> getProducts(@Param("supplierNo") int supplierNo, @Param("categoryNo") int categoryNo);// 카테고리 목록
+    List<CategoryVO> getAllCategories(); // 카테고리 목록
+
+    List<CategoryVO> getCategories(int supplierNo); // 공급업체별 카테고리 목록
+
+    List<ProductVO> getProducts(@Param("supplierNo") int supplierNo, @Param("categoryNo") int categoryNo);// 상품 목록
 
     List<ProductVO> getProductsByCategory(Long categoryNo); // 카테고리별 상품 목록
 
     List<EmployeeVO> getAllEmployees(); // 사원 목록
 
-    ProductVO getQuantity(int productNo);
+    ProductVO getQuantity(int productNo); // 수량
 
-    List<CategoryVO> getAllCategories();
+    void changeProductStatus(); // 상태
 
-    void changeProductStatus();
-
-    SupplierVO getSupplier(int supplierNo);
 }

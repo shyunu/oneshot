@@ -20,7 +20,7 @@
         SELECT * FROM supplier order by supplier_name
     </select>
 
-    <select id="getSupplier" resultType="SupplierVO">
+    <select id="getSupplierInfo" resultType="SupplierVO">
         select * from supplier where supplier_no = #{supplierNo}
     </select>
 
