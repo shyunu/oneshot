@@ -22,6 +22,5 @@ public interface ContractService {
     public void updateContractDate(int clientNo, int productNo, Date contractSdate, Date contractEdate);
 
     void approveContract(int contractPriceNo);
-
     void rejectContract(int contractPriceNo);
 }

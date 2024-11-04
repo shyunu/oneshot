@@ -12,6 +12,8 @@ import java.util.List;
 public interface ContractMapper {
     public void getRegist(ContractVO vo); //계약등록
 
+    ContractVO getImageByContractPriceNo(ContractVO vo); //이미지조회
+
     public List<ContractVO> getList(ContractCriteria cri);
 
     public List<ClientVO> getClientList();
@@ -43,4 +45,5 @@ public interface ContractMapper {
     void approveContract(int contractPriceNo);
 
     void rejectContract(int contractPriceNo);
+
 }
