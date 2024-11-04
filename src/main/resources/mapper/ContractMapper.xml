@@ -13,6 +13,7 @@
         <result property="managerName" column="MANAGER_NAME"/>
         <result property="employeeName" column="EMPLOYEE_NAME"/>
         <result property="contractPriceStatus" column="CONTRACT_PRICE_STATUS"/>
+        <result property="contractFileData" column="CONTRACT_FILE_DATA"/>
     </resultMap>
 
     <!-- 계약 조회 기능 -->
@@ -27,7 +28,8 @@
             PRODUCT.PRODUCT_NAME,
             CLIENT.MANAGER_NAME,
             EMPLOYEE.EMPLOYEE_NAME,
-            CONTRACT_PRICE.CONTRACT_PRICE_STATUS
+            CONTRACT_PRICE.CONTRACT_PRICE_STATUS,
+            CONTRACT_PRICE.CONTRACT_FILE as CONTRACT_FILE_DATA
         FROM CONTRACT_PRICE
         LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
         LEFT JOIN EMPLOYEE ON CONTRACT_PRICE.EMPLOYEE_NO = EMPLOYEE.EMPLOYEE_NO
@@ -68,6 +70,7 @@
             CONTRACT_SDATE,
             CONTRACT_EDATE,
             CONTRACT_PRICE,
+            CONTRACT_FILE,
             CONTRACT_PRICE_STATUS
         )
         VALUES
@@ -78,8 +81,16 @@
             #{contractSdate},
             #{contractEdate},
             #{contractPrice},
+            #{contractFileData, jdbcType=BLOB},
             '승인대기')
     </insert>
+
+    <!-- 이미지 조회 -->
+    <select id="getImageByContractPriceNo" resultType="ContractVO">
+        SELECT contract_file as contract_file_data
+        FROM contract_price
+        WHERE contract_price_no = #{contractPriceNo}
+    </select>
 
     <!-- 겹치는 계약을 조회하는 SQL -->
     <select id="findOverlappingContracts" resultType="ContractVO">

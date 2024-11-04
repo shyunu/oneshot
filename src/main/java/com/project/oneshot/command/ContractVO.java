@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,6 +21,9 @@ public class ContractVO { //계약가격 테이블(DB기준)
     private Date contractSdate; //계약시작일
     private Date contractEdate; //계약종료일
     private BigDecimal contractPrice; //책정거래가
+
+    private MultipartFile contractFile; //계약서
+    private byte[] contractFileData; // 파일 데이터 (byte[]로 저장)
 
     private Integer contractPriceNo;
     private String clientName;
