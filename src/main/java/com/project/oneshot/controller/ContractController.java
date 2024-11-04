@@ -66,7 +66,7 @@ public class ContractController {
                 vo.setContractFileData(vo.getContractFile().getBytes()); // byte[]로 설정
             } catch (IOException e) {
                 e.printStackTrace();
-                return "redirect:/errorPage"; // 에러 페이지 리다이렉
+                return "redirect:/errorPage"; // 에러 페이지 리다이
             }
         }
 
