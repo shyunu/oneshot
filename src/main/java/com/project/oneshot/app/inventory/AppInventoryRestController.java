@@ -6,7 +6,6 @@ import com.project.oneshot.inventory.purchase.PurchasePageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -130,5 +129,6 @@ public class AppInventoryRestController {
     public ResponseEntity<List<PurchaseVO>> purchaseList(@RequestParam(required = false) String searchKeyword) {
         List<PurchaseVO> list = appInventoryService.getAllPurchase(searchKeyword);
         return ResponseEntity.ok(list);
+
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AppInventoryService {
 
-    void registerPurchase(@Param("list") List<PurchaseVO> purchases); // 구매신청
+    void registerPurchase(@Param("list") List<PurchaseVO> purchases); // 구매
 
     List<SupplierVO> getAllSuppliers();
 
@@ -27,4 +27,5 @@ public interface AppInventoryService {
     List<EmployeeVO> getAllEmployees();
 
     public List<PurchaseVO> getAllPurchase(@Param("searchKeyword") String searchKeyword); // 목록
+
 }

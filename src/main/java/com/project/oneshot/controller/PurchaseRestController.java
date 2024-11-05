@@ -25,9 +25,9 @@ public class PurchaseRestController {
         return purchaseService.getAllSuppliers();
     }
 
-    @GetMapping("/getSupplier")
-    public SupplierVO getSupplier(@RequestParam("supplierNo") int supplierNo) {
-        return purchaseService.getSupplier(supplierNo);
+    @GetMapping("/getSupplierInfo")
+    public SupplierVO getSupplierInfo(@RequestParam("supplierNo") int supplierNo) {
+        return purchaseService.getSupplierInfo(supplierNo);
     }
 
     @GetMapping("/getCategories")

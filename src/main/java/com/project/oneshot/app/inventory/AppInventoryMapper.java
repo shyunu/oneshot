@@ -13,6 +13,7 @@ public interface AppInventoryMapper {
 
     void registerPurchase(@Param("list") List<PurchaseVO> purchases); // 구매신청
 
+
     List<SupplierVO> getAllSuppliers(); // 공급업체 목록
 
     SupplierVO getSupplierInfo(int supplierNo); // 공급업체 정보

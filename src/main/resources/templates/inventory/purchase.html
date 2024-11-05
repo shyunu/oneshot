@@ -254,7 +254,7 @@
     // 공급업체 선택 시 카테고리 업데이트
     function changeSupplierNo(event) {
         $.ajax({
-            url: '/inventory/getSupplier',
+            url: '/inventory/getSupplierInfo',
             type: 'get',
             data: {'supplierNo' : event.target.value},
             dataType: 'json',

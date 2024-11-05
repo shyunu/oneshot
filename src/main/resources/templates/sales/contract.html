@@ -58,7 +58,7 @@
                         <th style="width: 10%;">계약종료일</th>
                         <th style="width: 9%;">본사담당자</th>
                         <th style="width: 8%;">계약상태</th>
-                        <!-- <th>계약만료일</th> -->
+                        <th style="width: 8%">계약서</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,11 @@
                         <td th:text="${#dates.format(vo.contractEdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${vo.employeeName}"></td>
                         <td th:text="${vo.contractPriceStatus}"></td>
-                        <!-- <td th:text="${vo.contractDday}"></td> -->
+                        <td>
+                            <a th:if="${vo.contractFileData != null}"
+                               th:href="@{/sales/file/view/{contractPriceNo}(contractPriceNo=${vo.contractPriceNo})}"
+                               target="_blank">계약서 보기</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -95,7 +99,7 @@
 
         <!-- 등록 기능 -->
         <div id="popup-regist" class="popup-regist">
-            <form id="registContract" action="registForm" method="post">
+            <form id="registContract" action="registForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" th:value="${#authentication.principal.username}" name="employeeNo">
                 <div class="popup-content">
                     <h2>계약등록</h2>
@@ -140,6 +144,10 @@
                                     <td><input type="text" name="contractPrice" oninput="checkValue(this); contractPriceRg(this)" required>
                                         <br><p class="error-text" id="priceInputRg">※ 계약거래가 입력은 필수입니다.</p><p class="error-text" id="priceResultRg" style="display: none">※ 계약거래가는 숫자만 입력 가능합니다.</p>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td><p>계약서</p></td>
+                                    <td><input type="file" id="contractFile" name="contractFile" oninput="checkValue(this)" required><br><p id="7" class="error-text">※ 계약서첨부는 필수입니다.</p></td>
                                 </tr>
                             </tbody>
                         </table>
