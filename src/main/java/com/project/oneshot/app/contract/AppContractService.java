@@ -12,7 +12,11 @@ public interface AppContractService {
 
     List<ProductVO> getProductList();
 
-    List<ContractVO> getContractList(int clientNo, int productNo);
+    List<ContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo);
 
     void registerContract(ContractVO vo);
+
+    List<ContractVO> getContractPriceList(String search);
+
+    String getContractFile(Integer contractPriceNo);
 }

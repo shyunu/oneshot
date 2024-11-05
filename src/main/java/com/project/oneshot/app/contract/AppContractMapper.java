@@ -16,7 +16,7 @@ public interface AppContractMapper {
 
     List<ProductVO> getProductList();
 
-    List<ContractVO> getContractList(@Param("clientNo") int clientNo, @Param("productNo") int productNo);
+    List<ContractVO> getContractPriceByClientNoAndProductNo(@Param("clientNo") int clientNo, @Param("productNo") int productNo);
 
     int countOverlappingContracts(@Param("productNo") Integer productNo, @Param("clientNo") Integer clientNo, @Param("contractSdate") Date contractSdate, @Param("contractEdate") Date contractEdate, @Param("contractPriceStatus") String contractPriceStatus);
 
@@ -26,5 +26,9 @@ public interface AppContractMapper {
 
     void updateContract(ContractVO existingContract);
 
-    void getRegist(ContractVO vo);
+    void registerContract(ContractVO vo);
+
+    List<ContractVO> getContractPriceList(String search);
+
+    String getContractFile(Integer contractPriceNo);
 }

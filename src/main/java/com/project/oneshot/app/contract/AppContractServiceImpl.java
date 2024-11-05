@@ -28,14 +28,12 @@ public class AppContractServiceImpl implements AppContractService {
     }
 
     @Override
-    public List<ContractVO> getContractList(int clientNo, int productNo) {
-        return appContractMapper.getContractList(clientNo, productNo);
+    public List<ContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo) {
+        return appContractMapper.getContractPriceByClientNoAndProductNo(clientNo, productNo);
     }
 
     @Override
     public void registerContract(ContractVO vo) {
-        System.out.println("vo1 = " + vo);
-
         // 중복되는 계약을 확인하여, 신규 계약의 범위와 겹치는 기존 계약이 있는지 확인
         int overlappingCount = appContractMapper.countOverlappingContracts(
                 vo.getProductNo(),
@@ -105,6 +103,16 @@ public class AppContractServiceImpl implements AppContractService {
         }
 
         // 신규 계약 등록
-        appContractMapper.getRegist(vo);
+        appContractMapper.registerContract(vo);
+    }
+
+    @Override
+    public List<ContractVO> getContractPriceList(String search) {
+        return appContractMapper.getContractPriceList(search);
+    }
+
+    @Override
+    public String getContractFile(Integer contractPriceNo) {
+        return appContractMapper.getContractFile(contractPriceNo);
     }
 }
