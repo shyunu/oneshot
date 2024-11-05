@@ -14,7 +14,7 @@
         ORDER BY PRODUCT_NAME COLLATE "ko_KR.utf8"
     </select>
 
-    <select id="getContractList" resultType="ContractVO">
+    <select id="getContractPriceByClientNoAndProductNo" resultType="ContractVO">
         SELECT * FROM CONTRACT_PRICE WHERE CLIENT_NO = #{clientNo} AND PRODUCT_NO = #{productNo} ORDER BY CONTRACT_SDATE DESC, CONTRACT_EDATE DESC
     </select>
 
@@ -53,7 +53,7 @@
         AND product_no = #{productNo}
     </update>
 
-    <insert id="getRegist" parameterType="ContractVO">
+    <insert id="registerContract" parameterType="ContractVO">
         INSERT INTO CONTRACT_PRICE (
         CONTRACT_PRICE_NO,
         PRODUCT_NO,
@@ -62,7 +62,9 @@
         CONTRACT_SDATE,
         CONTRACT_EDATE,
         CONTRACT_PRICE,
-        CONTRACT_PRICE_STATUS
+        CONTRACT_PRICE_STATUS,
+        CONTRACT_REGDATE,
+        CONTRACT_FILE
         )
         VALUES
         (nextval('contract_price_seq'),
@@ -72,7 +74,23 @@
         #{contractSdate},
         #{contractEdate},
         #{contractPrice},
-        'y')
+        'y',
+        now(),
+        #{contractFile})
     </insert>
 
+    <select id="getContractPriceList" parameterType="String" resultType="ContractVO">
+        SELECT CONTRACT_PRICE.*, CLIENT.CLIENT_NAME, PRODUCT.PRODUCT_NAME
+        FROM CONTRACT_PRICE
+        LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+        LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+        WHERE CLIENT.CLIENT_NAME LIKE CONCAT('%', #{search}, '%')
+        OR PRODUCT.PRODUCT_NAME LIKE CONCAT('%', #{search}, '%')
+        ORDER BY CONTRACT_PRICE_NO DESC
+    </select>
+
+
+    <select id="getContractFile" resultType="String">
+        SELECT ENCODE(CONTRACT_FILE, 'BASE64') AS CONTRACT_FILE FROM CONTRACT_PRICE WHERE CONTRACT_PRICE_NO = #{contractPriceNo};
+    </select>
 </mapper>
