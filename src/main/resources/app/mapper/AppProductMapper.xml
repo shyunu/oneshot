@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.oneshot.app.product.AppProductMapper">
+
+    <select id="getProductList" resultType="ProductVO">
+        SELECT
+        product.product_no,
+        category.category_name,
+        supplier.supplier_name,
+        product.product_name,
+        COALESCE(purchase_summary.total_purchase_quantity, 0) - COALESCE(order_summary.total_order_quantity, 0) AS inventory_quantity,
+        product.safety_quantity,
+        product.product_price,
+        product.product_img,
+        product.product_remark
+        FROM
+        product
+        LEFT JOIN
+        category ON product.category_no = category.category_no
+        LEFT JOIN
+        supplier ON product.supplier_no = supplier.supplier_no
+        -- 서브쿼리로 중복 제거한 구매 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(purchase_quantity) AS total_purchase_quantity
+        FROM
+        purchase
+        GROUP BY
+        product_no
+        ) AS purchase_summary ON product.product_no = purchase_summary.product_no
+        -- 서브쿼리로 중복 제거한 주문 수량
+        LEFT JOIN (
+        SELECT
+        product_no,
+        SUM(product_quantity) AS total_order_quantity
+        FROM
+        order_item
+        GROUP BY
+        product_no
+        ) AS order_summary ON product.product_no = order_summary.product_no
+        WHERE 1 = 1
+        <if test="categoryNo != null and categoryNo != ''">
+            and product.category_no = #{categoryNo}
+        </if>
+        <if test="supplierNo != null and supplierNo != ''">
+            and product.supplier_no = #{supplierNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            and product.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice == null or endProductPrice == '')">
+            <![CDATA[ and product.product_price >= cast(#{startProductPrice} as integer) ]]>
+        </if>
+        <if test="(endProductPrice != null and endProductPrice != '') and (startProductPrice == null or startProductPrice == '')">
+            <![CDATA[ and product.product_price <= cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice != null and endProductPrice != '')">
+            <![CDATA[ and product.product_price between cast(#{startProductPrice} as integer) and cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="productRemark != null and productRemark != ''">
+            <![CDATA[ and product.product_remark = #{productRemark} ]]>
+        </if>
+        GROUP BY
+        product.product_no,
+        category.category_name,
+        supplier.supplier_name,
+        product.product_name,
+        product.safety_quantity,
+        product.product_price,
+        product.product_img,
+        product.product_remark,
+        purchase_summary.total_purchase_quantity,  -- 추가된 부분
+        order_summary.total_order_quantity         -- 추가된 부분
+        ORDER BY product.product_no DESC
+        LIMIT #{amount} OFFSET #{pageStart}
+    </select>
+
+    <select id="getTotalProductCount" resultType="int">
+        select count(*)
+        from product
+        where 1 = 1
+        <if test="categoryNo != null and categoryNo != '' and categoryNo != 0">
+            and product.category_no = #{categoryNo}
+        </if>
+        <if test="supplierNo != null and supplierNo != '' and supplierNo != 0">
+            and product.supplier_no = #{supplierNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            and product.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice == null or endProductPrice == '')">
+            <![CDATA[ and product.product_price >= cast(#{startProductPrice} as integer) ]]>
+        </if>
+        <if test="(endProductPrice != null and endProductPrice != '') and (startProductPrice == null or startProductPrice == '')">
+            <![CDATA[ and product.product_price <= cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="(startProductPrice != null and startProductPrice != '') and (endProductPrice != null and endProductPrice != '')">
+            <![CDATA[ and product.product_price between cast(#{startProductPrice} as integer) and cast(#{endProductPrice} as integer) ]]>
+        </if>
+        <if test="productRemark != null and productRemark != ''">
+            <![CDATA[ and product.product_remark = #{productRemark} ]]>
+        </if>
+    </select>
+
+    <select id="getSupplierList" resultType="SupplierVO">
+        select * from supplier order by supplier_name
+    </select>
+
+    <select id="getSupplierContent" parameterType="int" resultType="SupplierVO">
+        select * from supplier where supplier_no = #{supplierNo}
+    </select>
+
+    <select id="getCategoryList" resultType="CategoryVO">
+        <![CDATA[ SELECT * FROM category ORDER BY category_name USING ~<~ ]]>
+    </select>
+
+    <insert id="postProduct" parameterType="ProductVO">
+        insert into product values (nextval('product_seq'), #{categoryNo}, #{supplierNo}, #{productName}, #{productContent}, #{safetyQuantity}, #{productPrice}, #{productRemark}, #{productImg})
+    </insert>
+
+    <select id="getProductContent" resultType="ProductVO">
+        select product_no, product.category_no, category_name, product.supplier_no, supplier_name, supplier_business_no, manager_name, manager_phone, product_name, product_content, safety_quantity, product_price, product_img, product_remark
+        from product left join category on product.category_no = category.category_no left join supplier on product.supplier_no = supplier.supplier_no
+        where product_no = #{productNo}
+    </select>
+
+    <update id="putProduct" parameterType="ProductVO">
+        update product set category_no = #{categoryNo}, supplier_no = #{supplierNo}, product_name = #{productName}, product_content = #{productContent}, safety_quantity = #{safetyQuantity}, product_price = #{productPrice}, product_img = #{productImg}, product_remark = #{productRemark} where product_no = #{productNo}
+    </update>
+
+    <select id="checkProductName" resultType="int">
+        select count(*) from product where product_name = #{productName}
+    </select>
+</mapper>
