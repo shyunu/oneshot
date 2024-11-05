@@ -9,11 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface AppInventoryMapper {
-    public List<PurchaseVO> getAllPurchase(PurchaseCriteria cri); // 목록
+    public List<PurchaseVO> getAllPurchase(@Param("searchKeyword") String searchKeyword); // 목록
 
-    int getTotalPurchase(PurchaseCriteria cri); // 전체 게시글 수
+    void registerPurchase(@Param("list") List<PurchaseVO> purchases); // 구매신청
 
-    public void registerPurchase(List<PurchaseVO> list); // 구매신청
 
     List<SupplierVO> getAllSuppliers(); // 공급업체 목록
 
@@ -31,7 +30,7 @@ public interface AppInventoryMapper {
 
     ProductVO getQuantity(int productNo); // 수량
 
-    void changeProductStatus(); // 상태
+//    void changeProductStatus(); // 상태
 
 }
 

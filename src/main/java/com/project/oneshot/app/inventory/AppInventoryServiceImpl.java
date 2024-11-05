@@ -1,6 +1,8 @@
 package com.project.oneshot.app.inventory;
 
 import com.project.oneshot.command.*;
+import com.project.oneshot.inventory.purchase.PurchaseCriteria;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,9 @@ public class AppInventoryServiceImpl implements AppInventoryService {
     private AppInventoryMapper appInventoryMapper;
 
     @Override
-    public void registerPurchase(List<PurchaseVO> list) {
-        appInventoryMapper.registerPurchase(list);
-        appInventoryMapper.changeProductStatus();
+    public void registerPurchase(@Param("list") List<PurchaseVO> purchases) {
+        appInventoryMapper.registerPurchase(purchases);
+//        appInventoryMapper.changeProductStatus();
     }
 
     @Override
@@ -57,4 +59,10 @@ public class AppInventoryServiceImpl implements AppInventoryService {
     public List<CategoryVO> getAllCategories() {
         return appInventoryMapper.getAllCategories();
     }
+
+    @Override
+    public List<PurchaseVO> getAllPurchase(String searchKeyword) {
+        return appInventoryMapper.getAllPurchase(searchKeyword);
+    }
+
 }

@@ -6,13 +6,22 @@
 <mapper namespace="com.project.oneshot.app.inventory.AppInventoryMapper">
 
     <!-- 구매 신청 등록 -->
+    <!--    <insert id="registerPurchase" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="purchaseNo">-->
+    <!--        INSERT INTO purchase (purchase_no, product_no, purchase_price, purchase_quantity, purchase_date, purchase_status, employee_no)-->
+    <!--        VALUES-->
+    <!--        <foreach collection="list" item="list" separator=",">-->
+    <!--            (nextval('purchase_seq'), #{list.productNo}, #{list.purchasePrice}, #{list.purchaseQuantity}, NOW(), '승인대기', #{list.employeeNo})-->
+    <!--        </foreach>-->
+    <!--    </insert>-->
+
     <insert id="registerPurchase" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="purchaseNo">
-        INSERT INTO purchase (purchase_no, product_no, purchase_price, purchase_quantity, purchase_date, purchase_status, employee_no)
+        INSERT INTO purchase (purchase_no, product_no, purchase_price, purchase_quantity, purchase_date, employee_no)
         VALUES
-        <foreach collection="list" item="purchase" separator=",">
-            (nextval('purchase_seq'), #{purchase.productNo}, #{purchase.purchasePrice}, #{purchase.purchaseQuantity}, NOW(), '승인대기', #{purchase.employeeNo})
+        <foreach collection="list" item="list" separator=",">
+            (nextval('purchase_seq'), #{list.productNo}, #{list.purchasePrice}, #{list.purchaseQuantity}, NOW(), #{list.employeeNo})
         </foreach>
     </insert>
+
 
 
     <!-- 구매 신청할 때 값 불러오기 -->
@@ -70,29 +79,15 @@
         left join category c on p.category_no = c.category_no
         left join supplier s on p.supplier_no = s.supplier_no
         where 1 = 1
-        <if test="supplierName != null and supplierName != ''">
-            AND supplier_name LIKE CONCAT('%', #{supplierName}, '%')
-        </if>
-        <if test="categoryNo != null and categoryNo != ''">
-            AND p.category_no = #{categoryNo}
-        </if>
-        <if test="productName != null and productName != ''">
-            AND product_name LIKE CONCAT('%', #{productName}, '%')
-        </if>
-        <if test="employeeName != null and employeeName != ''">
-            AND e.employee_name LIKE CONCAT('%', #{employeeName}, '%')
-        </if>
-        <if test="(purchaseSdate != null and purchaseSdate != '') and (purchaseEdate == null or purchaseEdate == '')">
-            <![CDATA[ AND pc.purchase_date >= to_timestamp(#{purchaseSdate}, 'yyyy-MM-dd') ]]>
-        </if>
-        <if test="(purchaseEdate != null and purchaseEdate != '') and (purchaseSdate == null or purchaseSdate == '')">
-            <![CDATA[ AND pc.purchase_date <= to_timestamp(#{purchaseEdate}, 'yyyy-MM-dd') ]]>
-        </if>
-        <if test="(purchaseSdate != null and purchaseSdate != '') and (purchaseEdate != null and purchaseEdate != '')">
-            <![CDATA[ AND pc.purchase_date >= to_timestamp(#{purchaseSdate}, 'yyyy-MM-dd') and pc.purchase_date <= to_timestamp(#{purchaseEdate}, 'yyyy-MM-dd') ]]>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (
+            supplier_name LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR category_name LIKE CONCAT('%', #{searchKeyword}, '%')
+            OR product_name LIKE CONCAT('%', #{searchKeyword}, '%')
+            )
         </if>
         ORDER BY pc.purchase_no desc
-        limit #{amount} offset #{pageStart}
+        <!--        limit #{amount} offset #{pageStart}-->
     </select>
 
 

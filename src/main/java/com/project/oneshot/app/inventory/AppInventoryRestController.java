@@ -1,8 +1,11 @@
 package com.project.oneshot.app.inventory;
 
 import com.project.oneshot.command.*;
+import com.project.oneshot.inventory.purchase.PurchaseCriteria;
+import com.project.oneshot.inventory.purchase.PurchasePageVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class AppInventoryRestController {
     @GetMapping("/getCategories")
     @CrossOrigin(origins = "*")
     public List<CategoryVO> getCategories(@RequestParam("supplierNo") int supplierNo) {
+        System.out.println("도착!");
         return appInventoryService.getCategories(supplierNo);
     }
 
@@ -69,32 +73,62 @@ public class AppInventoryRestController {
     }
 
     // 등록
+//    @PostMapping("/registerPurchase")
+//    @CrossOrigin(origins = "*")
+//    public ResponseEntity<String> registerPurchase(@RequestParam("productNo") List<Integer> productNo,
+//                                                   @RequestParam("purchasePrice") List<Integer> purchasePrice,
+//                                                   @RequestParam("purchaseQuantity") List<Integer> purchaseQuantity,
+//                                                   @RequestParam("employeeNo") int employeeNo) {
+//        List<PurchaseVO> list = new ArrayList<>();
+//
+//        System.out.println("Received productNo: " + productNo);
+//        System.out.println("Received purchasePrice: " + purchasePrice);
+//        System.out.println("Received purchaseQuantity: " + purchaseQuantity);
+//        System.out.println("Received employeeNo: " + employeeNo);
+//
+//        // 리스트의 크기를 확인하여 모든 값이 올바르게 전달되었는지 확인
+//        if (productNo.size() != purchasePrice.size() || productNo.size() != purchaseQuantity.size()) {
+//            return ResponseEntity.badRequest().body("모든 리스트의 크기가 일치해야 합니다.");
+//        }
+//
+//        for (int i = 0; i < productNo.size(); i++) {
+//            PurchaseVO vo = new PurchaseVO();
+//            vo.setProductNo(productNo.get(i));
+//            vo.setPurchasePrice(purchasePrice.get(i));
+//            vo.setPurchaseQuantity(purchaseQuantity.get(i));
+//            vo.setEmployeeNo(employeeNo);
+//            list.add(vo);
+//        }
+//        appInventoryService.registerPurchase(list);
+//        System.out.println("등록 완료");
+//        return ResponseEntity.ok("구매 등록이 완료되었습니다.");
+//    }
+
+//    @PostMapping("/registerPurchase")
+//    @CrossOrigin(origins = "*")
+//    public ResponseEntity<String> registerPurchase(@RequestBody List<PurchaseVO> purchaseList) {
+//        System.out.println("Received purchaseList: " + purchaseList);
+//        appInventoryService.registerPurchase(purchaseList);
+//        System.out.println("등록 완료");
+//        return ResponseEntity.ok("구매 등록이 완료되었습니다.");
+//    }
+
     @PostMapping("/registerPurchase")
     @CrossOrigin(origins = "*")
-    public String registerPurchase(@RequestParam("productNo") List<Integer> productNo,
-                                   @RequestParam("purchasePrice") List<Integer> purchasePrice,
-                                   @RequestParam("purchaseQuantity") List<Integer> purchaseQuantity,
-                                   @RequestParam("employeeNo") int employeeNo) {
-        List<PurchaseVO> list = new ArrayList<>();
+    public ResponseEntity<String> registerPurchase(@RequestBody List<PurchaseVO> purchaseList) {
+        System.out.println("Received purchaseList: " + purchaseList);
+        appInventoryService.registerPurchase(purchaseList);
+        System.out.println("등록 완료");
+        return ResponseEntity.ok("구매 등록이 완료되었습니다.");
+    }
 
-        System.out.println("Received productNo: " + productNo);
-        System.out.println("Received purchasePrice: " + purchasePrice);
-        System.out.println("Received purchaseQuantity: " + purchaseQuantity);
-        System.out.println("Received employeeNo: " + employeeNo);
 
-        for (int i = 0; i < productNo.size(); i++) {
-            PurchaseVO vo = new PurchaseVO();
-            vo.setProductNo(productNo.get(i));
-            vo.setPurchasePrice(purchasePrice.get(i));
-            vo.setPurchaseQuantity(purchaseQuantity.get(i));
-            vo.setEmployeeNo(employeeNo);
-            System.out.println("vo = " + vo);
-            list.add(vo);
-
-        }
-        appInventoryService.registerPurchase(list);
-        System.out.println("등록");
-        return "redirect:/inventoryApp";
+    // 전체 목록 조회
+    @GetMapping("/purchaseList")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<PurchaseVO>> purchaseList(@RequestParam(required = false) String searchKeyword) {
+        List<PurchaseVO> list = appInventoryService.getAllPurchase(searchKeyword);
+        return ResponseEntity.ok(list);
 
     }
 }
