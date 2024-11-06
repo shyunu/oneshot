@@ -14,7 +14,7 @@
         ORDER BY PRODUCT_NAME COLLATE "ko_KR.utf8"
     </select>
 
-    <select id="getContractPriceByClientNoAndProductNo" resultType="ContractVO">
+    <select id="getContractPriceByClientNoAndProductNo" resultType="AppContractVO">
         SELECT * FROM CONTRACT_PRICE WHERE CLIENT_NO = #{clientNo} AND PRODUCT_NO = #{productNo} ORDER BY CONTRACT_SDATE DESC, CONTRACT_EDATE DESC
     </select>
 
@@ -28,13 +28,13 @@
         )
     </select>
 
-    <select id="getOverlappingContracts" parameterType="map" resultType="ContractVO">
+    <select id="getOverlappingContracts" parameterType="map" resultType="AppContractVO">
         SELECT * FROM contract_price
         WHERE product_no = #{productNo}
         <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
     </select>
 
-    <delete id="deleteContract" parameterType="ContractVO">
+    <delete id="deleteContract" parameterType="AppContractVO">
         DELETE FROM contract_price
         WHERE product_no = #{productNo}
         AND client_no = #{clientNo}
@@ -42,7 +42,7 @@
         AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
     </delete>
 
-    <update id="updateContract" parameterType="ContractVO">
+    <update id="updateContract" parameterType="AppContractVO">
         UPDATE CONTRACT_PRICE
         SET
         contract_sdate = #{contractSdate},
@@ -53,7 +53,7 @@
         AND product_no = #{productNo}
     </update>
 
-    <insert id="registerContract" parameterType="ContractVO">
+    <insert id="registerContract" parameterType="AppContractVO">
         INSERT INTO CONTRACT_PRICE (
         CONTRACT_PRICE_NO,
         PRODUCT_NO,
@@ -79,7 +79,15 @@
         #{contractFile})
     </insert>
 
-    <select id="getContractPriceList" parameterType="String" resultType="ContractVO">
+    <select id="getAllContracts" resultType="AppContractVO">
+        SELECT CONTRACT_PRICE.*, CLIENT.CLIENT_NAME, PRODUCT.PRODUCT_NAME
+        FROM CONTRACT_PRICE
+        LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO
+        LEFT JOIN PRODUCT ON CONTRACT_PRICE.PRODUCT_NO = PRODUCT.PRODUCT_NO
+        ORDER BY CONTRACT_PRICE_NO DESC
+    </select>
+
+    <select id="getContractPriceList" parameterType="String" resultType="AppContractVO">
         SELECT CONTRACT_PRICE.*, CLIENT.CLIENT_NAME, PRODUCT.PRODUCT_NAME
         FROM CONTRACT_PRICE
         LEFT JOIN CLIENT ON CONTRACT_PRICE.CLIENT_NO = CLIENT.CLIENT_NO

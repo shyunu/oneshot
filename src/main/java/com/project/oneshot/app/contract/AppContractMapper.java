@@ -1,7 +1,7 @@
 package com.project.oneshot.app.contract;
 
+import com.project.oneshot.command.AppContractVO;
 import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
 import com.project.oneshot.command.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,19 +16,21 @@ public interface AppContractMapper {
 
     List<ProductVO> getProductList();
 
-    List<ContractVO> getContractPriceByClientNoAndProductNo(@Param("clientNo") int clientNo, @Param("productNo") int productNo);
+    List<AppContractVO> getContractPriceByClientNoAndProductNo(@Param("clientNo") int clientNo, @Param("productNo") int productNo);
 
     int countOverlappingContracts(@Param("productNo") Integer productNo, @Param("clientNo") Integer clientNo, @Param("contractSdate") Date contractSdate, @Param("contractEdate") Date contractEdate, @Param("contractPriceStatus") String contractPriceStatus);
 
-    List<ContractVO> getOverlappingContracts(@Param("productNo") Integer productNo, @Param("clientNo") Integer clientNo, @Param("contractSdate") Date contractSdate, @Param("contractEdate") Date contractEdate, @Param("contractPriceStatus") String contractPriceStatus);
+    List<AppContractVO> getOverlappingContracts(@Param("productNo") Integer productNo, @Param("clientNo") Integer clientNo, @Param("contractSdate") Date contractSdate, @Param("contractEdate") Date contractEdate, @Param("contractPriceStatus") String contractPriceStatus);
 
-    void deleteContract(ContractVO existingContract);
+    void deleteContract(AppContractVO existingContract);
 
-    void updateContract(ContractVO existingContract);
+    void updateContract(AppContractVO existingContract);
 
-    void registerContract(ContractVO vo);
+    void registerContract(AppContractVO vo);
 
-    List<ContractVO> getContractPriceList(String search);
+    List<AppContractVO> getAllContracts();
+
+    List<AppContractVO> getContractPriceList(String search);
 
     String getContractFile(Integer contractPriceNo);
 }

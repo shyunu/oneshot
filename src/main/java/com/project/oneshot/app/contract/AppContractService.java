@@ -1,7 +1,7 @@
 package com.project.oneshot.app.contract;
 
+import com.project.oneshot.command.AppContractVO;
 import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
 import com.project.oneshot.command.ProductVO;
 
 import java.util.List;
@@ -12,11 +12,13 @@ public interface AppContractService {
 
     List<ProductVO> getProductList();
 
-    List<ContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo);
+    List<AppContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo);
 
-    void registerContract(ContractVO vo);
+    void registerContract(AppContractVO vo);
 
-    List<ContractVO> getContractPriceList(String search);
+    List<AppContractVO> getAllContracts();
+
+    List<AppContractVO> getContractPriceList(String search);
 
     String getContractFile(Integer contractPriceNo);
 }
