@@ -1,7 +1,7 @@
 package com.project.oneshot.app.contract;
 
+import com.project.oneshot.command.AppContractVO;
 import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
 import com.project.oneshot.command.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +28,12 @@ public class AppContractServiceImpl implements AppContractService {
     }
 
     @Override
-    public List<ContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo) {
+    public List<AppContractVO> getContractPriceByClientNoAndProductNo(int clientNo, int productNo) {
         return appContractMapper.getContractPriceByClientNoAndProductNo(clientNo, productNo);
     }
 
     @Override
-    public void registerContract(ContractVO vo) {
+    public void registerContract(AppContractVO vo) {
         // 중복되는 계약을 확인하여, 신규 계약의 범위와 겹치는 기존 계약이 있는지 확인
         int overlappingCount = appContractMapper.countOverlappingContracts(
                 vo.getProductNo(),
@@ -47,7 +47,7 @@ public class AppContractServiceImpl implements AppContractService {
         // 중복되는 계약이 있는 경우 처리
         if (overlappingCount > 0) {
             // 기존 계약의 수정이 필요한 상황 처리
-            List<ContractVO> overlappingContracts = appContractMapper.getOverlappingContracts(
+            List<AppContractVO> overlappingContracts = appContractMapper.getOverlappingContracts(
                     vo.getProductNo(),
                     vo.getClientNo(),
                     vo.getContractSdate(),
@@ -56,15 +56,16 @@ public class AppContractServiceImpl implements AppContractService {
             );
 
             // 신규 계약의 시작일과 종료일을 LocalDate로 변환
-            LocalDate newContractStartDate = vo.getContractSdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate newContractEndDate = vo.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate newContractStartDate = new java.sql.Date(vo.getContractSdate().getTime()).toLocalDate();
+            LocalDate newContractEndDate = new java.sql.Date(vo.getContractEdate().getTime()).toLocalDate();
 
-            for (ContractVO existingContract : overlappingContracts) {
-                LocalDate existingStartDate = existingContract.getContractSdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                LocalDate existingEndDate = existingContract.getContractEdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            for (AppContractVO existingContract : overlappingContracts) {
+                LocalDate existingStartDate = new java.sql.Date(existingContract.getContractSdate().getTime()).toLocalDate();
+                LocalDate existingEndDate = new java.sql.Date(existingContract.getContractEdate().getTime()).toLocalDate();
 
                 // 케이스 4: 신규 계약이 기존 계약을 완전히 포함하는 경우
-                if (newContractStartDate.isBefore(existingStartDate) && newContractEndDate.isAfter(existingEndDate) || (newContractStartDate.isEqual(existingStartDate) && newContractEndDate.isEqual(existingEndDate))) {
+                if (newContractStartDate.isBefore(existingStartDate) && newContractEndDate.isAfter(existingEndDate)
+                        || (newContractStartDate.isEqual(existingStartDate) && newContractEndDate.isEqual(existingEndDate))) {
                     // 기존 계약의 시작일과 종료일을 신규 계약의 시작일과 종료일로 업데이트
                     existingContract.setContractPrice(vo.getContractPrice());
                     existingContract.setContractSdate(vo.getContractSdate());
@@ -107,7 +108,12 @@ public class AppContractServiceImpl implements AppContractService {
     }
 
     @Override
-    public List<ContractVO> getContractPriceList(String search) {
+    public List<AppContractVO> getAllContracts() {
+        return appContractMapper.getAllContracts();
+    }
+
+    @Override
+    public List<AppContractVO> getContractPriceList(String search) {
         return appContractMapper.getContractPriceList(search);
     }
 

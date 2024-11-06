@@ -1,7 +1,7 @@
 package com.project.oneshot.app.contract;
 
+import com.project.oneshot.command.AppContractVO;
 import com.project.oneshot.command.ClientVO;
-import com.project.oneshot.command.ContractVO;
 import com.project.oneshot.command.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Base64;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -38,23 +39,38 @@ public class AppContractRestController {
 
     @GetMapping("/getContractPriceByClientNoAndProductNo")
     @CrossOrigin(origins = "*")
-    public List<ContractVO> getContractPriceByClientNoAndProductNo(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
-        List<ContractVO> list = appContractService.getContractPriceByClientNoAndProductNo(clientNo, productNo);
+    public List<AppContractVO> getContractPriceByClientNoAndProductNo(@RequestParam("clientNo") int clientNo, @RequestParam("productNo") int productNo) {
+        List<AppContractVO> list = appContractService.getContractPriceByClientNoAndProductNo(clientNo, productNo);
         return list;
     }
 
     @PostMapping("/contract")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> registerContract(@RequestParam("file") MultipartFile file,
                                                    @RequestParam("clientNo") Integer clientNo,
                                                    @RequestParam("productNo") Integer productNo,
                                                    @RequestParam("selectedStartDate") String selectedStartDate,
                                                    @RequestParam("selectedEndDate") String selectedEndDate,
                                                    @RequestParam("contractPrice") BigDecimal contractPrice) throws Exception {
-        byte[] contractFile = file.getBytes();
-        Date contractSdate = Date.valueOf(selectedStartDate);
-        Date contractEdate = Date.valueOf(selectedEndDate);
 
-        ContractVO vo = new ContractVO();
+        System.out.println("file = " + file);
+        System.out.println("clientNo = " + clientNo);
+        System.out.println("productNo = " + productNo);
+        System.out.println("selectedStartDate = " + selectedStartDate);
+        System.out.println("selectedEndDate = " + selectedEndDate);
+        System.out.println("contractPrice = " + contractPrice);
+
+        byte[] contractFile = file.getBytes();
+
+        // String을 LocalDate로 변환
+        LocalDate startDate = LocalDate.parse(selectedStartDate, DateTimeFormatter.ISO_DATE);
+        LocalDate endDate = LocalDate.parse(selectedEndDate, DateTimeFormatter.ISO_DATE);
+
+        // LocalDate를 java.sql.Date로 변환
+        Date contractSdate = Date.valueOf(startDate);
+        Date contractEdate = Date.valueOf(endDate);
+
+        AppContractVO vo = new AppContractVO();
         vo.setContractFile(contractFile);
         vo.setClientNo(clientNo);
         vo.setProductNo(productNo);
@@ -66,14 +82,20 @@ public class AppContractRestController {
         return new ResponseEntity<>("Contract registered successfully", HttpStatus.CREATED);
     }
 
+    @GetMapping("/getContractPriceList")
+    public List<AppContractVO> getAllContracts() {
+        System.out.println("전체 계약 리스트 요청");
+        return appContractService.getAllContracts();
+    }
+
     @GetMapping("/getContractPriceList/{search}")
-    public List<ContractVO> contract(@PathVariable String search) {
+    public List<AppContractVO> getFilteredContracts(@PathVariable String search) {
         System.out.println("search = " + search);
-        List<ContractVO> list = appContractService.getContractPriceList(search);
-        return list;
+        return appContractService.getContractPriceList(search);
     }
 
     @GetMapping(value = "/getContractFile/{contractPriceNo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> getContractFile(@PathVariable Integer contractPriceNo) {
         String imageData = appContractService.getContractFile(contractPriceNo);
 
