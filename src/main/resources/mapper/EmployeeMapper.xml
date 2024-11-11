@@ -137,7 +137,6 @@
         e.employee_no DESC
     </select>
 
-
     <!-- 은행목록 -->
     <select id="getAllBank" resultType="BankVO">
         SELECT * FROM bank
@@ -164,7 +163,8 @@
         employee_email,
         bank_no,
         account_holder,
-        employee_photo_path
+        employee_photo_path,
+        employee_profile
         ) VALUES (
         #{departmentNo},
         #{positionNo},
@@ -179,7 +179,8 @@
         #{employeeEmail},
         #{bankNo},
         #{accountHolder},
-        #{employeePhotoPath}
+        #{employeePhotoPath},
+        #{employeeProfileData, jdbcType=BINARY}
         )
         RETURNING employee_no;
     </insert>

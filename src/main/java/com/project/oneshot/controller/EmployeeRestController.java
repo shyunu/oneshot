@@ -62,6 +62,7 @@ public class EmployeeRestController {
         List<BankVO> banks = employeeService.getAllBank();
         return new ResponseEntity<>(banks, HttpStatus.OK);
     }
+
     // 직급 목록 조회
     @GetMapping("/getPosition")
     public ResponseEntity<List<PositionVO>> getAllPosition() {
@@ -73,36 +74,49 @@ public class EmployeeRestController {
     @PostMapping("/registEmployee")
     public ResponseEntity<String> insertEmployee(
             @ModelAttribute EmployeeVO employeeVO,
-            @RequestParam(value = "employeePhoto", required = false) MultipartFile employeePhoto) {
+            @RequestParam(value = "employeeProfile", required = false) MultipartFile employeeProfile) {
 
         // 파일을 저장할 경로
-        String uploadDir = "D:/file_repo/";
-        if(employeePhoto == null || employeePhoto.isEmpty()) {
-            System.out.println("사진없음");
-            employeeVO.setEmployeePhotoPath("default.png");
-        }
+        // String uploadDir = "D:/file_repo/";
+        // if(employeePhoto == null || employeePhoto.isEmpty()) {
+        //    System.out.println("사진없음");
+        //    employeeVO.setEmployeePhotoPath("default.png");
+        // }
 
         // 폴더가 존재하지 않으면 생성
-        File directory = new File(uploadDir);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
+        // File directory = new File(uploadDir);
+        // if (!directory.exists()) {
+        //    directory.mkdirs();
+        // }
 
         // 파일 저장 경로를 설정
-        if (employeePhoto != null && !employeePhoto.isEmpty()) {
+//        if (employeePhoto != null && !employeePhoto.isEmpty()) {
+//            try {
+//                String fileName = UUID.randomUUID().toString() + "_" + employeePhoto.getOriginalFilename();
+//                File file = new File(uploadDir + fileName);
+//                employeePhoto.transferTo(file);
+//
+//                // VO에 파일 경로를 설정
+//                employeeVO.setEmployeePhotoPath(fileName);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return ResponseEntity.status(500).body("File upload failed.");
+//            }
+//        }
+
+        // 계약서 파일을 사용하여 처리
+        if (employeeVO.getEmployeeProfile() != null && !employeeVO.getEmployeeProfile().isEmpty()) {
             try {
-                String fileName = UUID.randomUUID().toString() + "_" + employeePhoto.getOriginalFilename();
-                File file = new File(uploadDir + fileName);
-                employeePhoto.transferTo(file);
-
-                // VO에 파일 경로를 설정
-                employeeVO.setEmployeePhotoPath(fileName);
-
+                // 파일을 byte[]로 변환
+                employeeVO.setEmployeeProfileData(employeeVO.getEmployeeProfile().getBytes()); // byte[]로 설정
             } catch (IOException e) {
                 e.printStackTrace();
-                return ResponseEntity.status(500).body("File upload failed.");
+                //return "redirect:/errorPage"; // 에러 페이지 리다이
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
             }
         }
+
 
         try {
             if (employeeService.insertEmployee(employeeVO) == 0) {

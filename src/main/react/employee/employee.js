@@ -67,7 +67,8 @@ function Employee() {
         employeeHiredate: '',
         accountHolder: '',
         departmentName: '',
-        employeePhotoPath:''
+        employeePhotoPath:'',
+        employeeProfile:''
     });
 
     const handleFormSubmit = async (e) => {
@@ -106,7 +107,8 @@ function Employee() {
         formData.append("bankNo", newEmployee.bankNo);
         formData.append("accountHolder", newEmployee.accountHolder);
         formData.append("positionNo", newEmployee.positionNo);
-        formData.append("employeePhotoPath",newEmployee.employeePhotoPath)
+        formData.append("employeePhotoPath",newEmployee.employeePhotoPath);
+        formData.append("employeeProfile",newEmployee.employeeProfile);
 
         const url = editMode
             ? "http://localhost:8181/hrm/updateEmployee"
@@ -143,7 +145,8 @@ function Employee() {
                 employeeHiredate: '',
                 accountHolder: '',
                 departmentName: '',
-                employeePhotoPath:''
+                employeePhotoPath:'',
+                employeeProfile: ''
             });
             setErrors({
                         employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
@@ -418,7 +421,8 @@ function Employee() {
             bankName: '',
             employeeHiredate: '',
             accountHolder: '',
-            departmentName: ''
+            departmentName: '',
+            employeeProfile: ''
         });// 빈 데이터로 초기화
         setShowPopup(true);
     };
@@ -730,7 +734,7 @@ function Employee() {
                                     <tr className="left-row">
                                         <td rowSpan="2" colSpan="2">
                                         <p>사원사진</p>
-                                            <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
+                                            <input type="file" id="fileInput" name="employeeProfile" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
                                             <label htmlFor="fileInput" className="btn attach-file" style={{position:"absolute", top:"70px", left:"380px", width:"100px",height:"100px"}}></label>
                                         </td>
@@ -962,7 +966,8 @@ function Employee() {
                                                     bankName: '',
                                                     employeeHiredate: '',
                                                     accountHolder: '',
-                                                    departmentName: ''
+                                                    departmentName: '',
+                                                    employeeProfile: ''
                                                 });
                                                 setErrors({
                                                     employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
