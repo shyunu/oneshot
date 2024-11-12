@@ -18,6 +18,7 @@ public class ProductVO {
     private Integer productPrice;
     private String productImg;
     private byte[] productImgApp;  // String에서 byte[]로 수정
+//    private String productImgApp; // byte[] 대신 String으로 변경
     private String productRemark;
 
     private String categoryName;
