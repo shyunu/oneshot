@@ -1,0 +1,180 @@
+a {
+  text-decoration: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn {
+  height: 30px;
+  border-radius: 6px;
+  border-style: none;
+  color : white;
+  width: 95px;
+  margin-right: -5px;
+  margin-left: 0px;
+}
+
+/*부서테이블의 체크박스*/
+.departmentCheckbox {
+  width: 16px !important;
+  height: 21px !important;
+}
+
+#selectAllCheckbox {
+  width: 16px !important;
+  height: 21px !important;
+}
+
+.checkboxColumn {
+  width: 43px !important;
+}
+/*========================*/
+.departmentNumberColumn {
+  width: 150px !important; /* 부서no 테이블 너비 */
+}
+.departmentNameColumn {
+  width: 20% !important; /* 부서명테이블 너비 */
+}
+
+/*부서등록팝업체크박스*/
+.departmentPopupCheckbox {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 5px;
+  margin-left: 20px;
+}
+.departmentCheck {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 10px;
+}
+
+.departmentPopupCheckboxWrapper {
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 10px !important;
+}
+
+/*========================*/
+
+/*부서상세보기팝업체크박스*/
+.departmentDetailCheckbox{
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 5px;
+    margin-left: 20px;
+}
+
+.departmentDetailCheck {
+  display: flex !important;
+  flex-direction: row !important; /* 가로 정렬 강제 적용 */
+  flex-wrap: wrap !important; /* 필요 시 줄바꿈 허용 */
+  justify-content: flex-start !important; /* 왼쪽에서 오른쪽으로 정렬 */
+  align-items: center !important; /* 수직 중앙 정렬 */
+  gap: 10px; /* 체크박스 간 간격 추가 */
+}
+
+.departmentDetailCheckboxWrapper {
+  display: flex !important;
+  align-items: center !important; /* 수직 중앙 정렬 */
+  margin-right: 10px !important; /* 추가 간격 */
+}
+
+/*========================*/
+
+
+.input-error {
+    border: 1px solid red;
+    background-color: #fdd;
+}
+
+
+.employee-table{
+    margin: 12px;
+}
+
+/* calendar input field */
+.custom-datepicker input {
+    background-color: #fff !important;
+    color: #000 !important;
+    padding: 5px !important;
+    border: 1px solid #ccc !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 4px !important;
+}
+
+/* clear button and other parts */
+.react-datepicker__close-icon::after {
+    background-color: transparent !important;
+    color: #000 !important;
+}
+.custom-datepicker-input {
+    background-color: #fff !important;
+    color: #000 !important;
+    padding: 5px !important;
+    border: 1px solid #ccc !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 4px !important;
+}
+
+
+.checkboxColumn {
+  width: 43px !important;
+}
+#selectAllCheckbox {
+  width: 16px !important;
+  height: 21px !important;
+}
+.attendanceCheckbox {
+    width: 16px !important;
+    height: 21px !important;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.register {
+    margin-right: auto;
+}
+
+.btn {
+    margin-left: 6px;
+}
+
+.approval-buttons {
+    display: flex;
+    gap: 6px;
+}
+.page-btn {
+    border-radius: 0;
+    height: auto;
+    width: auto;
+    border: 1px solid #ddd;
+    color: black;
+    background-image: none;
+    padding: 8px 16px;
+    margin: 0px 0px 0px 5px;
+}
+
+
+

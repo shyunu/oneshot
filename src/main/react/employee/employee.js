@@ -17,7 +17,7 @@ function Employee() {
     const nodeRef = useRef(null); //Draggable 오류수정
     const [showMap, setShowMap] = useState(false); //도로명주소 입력창
     const [zodecode, setZonecode] = useState(''); //우편번호
-    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/images/default.png"); // 사진미리보기용
+    const [PhotoThumbnail, setPhotoThumbnail] = useState("../../common/img/default.png"); // 사진미리보기용
     const [employeePhoto, setEmployeePhoto] =useState(null); //사진전송용
     const [employees, setEmployees] = useState([]); //사원목록
     const [editMode, setEditMode] = useState(false); //등록, 수정 구분
@@ -67,8 +67,7 @@ function Employee() {
         employeeHiredate: '',
         accountHolder: '',
         departmentName: '',
-        employeePhotoPath:'',
-        employeeProfile:''
+        employeePhotoPath:''
     });
 
     const handleFormSubmit = async (e) => {
@@ -88,7 +87,11 @@ function Employee() {
             return; // 폼 제출 중단
         }
 
-
+        setErrors({
+            employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
+            employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
+            emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
+        });
         const formData = new FormData();
         if(employeePhoto){
             formData.append("employeePhoto", employeePhoto);
@@ -107,8 +110,7 @@ function Employee() {
         formData.append("bankNo", newEmployee.bankNo);
         formData.append("accountHolder", newEmployee.accountHolder);
         formData.append("positionNo", newEmployee.positionNo);
-        formData.append("employeePhotoPath",newEmployee.employeePhotoPath);
-        formData.append("employeeProfile",newEmployee.employeeProfile);
+        formData.append("employeePhotoPath",newEmployee.employeePhotoPath)
 
         const url = editMode
             ? "http://localhost:8181/hrm/updateEmployee"
@@ -145,17 +147,11 @@ function Employee() {
                 employeeHiredate: '',
                 accountHolder: '',
                 departmentName: '',
-                employeePhotoPath:'',
-                employeeProfile: ''
+                employeePhotoPath:''
             });
-            setErrors({
-                        employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',
-                        employeePhone: '※ 정확한 핸드폰번호를 입력해주세요: - 필수',
-                        emergencyPhone:'※ 정확한 핸드폰번호를 입력해주세요: - 필수'
-                    });
             console.log('폼 제출 완료 및 직원 생성:', response.data);
             fetchEmployees();
-            setPhotoThumbnail("../../common/images/default.png");
+            setPhotoThumbnail("../../common/img/default.png");
         } catch (error) {
             console.error('폼 제출 실패:', error);
         }
@@ -421,8 +417,7 @@ function Employee() {
             bankName: '',
             employeeHiredate: '',
             accountHolder: '',
-            departmentName: '',
-            employeeProfile: ''
+            departmentName: ''
         });// 빈 데이터로 초기화
         setShowPopup(true);
     };
@@ -432,7 +427,7 @@ function Employee() {
         setEditMode(true);   // 수정 모드
         setNewEmployee(employee); // 선택된 사원의 데이터로 초기화
         if(employee.employeePhotoPath !=='default'){
-            setPhotoThumbnail(`http://localhost:8181/common/images/${employee.employeePhotoPath}`)
+            setPhotoThumbnail(`http://localhost:8181/hrm/images/${employee.employeePhotoPath}`)
         }
         setShowPopup(true);
     };
@@ -670,7 +665,7 @@ function Employee() {
                         ) : null
                     )) : (
                         <tr>
-                            <td colSpan="9">등록된 사원이 없습니다.</td>
+                            <td>등록된 사원이 없습니다.</td>
                         </tr>
                     )}
                     </tbody>
@@ -734,7 +729,7 @@ function Employee() {
                                     <tr className="left-row">
                                         <td rowSpan="2" colSpan="2">
                                         <p>사원사진</p>
-                                            <input type="file" id="fileInput" name="employeeProfile" accept="image/*" style={{display: "none"}}
+                                            <input type="file" id="fileInput" accept="image/*" style={{display: "none"}}
                                                    onChange={handleImageChange}/>
                                             <label htmlFor="fileInput" className="btn attach-file" style={{position:"absolute", top:"70px", left:"380px", width:"100px",height:"100px"}}></label>
                                         </td>
@@ -966,8 +961,7 @@ function Employee() {
                                                     bankName: '',
                                                     employeeHiredate: '',
                                                     accountHolder: '',
-                                                    departmentName: '',
-                                                    employeeProfile: ''
+                                                    departmentName: ''
                                                 });
                                                 setErrors({
                                                     employeeEmail:'※ 유효한 이메일 주소를 입력해주세요',

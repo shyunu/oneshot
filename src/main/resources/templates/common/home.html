@@ -36,31 +36,31 @@
                         <tbody>
                             <tr>
                                 <td>2024/09/01</td>
-                                <td style="text-align: left">본사 전체 회의 소집</td>
+                                <td>본사 전체 회의 소집</td>
                                 <td>원샷</td>
                                 <td>진행완료</td>
                             </tr>
                             <tr>
                                 <td>2024/09/03</td>
-                                <td style="text-align: left">영업팀 신입사원 공개채용 일정</td>
+                                <td>영업팀 신입사원 공개채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
                             <tr>
                                 <td>2024/09/11</td>
-                                <td style="text-align: left">8월 우수영업사원 안내문</td>
+                                <td>8월 우수영업사원 안내문</td>
                                 <td>원샷</td>
                                 <td>진행완료</td>
                             </tr>
                             <tr>
                                 <td>2024/09/16</td>
-                                <td style="text-align: left">인사팀 신입사원 공개채용 일정</td>
+                                <td>인사팀 신입사원 공개채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
                             <tr>
                                 <td>2024/09/22</td>
-                                <td style="text-align: left">영업팀 경력직 채용 일정</td>
+                                <td>영업팀 경력직 채용 일정</td>
                                 <td>원샷</td>
                                 <td>진행 중</td>
                             </tr>
@@ -250,7 +250,7 @@
     const employeeChart = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: ['차장', '과장', '대리', '주임', '사원', '인턴'],
+            labels: ['인턴', '사원', '주임', '대리', '과장', '차장'],
             datasets: [{
                 label: '사원수',
                 data: departmentData[0],
@@ -347,6 +347,49 @@
         });
         calendar.render();
     });
+
+
+    document.addEventListener('DOMContentLoaded', async function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {},
+        events: []
+    });
+
+    async function fetchApprovedLeaves() {
+        try {
+            const response = await fetch('/hrm/attendance/approvedLeaves');
+            const approvedLeaves = await response.json();
+
+            const events = approvedLeaves.flatMap(leave => {
+                const eventDays = [];
+                const currentDate = new Date(leave.startDate);
+                const endDate = new Date(leave.endDate);
+
+                while (currentDate <= endDate) {
+                    eventDays.push({
+                        title: leave.employeeName,
+                        start: new Date(currentDate),
+                        backgroundColor: '#5DADE2',
+                        borderColor: '#5DADE2',
+                        allDay: true
+                    });
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                return eventDays;
+            });
+
+            calendar.addEventSource(events);
+        } catch (error) {
+            console.error('Error fetching approved leaves:', error);
+        }
+    }
+
+    calendar.render();
+    await fetchApprovedLeaves();
+});
+
 
 </script>
 

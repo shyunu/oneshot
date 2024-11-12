@@ -4,6 +4,9 @@ import com.project.oneshot.command.BankVO;
 import com.project.oneshot.command.EmployeeVO;
 import com.project.oneshot.command.PositionVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 import java.util.Map;
 
@@ -32,5 +35,12 @@ public interface EmployeeMapper {
 
     // 직원 비활성화
     public int updateResignEmployee(List<EmployeeVO> employeeNos);
+
+    // 인사팀 소속 직원 조회 (근태관리)
+    List<EmployeeVO> getHrTeamEmployees();
+    Integer getDepartmentNoByEmployeeNo(int employeeNo);
+
+    // username으로 employeeNo 조회 (근태관리)
+    EmployeeVO findEmployeeByUsername(String username);
 
 }
