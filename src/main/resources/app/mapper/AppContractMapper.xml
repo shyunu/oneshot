@@ -15,7 +15,7 @@
     </select>
 
     <select id="getContractPriceByClientNoAndProductNo" resultType="AppContractVO">
-        SELECT * FROM CONTRACT_PRICE WHERE CLIENT_NO = #{clientNo} AND PRODUCT_NO = #{productNo} ORDER BY CONTRACT_SDATE DESC, CONTRACT_EDATE DESC
+        SELECT * FROM CONTRACT_PRICE WHERE CLIENT_NO = #{clientNo} AND PRODUCT_NO = #{productNo} AND CONTRACT_PRICE_STATUS = '승인' ORDER BY CONTRACT_SDATE DESC, CONTRACT_EDATE DESC
     </select>
 
     <select id="countOverlappingContracts" parameterType="map" resultType="int">
@@ -31,7 +31,8 @@
     <select id="getOverlappingContracts" parameterType="map" resultType="AppContractVO">
         SELECT * FROM contract_price
         WHERE product_no = #{productNo}
-        <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate}) ]]>
+        <![CDATA[ AND (contract_sdate <= #{contractEdate} AND contract_edate >= #{contractSdate})]]>
+        AND contract_price_status = '승인'
     </select>
 
     <delete id="deleteContract" parameterType="AppContractVO">
@@ -40,10 +41,11 @@
         AND client_no = #{clientNo}
         AND contract_sdate BETWEEN #{contractSdate} AND #{contractEdate}
         AND contract_edate BETWEEN #{contractSdate} AND #{contractEdate}
+        AND contract_price_status = '승인'
     </delete>
 
     <update id="updateContract" parameterType="AppContractVO">
-        UPDATE CONTRACT_PRICE
+        UPDATE contract_price
         SET
         contract_sdate = #{contractSdate},
         contract_edate = #{contractEdate},
@@ -51,6 +53,7 @@
         contract_price_status = '승인대기'
         WHERE contract_price_no = #{contractPriceNo}
         AND product_no = #{productNo}
+        AND contract_price_status = '승인'
     </update>
 
     <insert id="registerContract" parameterType="AppContractVO">
@@ -74,7 +77,7 @@
         #{contractSdate},
         #{contractEdate},
         #{contractPrice},
-        'y',
+        '승인대기',
         now(),
         #{contractFile})
     </insert>
