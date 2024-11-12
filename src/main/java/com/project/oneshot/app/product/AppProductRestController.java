@@ -44,18 +44,47 @@ public class AppProductRestController {
         return appProductService.getProductContent(productNo);
     }
 
-//    @GetMapping("checkProductName")
-//    public int checkProductName(@RequestParam("productName") String productName) {
-//        System.out.println("productName = " + productName);
-//        return appProductService.checkProductName(productName);
+//    @GetMapping("/productList")
+//    public ResponseEntity<List<ProductVO>> productList(@RequestParam(required = false) String searchKeyword) {
+//        List<ProductVO> productList = appProductService.getProductList(searchKeyword);
+//        return new ResponseEntity<>(productList, HttpStatus.OK);
+//    }
+//
+//
+//    @GetMapping("/displayImg/{productNo}")
+//    public ResponseEntity<Object> displayImg(@PathVariable("productNo") int productNo) {
+//        try {
+//            ProductVO product = appProductService.getProductContent(productNo);
+//            if (product == null || product.getProductImgApp() == null) {
+//                return new ResponseEntity<>(
+//                        Collections.singletonMap("message", "No image found"),
+//                        HttpStatus.NOT_FOUND
+//                );
+//            }
+//            // 바이너리 데이터를 Base64로 변환하여 반환
+//            String base64Image = Base64.getEncoder().encodeToString(product.getProductImgApp());
+//            return new ResponseEntity<>(
+//                    Collections.singletonMap("imageData", base64Image),
+//                    HttpStatus.OK
+//            );
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(
+//                    Collections.singletonMap("error", e.getMessage()),
+//                    HttpStatus.INTERNAL_SERVER_ERROR
+//            );
+//        }
 //    }
 
     @GetMapping("/productList")
     public ResponseEntity<List<ProductVO>> productList(@RequestParam(required = false) String searchKeyword) {
         List<ProductVO> productList = appProductService.getProductList(searchKeyword);
+
+        // 이미지 데이터 제외
+        productList.forEach(product -> product.setProductImgApp(null));
+
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
-
 
     @GetMapping("/displayImg/{productNo}")
     public ResponseEntity<Object> displayImg(@PathVariable("productNo") int productNo) {
@@ -70,6 +99,10 @@ public class AppProductRestController {
 
             // 바이너리 데이터를 Base64로 변환하여 반환
             String base64Image = Base64.getEncoder().encodeToString(product.getProductImgApp());
+
+            // 로그에 Base64 데이터 일부만 출력
+            System.out.println("이미지 데이터 : " + base64Image.substring(0, 50) + "...");
+
             return new ResponseEntity<>(
                     Collections.singletonMap("imageData", base64Image),
                     HttpStatus.OK
@@ -82,7 +115,6 @@ public class AppProductRestController {
             );
         }
     }
-
 
     @PostMapping("/postProduct")
     public ResponseEntity<String> postProduct(@RequestPart("vo") String productVOJson, @RequestPart("file") MultipartFile file) {
