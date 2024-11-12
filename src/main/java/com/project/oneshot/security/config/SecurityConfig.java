@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity //시큐리티 설정파일을 시큐리티 필터에 등록
@@ -61,4 +63,12 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+//    @Bean
+//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//        StrictHttpFirewall firewall = new StrictHttpFirewall();
+//        firewall.setAllowUrlEncodedSlash(true); // URL에 "//"를 허용
+//        firewall.setAllowUrlEncodedDoubleSlash(true); // 이중 슬래시 허용
+//        return firewall;
+//    }
 }

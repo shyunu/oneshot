@@ -1,17 +1,18 @@
 package com.project.oneshot.app.product;
 
+import com.project.oneshot.command.AppProductVO;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
-import com.project.oneshot.inventory.product.ProductCriteria;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface AppProductMapper {
 
-    List<ProductVO> getProductList();
+    List<ProductVO> getProductList(@Param("searchKeyword") String searchKeyword);
 
     List<SupplierVO> getSupplierList();
 
@@ -19,11 +20,9 @@ public interface AppProductMapper {
 
     List<CategoryVO> getCategoryList();
 
+    int checkProductName(String productName);
+
     void postProduct(ProductVO vo);
 
     ProductVO getProductContent(int productNo);
-
-    void putProduct(ProductVO vo);
-
-    int checkProductName(String productName);
 }

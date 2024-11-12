@@ -17,6 +17,7 @@ public class ProductVO {
     private Integer safetyQuantity;
     private Integer productPrice;
     private String productImg;
+    private byte[] productImgApp;  // String에서 byte[]로 수정
     private String productRemark;
 
     private String categoryName;
@@ -24,4 +25,12 @@ public class ProductVO {
     private String supplierBusinessNo;
     private String managerName;
     private String managerPhone;
+
+    public byte[] getProductImgApp() {
+        return productImgApp;
+    }
+
+    public void setProductImgApp(byte[] productImgApp) {
+        this.productImgApp = productImgApp;
+    }
 }

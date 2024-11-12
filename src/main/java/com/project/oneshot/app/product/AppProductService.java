@@ -3,14 +3,13 @@ package com.project.oneshot.app.product;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
-import com.project.oneshot.inventory.product.ProductCriteria;
-import org.springframework.web.multipart.MultipartFile;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface AppProductService {
 
-    List<ProductVO> getProductList();
+    List<ProductVO> getProductList(@Param("searchKeyword") String searchKeyword);
 
     List<SupplierVO> getSupplierList();
 
@@ -18,11 +17,13 @@ public interface AppProductService {
 
     List<CategoryVO> getCategoryList();
 
-    void postProduct(ProductVO vo, MultipartFile file);
+    void postProduct(ProductVO vo);
 
     ProductVO getProductContent(int productNo);
 
-    void putProduct(ProductVO vo, MultipartFile file);
-
     int checkProductName(String productName);
+
+//    void postProduct(ProductVO vo);
+
 }
+
