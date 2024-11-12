@@ -103,13 +103,14 @@
         <![CDATA[ SELECT * FROM category ORDER BY category_name USING ~<~ ]]>
     </select>
 
-    <insert id="postProduct" parameterType="ProductVO">
-    insert into product (
-    product_no, category_no, supplier_no, product_name, safety_quantity, product_price, product_img_app
-    ) values (
-    nextval('product_seq'), #{categoryNo}, #{supplierNo}, #{productName}, #{safetyQuantity}, CAST(#{productPrice} AS INTEGER), #{productImgApp}
-    )
+    <insert id="postProduct" parameterType="com.project.oneshot.command.ProductVO">
+        INSERT INTO product (
+        product_no, category_no, supplier_no, product_name, safety_quantity, product_price, product_img_app
+        ) VALUES (
+        nextval('product_seq'), #{vo.categoryNo}, #{vo.supplierNo}, #{vo.productName}, #{vo.safetyQuantity}, CAST(#{vo.productPrice} AS INTEGER), #{vo.productImgApp}
+        )
     </insert>
+
 
     <select id="getProductContent" resultType="ProductVO">
         select product_no, product.category_no, category_name, product.supplier_no, supplier_name, supplier_business_no, manager_name, manager_phone, product_name, product_content, safety_quantity, product_price, product_img_app, product_remark

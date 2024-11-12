@@ -1,11 +1,11 @@
 package com.project.oneshot.app.product;
 
-import com.project.oneshot.command.AppProductVO;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public interface AppProductMapper {
 
     List<CategoryVO> getCategoryList();
 
-    int checkProductName(String productName);
+//    int checkProductName(String productName);
 
-    void postProduct(ProductVO vo);
+    void postProduct(@Param("vo") ProductVO vo) throws Exception;
 
     ProductVO getProductContent(int productNo);
 }

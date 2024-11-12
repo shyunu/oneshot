@@ -1,7 +1,6 @@
 package com.project.oneshot.app.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.oneshot.command.AppProductVO;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
@@ -45,11 +44,11 @@ public class AppProductRestController {
         return appProductService.getProductContent(productNo);
     }
 
-    @GetMapping("checkProductName")
-    public int checkProductName(@RequestParam("productName") String productName) {
-        System.out.println("productName = " + productName);
-        return appProductService.checkProductName(productName);
-    }
+//    @GetMapping("checkProductName")
+//    public int checkProductName(@RequestParam("productName") String productName) {
+//        System.out.println("productName = " + productName);
+//        return appProductService.checkProductName(productName);
+//    }
 
     @GetMapping("/productList")
     public ResponseEntity<List<ProductVO>> productList(@RequestParam(required = false) String searchKeyword) {
@@ -84,27 +83,21 @@ public class AppProductRestController {
         }
     }
 
+
     @PostMapping("/postProduct")
-    public ResponseEntity<String> postProduct(
-            @RequestPart("vo") String voData,
-            @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<String> postProduct(@RequestPart("vo") String productVOJson, @RequestPart("file") MultipartFile file) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ProductVO vo = mapper.readValue(voData, ProductVO.class);
+            // JSON 문자열을 ProductVO 객체로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            ProductVO productVO = objectMapper.readValue(productVOJson, ProductVO.class);
 
-            if (file != null && !file.isEmpty()) {
-                byte[] imageBytes = file.getBytes();
-                vo.setProductImgApp(imageBytes);  // byte[]로 저장
-            } else {
-                System.out.println("이미지가 전달되지 않았습니다.");
-            }
+            // Service를 호출하여 ProductVO와 MultipartFile을 함께 처리
+            appProductService.postProduct(productVO, file);
 
-            appProductService.postProduct(vo);
             return new ResponseEntity<>("Product added successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to add product: " + e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to add product: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ public interface AppProductService {
 
     List<CategoryVO> getCategoryList();
 
-    void postProduct(ProductVO vo);
+    void postProduct(ProductVO vo, MultipartFile file) throws Exception;
 
     ProductVO getProductContent(int productNo);
 
-    int checkProductName(String productName);
+//    int checkProductName(String productName);
 
 //    void postProduct(ProductVO vo);
 
