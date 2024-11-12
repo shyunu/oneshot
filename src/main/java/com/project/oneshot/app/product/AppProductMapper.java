@@ -1,6 +1,5 @@
 package com.project.oneshot.app.product;
 
-import com.project.oneshot.command.AppProductVO;
 import com.project.oneshot.command.CategoryVO;
 import com.project.oneshot.command.ProductVO;
 import com.project.oneshot.command.SupplierVO;
