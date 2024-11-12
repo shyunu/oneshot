@@ -254,9 +254,7 @@ useEffect(() => {
             const matchDepartmentName = filters.departmentName
                 ? department.departmentName.toString().includes(filters.departmentName)
                 : true;
-            const matchAvailableMenu = filters.availableMenu === 'none'
-                ? department.menuNo.length === 0 // 메뉴 없음 처리
-                : filters.availableMenu
+            const matchAvailableMenu = filters.availableMenu
                 ? department.menuNo.includes(parseInt(filters.availableMenu))
                 : true;
             const matchDepartmentState = filters.departmentState
@@ -269,6 +267,7 @@ useEffect(() => {
         // 필터링된 결과를 상태로 저장
         setFilteredDepartments(filtered);
     };
+
 
     // 페이지가 처음 로드될 때 전체 데이터를 불러옴
     useEffect(() => {
@@ -415,41 +414,23 @@ useEffect(() => {
         // 부서명이 공백인지 확인하는 유효성 검사
         if (!formValues.departmentName.trim()) {
             setErrors({
-                departmentName: true,  // 공백일 경우 필수 항목 오류
-                departmentNameOnlyNumbers: false,  // 공백일 때 숫자만 입력 오류 표시 안함
-                departmentNameDuplicate: false, // 공백일 때 중복 오류도 표시 안함
+                ...errors,
+                departmentName: true,
             });
             return; // 공백일 경우 등록 중지
-        }
-
-        // 부서명이 숫자로만 입력되었는지 확인하는 유효성 검사
-        const isOnlyNumbers = /^[0-9]+$/.test(formValues.departmentName);
-        if (isOnlyNumbers) {
+        } else {
             setErrors({
-                departmentName: false,  // 숫자만 있을 때 필수 항목 오류 표시 안함
-                departmentNameOnlyNumbers: true,  // 숫자만 입력된 경우 오류
-                departmentNameDuplicate: false, // 숫자만 있을 때 중복 오류 표시 안함
+                ...errors,
+                departmentName: false,
             });
-            return; // 숫자로만 입력된 경우 등록 중지
         }
 
-        // 유효성 검사 통과 시 오류 메시지 초기화
-        setErrors({
-            departmentName: false,
-            departmentNameOnlyNumbers: false,
-            departmentNameDuplicate: false,
-        });
-
-        // 부서명 중복 확인 로직
+        // 부서명 중복 확인 로직 및 서버로의 POST 요청 코드 (생략)
         try {
             const duplicateCheckResponse = await axios.get(`http://localhost:8181/hrm/checkDuplicateDepartmentName/${formValues.departmentName}`);
             if (duplicateCheckResponse.data) {
-                setErrors({
-                    departmentName: false,  // 중복 오류가 발생할 때는 다른 오류 표시 안함
-                    departmentNameOnlyNumbers: false,
-                    departmentNameDuplicate: true, // 중복된 경우 오류
-                });
-                return; // 중복된 경우 등록 중지
+                alert('이미 중복된 부서명이 있습니다.');
+                return; // 중복된 경우 등록을 중지
             }
         } catch (error) {
             console.error('부서명 중복 확인 중 오류 발생:', error);
@@ -466,7 +447,6 @@ useEffect(() => {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            // 등록 후 부서 목록을 다시 불러오고, 입력 필드를 초기화
             fetchDepartments();
             setModalOpen(false);
             resetForm();  // 등록 후 입력 필드 초기화
@@ -475,6 +455,7 @@ useEffect(() => {
             console.error('부서 등록 중 오류:', err);
         }
     };
+
 
     // 정렬 처리
     const requestSort = (key) => {
@@ -580,7 +561,6 @@ useEffect(() => {
                                           onChange={handleInputChange}
                                         >
                                           <option value="">선택</option>
-                                          <option value="none">메뉴 없음</option>
                                           {menuList.length > 0 &&
                                             menuList.map((menu) => (
                                               <option key={menu.menuNo} value={menu.menuNo}>
@@ -712,34 +692,20 @@ useEffect(() => {
                                       <label htmlFor="departmentName">부서명</label>
                                     </td>
                                     <td colSpan="2">
-                                        <input
-                                            type="text"
-                                            id="departmentName"
-                                            value={formValues.departmentName}
-                                            onChange={handleChange}
-                                            placeholder="부서명"
-                                            style={{textAlign: "center"}}
-                                        />
-                                        {/* 부서명이 비어있을 때의 오류 메시지 */}
-                                        {submitted && errors.departmentName && (
-                                            <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
-                                                ※ 부서명은 필수 항목입니다
-                                            </p>
-                                        )}
-                                        {/* 부서명이 숫자로만 입력되었을 때의 오류 메시지 */}
-                                        {submitted && errors.departmentNameOnlyNumbers && (
-                                            <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
-                                                ※ 숫자만 입력할 수 없습니다
-                                            </p>
-                                        )}
-                                        {/* 부서명이 중복되었을 때의 오류 메시지 */}
-                                        {submitted && errors.departmentNameDuplicate && (
-                                                <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
-                                                    ※ 이미 중복된 부서명이 있습니다
-                                                </p>
-                                        )}
+                                      <input
+                                        type="text"
+                                        id="departmentName"
+                                        value={formValues.departmentName}
+                                        onChange={handleChange}
+                                        placeholder="부서명"
+                                        style={{textAlign:"center"}}
+                                      />
+                                      {submitted && errors.departmentName && (
+                                        <p style={{ color: 'red', textAlign: 'center', fontSize: '13px' }}>
+                                          ※ 부서명은 필수 항목입니다
+                                        </p>
+                                      )}
                                     </td>
-
                                   </tr>
                                   <tr className="left-row">
                                     <td colSpan="2">
