@@ -111,7 +111,6 @@
         )
     </insert>
 
-
     <select id="getProductContent" resultType="ProductVO">
         select product_no, product.category_no, category_name, product.supplier_no, supplier_name, supplier_business_no, manager_name, manager_phone, product_name, product_content, safety_quantity, product_price, product_img_app, product_remark
         from product left join category on product.category_no = category.category_no left join supplier on product.supplier_no = supplier.supplier_no

@@ -1,13 +1,30 @@
+create table bank (
+    bank_no integer not null,
+    bank_name varchar(255) not null,
+);
+
+create table department (
+    department_no integer not null,
+    department_name varchar(10) null,
+    department_state varchar(2) null,
+);
+
+CREATE TABLE department_menu (
+    department_no INTEGER NOT NULL PRIMARY KEY,
+    menu_no INTEGER NOT NULL
+);
+
 create table product (
 	product_no	integer		not null,
 	category_no	integer		not null,
 	supplier_no	integer		not null,
 	product_name	varchar(40)		null,
-	product_content	varchar(50)		null,
+	product_content	varchar(200)		null,
 	safety_quantity	integer		null,
 	product_price	integer		null,
-	product_img	varchar(100)		null,
-	product_remark	varchar(50)		null
+    product_remark	varchar(50)		null,
+	product_img	varchar(255)		null,
+	product_img_app bytea null
 );
 
 create table category (
@@ -16,7 +33,7 @@ create table category (
 );
 
 create table order_header (
-	order_header_no	integer		not null,
+    order_header_no integer NOT NULL DEFAULT nextval('order_header_no'::regclass),
 	client_no	integer		null,
 	delivery_status	varchar(10)		null,
 	delivery	date		null,
@@ -36,37 +53,16 @@ create table client (
 );
 
 create table order_item (
-	product_item_no	integer		not null,
+    product_item_no integer NOT NULL DEFAULT nextval('product_item_no'::regclass),
 	order_header_no	integer		not null,
 	product_no	integer		null,
 	product_quantity	integer		null,
-	amount integer null,
-	contract_price integer null
-);
-
-create table authority (
-	department_no	integer		not null,
-	rank_no	integer		not null,
-	authority	varchar(10)		null
-);
-
-create table salary (
-	salary_no	integer		not null,
-	employee_no	integer		not null,
-	salary	integer		null,
-	salary_date	date		null
-);
-
-create table attendance (
-	attendance_no	integer		not null,
-	employee_no	integer		not null,
-	annual_leave_date	date		null,
-	sign_on	varchar(5)		null,
-	attendance_code	varchar(20)		null
+	amount bigint null,
+	contract_price bigint null
 );
 
 create table employee (
-	employee_no	integer		not null,
+	employee_no	integer		not null PRIMARY KEY,
 	department_no	integer		not null,
 	employee_name	varchar(20)		null,
 	employee_birth	date		null,
@@ -81,15 +77,55 @@ create table employee (
 	bank_no integer not null,
 	account_holder varchar(50) null,
 	position_no integer null,
-	employee_address_detail varchar(255) null
+	employee_address_detail varchar(255) null,
+	employee_profile bytea
 );
 
-create table department (
-	department_no	integer		not null,
-	department_name	varchar(10)		null,
-	department_state varchar(2) null
+create table employee_auth (
+    employee_no integer not null PRIMARY KEY,
+    employee_password varchar(255) not null,
+    password_updated_at date DEFAULT CURRENT_DATE
 );
 
+create table leave_balance (
+    employee_no integer not null PRIMARY KEY,
+    leave_type_id integer not null,
+    total_leaves integer DEFAULT 0,
+    used_leaves integer DEFAULT 0,
+    remaining_leaves integer GENERATED ALWAYS AS ((total_leaves - used_leaves)) STORED,
+);
+
+create table leave_request (
+    leave_request_id integer NOT NULL DEFAULT nextval('leave_request_leave_request_id_seq'::regclass),
+    employee_no integer,
+    leave_type_id integer,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    request_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    status character varying(50) COLLATE pg_catalog."default" DEFAULT 'Pending'::character varying,
+    approver_no integer,
+    approval_date date,
+    remaining_days integer,
+    remarks character varying(255) COLLATE pg_catalog."default",
+);
+
+create table leave_type (
+    leave_type_id integer NOT NULL DEFAULT nextval('leave_type_leave_type_id_seq'::regclass),
+    leave_name character varying(100) COLLATE pg_catalog."default" NOT NULL
+);
+
+create table menu (
+    menu_no integer NOT NULL DEFAULT nextval('menu_no_seq'::regclass),
+    menu_name character varying(50) COLLATE pg_catalog."default",
+    parent_menu_no integer,
+    menu_name_english character varying(50) COLLATE pg_catalog."default"
+);
+
+create table position (
+    position_no integer NOT NULL,
+    position_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    position_name_english character varying(100) COLLATE pg_catalog."default"
+);
 
 create table contract_price (
 	product_no	integer		not null,
@@ -97,9 +133,11 @@ create table contract_price (
 	client_no	integer		not null,
 	contract_sdate	date		not null,
 	contract_edate	date		null,
-	contract_price	integer		null,
+	contract_price	bigint		null,
 	contract_price_no integer null,
-	contract_price_status varchar(10) null
+	contract_price_status varchar(10) null,
+	contract_regdate date null,
+	contract_file bytea null,
 );
 
 create table supplier (
@@ -109,7 +147,7 @@ create table supplier (
 	supplier_address	varchar(50)		null,
 	manager_name	varchar(20)		null,
 	manager_phone	varchar(20)		null,
-	manager_email	varchar(30)		null,
+	manager_email	varchar(50)		null,
 	supplier_file	varchar(200)		null
 );
 
@@ -117,11 +155,11 @@ create table supplier (
 create table purchase (
     purchase_no integer not null,
     product_no integer not null,
-    employee_no integer not null,
     purchase_price integer null,
     purchase_quantity integer null,
     purchase_date date null,
     purchase_status varchar(10) null
+    employee_no integer not null,
 };
 
 
