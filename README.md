@@ -33,24 +33,44 @@
 
 <br>
 
-## 프로젝트 구현 화면
+# 프로젝트 구현 화면
 
 ## 1. 로그인 및 홈
+
 ### 1-1. 로그인 화면
-![로그인 화면](./images/login.png)
-📍본사 직원이 로그인하는 화면입니다.
+<div align="center">
+  <img src="./images/login.png" alt="로그인 화면" height="400">
+</div>
+
+📍 **본사 직원이 로그인하는 화면입니다.**
+
+<br>
 
 ### 1-2. 메인 홈 화면
-![메인 홈 화면](./images/mainHome.png)
-📍oneshot ERP 메인 화면입니다. 연차(휴가제도)를 사용한 직원의 일정, 분기별 매출액, 목표판매량 도달률, 사원수, 사내 규정 등으로 구성되어 있습니다.
+<div align="center">
+  <img src="./images/mainHome.png" alt="메인 홈 화면" height="400">
+</div>
+
+📍 **Oneshot ERP 메인 화면**  
+연차(휴가제도)를 사용한 직원의 일정, 분기별 매출액, 목표판매량 도달률, 사원수, 사내 규정 등의 정보를 확인할 수 있습니다.
 
 <hr>
 
 ## 2. 인사관리
-### 2-1. 부서등록 화면
-![부서등록 화면](./images/department-regist.png)
-📍부서 등록 화면입니다. 부서명을 입력하고 사용 가능 메뉴를 선택하면 선택한 메뉴에 대해서만 사용권한이 부여됩니다.
 
-### 2-2. 부서조회 화면
-![로그인 화면](./images/login.png)
-📍등록된 부서를 확인할 수 있는 화면입니다.
+### 2-1. 부서 등록 화면
+<div align="center">
+  <img src="./images/department-regist.png" alt="부서등록 화면" height="400">
+</div>
+
+📍 **부서 등록 화면**  
+부서명을 입력하고 사용 가능 메뉴를 선택하면 해당 메뉴에 대해서만 사용 권한이 부여됩니다.
+
+<br>
+
+### 2-2. 부서 조회 화면
+<div align="center">
+  <img src="./images/login.png" alt="부서조회 화면" height="400">
+</div>
+
+📍 **등록된 부서를 확인할 수 있는 화면입니다.**
