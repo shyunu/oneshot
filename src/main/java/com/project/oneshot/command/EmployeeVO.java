@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -19,6 +20,9 @@ public class EmployeeVO {
     private String departmentName;        // 부서명
     private Integer positionNo;           // 직급번호
     private String positionName;         // 직급명
+
+    private MultipartFile employeeProfile; // 사원이미지파일
+    private byte[] employeeProfileData; // 파일 데이터
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate employeeBirth;      // 사원생년월일

@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity //시큐리티 설정파일을 시큐리티 필터에 등록
@@ -37,6 +39,7 @@ public class SecurityConfig {
         http.authorizeRequests(authorize -> authorize
                 .antMatchers("/","/common/login","/common/loginForm","/common/js/**","/common/css/**","/common/img/**").permitAll() //로그인페이지는 로그인 안해도 접근 가능하게함
                 .antMatchers("/contractApp/**","/inventoryApp/**","/salesApp/**","/productApp/**","/homeApp/**").permitAll()
+                .antMatchers("/hrm/attendance/**", "/hrm/attendance.do").permitAll() // 근태관리 페이지는 모든 사용자 접근 가능
                 .antMatchers("/hrm/**").hasRole("1")
                 .antMatchers("/inventory/**").hasRole("2")
                 .antMatchers("/sales/**").hasRole("3")
@@ -60,4 +63,12 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+//    @Bean
+//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//        StrictHttpFirewall firewall = new StrictHttpFirewall();
+//        firewall.setAllowUrlEncodedSlash(true); // URL에 "//"를 허용
+//        firewall.setAllowUrlEncodedDoubleSlash(true); // 이중 슬래시 허용
+//        return firewall;
+//    }
 }

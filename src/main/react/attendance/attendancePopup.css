@@ -1,0 +1,109 @@
+/* 기존 팝업 스타일 유지 */
+.popup {
+    /* display: none; */ /* 처음에는 숨기기 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 메인 팝업 내용 스타일 */
+.popup-content {
+    margin: 0;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute; /* 드래그 가능하도록 absolute 설정 */
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 팝업 헤더 스타일 */
+.popup-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #434343;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+}
+.popup-header > span {
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+/* 팝업 닫기 버튼 스타일 */
+.popup-buttons {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    gap: 5px;
+    margin-top: auto;
+    padding: 10px;
+    bottom: 10px;
+    right: 15px;
+}
+
+.popup-btn.close {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup-btn.close:hover {
+    background-color: #c0392b;
+}
+
+/* 기존 form 스타일 유지 */
+.contract-form {
+    padding: 10px;
+}
+
+.formBox2 {
+    margin-top: 120px;
+}
+
+.contract-form > table{
+    border: 1px solid #e3e3e3;
+}
+.contract-form > table td{
+    border: 1px solid #e3e3e3;
+}
+.contract-form > table td input[type="text"] {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+}
+
+.popup-body{
+    display: flex;
+}
+
+#employee-list-popup{
+    min-height: 300px;
+    min-width: 550px;
+}
+
+/* 특정 클래스명을 가진 td에 스타일 적용 */
+.custom-date-picker-td {
+    width: 500px !important;
+}
+
+
+/*달력*/
+.rdrDefinedRangesWrapper {
+    display: none; /* 왼쪽 옵션 패널 숨기기 */
+}
+.rdrCalendarWrapper {
+    width: 100% !important; /* 달력 너비를 전체로 확장 */
+}
+.rdrCalendarWrapper {
+    background-color: #f1f1f1; /* 달력 배경색 설정 */
+}
+

@@ -213,4 +213,28 @@
             #{item.employeeNo}
         </foreach>
     </update>
+
+    <!-- 인사팀 소속 직원 조회 -->
+    <select id="getHrTeamEmployees" resultType="EmployeeVO">
+        SELECT
+        e.employee_no,
+        e.employee_name,
+        e.department_no,
+        e.position_no
+        FROM
+        employee e
+        JOIN
+        department d ON e.department_no = d.department_no
+        WHERE
+        d.department_name = '인사팀'
+    </select>
+
+    <!-- username으로 employeeNo 조회(근태관리) -->
+    <select id="findEmployeeByUsername" resultType="EmployeeVO" parameterType="String">
+        SELECT e.*, d.department_name
+        FROM employee e
+        LEFT JOIN department d ON e.department_no = d.department_no
+        WHERE e.employee_no = CAST(#{username} AS integer)
+    </select>
+
 </mapper>

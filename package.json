@@ -9,18 +9,18 @@
     "react-draggable": "^4.4.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-react": "^7.24.7",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "file-loader": "^6.2.0",
     "style-loader": "^4.0.0",
-    "webpack": "^5.95.0",
+    "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "start": "gradlew bootRun",
-    "watch": "node_modules\\.bin\\webpack --watch --devtool inline-source-map"
+    "watch": "node_modules/.bin/webpack --watch --devtool inline-source-map"
   }
 }

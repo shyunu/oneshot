@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.oneshot.hr.attendance.AttendanceMapper">
+
+    <resultMap id="LeaveRequestResultMap" type="com.project.oneshot.command.LeaveRequestVO">
+        <id property="leaveRequestId" column="leave_request_id"/>
+        <result property="employeeNo" column="employee_no"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="leaveTypeId" column="leave_type_id"/>
+        <result property="leaveTypeName" column="leaveTypeName"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="status" column="status"/>
+        <result property="requestDate" column="request_date"/>
+        <result property="approvalDate" column="approval_date"/>
+        <result property="approverNo" column="approver_no"/>
+        <result property="approverName" column="approver_name"/> <!-- 승인자 이름 추가 -->
+        <result property="remainingDays" column="remaining_days"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <!-- 필터링된 휴가 신청 목록 조회 -->
+    <select id="getFilteredLeaveRequests" parameterType="map" resultMap="LeaveRequestResultMap">
+        SELECT lr.*, e.employee_name, lt.leave_name AS leaveTypeName,
+        a.employee_name AS approver_name
+        FROM leave_request lr
+        JOIN employee e ON lr.employee_no = e.employee_no
+        JOIN leave_type lt ON lr.leave_type_id = lt.leave_type_id
+        LEFT JOIN employee a ON lr.approver_no = a.employee_no
+        WHERE 1=1
+        <if test="employeeName != null and employeeName != ''">
+            AND e.employee_name LIKE CONCAT('%', #{employeeName}, '%')
+        </if>
+        <if test="leaveType != null and leaveType != ''">
+            AND lt.leave_type_id = #{leaveType}
+        </if>
+        <if test="status != null and status != ''">
+            AND lr.status = #{status}
+        </if>
+        <if test="requestDate != null">
+            AND lr.request_date = #{requestDate}::timestamp
+        </if>
+        <if test="approvalDate != null">
+            AND lr.approval_date = #{approvalDate}::timestamp
+        </if>
+        ORDER BY lr.request_date DESC, lr.leave_request_id DESC
+    </select>
+
+    <!-- 휴가 신청 목록 조회 -->
+    <select id="getLeaveRequests" resultMap="LeaveRequestResultMap">
+        SELECT lr.leave_request_id, lr.employee_no, e.employee_name, lr.leave_type_id, lt.leave_name AS leaveTypeName,
+        lr.start_date, lr.end_date, lr.status, lr.request_date
+        FROM leave_request lr
+        JOIN employee e ON lr.employee_no = e.employee_no
+        JOIN leave_type lt ON lr.leave_type_id = lt.leave_type_id
+        WHERE
+        (#{employeeNo} IS NULL OR lr.employee_no = #{employeeNo})
+        AND (#{employeeName} IS NULL OR e.employee_name LIKE CONCAT('%', #{employeeName}, '%'))
+        AND (#{leaveType} IS NULL OR lt.leave_name = #{leaveType})
+        AND (#{status} IS NULL OR lr.status = #{status})
+        ORDER BY lr.request_date DESC, lr.leave_request_id DESC
+    </select>
+
+
+    <!-- 휴가 신청 -->
+    <insert id="insertLeaveRequest" parameterType="com.project.oneshot.command.LeaveRequestVO">
+        INSERT INTO leave_request (employee_no, leave_type_id, start_date, end_date, request_date, status, approver_no)
+        VALUES (#{employeeNo}, #{leaveTypeId}, #{startDate}, #{endDate}, #{requestDate}, 'Pending', #{approverNo})
+    </insert>
+
+    <update id="updateLeaveStatus" parameterType="map">
+        UPDATE leave_request
+        SET status = #{newStatus},
+        approval_date = CASE WHEN #{newStatus} = 'Approved' THEN #{approvalDate}
+        WHEN #{newStatus} = 'Rejected' THEN #{approvalDate}
+        ELSE approval_date END,
+        remarks = CASE WHEN #{newStatus} = 'Rejected' THEN #{remarks} ELSE remarks END
+        WHERE leave_request_id = #{leaveRequestId}
+    </update>
+
+    <!-- 승인된 휴가 목록 조회 -->
+    <select id="getApprovedLeaves" resultType="com.project.oneshot.command.LeaveRequestVO">
+        SELECT
+        e.employee_name AS employeeName,
+        lr.start_date AS startDate,
+        lr.end_date AS endDate
+        FROM
+        leave_request lr
+        JOIN
+        employee e ON lr.employee_no = e.employee_no
+        WHERE
+        lr.status = 'Approved'
+    </select>
+
+</mapper>

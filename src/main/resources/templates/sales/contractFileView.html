@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>
+        /* 배경을 위한 스타일 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.8); /* 검정색 배경에 투명도 적용 */
+            flex-direction: column; /* 세로로 정렬 */
+        }
+
+        /* 이미지 스타일 */
+        .image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img {
+            max-width: 95%; /* 이미지 크기 조정 */
+            max-height: 95%;
+            border-radius: 8px; /* 이미지 모서리 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+        }
+
+        /* 다운로드 버튼 스타일 */
+        .download-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #777; /* 녹색 배경 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
-    <div>
-        <img th:if="${contractFile != null}" th:src="${contractFile}" alt="계약서 이미지"/>
-    </div>
+<div class="image-container">
+    <img th:if="${contractFile != null}" th:src="${contractFile}" alt="계약서 이미지"/>
+</div>
+
+<!-- 다운로드 버튼 -->
+<a th:if="${contractFile != null}" th:href="${contractFile}" download="contract_image.jpg" class="download-button">
+    계약서 저장
+</a>
 </body>
 </html>
