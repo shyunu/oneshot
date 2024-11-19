@@ -206,7 +206,7 @@
 
 ### 7-2. 구매 후 재고 조회 화면
 <div align="center">
-  <img src="./images/product-stock.png" alt="구매 후 재고 조회 화면" height="400">
+  <img src="./images/purchase-stock.png" alt="구매 후 재고 조회 화면" height="400">
 </div>
 
 📍 **구매 후 재고 조회 화면입니다.**
