@@ -53,21 +53,20 @@
 <br>
 
 ## 화면구상(Figma)
-<img src="./images/figma.png" alt="figma" >  
+<img src="./images/figma.png" alt="figma" />  
 
 <br>
 
 ## ERD/프로세스
 <div>
-  <img src="./images/ERD.png" alt="ERD" >
-  <img src="./images/process.png" alt="process" >
+  <img src="./images/ERD.png" alt="ERD" />
+  <img src="./images/process.png" alt="process" />
 </div>
-
 
 <br>
 
-## 화면 UI
 
+## 화면 UI
 ## 1. 로그인 및 홈
 
 ### 1-1. 로그인 화면
