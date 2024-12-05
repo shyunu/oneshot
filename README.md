@@ -5,8 +5,10 @@
 2. [개발 일정]
 3. [팀원 구성]
 4. [개발환경 및 기술스택]
-5. [화면UI]
-6. [프로젝트 발표 ppt]
+5. [화면구상(Figma)]
+6. [ERD/프로세스]
+7. [화면UI]
+8. [프로젝트 발표 ppt]
 
 <br>
 
@@ -14,7 +16,7 @@
 
 ## 개발 일정
 : 2024/09/02 ~ 2024/09/27
-<img src="./images/project-schedule.png" alt="개발일정" height="400">  
+<img src="./images/project-schedule.png" alt="개발일정" height="300">  
 
 <br>
 
@@ -32,7 +34,8 @@
 
 
 </div>
-  
+<br>
+
 ## 개발 환경 및 기술 스택
 
 | 항목 | 내용 |
@@ -45,15 +48,25 @@
 | **데이터베이스(DB)** | PostgreSQL 16.3 (AWS RDS) |
 | **데이터베이스 연동** | MyBatis |
 | **개발 도구(IDE)** | IntelliJ IDEA, VSCode |
+<img src="./images/stack.png" alt="개발일정" height="300">  
+
+<br>
+
+## 화면구상(Figma)
+<img src="./images/figma.png" alt="figma" >  
+
+<br>
+
+## ERD/프로세스
+<div>
+  <img src="./images/ERD.png" alt="ERD" >
+  <img src="./images/process.png" alt="process" >
+</div>
 
 
 <br>
 
-
-
-<br>
-
-# 프로젝트 구현 화면
+## 화면 UI
 
 ## 1. 로그인 및 홈
 
@@ -295,3 +308,7 @@
 
 📍 **판매 배송처리 화면입니다.**
 판매 등록건을 배송처리할 수 있습니다.
+
+<br>
+
+## 프로젝트 발표 ppt
