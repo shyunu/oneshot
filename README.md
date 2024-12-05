@@ -311,3 +311,4 @@
 <br>
 
 ## 프로젝트 발표 ppt
+### [oneshot.pdf](https://github.com/user-attachments/files/18019003/oneshot.pdf)
