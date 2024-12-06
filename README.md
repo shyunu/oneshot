@@ -21,7 +21,7 @@
 <br>
 
 ## 개발 일정
-: 2024/09/02 ~ 2024/09/27
+: 2024/09/02 ~ 2024/09/26
 <img src="./images/project-schedule.png" alt="개발일정" height="300">  
 
 <br>
