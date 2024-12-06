@@ -35,7 +35,7 @@
 | :------: | :------: | :------: | :------: | :------: | :------: |
 | [<img src="https://avatars.githubusercontent.com/u/172233951?s=64&v=4" height=100> <br/> @shyunu](https://github.com/shyunu) | [<img src="https://avatars.githubusercontent.com/u/80089798?s=64&v=4" height=100> <br/> @Hyeongu02](https://github.com/Hyeongu02) | [<img src="https://avatars.githubusercontent.com/u/172233963?s=64&v=4" height=100> <br/> @Hong-NaRin](https://github.com/Hong-NaRin) | [<img src="https://avatars.githubusercontent.com/u/80537541?s=64&v=4" height=100> <br/> @jishin14](https://github.com/jishin14) | [<img src="https://avatars.githubusercontent.com/u/172337052?v=4" height=100> <br/> @whfh3832](https://github.com/whfh3832) | [<img src="https://avatars.githubusercontent.com/u/180147317?v=4" height=100> <br/> @sxxxhyuk](https://github.com/sxxxhyuk) |
 | 역할 | 역할 | 역할 | 역할 | 역할 | 역할 |
-| 상품 가격 계약 시스템 구현 <br> 상품 판매 시스템 구현 <br> 프론트엔드 디자인 총괄 <br> 결과 PPT 제작 | 시큐리티 권한 기능 구현 <br> 사원 시스템 구현 <br> 부서 시스템 구현 <br> 결과보고서 워드 작성 | 공급업체 시스템 구현 <br> 상품 구매 시스템 구현 <br> 프론트엔드 디자인 총괄 <br> 결과 PPT 제작 | 상품 시스템 구현 <br> 상품 구매 시스템 구현 <br> 상품 가격 계약 시스템 구현 <br> 영상시나리오 작성 | 메인페이지 구현 <br> 부서 시스템 구현 <br> 결과보고서 워드 작성 | 계약 프로세스 구현 <br> 상품 판매 시스템 구현 <br> 시연 영상 제작 |
+| 계약가격 시스템 구현 <br> 상품 판매 시스템 구현 <br> 프론트엔드 총괄 <br> 결과 PPT 제작 | 시큐리티 권한기능 구현 <br> 사원 시스템 구현 <br> 부서 시스템 구현 <br> 결과보고서 워드 작성 | 공급업체 시스템 구현 <br> 상품 구매 시스템 구현 <br> 프론트엔드 총괄 <br> 결과 PPT 제작 | 상품 시스템 구현 <br> 상품 구매 시스템 구현 <br> 계약가격 시스템 구현 <br> 영상시나리오 작성 | 메인페이지 구현 <br> 부서 시스템 구현 <br> 결과보고서 워드 작성 | 계약 프로세스 구현 <br> 상품 판매 시스템 구현 <br> 시연 영상 제작 |
 
 </div>
 
