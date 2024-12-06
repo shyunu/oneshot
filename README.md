@@ -77,243 +77,242 @@
 ## 1. 로그인 및 홈
 
 ### 1-1. 로그인 화면
-<div align="center">
+📍 **본사 직원이 로그인하는 화면입니다.**
+
+<div align="left">
   <img src="./images/login.png" alt="로그인 화면" height="400">
 </div>
-
-📍 **본사 직원이 로그인하는 화면입니다.**
 
 <br>
 
 ### 1-2. 메인 홈 화면
-<div align="center">
-  <img src="./images/mainHome.png" alt="메인 홈 화면" height="400">
-</div>
-
 📍 **Oneshot ERP 메인 화면**  
 연차(휴가제도)를 사용한 직원의 일정, 분기별 매출액, 목표판매량 도달률, 사원수, 사내 규정 등의 정보를 확인할 수 있습니다.
+
+<div align="left">
+  <img src="./images/mainHome.png" alt="메인 홈 화면" height="400">
+</div>
 
 <hr>
 
 ## 2. 인사관리 - 부서관리
 
 ### 2-1. 부서 등록 화면
-<div align="center">
-  <img src="./images/department-regist.png" alt="부서등록 화면" height="400">
-</div>
-
 📍 **부서 등록 화면**  
 부서명을 입력하고 사용 가능 메뉴를 선택하면 해당 메뉴에 대해서만 사용 권한이 부여됩니다.
+
+<div align="left">
+  <img src="./images/department-regist.png" alt="부서등록 화면" height="400">
+</div>
 
 <br>
 
 ### 2-2. 부서 조회 화면
-<div align="center">
+📍 **등록된 부서를 확인할 수 있는 화면입니다.**
+
+<div align="left">
   <img src="./images/department-list.png" alt="부서조회 화면" height="400">
 </div>
-
-📍 **등록된 부서를 확인할 수 있는 화면입니다.**
 
 <br>
 
 ### 2-3. 부서 내 직원 조회 화면
-<div align="center">
+📍 **해당 부서의 직원 리스트를 확인할 수 있는 화면입니다.**
+<div align="left">
   <img src="./images/department-member.png" alt="부서 내 직원 조회 화면" height="400">
 </div>
-
-📍 **해당 부서의 직원 리스트를 확인할 수 있는 화면입니다.**
 
 <br>
 
 ### 2-4. 부서 상태 변경 화면
-<div align="center">
+📍 **부서의 사용가능메뉴를 변경 및 활성화 여부를 설정하는 화면입니다.**
+
+<div align="left">
   <img src="./images/department-active.png" alt="부서 상태 선택 화면" height="400">
 </div>
-
-📍 **부서의 사용가능메뉴를 변경 및 활성화 여부를 설정하는 화면입니다.**
 
 <hr>
 
 ## 3. 인사관리 - 사원관리
 
 ### 3-1. 사원 등록 화면
-<div align="center">
-  <img src="./images/employee-regist.png" alt="사원등록 화면" height="400">
-</div>
-
 📍 **사원 등록 화면**  
 양식에 맞게 정보를 입력하여 사원을 등록할 수 있습니다.
+
+<div align="left">
+  <img src="./images/employee-regist.png" alt="사원등록 화면" height="400">
+</div>
 
 <br>
 
 ### 3-2. 직원 퇴직 처리 화면
-<div align="center">
+📍 **직원 퇴직 처리 화면입니다.**
+
+<div align="left">
   <img src="./images/employee-retire.png" alt="직원 퇴직 처리 화면" height="400">
 </div>
-
-📍 **직원 퇴직 처리 화면입니다.**
 
 <hr>
 
 ## 4. 인사관리 - 근태관리
 
 ### 4-1. 휴가 신청 화면
-<div align="center">
-  <img src="./images/attendance-regist.png" alt="휴가 신청 화면" height="400">
-</div>
-
 📍 **휴가 신청 화면**  
 휴가의 종류 및 휴가 시작일과 종료일을 선택하여 휴가를 신청할 수 있습니다.
+
+<div align="left">
+  <img src="./images/attendance-regist.png" alt="휴가 신청 화면" height="400">
+</div>
 
 <br>
 
 ### 4-2. 휴가 승인 화면
-<div align="center">
-  <img src="./images/attendance-yes.png" alt="휴가 승인 화면" height="400">
-</div>
-
 📍 **휴가 승인 화면입니다.**
 승인하고자 하는 항목을 체크하여 승인을 할 수 있습니다.
+
+<div align="left">
+  <img src="./images/attendance-yes.png" alt="휴가 승인 화면" height="400">
+</div>
 
 <br>
 
 ### 4-3. 휴가 반려 화면
-<div align="center">
-  <img src="./images/attendance-no.png" alt="휴가 반려 화면" height="400">
-</div>
-
 📍 **휴가 반려 화면입니다.**
 신청된 휴가를 반려하고자 하면 반려 사유를 작성하여 반려 처리 가능합니다.
+
+<div align="left">
+  <img src="./images/attendance-no.png" alt="휴가 반려 화면" height="400">
+</div>
 
 <hr>
 
 ## 5. 재고관리 - 공급업체관리
 
 ### 5-1. 공급업체 등록 화면
-<div align="center">
-  <img src="./images/supplier-regist.png" alt="공급업체 등록 화면" height="400">
-</div>
-
 📍 **공급업체 등록 화면**  
 양식에 맞게 작성하여 공급업체를 작성할 수 있습니다.
+
+<div align="left">
+  <img src="./images/supplier-regist.png" alt="공급업체 등록 화면" height="400">
+</div>
 
 <br>
 
 ### 5-2. 공급업체 조회 및 수정 화면
-<div align="center">
-  <img src="./images/supplier-detail.png" alt="공급업체 조회 및 수정 화면" height="400">
-</div>
-
 📍 **공급업체 조회 및 수정 화면입니다.**
 등록한 공급업체의 정보를 조회 및 수정할 수 있습니다.
+
+<div align="left">
+  <img src="./images/supplier-detail.png" alt="공급업체 조회 및 수정 화면" height="400">
+</div>
 
 <hr>
 
 ## 6. 재고관리 - 상품관리
 
 ### 6-1. 상품 등록 화면
-<div align="center">
-  <img src="./images/product-regist.png" alt="상품 등록 화면" height="400">
-</div>
-
 📍 **상품 등록 화면**  
 양식에 맞게 작성하여 상품을 작성할 수 있습니다.
+
+<div align="left">
+  <img src="./images/product-regist.png" alt="상품 등록 화면" height="400">
+</div>
 
 <br>
 
 ### 6-2. 상품 조회 화면
-<div align="center">
-  <img src="./images/product-list.png" alt="상품 조회 화면" height="400">
-</div>
-
 📍 **상품 조회 화면입니다.**
 등록한 상품의 정보를 조회할 수 있습니다.
+
+<div align="left">
+  <img src="./images/product-list.png" alt="상품 조회 화면" height="400">
+</div>
 
 <hr>
 
 ## 7. 재고관리 - 구매관리
 
 ### 7-1. 구매 등록 화면
-<div align="center">
-  <img src="./images/purchase-regist.png" alt="구매 등록 화면" height="400">
-</div>
-
 📍 **구매 등록 화면**  
 구매양식에 맞게 작성하여 공급업체로부터 상품을 구매할 수 있습니다.
+
+<div align="left">
+  <img src="./images/purchase-regist.png" alt="구매 등록 화면" height="400">
+</div>
 
 <br>
 
 ### 7-2. 구매 후 재고 조회 화면
-<div align="center">
-  <img src="./images/purchase-stock.png" alt="구매 후 재고 조회 화면" height="400">
-</div>
-
 📍 **구매 후 재고 조회 화면입니다.**
 구매한 상품의 개수만큼 재고가 생성된 것을 확인할 수 있습니다.
+
+<div align="left">
+  <img src="./images/purchase-stock.png" alt="구매 후 재고 조회 화면" height="400">
+</div>
 
 <hr>
 
 ## 8. 영업관리 - 계약관리
 
 ### 8-1. 계약 등록 화면
-<div align="center">
-  <img src="./images/contract-regist.png" alt="계약 등록 화면" height="400">
-</div>
-
 📍 **계약 등록 화면**  
 고객사와의 계약을 통하여 계약 기간동안 계약가격으로 고객사와 거래할 수 있습니다. 그에 맞는 계약을 등록하는 과정입니다.
+
+<div align="left">
+  <img src="./images/contract-regist.png" alt="계약 등록 화면" height="400">
+</div>
 
 <br>
 
 ### 8-2. 계약 승인 화면
-<div align="center">
-  <img src="./images/contract-confirm.png" alt="계약 승인 화면" height="400">
-</div>
-
 📍 **계약 승인 화면입니다.**
 승인하고자 하는 계약을 선택하여 승인 처리합니다.
+
+<div align="left">
+  <img src="./images/contract-confirm.png" alt="계약 승인 화면" height="400">
+</div>
 
 <br>
 
 ### 8-3. 계약서 저장 화면
-<div align="center">
-  <img src="./images/contract-download.png" alt="계약서 저장 화면" height="400">
-</div>
-
 📍 **계약서 저장 화면입니다.**
 계약 등록 시 첨부한 계약서를 조회 및 저장할 수 있습니다.
+
+<div align="left">
+  <img src="./images/contract-download.png" alt="계약서 저장 화면" height="400">
+</div>
 
 <hr>
 
 ## 9. 영업관리 - 판매관리
 
 ### 9-1. 판매 등록 화면
-<div align="center">
-  <img src="./images/sales-regist.png" alt="판매 등록 화면" height="400">
-</div>
-
 📍 **판매 등록 화면**  
 고객사와 상품를 선택하면 승인된 계약건에 해당하는 계약가격이 자동으로 나타나게 되며 판매한 상품을 여러개 등록할 수 있습니다.
+
+<div align="left">
+  <img src="./images/sales-regist.png" alt="판매 등록 화면" height="400">
+</div>
 
 <br>
 
 ### 9-2. 판매 상세조회 화면
-<div align="center">
-  <img src="./images/sales-detail.png" alt="판매 상세조회 화면" height="400">
-</div>
-
 📍 **판매 상세조회 화면입니다.**
 판매 등록건을 상세 조회할 수 있는 화면입니다.
+
+<div align="left">
+  <img src="./images/sales-detail.png" alt="판매 상세조회 화면" height="400">
+</div>
 
 <br>
 
 ### 9-4. 판매 배송처리 화면
-<div align="center">
-  <img src="./images/sales-delivery.png" alt="판매 배송처리 화면" height="400">
-</div>
-
 📍 **판매 배송처리 화면입니다.**
 판매 등록건을 배송처리할 수 있습니다.
+
+<div align="left">
+  <img src="./images/sales-delivery.png" alt="판매 배송처리 화면" height="400">
+</div>
 
 <br>
 
