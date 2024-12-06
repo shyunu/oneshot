@@ -5,14 +5,18 @@
 2. [개발 일정](#개발-일정)
 3. [팀원 구성](#팀원-구성)
 4. [개발환경 및 기술스택](#개발환경-및-기술스택)
-5. [화면구상(Figma)](#화면구상figma)
-6. [ERD/프로세스](#erd프로세스)
+6. [프로젝트 설계](#프로젝트-설계)
 7. [화면UI](#화면-ui)
 8. [프로젝트 발표 ppt](#프로젝트-발표-ppt)
 
 <br>
 
 ## oneshot 프로젝트 소개
+<img src="./images/about1.png" alt="소개" height="300">
+
+- 국내 커피 시장 규모는 매년 상승하는 추세를 보이고 있으며 **급성장하는 커피 시장과 그에 따른 효율적 운영 시스템의 필요성**에 주목하였습니다.
+
+- 원두와 부자재 구매 및 재고관리, 부서별 인사 관리까지 통합적으로 지원하는 ERP 시스템을 제작하였습니다.
 
 <br>
 
@@ -53,17 +57,18 @@
 
 <br>
 
-## 화면구상(Figma)
-<img src="./images/figma.png" alt="figma" />  
+## 프로젝트 설계
+### 🔗 화면 구상(Figma)
+<img src="./images/figma.png" alt="figma" />
 
-<br>
+### 🔗 ERD CLOUD
+<img src="./images/ERD.png" alt="ERD" />
 
-## ERD/프로세스
-<div>
-  <img src="./images/ERD.png" alt="ERD" />
-  <img src="./images/process.png" alt="process" />
-</div>
+### 🔗 DataFlow
+<img src="./images/process.png" alt="dataflow" />
 
+### 🔗 프로젝트 협업(Slack)
+<img src="./images/slack.png" alt="slack" />
 <br>
 
 
